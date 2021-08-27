@@ -26,7 +26,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, nameCN } = req.body;
+    const { name, nameCN, owners } = req.body;
     const trigram = req.body.trigram.toUpperCase();
 
     const departmentFields = {};
@@ -35,7 +35,10 @@ router.post(
     if (trigram) departmentFields.trigram = trigram;
 
     try {
-      let department = await Department.findOne({ trigram: trigram });
+      let department = await Department.findOne({ trigram: trigram }).populate(
+        'owners',
+        ['name']
+      );
 
       if (department) {
         // Found one so we Update
@@ -44,14 +47,30 @@ router.post(
           { $set: departmentFields },
           { new: true }
         );
-        return res.json(department);
+      } else {
+        // no department found so we Create
+
+        department = new Department(departmentFields);
       }
 
-      // no department found so we Create
-      department = new Department(departmentFields);
+      // We add the user into the owners
+      // if (user) {
+      //   const foundUser = await User.findById(user);
+      //   if (!foundUser) {
+      //     // if a user is present but not found in our collections
+      //     return res.status(404).json({ msg: 'User not found' });
+      //   }
+      //   console.log(123);
+
+      //   department.owners.unshift(foundUser);
+      // }
+
       await department.save();
       res.json(department);
     } catch (err) {
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'User not found' });
+      }
       console.error(err.message);
       res.status(500).send('Server Error');
     }
