@@ -71,4 +71,53 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   GET api/departments/:trigram
+// @desc    Show detail of one department
+// @access  Public
+
+router.get('/:trigram', async (req, res) => {
+  try {
+    const department = await Department.findOne({
+      trigram: req.params.trigram,
+    });
+
+    if (!department) {
+      // Not Found we return 404
+      return res.status(404).json({ msg: 'Department not found' });
+    }
+
+    res.json(department);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/departments/:user_id
+// @desc    Show detail of oll department associated with a user
+// @access  Public/
+//@ todo
+
+// @route   DELETE api/departments/:trigram
+// @desc    Delete a department
+// @access  Private
+router.delete('/:trigram', auth, async (req, res) => {
+  try {
+    const department = await Department.findOne({
+      trigram: req.params.trigram,
+    });
+
+    if (!department) {
+      // Not Found we return 404
+      return res.status(404).json({ msg: 'Department not found' });
+    }
+
+    await department.remove();
+    res.json({ msg: 'Department removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
