@@ -7,10 +7,16 @@ const DepartmentSchema = new mongoose.Schema({
   },
   name: {
     type: String,
+    required: true,
+  },
+  nameCN: {
+    type: String,
   },
   trigram: {
     type: String,
     required: true,
+    maxlength: 3,
+    minlength: 3,
   },
   date: {
     type: Date,
