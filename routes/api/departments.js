@@ -13,7 +13,6 @@ const User = require('../../models/User');
 router.post(
   '/',
   [
-    auth,
     check('name', 'A name for the department is required').not().isEmpty(),
     check(
       'trigram',
@@ -26,13 +25,14 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, nameCN, owners } = req.body;
+    const { name, nameCN, user } = req.body;
     const trigram = req.body.trigram.toUpperCase();
 
     const departmentFields = {};
     if (name) departmentFields.name = name;
     if (nameCN) departmentFields.nameCN = nameCN;
     if (trigram) departmentFields.trigram = trigram;
+    if (user) departmentFields.owners = user;
 
     try {
       let department = await Department.findOne({ trigram: trigram }).populate(
@@ -42,15 +42,17 @@ router.post(
 
       if (department) {
         // Found one so we Update
+        console.log('Update department info');
         department = await Department.findOneAndUpdate(
           { trigram: trigram },
           { $set: departmentFields },
           { new: true }
         );
-      } else {
-        // no department found so we Create
 
         department = new Department(departmentFields);
+        console.log(departmentFields);
+      } else {
+        // no department found so we Create
       }
 
       // We add the user into the owners
