@@ -7,6 +7,8 @@ const { check, validationResult } = require('express-validator/check');
 const Department = require('../../models/Department');
 const User = require('../../models/User');
 
+// @todo How to remove owners from dept.
+
 // @route   POST api/departments
 // @desc    Create or Update a department
 // @access  Private
@@ -26,7 +28,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, nameCN } = req.body;
+    const { name, nameCN, user } = req.body;
     const trigram = req.body.trigram.toUpperCase();
 
     const departmentFields = {};
@@ -38,7 +40,23 @@ router.post(
       let department = await Department.findOne({ trigram: trigram });
 
       if (department) {
-        // Found one so we Update
+        if (user) {
+          const foundUser = await User.findById(user);
+          if (foundUser) {
+            if (
+              !department.owners.filter(
+                (owner) => owner.toString() === foundUser.id
+              ).length > 0
+            ) {
+              console.log('User added into the list of owners');
+              department.owners.unshift(foundUser);
+              await department.save();
+            } else {
+              console.log('User already in the list of owners');
+            }
+          }
+        }
+
         department = await Department.findOneAndUpdate(
           { trigram: trigram },
           { $set: departmentFields },
@@ -48,11 +66,20 @@ router.post(
       }
 
       // no department found so we Create
+      if (user) {
+        const foundUser = await User.findById(user);
+        if (foundUser) {
+          departmentFields.owners = [foundUser.id]; // We create the Array to receive the first owner
+        }
+      }
       department = new Department(departmentFields);
       await department.save();
       res.json(department);
     } catch (err) {
       console.error(err.message);
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'User not found' });
+      }
       res.status(500).send('Server Error');
     }
   }
