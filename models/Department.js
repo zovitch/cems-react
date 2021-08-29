@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 
 const DepartmentSchema = new mongoose.Schema({
-  // Department can have 0, 1 or multiple "user"
-  owners: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-    },
-  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  },
   name: {
     type: String,
     required: true,
