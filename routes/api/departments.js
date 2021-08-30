@@ -7,8 +7,6 @@ const { check, validationResult } = require('express-validator/check');
 const Department = require('../../models/Department');
 const User = require('../../models/User');
 
-// @todo How to remove owners from dept.
-
 // @route   POST api/departments
 // @desc    Create or Update a department
 // @access  Private
@@ -101,7 +99,6 @@ router.get('/', async (req, res) => {
 // @route   GET api/departments/:trigram
 // @desc    Show detail of one department
 // @access  Public
-
 router.get('/:trigram', async (req, res) => {
   try {
     const department = await Department.findOne({
@@ -143,6 +140,50 @@ router.delete('/:trigram', auth, async (req, res) => {
     res.json({ msg: 'Department removed' });
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/departments/:trigram/:user
+// @desc    DELETE a user from the department's owner
+// @access  Private
+
+router.delete('/:trigram/:user', auth, async (req, res) => {
+  try {
+    const department = await Department.findOne({
+      trigram: req.params.trigram,
+    });
+
+    if (department) {
+      const foundUser = await User.findById(req.params.user);
+      if (foundUser) {
+        if (
+          department.owners.filter((owner) => owner.toString() === foundUser.id)
+            .length > 0
+        ) {
+          department.owners.splice(foundUser, 1);
+          await department.save();
+          res.json(department);
+        } else {
+          return res
+            .status(404)
+            .json({ msg: 'User was not found in the list of owners' });
+        }
+      } else {
+        return res
+          .status(404)
+          .json({ msg: 'User was not found in the list of owners' });
+      }
+    } else {
+      return res.status(404).json({ msg: 'Department not found' });
+    }
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res
+        .status(404)
+        .json({ msg: 'User was not found in the list of owners' });
+    }
     res.status(500).send('Server Error');
   }
 });
