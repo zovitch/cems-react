@@ -117,11 +117,6 @@ router.get('/:trigram', async (req, res) => {
   }
 });
 
-// @route   GET api/departments/:user_id
-// @desc    Show detail of oll department associated with a user
-// @access  Public/
-//@ todo
-
 // @route   DELETE api/departments/:trigram
 // @desc    Delete a department
 // @access  Private

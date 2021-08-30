@@ -4,6 +4,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
 const User = require('../../models/User');
@@ -80,5 +81,59 @@ router.post(
     }
   }
 );
+
+// @route   GET api/users
+// @desc    Get the list of all users names
+// @access  Public
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find().select('name');
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route   GET api/users/me
+// @desc    Get Current user info
+// @access  Private
+router.get('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({ msg: 'User not found' });
+    }
+    res.json(user);
+  } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route   GET api/users/:user_id
+// @desc    Get the details of one user
+// @access  Private
+
+router.get('/:user_id', auth, async (req, res) => {
+  console.log(req.params.user_id);
+  try {
+    const user = await User.findById(req.params.user_id).select('-password');
+    console.log(user);
+    if (!user) {
+      return res.status(400).json({ msg: 'User not found' });
+    }
+    res.json(user);
+  } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;
