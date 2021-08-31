@@ -46,7 +46,6 @@ router.post(
                 (owner) => owner.toString() === foundUser.id
               ).length > 0
             ) {
-              console.log('User added into the list of owners');
               department.owners.unshift(foundUser);
               await department.save();
             } else {
@@ -59,7 +58,7 @@ router.post(
           { trigram: trigram },
           { $set: departmentFields },
           { new: true }
-        );
+        ).populate('owners', ['name', 'avatar']);
         return res.json(department);
       }
 
@@ -71,6 +70,7 @@ router.post(
         }
       }
       department = new Department(departmentFields);
+      await department.populate('owners', ['name', 'avatar']);
       await department.save();
       res.json(department);
     } catch (err) {
@@ -88,7 +88,10 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const departments = await Department.find();
+    const departments = await Department.find().populate('owners', [
+      'name',
+      'avatar',
+    ]);
     res.json(departments);
   } catch (err) {
     console.error(err.message);
@@ -103,7 +106,7 @@ router.get('/:trigram', async (req, res) => {
   try {
     const department = await Department.findOne({
       trigram: req.params.trigram,
-    });
+    }).populate('owners', ['name', 'avatar']);
 
     if (!department) {
       // Not Found we return 404
@@ -140,21 +143,22 @@ router.delete('/:trigram', auth, async (req, res) => {
 });
 
 // @route   DELETE api/departments/:trigram/:user
-// @desc    DELETE a user from the department's owner
+// @desc    DELETE a user from the department's owners
 // @access  Private
 
 router.delete('/:trigram/:user', auth, async (req, res) => {
   try {
     const department = await Department.findOne({
       trigram: req.params.trigram,
-    });
+    }).populate('owners', ['name', 'avatar']);
 
     if (department) {
       const foundUser = await User.findById(req.params.user);
       if (foundUser) {
         if (
-          department.owners.filter((owner) => owner.toString() === foundUser.id)
-            .length > 0
+          department.owners.filter(
+            (owner) => owner.id.toString() === foundUser.id
+          ).length > 0
         ) {
           department.owners.splice(foundUser, 1);
           await department.save();
