@@ -103,8 +103,6 @@ router.get('/', async (req, res) => {
 router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    const department = await Department.find({ owners: req.user.id });
-    if (department) console.log(department); // @todo we are not pushing the dept into the user
 
     if (!user) {
       return res.status(400).json({ msg: 'User not found' });
@@ -129,6 +127,28 @@ router.get('/:user_id', auth, async (req, res) => {
       return res.status(400).json({ msg: 'User not found' });
     }
     res.json(user);
+  } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route   GET api/users/:user_id/department
+// @desc    Show all the department owned by one person
+// @access  Public
+router.get('/:user_id/departments', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.user_id).select('-password');
+    if (!user) {
+      return res.status(400).json({ msg: 'User not found' });
+    }
+    const departments = await Department.find({ owners: user })
+      .select('trigram name owners')
+      .populate('owners', ['name', 'avatar']);
+    return res.json(departments);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({ msg: 'User not found' });
