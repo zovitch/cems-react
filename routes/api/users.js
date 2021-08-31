@@ -110,7 +110,7 @@ router.get('/me', auth, async (req, res) => {
     res.json(user);
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'User not found 2' });
+      return res.status(404).json({ msg: 'User not found' });
     }
     console.error(err.message);
     res.status(500).send('Server error');

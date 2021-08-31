@@ -48,8 +48,6 @@ router.post(
             ) {
               department.owners.unshift(foundUser);
               await department.save();
-            } else {
-              console.log('User already in the list of owners');
             }
           }
         }
