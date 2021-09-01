@@ -70,7 +70,7 @@ router.post(
         }
       }
       department = new Department(departmentFields);
-      await department.populate('owners', ['name', 'avatar']);
+      await department.populate('owners', ['name', 'avatar']); // Not sure this work to populate @todo
       await department.save();
       res.json(department);
     } catch (err) {

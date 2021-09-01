@@ -33,7 +33,6 @@ const MachineSchema = new mongoose.Schema({
   },
   manufacturingDate: {
     type: Date,
-    default: Date.now,
   },
   acquiredDate: {
     type: Date,

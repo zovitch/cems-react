@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const LocationSchema = new mongoose.Schema({
-  shortcode: {
+  shortname: {
     type: String,
     required: true,
     maxlength: 3,
@@ -15,4 +15,4 @@ const LocationSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Location = mongoose.model('Location', LocationSchema);
+module.exports = Location = mongoose.model('location', LocationSchema);

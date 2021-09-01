@@ -11,6 +11,6 @@ const ManufacturerSchema = new mongoose.Schema({
 });
 
 module.exports = Manufacturer = mongoose.model(
-  'Manufacturer',
+  'manufacturer',
   ManufacturerSchema
 );

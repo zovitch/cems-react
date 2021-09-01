@@ -64,20 +64,28 @@ router.post(
     if (retiredDate) machineFields.retiredDate = retiredDate;
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
+
     try {
       let machine = await Machine.findOne({ equipmentNumber: equipmentNumber });
+
       if (machine) {
         // Update machine
+        machine = await Machine.findOneAndUpdate(
+          { equipmentNumber: equipmentNumber },
+          { $set: machineFields },
+          { new: true }
+        ).populate('category', ['code', 'trigram']);
         return res.json(machine);
       }
       // Create machine
-      console.log('New Machine');
+      machine = new Machine(machineFields);
+      await machine.save();
       return res.json(machine);
     } catch (err) {
       console.error(err.message);
-      if (err.kind === 'ObjectId') {
-        return res.status(404).json({ msg: 'User not found' });
-      }
+      // if (err.kind === 'ObjectId') {
+      //   return res.status(404).json({ msg: '??? not found' });
+      // }
       res.status(500).send('Server Error');
     }
   }
@@ -92,6 +100,58 @@ router.get('/', async (req, res) => {
     res.json(machines);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/machines/:number
+// @desc    GET the detail of one machine
+// @access  Public
+router.get('/:number', async (req, res) => {
+  try {
+    const machineEQU = await Machine.findOne({
+      equipmentNumber: req.params.number,
+    });
+
+    const machineQUA = await Machine.findOne({
+      qualityNumber: req.params.number,
+    });
+
+    // the number in the params can be the EQU Number or the QUA Number
+    if (machineEQU) {
+      machine = machineEQU;
+    } else {
+      if (machineQUA) {
+        machine = machineQUA;
+      } else {
+        return res.status(400).json({ msg: 'machine not found' });
+      }
+    }
+
+    console.log(machine);
+    res.json(machine);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/machines/:machine_id
+// @desc    Delete a Machine
+// @access  Private
+router.delete('/:machine_id', auth, async (req, res) => {
+  try {
+    const machine = await Machine.findById(req.params.machine_id);
+    if (!machine) {
+      return res.status(404).json({ msg: 'Machine not found' });
+    }
+    await machine.remove();
+    res.json({ msg: 'Machine removed' });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Machine not found' });
+    }
     res.status(500).send('Server Error');
   }
 });
