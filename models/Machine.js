@@ -8,13 +8,16 @@ const MachineSchema = new mongoose.Schema({
   },
   qualityNumber: {
     type: String,
+    index: { unique: true, sparse: true },
   },
   designation: {
     type: String,
     required: true,
+    unique: true,
   },
   designationCN: {
     type: String,
+    index: { unique: true, sparse: true },
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,

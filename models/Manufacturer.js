@@ -4,9 +4,11 @@ const ManufacturerSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   nameCN: {
     type: String,
+    index: { unique: true, sparse: true },
   },
 });
 

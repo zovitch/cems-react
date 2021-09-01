@@ -83,9 +83,9 @@ router.post(
       return res.json(machine);
     } catch (err) {
       console.error(err.message);
-      // if (err.kind === 'ObjectId') {
-      //   return res.status(404).json({ msg: '??? not found' });
-      // }
+      if (err.code === 11000) {
+        return res.status(400).json({ 'Duplicate Entry': err.keyValue });
+      }
       res.status(500).send('Server Error');
     }
   }

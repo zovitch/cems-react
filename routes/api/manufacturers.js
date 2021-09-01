@@ -24,7 +24,6 @@ router.post(
     const manufacturerFields = {};
     if (name) manufacturerFields.name = name;
     if (nameCN) manufacturerFields.nameCN = nameCN;
-
     try {
       // Create manufacturer
       let manufacturer = new Manufacturer(manufacturerFields);
@@ -32,7 +31,9 @@ router.post(
       return res.json(manufacturer);
     } catch (err) {
       console.error(err.message);
-
+      if (err.code === 11000) {
+        return res.status(400).json({ 'Duplicate Entry': err.keyValue });
+      }
       res.status(500).send('Server Error');
     }
   }

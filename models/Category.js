@@ -4,12 +4,14 @@ const CategorySchema = new mongoose.Schema({
   trigram: {
     type: String,
     required: true,
+    unique: true,
     maxlength: 3,
     minlength: 3,
   },
   code: {
     type: Number,
     required: true,
+    unique: true,
     maxlength: 3,
     minlength: 1,
     validate: {
