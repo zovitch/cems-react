@@ -1,5 +1,5 @@
 const express = require('express');
-const config = require('config');
+// const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -14,11 +14,13 @@ router.post(
   '/',
   [
     auth,
-    check('name', 'A name for the department is required').not().isEmpty(),
-    check(
-      'trigram',
-      '3 letters to describe the department is required'
-    ).isLength({ min: 3, max: 3 }),
+    [
+      check('name', 'A name for the department is required').not().isEmpty(),
+      check(
+        'trigram',
+        '3 letters to describe the department is required'
+      ).isLength({ min: 3, max: 3 }),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);

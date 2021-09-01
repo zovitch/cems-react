@@ -9,10 +9,11 @@ const MachineSchema = new mongoose.Schema({
   qualityNumber: {
     type: String,
   },
-  description: {
+  designation: {
     type: String,
+    required: true,
   },
-  descriptionCN: {
+  designationCN: {
     type: String,
   },
   category: {
@@ -47,20 +48,20 @@ const MachineSchema = new mongoose.Schema({
   purchasedPrice: {
     type: String,
   },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
   comment: {
     type: String,
   },
-  parentEquipment: {
-    type: mongoose.Schema.Type.ObjectId,
-    ref: 'machine',
-  },
+  // parentEquipment: {
+  //   type: mongoose.Schema.Type.ObjectId,
+  //   ref: 'machine',
+  // },
   img: {
     data: Buffer,
     contentType: String,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 
