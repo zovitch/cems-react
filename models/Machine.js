@@ -60,10 +60,12 @@ const MachineSchema = new mongoose.Schema({
   comment: {
     type: String,
   },
+  // @todo
   // parentEquipment: {
   //   type: mongoose.Schema.Type.ObjectId,
   //   ref: 'machine',
   // },
+  // machine images @todo
   img: {
     data: Buffer,
     contentType: String,
