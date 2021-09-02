@@ -10,6 +10,10 @@ const ManufacturerSchema = new mongoose.Schema({
     type: String,
     index: { unique: true, sparse: true },
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = Manufacturer = mongoose.model(

@@ -44,6 +44,7 @@ router.post(
           const foundUser = await User.findById(user);
           if (foundUser) {
             if (
+              // Check if the foundUser is not already in the list of owners
               !department.owners.filter(
                 (owner) => owner.toString() === foundUser.id
               ).length > 0
@@ -70,13 +71,16 @@ router.post(
         }
       }
       department = new Department(departmentFields);
-      await department.populate('owners', ['name', 'avatar']); // Not sure this work to populate @todo
+      await department.populate('owners', ['name', 'avatar']);
       await department.save();
       res.json(department);
     } catch (err) {
       console.error(err.message);
       if (err.kind === 'ObjectId') {
         return res.status(404).json({ msg: 'User not found' });
+      }
+      if (err.code === 11000) {
+        return res.status(400).json({ 'Duplicate Entry': err.keyValue });
       }
       res.status(500).send('Server Error');
     }

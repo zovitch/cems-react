@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const DepartmentSchema = new mongoose.Schema({
-  owners: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-    },
-  ],
+  trigram: {
+    type: String,
+    required: true,
+    unqiue: true,
+    maxlength: 3,
+    minlength: 3,
+  },
   name: {
     type: String,
     required: true,
@@ -15,13 +16,12 @@ const DepartmentSchema = new mongoose.Schema({
   nameCN: {
     type: String,
   },
-  trigram: {
-    type: String,
-    required: true,
-    unqiue: true,
-    maxlength: 3,
-    minlength: 3,
-  },
+  owners: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
+  ],
   date: {
     type: Date,
     default: Date.now,

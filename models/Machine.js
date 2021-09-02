@@ -23,11 +23,18 @@ const MachineSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'category',
   },
+  department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'department',
+  },
   manufacturer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'manufacturer',
   },
   model: {
+    type: String,
+  },
+  serialNumber: {
     type: String,
   },
   location: {

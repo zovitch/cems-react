@@ -16,6 +16,10 @@ const LocationSchema = new mongoose.Schema({
     type: String,
     index: { unique: true, sparse: true },
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = Location = mongoose.model('location', LocationSchema);

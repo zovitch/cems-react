@@ -4,6 +4,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Machine = require('../../models/Machine');
+
 // @route   POST api/machines
 // @desc    Create or Update a machine
 // @access  Private
@@ -38,6 +39,7 @@ router.post(
       designation,
       designationCN,
       category,
+      department,
       manufacturer,
       model,
       location,
@@ -55,6 +57,7 @@ router.post(
     if (designation) machineFields.designation = designation;
     if (designationCN) machineFields.designationCN = designationCN;
     if (category) machineFields.category = category;
+    if (department) machineFields.department = department;
     if (manufacturer) machineFields.manufacturer = manufacturer;
     if (model) machineFields.model = model;
     if (location) machineFields.location = location;
@@ -74,11 +77,48 @@ router.post(
           { equipmentNumber: equipmentNumber },
           { $set: machineFields },
           { new: true }
-        ).populate('category', ['code', 'trigram']);
+        )
+          .populate({
+            path: 'department',
+            select: 'trigram name nameCN owners',
+            populate: { path: 'owners', select: 'name avatar' },
+          })
+          .populate({
+            path: 'category',
+            select: 'code trigram description descriptionCN',
+          })
+          .populate({
+            path: 'manufacturer',
+            select: 'name nameCN',
+          })
+          .populate({
+            path: 'location',
+            select: 'shortname name nameCN',
+          });
+
         return res.json(machine);
       }
       // Create machine
       machine = new Machine(machineFields);
+      await machine
+        .populate({
+          path: 'department',
+          select: 'trigram name nameCN owners',
+          populate: { path: 'owners', select: 'name avatar' },
+        })
+        .populate({
+          path: 'category',
+          select: 'code trigram description descriptionCN',
+        })
+        .populate({
+          path: 'manufacturer',
+          select: 'name nameCN',
+        })
+        .populate({
+          path: 'location',
+          select: 'shortname name nameCN',
+        });
+
       await machine.save();
       return res.json(machine);
     } catch (err) {
@@ -96,7 +136,24 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const machines = await Machine.find();
+    const machines = await Machine.find()
+      .populate({
+        path: 'department',
+        select: 'trigram name nameCN owners',
+        populate: { path: 'owners', select: 'name avatar' },
+      })
+      .populate({
+        path: 'category',
+        select: 'code trigram description descriptionCN',
+      })
+      .populate({
+        path: 'manufacturer',
+        select: 'name nameCN',
+      })
+      .populate({
+        path: 'location',
+        select: 'shortname name nameCN',
+      });
     res.json(machines);
   } catch (err) {
     console.error(err.message);
@@ -111,11 +168,45 @@ router.get('/:number', async (req, res) => {
   try {
     const machineEQU = await Machine.findOne({
       equipmentNumber: req.params.number,
-    });
+    })
+      .populate({
+        path: 'department',
+        select: 'trigram name nameCN owners',
+        populate: { path: 'owners', select: 'name avatar' },
+      })
+      .populate({
+        path: 'category',
+        select: 'code trigram description descriptionCN',
+      })
+      .populate({
+        path: 'manufacturer',
+        select: 'name nameCN',
+      })
+      .populate({
+        path: 'location',
+        select: 'shortname name nameCN',
+      });
 
     const machineQUA = await Machine.findOne({
       qualityNumber: req.params.number,
-    });
+    })
+      .populate({
+        path: 'department',
+        select: 'trigram name nameCN owners',
+        populate: { path: 'owners', select: 'name avatar' },
+      })
+      .populate({
+        path: 'category',
+        select: 'code trigram description descriptionCN',
+      })
+      .populate({
+        path: 'manufacturer',
+        select: 'name nameCN',
+      })
+      .populate({
+        path: 'location',
+        select: 'shortname name nameCN',
+      });
 
     // the number in the params can be the EQU Number or the QUA Number
     if (machineEQU) {
@@ -128,7 +219,6 @@ router.get('/:number', async (req, res) => {
       }
     }
 
-    console.log(machine);
     res.json(machine);
   } catch (err) {
     console.error(err.message);

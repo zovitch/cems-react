@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
 
 const CategorySchema = new mongoose.Schema({
-  trigram: {
-    type: String,
-    required: true,
-    unique: true,
-    maxlength: 3,
-    minlength: 3,
-  },
   code: {
     type: Number,
     required: true,
@@ -19,11 +12,22 @@ const CategorySchema = new mongoose.Schema({
       message: '{VALUE} is not an integer value',
     },
   },
+  trigram: {
+    type: String,
+    required: true,
+    unique: true,
+    maxlength: 3,
+    minlength: 3,
+  },
   description: {
     type: String,
   },
   descriptionCN: {
     type: String,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 
