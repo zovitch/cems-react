@@ -19,6 +19,7 @@ app.use('/api/machines', require('./routes/api/machines'));
 app.use('/api/categories', require('./routes/api/categories'));
 app.use('/api/manufacturers', require('./routes/api/manufacturers'));
 app.use('/api/locations', require('./routes/api/locations'));
+app.use('/api/afas', require('./routes/api/afas'));
 
 const PORT = process.env.PORT || 5000;
 
