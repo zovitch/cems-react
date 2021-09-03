@@ -7,6 +7,7 @@ const DepartmentSchema = new mongoose.Schema({
     unqiue: true,
     maxlength: 3,
     minlength: 3,
+    uppercase: true,
   },
   name: {
     type: String,

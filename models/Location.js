@@ -6,6 +6,7 @@ const LocationSchema = new mongoose.Schema({
     required: true,
     unique: true,
     maxlength: 3,
+    uppercase: true,
   },
   name: {
     type: String,
