@@ -22,10 +22,12 @@ const MachineSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'category',
+    required: true,
   },
   department: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'department',
+    required: true,
   },
   manufacturer: {
     type: mongoose.Schema.Types.ObjectId,
@@ -40,6 +42,7 @@ const MachineSchema = new mongoose.Schema({
   location: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'location',
+    required: true,
   },
   manufacturingDate: {
     type: Date,

@@ -47,10 +47,8 @@ const AfaSchema = new mongoose.Schema({
     },
   },
   parentEquipment: {
-    type: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'machine',
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'machine',
   },
   technicalRequirement: {
     type: String,
@@ -58,11 +56,11 @@ const AfaSchema = new mongoose.Schema({
   reasonOfApplication: {
     type: String,
   },
+  // When creating an AFA it might be a new supplier so we don't need to have it from our current list of manufacturers
   manufacturer: [
     {
       name: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'manufacturer',
+        type: String,
       },
       model: {
         type: String,
@@ -76,24 +74,41 @@ const AfaSchema = new mongoose.Schema({
       },
     },
   ],
-  validator: [
-    {
-      name: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-      },
-      opinion: {
-        type: String,
-      },
-      signature: {
-        type: String,
-      },
-      signatureDate: {
-        type: Date,
-        default: Date.now,
-      },
+  validationENG: {
+    opinion: {
+      type: String,
     },
-  ],
+    signature: {
+      type: String,
+    },
+    signatureDate: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  validationPUR: {
+    opinion: {
+      type: String,
+    },
+    signature: {
+      type: String,
+    },
+    signatureDate: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  validationGM: {
+    opinion: {
+      type: String,
+    },
+    signature: {
+      type: String,
+    },
+    signatureDate: {
+      type: Date,
+    },
+  },
   remark: {
     type: String,
   },

@@ -13,6 +13,9 @@ router.post(
   [
     auth,
     [
+      check('category', 'A Category is required').not().isEmpty(),
+      check('department', 'A Department is required').not().isEmpty(),
+      check('location', 'A Location is required').not().isEmpty(),
       check(
         'equipmentNumber',
         'An Equipment Number is required for the machine'
