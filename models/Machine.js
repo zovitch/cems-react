@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const MachineSchema = new mongoose.Schema({
-  equipmentNumber: {
+  machineNumber: {
     type: String,
     required: true,
     unique: true,
@@ -64,7 +64,7 @@ const MachineSchema = new mongoose.Schema({
     type: String,
   },
   // @todo
-  // parentEquipment: {
+  // parentMachine: {
   //   type: mongoose.Schema.Type.ObjectId,
   //   ref: 'machine',
   // },

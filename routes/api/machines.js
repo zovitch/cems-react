@@ -16,15 +16,12 @@ router.post(
       check('category', 'A Category is required').not().isEmpty(),
       check('department', 'A Department is required').not().isEmpty(),
       check('location', 'A Location is required').not().isEmpty(),
-      check(
-        'equipmentNumber',
-        'An Equipment Number is required for the machine'
-      )
+      check('machineNumber', 'An Machine Number is required for the machine')
         .not()
         .isEmpty(),
       check(
         'designation',
-        'An Equipment Designation is required for this machine'
+        'An Machine Designation is required for this machine'
       )
         .not()
         .isEmpty(),
@@ -37,7 +34,7 @@ router.post(
     }
 
     const {
-      equipmentNumber,
+      machineNumber,
       qualityNumber,
       designation,
       designationCN,
@@ -55,7 +52,7 @@ router.post(
     } = req.body;
 
     const machineFields = {};
-    if (equipmentNumber) machineFields.equipmentNumber = equipmentNumber;
+    if (machineNumber) machineFields.machineNumber = machineNumber;
     if (qualityNumber) machineFields.qualityNumber = qualityNumber;
     if (designation) machineFields.designation = designation;
     if (designationCN) machineFields.designationCN = designationCN;
@@ -72,12 +69,12 @@ router.post(
     if (comment) machineFields.comment = comment;
 
     try {
-      let machine = await Machine.findOne({ equipmentNumber: equipmentNumber });
+      let machine = await Machine.findOne({ machineNumber: machineNumber });
 
       if (machine) {
         // Update machine
         machine = await Machine.findOneAndUpdate(
-          { equipmentNumber: equipmentNumber },
+          { machineNumber: machineNumber },
           { $set: machineFields },
           { new: true }
         )
@@ -103,24 +100,23 @@ router.post(
       }
       // Create machine
       machine = new Machine(machineFields);
-      await machine
-        .populate({
-          path: 'department',
-          select: 'trigram name nameCN owners',
-          populate: { path: 'owners', select: 'name avatar' },
-        })
-        .populate({
-          path: 'category',
-          select: 'code trigram description descriptionCN',
-        })
-        .populate({
-          path: 'manufacturer',
-          select: 'name nameCN',
-        })
-        .populate({
-          path: 'location',
-          select: 'shortname name nameCN',
-        });
+      await machine.populate({
+        path: 'department',
+        select: 'trigram name nameCN owners',
+        populate: { path: 'owners', select: 'name avatar' },
+      });
+      await machine.populate({
+        path: 'category',
+        select: 'code trigram description descriptionCN',
+      });
+      await machine.populate({
+        path: 'manufacturer',
+        select: 'name nameCN',
+      });
+      await machine.populate({
+        path: 'location',
+        select: 'shortname name nameCN',
+      });
 
       await machine.save();
       return res.json(machine);
@@ -170,7 +166,7 @@ router.get('/', async (req, res) => {
 router.get('/:number', async (req, res) => {
   try {
     const machineEQU = await Machine.findOne({
-      equipmentNumber: req.params.number,
+      machineNumber: req.params.number,
     })
       .populate({
         path: 'department',

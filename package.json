@@ -1,7 +1,7 @@
 {
   "name": "cems-react",
   "version": "1.0.0",
-  "description": "a web app for Citel Equipment Management System",
+  "description": "a web app for Citel Machine Management System",
   "main": "server.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",

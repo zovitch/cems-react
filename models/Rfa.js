@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const AfaSchema = new mongoose.Schema({
-  afaNumber: {
+const RfaSchema = new mongoose.Schema({
+  rfaNumber: {
     type: Number,
     required: true,
     unique: true,
@@ -10,19 +10,38 @@ const AfaSchema = new mongoose.Schema({
       message: '{VALUE} is not an integer value',
     },
   },
+  machineNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  qualityNumber: {
+    type: String,
+    index: { unique: true, sparse: true },
+  },
   designation: {
     type: String,
     required: true,
+    unique: true,
   },
   designationCN: {
     type: String,
     required: true,
+    unique: true,
+  },
+  parentMachine: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'machine',
   },
   investmentNumber: {
     type: String,
   },
-  applicantName: {
+  costCenter: {
     type: String,
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'category',
     required: true,
   },
   department: {
@@ -30,50 +49,43 @@ const AfaSchema = new mongoose.Schema({
     ref: 'department',
     required: true,
   },
-  applicantSignature: {
+  manufacturer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'manufacturer',
+  },
+  model: {
     type: String,
   },
-  applicantDate: {
-    type: Date,
-    default: Date.now,
+  serialNumber: {
+    type: String,
+  },
+  location: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'location',
     required: true,
   },
-  quantity: {
-    type: Number,
-    default: 1,
-    validate: {
-      validator: Number.isInteger,
-      message: '{VALUE} is not an integer value',
-    },
+  manufacturingDate: {
+    type: Date,
   },
-  parentMachine: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'machine',
+  acquiredDate: {
+    type: Date,
+    default: Date.now,
   },
-  technicalRequirement: {
+  purchasedPrice: {
     type: String,
   },
-  reasonOfApplication: {
+  // machine images @todo
+  img: {
+    data: Buffer,
+    contentType: String,
+  },
+  comment: {
     type: String,
   },
-  // When creating an AFA it might be a new supplier so we don't need to have it from our current list of manufacturers
-  manufacturer: [
-    {
-      name: {
-        type: String,
-      },
-      model: {
-        type: String,
-      },
-      choice: {
-        type: String,
-        enum: ['open', 'restricted'],
-      },
-      priceEstimation: {
-        type: String,
-      },
-    },
-  ],
+  date: {
+    type: Date,
+    default: Date.now,
+  },
   validationENG: {
     opinion: {
       type: String,
@@ -98,7 +110,7 @@ const AfaSchema = new mongoose.Schema({
       default: Date.now,
     },
   },
-  validationGM: {
+  validationRequestor: {
     opinion: {
       type: String,
     },
@@ -109,9 +121,6 @@ const AfaSchema = new mongoose.Schema({
       type: Date,
     },
   },
-  remark: {
-    type: String,
-  },
 });
 
-module.exports = Afa = mongoose.model('afa', AfaSchema);
+module.exports = Rfa = mongoose.model('rfa', RfaSchema);

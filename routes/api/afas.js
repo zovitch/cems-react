@@ -4,7 +4,6 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Afa = require('../../models/Afa');
-const AFA = require('../../models/Afa');
 
 // @route   POST api/afas
 // @desc    Create or update an AFA
@@ -14,6 +13,7 @@ router.post(
   [
     auth,
     [
+      // check('afaNumber', 'AFA Number is required').not().isEmpty(),
       check('designation', 'A Designation for the machine is necessary')
         .not()
         .isEmpty(),
@@ -24,9 +24,10 @@ router.post(
         .not()
         .isEmpty(),
       check('applicantName', 'An Applicant Name is necessary').not().isEmpty(),
-      check('applicantDepartment', 'An Applicant Department is necessary')
+      check('department', 'An Applicant Department is necessary')
         .not()
         .isEmpty(),
+      // check('applicantDate', 'Application Date is required').not().isEmpty(),
     ],
   ],
 
@@ -42,11 +43,11 @@ router.post(
       designationCN,
       investmentNumber,
       applicantName,
-      applicantDepartment,
+      department,
       applicantSignature,
       applicantDate,
       quantity,
-      parentEquipment,
+      parentMachine,
       technicalRequirement,
       reasonOfApplication,
       remark,
@@ -62,8 +63,7 @@ router.post(
     if (designationCN) afaFields.designationCN = designationCN;
     if (investmentNumber) afaFields.investmentNumber = investmentNumber;
     if (applicantName) afaFields.applicantName = applicantName;
-    if (applicantDepartment)
-      afaFields.applicantDepartment = applicantDepartment;
+    if (department) afaFields.department = department;
     if (applicantSignature) afaFields.applicantSignature = applicantSignature;
     if (applicantDate) afaFields.applicantDate = applicantDate;
     if (quantity) afaFields.quantity = quantity;
@@ -76,7 +76,7 @@ router.post(
     if (validationENG) afaFields.validationENG = validationENG;
     if (validationPUR) afaFields.validationPUR = validationPUR;
     if (validationGM) afaFields.validationGM = validationGM;
-    if (parentEquipment) afaFields.parentEquipment = parentEquipment;
+    if (parentMachine) afaFields.parentMachine = parentMachine;
 
     try {
       let afa = await Afa.findOne({ afaNumber: afaNumber });
@@ -89,13 +89,13 @@ router.post(
           { new: true }
         )
           .populate({
-            path: 'applicantDepartment',
+            path: 'department',
             select: 'trigram name nameCN owners',
             populate: { path: 'owners', select: 'name avatar' },
           })
           .populate({
-            path: 'parentEquipment',
-            select: 'equipmentNumber designation designationCN ',
+            path: 'parentMachine',
+            select: 'machineNumber designation designationCN ',
             populate: {
               path: 'location category manufacturer department',
               select: 'shortname trigram name nameCN description descriptionCN',
@@ -104,31 +104,32 @@ router.post(
         return res.json(afa);
       }
       // no AFA found, we create a new one
+
       // Set the AFA Number
-      afaFields.afaNumber = 1; // by default is set at 1
       // Find the max number of AFA
       afa = await Afa.find({})
         .select('afaNumber')
         .sort({ afaNumber: -1 })
         .limit(1);
 
+      afaFields.afaNumber = 1; // by default is set at 1
+
       // Increment by 1 if AFA is found
-      if (afa) {
+      if (afa[0]) {
         afaFields.afaNumber = afa[0].afaNumber + 1;
       }
-
-      // Create a new AFA
+      console.log(afa[0]);
       afa = new Afa(afaFields);
       await afa.populate({
-        path: 'applicantDepartment',
+        path: 'department',
         select: 'trigram name nameCN owners',
         populate: { path: 'owners', select: 'name avatar' },
       });
       await afa.populate({
-        path: 'parentEquipment',
-        select: 'equipmentNumber designation designationCN ',
+        path: 'parentMachine',
+        select: 'machineNumber designation designationCN ',
         populate: {
-          path: 'location category manufacturer department',
+          path: 'location category manufacturer ',
           select: 'shortname trigram name nameCN description descriptionCN',
         },
       });
@@ -153,13 +154,13 @@ router.get('/', async (req, res) => {
     const afas = await Afa.find()
       .sort({ afaNumber: -1 })
       .populate({
-        path: 'applicantDepartment',
+        path: 'department',
         select: 'trigram name nameCN owners',
         populate: { path: 'owners', select: 'name avatar' },
       })
       .populate({
-        path: 'parentEquipment',
-        select: 'equipmentNumber designation designationCN ',
+        path: 'parentMachine',
+        select: 'machineNumber designation designationCN ',
         populate: {
           path: 'location category manufacturer department',
           select: 'shortname trigram name nameCN description descriptionCN',
@@ -183,13 +184,13 @@ router.get('/:afaNumber', async (req, res) => {
   try {
     const afa = await Afa.findOne({ afaNumber: req.params.afaNumber })
       .populate({
-        path: 'applicantDepartment',
+        path: 'department',
         select: 'trigram name nameCN owners',
         populate: { path: 'owners', select: 'name avatar' },
       })
       .populate({
-        path: 'parentEquipment',
-        select: 'equipmentNumber designation designationCN ',
+        path: 'parentMachine',
+        select: 'machineNumber designation designationCN ',
         populate: {
           path: 'location category manufacturer department',
           select: 'shortname trigram name nameCN description descriptionCN',
