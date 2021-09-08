@@ -18,6 +18,21 @@ const AfaSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  quantity: {
+    type: Number,
+    default: 1,
+    validate: {
+      validator: Number.isInteger,
+      message: '{VALUE} is not an integer value',
+    },
+  },
+  parentMachine: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'machine',
+  },
+  technicalRequirement: {
+    type: String,
+  },
   investmentNumber: {
     type: String,
   },
@@ -38,21 +53,7 @@ const AfaSchema = new mongoose.Schema({
     default: Date.now,
     required: true,
   },
-  quantity: {
-    type: Number,
-    default: 1,
-    validate: {
-      validator: Number.isInteger,
-      message: '{VALUE} is not an integer value',
-    },
-  },
-  parentMachine: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'machine',
-  },
-  technicalRequirement: {
-    type: String,
-  },
+
   reasonOfApplication: {
     type: String,
   },

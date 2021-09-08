@@ -17,6 +17,17 @@ const LocationSchema = new mongoose.Schema({
     type: String,
     index: { unique: true, sparse: true },
   },
+  floor: {
+    type: Number,
+    required: true,
+    unique: true,
+    maxlength: 1,
+    minlength: 1,
+    validate: {
+      validator: Number.isInteger,
+      message: '{VALUE} is not an integer value',
+    },
+  },
   date: {
     type: Date,
     default: Date.now,

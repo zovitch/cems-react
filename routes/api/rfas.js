@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const newMachineNumber = require('../../functions/newMachineNumber');
 
 const Rfa = require('../../models/Rfa');
 
@@ -19,21 +20,7 @@ router.post(
       )
         .not()
         .isEmpty(),
-      check('machineNumber', 'Machine Number is required').not().isEmpty(),
-      check('designation', 'A Designation for the machine is necessary')
-        .not()
-        .isEmpty(),
-      check(
-        'designationCN',
-        'A Designation in Chinese for the machine is necessary'
-      )
-        .not()
-        .isEmpty(),
-      check('category', 'A Category is necessary').not().isEmpty(),
-      check('department', 'Assigning a department is necessary')
-        .not()
-        .isEmpty(),
-      check('location', 'Assigning a location is necessary').not().isEmpty(),
+      check('machines', 'An existing Machine is required').not().isEmpty(),
     ],
   ],
 
@@ -42,108 +29,89 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     const {
       rfaNumber,
-      machineNumber,
-      qualityNumber,
-      designation,
-      designationCN,
-      investmentNumber,
-      costCenter,
-      category,
-      department,
-      manufacturer,
-      model,
-      serialNumber,
-      location,
-      manufacturingDate,
-      acquiredDate,
-      purchasedPrice,
-      comment,
-      date,
+      machines,
       validationENG,
       validationPUR,
       validationRequestor,
-      parentMachine,
     } = req.body;
 
     const rfaFields = {};
     if (rfaNumber) rfaFields.rfaNumber = rfaNumber;
-    if (machineNumber) rfaFields.machineNumber = machineNumber;
-    if (qualityNumber) rfaFields.qualityNumber = qualityNumber;
-    if (designation) rfaFields.designation = designation;
-    if (designationCN) rfaFields.designationCN = designationCN;
-    if (investmentNumber) rfaFields.investmentNumber = investmentNumber;
-    if (costCenter) rfaFields.costCenter = costCenter;
-    if (category) rfaFields.category = category;
-    if (department) rfaFields.department = department;
-    if (manufacturer) rfaFields.manufacturer = manufacturer;
-    if (model) rfaFields.model = model;
-    if (serialNumber) rfaFields.serialNumber = serialNumber;
-    if (location) rfaFields.location = location;
-    if (manufacturingDate) rfaFields.manufacturingDate = manufacturingDate;
-    if (acquiredDate) rfaFields.acquiredDate = acquiredDate;
-    if (purchasedPrice) rfaFields.purchasedPrice = purchasedPrice;
-    if (comment) rfaFields.comment = comment;
-    if (date) rfaFields.date = date;
+    if (machines) rfaFields.machines = machines;
     if (validationENG) rfaFields.validationENG = validationENG;
     if (validationPUR) rfaFields.validationPUR = validationPUR;
     if (validationRequestor)
       rfaFields.validationRequestor = validationRequestor;
-    if (parentMachine) rfaFields.parentMachine = parentMachine;
 
     try {
-      let rfa = await Rfa.findOne({ rfaNumber: rfaNumber });
+      let rfa = await Rfa.findOne({ rfaNumber: rfaNumber }).populate(
+        'machines'
+      );
 
       if (rfa) {
         // Update an existing RFA
+        console.log('RFA updated');
         rfa = await Rfa.findOneAndUpdate(
           { rfaNumber: rfaNumber },
           { $set: rfaFields },
           { new: true }
         )
           .populate({
-            path: 'location category manufacturer',
-            select: 'shortname trigram name nameCN description descriptionCN',
-          })
-          .populate({
-            path: 'department',
-            select: 'trigram name nameCN owners',
-            populate: { path: 'owners', select: 'name avatar' },
-          })
-          .populate({
-            path: 'parentMachine',
-            select: 'machineNumber designation designationCN ',
+            path: 'machines',
             populate: {
-              path: 'location category manufacturer department',
-              select:
-                'shortname trigram name nameCN description descriptionCN ',
+              path: 'category',
+              select: 'code trigram description descriptionCN',
+            },
+          })
+          .populate({
+            path: 'machines',
+            populate: {
+              path: 'department',
+              select: 'trigram name nameCN',
+              populate: {
+                path: 'owners',
+                select: 'name avatar',
+              },
+            },
+          })
+          .populate({
+            path: 'machines',
+            populate: {
+              path: 'manufacturer',
+              select: 'name nameCN',
+            },
+          })
+          .populate({
+            path: 'machines',
+            populate: {
+              path: 'location',
+              select: 'shortname name nameCN floor',
             },
           });
         return res.json(rfa);
       }
       // Create a new RFA
+      console.log('RFA created');
       rfa = new Rfa(rfaFields);
+      await rfa.save();
+
       await rfa.populate({
-        path: 'location category manufacturer',
-        select: 'shortname trigram name nameCN description descriptionCN',
-      });
-      await rfa.populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
-      });
-      await rfa.populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
+        path: 'machines',
+        // select: 'manufacturer category department location',
         populate: {
-          path: 'location category manufacturer department',
-          select: 'shortname trigram name nameCN description descriptionCN ',
+          path: 'category manufacturer department location',
+          select:
+            'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+          populate: {
+            strictPopulate: false,
+            path: 'owners',
+            select: 'name avatar',
+          },
         },
       });
 
-      await rfa.save();
       return res.json(rfa);
     } catch (err) {
       console.error(err.message);
@@ -162,16 +130,35 @@ router.get('/:rfaNumber', async (req, res) => {
   try {
     const rfa = await Rfa.findOne({ rfaNumber: req.params.rfaNumber })
       .populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
+        path: 'machines',
+        populate: {
+          path: 'category',
+          select: 'code trigram description descriptionCN',
+        },
       })
       .populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
+        path: 'machines',
         populate: {
-          path: 'location category manufacturer department',
-          select: 'shortname trigram name nameCN description descriptionCN',
+          path: 'department',
+          select: 'trigram name nameCN',
+          populate: {
+            path: 'owners',
+            select: 'name avatar',
+          },
+        },
+      })
+      .populate({
+        path: 'machines',
+        populate: {
+          path: 'manufacturer',
+          select: 'name nameCN',
+        },
+      })
+      .populate({
+        path: 'machines',
+        populate: {
+          path: 'location',
+          select: 'shortname name nameCN floor',
         },
       });
 
@@ -193,16 +180,35 @@ router.get('/', async (req, res) => {
     const rfas = await Rfa.find()
       .sort({ rfaNumber: -1 })
       .populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
+        path: 'machines',
+        populate: {
+          path: 'category',
+          select: 'code trigram description descriptionCN',
+        },
       })
       .populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
+        path: 'machines',
         populate: {
-          path: 'location category manufacturer department',
-          select: 'shortname trigram name nameCN description descriptionCN',
+          path: 'department',
+          select: 'trigram name nameCN',
+          populate: {
+            path: 'owners',
+            select: 'name avatar',
+          },
+        },
+      })
+      .populate({
+        path: 'machines',
+        populate: {
+          path: 'manufacturer',
+          select: 'name nameCN',
+        },
+      })
+      .populate({
+        path: 'machines',
+        populate: {
+          path: 'location',
+          select: 'shortname name nameCN floor',
         },
       });
 

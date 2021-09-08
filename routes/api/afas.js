@@ -24,9 +24,7 @@ router.post(
         .not()
         .isEmpty(),
       check('applicantName', 'An Applicant Name is necessary').not().isEmpty(),
-      check('department', 'An Applicant Department is necessary')
-        .not()
-        .isEmpty(),
+      check('department', 'An Department is necessary').not().isEmpty(),
       // check('applicantDate', 'Application Date is required').not().isEmpty(),
     ],
   ],
@@ -90,19 +88,31 @@ router.post(
         )
           .populate({
             path: 'department',
-            select: 'trigram name nameCN owners',
-            populate: { path: 'owners', select: 'name avatar' },
+            select: 'trigram name name CN',
+            populate: {
+              strictPopulate: false,
+              path: 'owners',
+              select: 'name avatar',
+            },
           })
           .populate({
             path: 'parentMachine',
             select: 'machineNumber designation designationCN ',
             populate: {
-              path: 'location category manufacturer department',
-              select: 'shortname trigram name nameCN description descriptionCN',
+              path: 'category manufacturer department location',
+              select:
+                'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+              populate: {
+                strictPopulate: false,
+                path: 'owners',
+                select: 'name avatar',
+              },
             },
           });
+        console.log('AFA Update');
         return res.json(afa);
       }
+
       // no AFA found, we create a new one
 
       // Set the AFA Number
@@ -113,28 +123,37 @@ router.post(
         .limit(1);
 
       afaFields.afaNumber = 1; // by default is set at 1
-
       // Increment by 1 if AFA is found
       if (afa[0]) {
         afaFields.afaNumber = afa[0].afaNumber + 1;
       }
-      console.log(afa[0]);
       afa = new Afa(afaFields);
+      await afa.save();
       await afa.populate({
         path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
+        select: 'trigram name name CN',
+        populate: {
+          strictPopulate: false,
+          path: 'owners',
+          select: 'name avatar',
+        },
       });
       await afa.populate({
         path: 'parentMachine',
         select: 'machineNumber designation designationCN ',
         populate: {
-          path: 'location category manufacturer ',
-          select: 'shortname trigram name nameCN description descriptionCN',
+          path: 'category manufacturer department location',
+          select:
+            'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+          populate: {
+            strictPopulate: false,
+            path: 'owners',
+            select: 'name avatar',
+          },
         },
       });
 
-      await afa.save();
+      console.log('AFA Created');
       return res.json(afa);
     } catch (err) {
       console.error(err.message);

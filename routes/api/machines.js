@@ -49,6 +49,7 @@ router.post(
       retiredDate,
       purchasedPrice,
       comment,
+      costCenter,
     } = req.body;
 
     const machineFields = {};
@@ -67,12 +68,14 @@ router.post(
     if (retiredDate) machineFields.retiredDate = retiredDate;
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
+    if (costCenter) machineFields.costCenter = costCenter;
 
     try {
       let machine = await Machine.findOne({ machineNumber: machineNumber });
 
       if (machine) {
         // Update machine
+        // console.log('update');
         machine = await Machine.findOneAndUpdate(
           { machineNumber: machineNumber },
           { $set: machineFields },
@@ -99,6 +102,7 @@ router.post(
         return res.json(machine);
       }
       // Create machine
+      // console.log('create');
       machine = new Machine(machineFields);
       await machine.populate({
         path: 'department',

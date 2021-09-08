@@ -12,6 +12,7 @@ router.post(
   [
     auth,
     [
+      check('floor', 'A floor number is required').not().isEmpty(),
       check('shortname', 'A shortname is required for the Location')
         .not()
         .isEmpty(),
@@ -30,12 +31,13 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { shortname, name, nameCN } = req.body;
+    const { shortname, name, nameCN, floor } = req.body;
 
     const locationFields = {};
     if (shortname) locationFields.shortname = shortname;
     if (name) locationFields.name = name;
     if (nameCN) locationFields.nameCN = nameCN;
+    if (floor) locationFields.floor = floor;
 
     try {
       location = await Location.findOne({ shortname: shortname });

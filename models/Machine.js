@@ -54,6 +54,9 @@ const MachineSchema = new mongoose.Schema({
   investmentNumber: {
     type: String,
   },
+  costCenter: {
+    type: String,
+  },
   retiredDate: {
     type: Date,
   },
@@ -63,7 +66,7 @@ const MachineSchema = new mongoose.Schema({
   comment: {
     type: String,
   },
-  // @todo
+  // @todo Parent Machine
   // parentMachine: {
   //   type: mongoose.Schema.Type.ObjectId,
   //   ref: 'machine',
