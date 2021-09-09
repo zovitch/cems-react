@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const newMachineNumber = require('../../functions/newMachineNumber');
 
 const Rfa = require('../../models/Rfa');
+const Machine = require('../../models/Machine');
 
 // @route   POST api/rfas
 // @desc    Create or update an RFA
@@ -20,7 +21,7 @@ router.post(
       )
         .not()
         .isEmpty(),
-      check('machines', 'An existing Machine is required').not().isEmpty(),
+      check('machine', 'An existing Machine is required').not().isEmpty(),
     ],
   ],
 
@@ -31,7 +32,7 @@ router.post(
     }
     const {
       rfaNumber,
-      machines,
+      machine,
       validationENG,
       validationPUR,
       validationRequestor,
@@ -39,67 +40,81 @@ router.post(
 
     const rfaFields = {};
     if (rfaNumber) rfaFields.rfaNumber = rfaNumber;
-    if (machines) rfaFields.machines = machines;
     if (validationENG) rfaFields.validationENG = validationENG;
     if (validationPUR) rfaFields.validationPUR = validationPUR;
     if (validationRequestor)
       rfaFields.validationRequestor = validationRequestor;
 
     try {
-      let rfa = await Rfa.findOne({ rfaNumber: rfaNumber }).populate(
-        'machines'
-      );
+      let rfa = await Rfa.findOne({ rfaNumber: rfaNumber });
 
       if (rfa) {
         // Update an existing RFA
-        console.log('RFA updated');
-        rfa = await Rfa.findOneAndUpdate(
-          { rfaNumber: rfaNumber },
-          { $set: rfaFields },
-          { new: true }
-        )
-          .populate({
-            path: 'machines',
-            populate: {
-              path: 'category',
-              select: 'code trigram description descriptionCN',
-            },
-          })
-          .populate({
-            path: 'machines',
-            populate: {
-              path: 'department',
-              select: 'trigram name nameCN',
+        if (machine) {
+          const foundMachine = await Machine.findById(machine);
+          if (foundMachine) {
+            if (
+              !rfa.machines.filter((m) => m.toString() === foundMachine.id)
+                .length > 0
+            ) {
+              rfa.machines.unshift(foundMachine);
+              await rfa.save();
+            }
+          }
+
+          rfa = await Rfa.findOneAndUpdate(
+            { rfaNumber: rfaNumber },
+            { $set: rfaFields },
+            { new: true }
+          )
+            .populate({
+              path: 'machines',
               populate: {
-                path: 'owners',
-                select: 'name avatar',
+                path: 'category',
+                select: 'code trigram description descriptionCN',
               },
-            },
-          })
-          .populate({
-            path: 'machines',
-            populate: {
-              path: 'manufacturer',
-              select: 'name nameCN',
-            },
-          })
-          .populate({
-            path: 'machines',
-            populate: {
-              path: 'location',
-              select: 'shortname name nameCN floor',
-            },
-          });
-        return res.json(rfa);
+            })
+            .populate({
+              path: 'machines',
+              populate: {
+                path: 'department',
+                select: 'trigram name nameCN',
+                populate: {
+                  path: 'owners',
+                  select: 'name avatar',
+                },
+              },
+            })
+            .populate({
+              path: 'machines',
+              populate: {
+                path: 'manufacturer',
+                select: 'name nameCN',
+              },
+            })
+            .populate({
+              path: 'machines',
+              populate: {
+                path: 'location',
+                select: 'shortname name nameCN floor',
+              },
+            });
+
+          console.log('RFA updated');
+          return res.json(rfa);
+        }
       }
       // Create a new RFA
-      console.log('RFA created');
-      rfa = new Rfa(rfaFields);
-      await rfa.save();
+      if (machine) {
+        const foundMachine = await Machine.findById(machine);
+        if (foundMachine) {
+          rfaFields.machines = [foundMachine.id]; // We create the Array to receive the first machine;
+        }
+      }
 
+      rfa = new Rfa(rfaFields);
       await rfa.populate({
         path: 'machines',
-        // select: 'manufacturer category department location',
         populate: {
           path: 'category manufacturer department location',
           select:
@@ -111,7 +126,8 @@ router.post(
           },
         },
       });
-
+      await rfa.save();
+      console.log('RFA created');
       return res.json(rfa);
     } catch (err) {
       console.error(err.message);
