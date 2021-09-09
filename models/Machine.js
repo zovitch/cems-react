@@ -96,7 +96,7 @@ MachineSchema.virtual(
     ref: 'machine',
     localField: 'id',
     foreignField: 'parentMachine',
-    justOne: false,
+    // justOne: false,
   },
   {
     toJSON: { virtuals: true },

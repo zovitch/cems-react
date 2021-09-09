@@ -16,9 +16,7 @@ router.post(
       check('category', 'A Category is required').not().isEmpty(),
       check('department', 'A Department is required').not().isEmpty(),
       check('location', 'A Location is required').not().isEmpty(),
-      check('machineNumber', 'An Machine Number is required for the machine')
-        .not()
-        .isEmpty(),
+
       check(
         'designation',
         'An Machine Designation is required for this machine'
@@ -79,6 +77,7 @@ router.post(
 
       if (machine) {
         // Update machine
+        console.log('Updating the machine');
         machine = await Machine.findOneAndUpdate(
           { machineNumber: machineNumber },
           { $set: machineFields },
@@ -119,6 +118,44 @@ router.post(
         return res.json(machine);
       }
       // Create machine
+      console.log('Creating a new machine');
+      if (machineNumber) {
+        console.log('using the provided machine number');
+      } else {
+        let date = new Date(); //today's date
+        if (acquiredDate) {
+          date = new Date(acquiredDate);
+        } else {
+        }
+        const year = date.getFullYear(); // 2021
+        const year2digits = year.toString().substring(2);
+
+        const foundLocation = await Location.findById(machineFields.location);
+
+        if (!foundLocation.floor) {
+          return res
+            .status(400)
+            .json({ msg: 'Error: Floor information is missing' });
+        }
+
+        let newMachineNumber = '8' + foundLocation.floor + year2digits + '001';
+        // This return an array of size 1 with the latest mmachine number
+        const latestMachine = await Machine.find({
+          machineNumber: {
+            $regex: '8' + foundLocation.floor + year2digits,
+            $options: 'i',
+          },
+        })
+          .sort('-machineNumber') // to get the max
+          .limit(1);
+        // console.log(latestMachine);
+        if (latestMachine[0]) {
+          newMachineNumber = parseInt(latestMachine[0].machineNumber);
+          newMachineNumber = newMachineNumber + 1;
+        }
+        machineFields.machineNumber = newMachineNumber;
+      }
+
       machine = new Machine(machineFields);
       await machine.populate({
         path: 'department',
@@ -291,5 +328,43 @@ router.delete('/:machine_id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route   PATCH api/machines/:machine_id
+// @desc    Update a Machine Number
+// @access  Private
+router.patch(
+  '/:machine_id',
+  [
+    auth,
+    [check('machineNumber', 'A Machine Number is required').not().isEmpty()],
+  ],
+  async (req, res) => {
+    console.log('Updating a machine number');
+    try {
+      const machine = await Machine.findById(req.params.machine_id);
+      if (!machine) {
+        return res.status(404).json({ msg: 'Machine not found' });
+      }
+      machineNumber = req.body.machineNumber;
+      machine.machineNumber = machineNumber;
+      machine.save(function (err, result) {
+        if (err) {
+          if (err.code === 11000) {
+            return res.status(400).json({ 'Duplicate Entry': err.keyValue });
+          }
+          console.log(err);
+        } else {
+          res.json(machine);
+        }
+      });
+    } catch (err) {
+      console.error(err.message);
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'Machine not found' });
+      }
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;

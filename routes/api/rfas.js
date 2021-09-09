@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
-const newMachineNumber = require('../../functions/newMachineNumber');
 
 const Rfa = require('../../models/Rfa');
 const Machine = require('../../models/Machine');
