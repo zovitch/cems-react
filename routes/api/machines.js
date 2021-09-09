@@ -50,6 +50,7 @@ router.post(
       purchasedPrice,
       comment,
       costCenter,
+      afa,
     } = req.body;
 
     const machineFields = {};
@@ -69,6 +70,7 @@ router.post(
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
     if (costCenter) machineFields.costCenter = costCenter;
+    if (afa) machineFields.afa = afa;
 
     try {
       let machine = await Machine.findOne({ machineNumber: machineNumber });

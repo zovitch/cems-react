@@ -183,6 +183,12 @@ router.get('/:rfaNumber', async (req, res) => {
     }
     res.json(rfa);
   } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'RFA not found' });
+    }
+    if (err.kind === 'Number') {
+      return res.status(404).json({ msg: 'RFA not found' });
+    }
     console.error(err.message);
     res.status(500).send('Server Error');
   }

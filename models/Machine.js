@@ -80,6 +80,10 @@ const MachineSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  afa: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'afa',
+  },
 });
 
 module.exports = Machine = mongoose.model('machine', MachineSchema);
