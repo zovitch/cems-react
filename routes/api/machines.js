@@ -51,6 +51,7 @@ router.post(
       comment,
       costCenter,
       afa,
+      parentMachine,
     } = req.body;
 
     const machineFields = {};
@@ -71,13 +72,13 @@ router.post(
     if (comment) machineFields.comment = comment;
     if (costCenter) machineFields.costCenter = costCenter;
     if (afa) machineFields.afa = afa;
+    if (parentMachine) machineFields.parentMachine = parentMachine;
 
     try {
       let machine = await Machine.findOne({ machineNumber: machineNumber });
 
       if (machine) {
         // Update machine
-        // console.log('update');
         machine = await Machine.findOneAndUpdate(
           { machineNumber: machineNumber },
           { $set: machineFields },
@@ -99,12 +100,25 @@ router.post(
           .populate({
             path: 'location',
             select: 'shortname name nameCN',
+          })
+          .populate({
+            path: 'parentMachine',
+            select: 'machineNumber designation designationCN ',
+            populate: {
+              path: 'category manufacturer department location',
+              select:
+                'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+              populate: {
+                strictPopulate: false,
+                path: 'owners',
+                select: 'name avatar',
+              },
+            },
           });
 
         return res.json(machine);
       }
       // Create machine
-      // console.log('create');
       machine = new Machine(machineFields);
       await machine.populate({
         path: 'department',
@@ -123,7 +137,20 @@ router.post(
         path: 'location',
         select: 'shortname name nameCN',
       });
-
+      await machine.populate({
+        path: 'parentMachine',
+        select: 'machineNumber designation designationCN ',
+        populate: {
+          path: 'category manufacturer department location',
+          select:
+            'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+          populate: {
+            strictPopulate: false,
+            path: 'owners',
+            select: 'name avatar',
+          },
+        },
+      });
       await machine.save();
       return res.json(machine);
     } catch (err) {
@@ -158,6 +185,20 @@ router.get('/', async (req, res) => {
       .populate({
         path: 'location',
         select: 'shortname name nameCN',
+      })
+      .populate({
+        path: 'parentMachine',
+        select: 'machineNumber designation designationCN ',
+        populate: {
+          path: 'category manufacturer department location',
+          select:
+            'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+          populate: {
+            strictPopulate: false,
+            path: 'owners',
+            select: 'name avatar',
+          },
+        },
       });
     res.json(machines);
   } catch (err) {
