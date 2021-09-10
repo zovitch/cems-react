@@ -53,7 +53,8 @@ const MachineSchema = new mongoose.Schema(
       default: Date.now,
     },
     investmentNumber: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'investment',
     },
     costCenter: {
       type: String,

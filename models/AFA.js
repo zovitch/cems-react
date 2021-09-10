@@ -34,7 +34,8 @@ const AfaSchema = new mongoose.Schema({
     type: String,
   },
   investmentNumber: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'investment',
   },
   applicantName: {
     type: String,
