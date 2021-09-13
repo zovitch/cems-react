@@ -18,6 +18,13 @@ router.post(
         .isEmpty(),
       check('name', 'A name is required for the Location').not().isEmpty(),
       check(
+        'locationLetter',
+        'Location Letter should be only one letter'
+      ).isLength({
+        max: 1,
+        min: 1,
+      }),
+      check(
         'shortname',
         'The shortname can be only 3 letters maximum'
       ).isLength({
@@ -31,13 +38,14 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { shortname, name, nameCN, floor } = req.body;
+    const { shortname, name, nameCN, floor, locationLetter } = req.body;
 
     const locationFields = {};
     if (shortname) locationFields.shortname = shortname;
     if (name) locationFields.name = name;
     if (nameCN) locationFields.nameCN = nameCN;
     if (floor) locationFields.floor = floor;
+    if (locationLetter) locationFields.locationLetter = locationLetter;
 
     try {
       location = await Location.findOne({ shortname: shortname });

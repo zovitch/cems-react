@@ -40,17 +40,11 @@ const MachineSchema = new mongoose.Schema(
     serialNumber: {
       type: String,
     },
-    location: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'location',
-      required: true,
-    },
     manufacturingDate: {
       type: Date,
     },
     acquiredDate: {
       type: Date,
-      default: Date.now,
     },
     investmentNumber: {
       type: mongoose.Schema.Types.ObjectId,

@@ -23,6 +23,11 @@ const DepartmentSchema = new mongoose.Schema({
       ref: 'user',
     },
   ],
+  location: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'location',
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,

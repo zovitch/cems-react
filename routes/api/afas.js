@@ -88,7 +88,7 @@ router.post(
         )
           .populate({
             path: 'department',
-            select: 'trigram name name CN',
+            select: 'trigram name nameCN',
             populate: {
               strictPopulate: false,
               path: 'owners',
@@ -99,9 +99,9 @@ router.post(
             path: 'parentMachine',
             select: 'machineNumber designation designationCN ',
             populate: {
-              path: 'category manufacturer department location',
+              path: 'category manufacturer department',
               select:
-                'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+                'code name nameCN trigram description descriptionCN trigram owners',
               populate: {
                 strictPopulate: false,
                 path: 'owners',
@@ -142,9 +142,9 @@ router.post(
         path: 'parentMachine',
         select: 'machineNumber designation designationCN ',
         populate: {
-          path: 'category manufacturer department location',
+          path: 'category manufacturer department',
           select:
-            'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+            'code name nameCN trigram description descriptionCN trigram owners ',
           populate: {
             strictPopulate: false,
             path: 'owners',
@@ -175,14 +175,20 @@ router.get('/', async (req, res) => {
       .populate({
         path: 'department',
         select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
+        populate: {
+          path: 'owners location',
+          select: 'name avatar shortname',
+          strictPopulate: false,
+        },
       })
       .populate({
         path: 'parentMachine',
         select: 'machineNumber designation designationCN ',
         populate: {
-          path: 'location category manufacturer department',
-          select: 'shortname trigram name nameCN description descriptionCN',
+          path: 'category manufacturer department',
+          select:
+            'shortname floor trigram name nameCN description descriptionCN',
+          strictPopulate: false,
         },
       });
 
@@ -203,16 +209,21 @@ router.get('/:afaNumber', async (req, res) => {
   try {
     const afa = await Afa.findOne({ afaNumber: req.params.afaNumber })
       .populate({
-        path: 'department',
+        path: 'department ',
         select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
+        populate: {
+          path: 'owners',
+          select: 'name avatar',
+          strictPopulate: false,
+        },
       })
       .populate({
         path: 'parentMachine',
         select: 'machineNumber designation designationCN ',
         populate: {
-          path: 'location category manufacturer department',
-          select: 'shortname trigram name nameCN description descriptionCN',
+          path: 'category manufacturer department',
+          select: 'trigram name nameCN description descriptionCN',
+          strictPopulate: false,
         },
       });
 

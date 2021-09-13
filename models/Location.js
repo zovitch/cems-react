@@ -28,6 +28,11 @@ const LocationSchema = new mongoose.Schema({
       message: '{VALUE} is not an integer value',
     },
   },
+  locationLetter: {
+    type: String,
+    maxlength: 1,
+    minlength: 1,
+  },
   date: {
     type: Date,
     default: Date.now,

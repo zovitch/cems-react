@@ -5,24 +5,14 @@ const { check, validationResult } = require('express-validator');
 
 const Rfa = require('../../models/Rfa');
 const Machine = require('../../models/Machine');
+const { populate } = require('../../models/Machine');
 
 // @route   POST api/rfas
 // @desc    Create or update an RFA
 // @access  Private
 router.post(
   '/',
-  [
-    auth,
-    [
-      check(
-        'rfaNumber',
-        'RFA Number is required, if possible should match an existing RFA'
-      )
-        .not()
-        .isEmpty(),
-      check('machine', 'An existing Machine is required').not().isEmpty(),
-    ],
-  ],
+  [auth, [check('machine', 'An existing Machine is required').not().isEmpty()]],
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -37,13 +27,21 @@ router.post(
       validationRequestor,
     } = req.body;
 
+    let foundMachine = await Machine.findById(machine).populate(
+      'afa',
+      'afaNumber'
+    );
+
     const rfaFields = {};
+    //if we find an AFA Number we use it as RFA Number
+    if (foundMachine.afa.afaNumber) {
+      rfaFields.rfaNumber = foundMachine.afa.afaNumber;
+    }
     if (rfaNumber) rfaFields.rfaNumber = rfaNumber;
     if (validationENG) rfaFields.validationENG = validationENG;
     if (validationPUR) rfaFields.validationPUR = validationPUR;
     if (validationRequestor)
       rfaFields.validationRequestor = validationRequestor;
-
     try {
       let rfa = await Rfa.findOne({ rfaNumber: rfaNumber });
 
@@ -66,11 +64,19 @@ router.post(
             { $set: rfaFields },
             { new: true }
           )
+
             .populate({
               path: 'machines',
               populate: {
                 path: 'category',
                 select: 'code trigram description descriptionCN',
+              },
+            })
+            .populate({
+              path: 'machines',
+              populate: {
+                path: 'afa',
+                select: 'afaNumber',
               },
             })
             .populate({
@@ -90,13 +96,6 @@ router.post(
                 path: 'manufacturer',
                 select: 'name nameCN',
               },
-            })
-            .populate({
-              path: 'machines',
-              populate: {
-                path: 'location',
-                select: 'shortname name nameCN floor',
-              },
             });
 
           console.log('RFA updated');
@@ -115,9 +114,9 @@ router.post(
       await rfa.populate({
         path: 'machines',
         populate: {
-          path: 'category manufacturer department location',
+          path: 'category manufacturer department afa',
           select:
-            'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+            'code name nameCN trigram description descriptionCN trigram owners afaNumber',
           populate: {
             strictPopulate: false,
             path: 'owners',
@@ -144,6 +143,7 @@ router.post(
 router.get('/:rfaNumber', async (req, res) => {
   try {
     const rfa = await Rfa.findOne({ rfaNumber: req.params.rfaNumber })
+      .populate('afa', 'afaNumber')
       .populate({
         path: 'machines',
         populate: {
@@ -167,13 +167,6 @@ router.get('/:rfaNumber', async (req, res) => {
         populate: {
           path: 'manufacturer',
           select: 'name nameCN',
-        },
-      })
-      .populate({
-        path: 'machines',
-        populate: {
-          path: 'location',
-          select: 'shortname name nameCN floor',
         },
       });
 
@@ -225,14 +218,7 @@ router.get('/', async (req, res) => {
           select: 'name nameCN',
         },
       })
-      .populate({
-        path: 'machines',
-        populate: {
-          path: 'location',
-          select: 'shortname name nameCN floor',
-        },
-      });
-
+      .populate('afa', 'afaNumber');
     if (!rfas) {
       return res.status(400).json({ msg: 'No RFAs found' });
     }

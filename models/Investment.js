@@ -45,6 +45,7 @@ const InvestmentSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  // @todo assign a department
 });
 
 module.exports = Investment = mongoose.model('investment', InvestmentSchema);

@@ -16,6 +16,7 @@ router.post(
     auth,
     [
       check('name', 'A name for the department is required').not().isEmpty(),
+      check('location', 'A location is required').not().isEmpty(),
       check(
         'trigram',
         '3 letters to describe the department is required'
@@ -28,13 +29,14 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, nameCN, user } = req.body;
+    const { name, nameCN, user, location } = req.body;
     const trigram = req.body.trigram.toUpperCase();
 
     const departmentFields = {};
     if (name) departmentFields.name = name;
     if (nameCN) departmentFields.nameCN = nameCN;
     if (trigram) departmentFields.trigram = trigram;
+    if (location) departmentFields.location = location;
 
     try {
       let department = await Department.findOne({ trigram: trigram });
@@ -59,7 +61,9 @@ router.post(
           { trigram: trigram },
           { $set: departmentFields },
           { new: true }
-        ).populate('owners', ['name', 'avatar']);
+        )
+          .populate('owners', ['name', 'avatar'])
+          .populate('location');
         return res.json(department);
       }
 
@@ -72,6 +76,7 @@ router.post(
       }
       department = new Department(departmentFields);
       await department.populate('owners', ['name', 'avatar']);
+      await department.populate('location');
       await department.save();
       res.json(department);
     } catch (err) {
@@ -92,10 +97,9 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const departments = await Department.find().populate('owners', [
-      'name',
-      'avatar',
-    ]);
+    const departments = await Department.find()
+      .populate('owners', ['name', 'avatar'])
+      .populate('location');
     res.json(departments);
   } catch (err) {
     console.error(err.message);
@@ -110,7 +114,9 @@ router.get('/:trigram', async (req, res) => {
   try {
     const department = await Department.findOne({
       trigram: req.params.trigram,
-    }).populate('owners', ['name', 'avatar']);
+    })
+      .populate('owners', ['name', 'avatar'])
+      .populate('location');
 
     if (!department) {
       // Not Found we return 404

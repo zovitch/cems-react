@@ -71,14 +71,8 @@ router.post(
                   path: 'manufacturer',
                   select: 'name nameCN',
                 },
-              })
-              .populate({
-                path: 'machines',
-                populate: {
-                  path: 'location',
-                  select: 'shortname name nameCN floor',
-                },
               });
+
             console.log('DFA updated');
             return res.json(dfa);
           }
@@ -113,9 +107,9 @@ router.post(
         await dfa.populate({
           path: 'machine',
           populate: {
-            path: 'category manufacturer department location',
+            path: 'category manufacturer department',
             select:
-              'code name nameCN trigram description descriptionCN trigram shortname owners floor',
+              'code name nameCN trigram description descriptionCN trigram owners',
             populate: {
               strictPopulate: false,
               path: 'owners',
