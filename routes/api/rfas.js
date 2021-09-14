@@ -35,7 +35,28 @@ router.post(
       rfaFields.validationRequestor = validationRequestor;
 
     try {
-      let rfa = await Rfa.findOne({ rfaNumber: rfaNumber });
+      // Set the RFA Number
+      // Find the max number of AFA
+      let afa = await Afa.find({})
+        .select('afaNumber')
+        .sort({ afaNumber: -1 })
+        .limit(1);
+
+      // Find the max number of RFA
+      let rfa = await Rfa.find({})
+        .select('rfaNumber')
+        .sort({ rfaNumber: -1 })
+        .limit(1);
+
+      let newRfaNumber = 1; // by default is set at 1;
+      if (afa[0]) {
+        newRfaNumber = afa[0].afaNumber + 1;
+      }
+      if (rfa[0]) {
+        newRfaNumber = Math.max(newRfaNumber, rfa[0].rfaNumber + 1);
+      }
+
+      rfa = await Rfa.findOne({ rfaNumber: rfaNumber });
 
       if (rfa) {
         // Update an existing RFA
@@ -49,6 +70,8 @@ router.post(
               rfa.machines.unshift(foundMachine);
               await rfa.save();
             }
+          } else {
+            return res.status(400).json({ msg: 'Machine not found' });
           }
 
           rfa = await Rfa.findOneAndUpdate(
@@ -77,20 +100,21 @@ router.post(
         }
       }
       // Create a new RFA
-      rfa = await Rfa.find({})
-        .select('rfaNumber')
-        .sort({ rfaNumber: -1 })
-        .limit(1);
-
-      rfaFields.rfaNumber = 9; // by default is set at 1
-      // // Increment by 1 if AFA is found
-      if (rfa[0]) {
-        rfaFields.rfaNumber = rfa[0].rfaNumber + 1;
-      }
       if (machine) {
-        const foundMachine = await Machine.findById(machine);
+        const foundMachine = await Machine.findById(machine).populate(
+          'afa',
+          'afaNumber'
+        );
         if (foundMachine) {
           rfaFields.machines = [foundMachine.id]; // We create the Array to receive the first machine;
+          // we the AFA Number associated with the machine
+          if (foundMachine.afa) {
+            rfaFields.rfaNumber = foundMachine.afa.afaNumber;
+          } else {
+            rfaFields.rfaNumber = newRfaNumber;
+          }
+        } else {
+          return res.status(400).json({ msg: 'Machine not found' });
         }
       }
       rfa = new Rfa(rfaFields);

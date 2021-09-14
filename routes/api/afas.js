@@ -77,7 +77,28 @@ router.post(
     if (parentMachine) afaFields.parentMachine = parentMachine;
 
     try {
-      let afa = await Afa.findOne({ afaNumber: afaNumber });
+      // Set the AFA Number
+      // Find the max number of AFA
+      let afa = await Afa.find({})
+        .select('afaNumber')
+        .sort({ afaNumber: -1 })
+        .limit(1);
+
+      // we want to have AFA and RFA matching
+      let rfa = await Rfa.find({})
+        .select('rfaNumber')
+        .sort({ rfaNumber: -1 })
+        .limit(1);
+
+      let newAfaNumber = 1; // by default is set at 1
+      if (afa[0]) {
+        newAfaNumber = afa[0].afaNumber + 1;
+      }
+      if (rfa[0]) {
+        newAfaNumber = Math.max(newAfaNumber, rfa[0].rfaNumber + 1);
+      }
+
+      afa = await Afa.findOne({ afaNumber: afaNumber });
 
       if (afa) {
         // Update an existing AFA
@@ -102,21 +123,8 @@ router.post(
         });
         return res.json(afa);
       }
-
       // no AFA found, we create a new one
-
-      // Set the AFA Number
-      // Find the max number of AFA
-      afa = await Afa.find({})
-        .select('afaNumber')
-        .sort({ afaNumber: -1 })
-        .limit(1);
-
-      afaFields.afaNumber = 1; // by default is set at 1
-      // Increment by 1 if AFA is found
-      if (afa[0]) {
-        afaFields.afaNumber = afa[0].afaNumber + 1;
-      }
+      afaFields.afaNumber = newAfaNumber;
       afa = new Afa(afaFields);
       await afa.save();
       await afa.populate({
