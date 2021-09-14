@@ -5,6 +5,9 @@ const { check, validationResult } = require('express-validator');
 
 const Dfa = require('../../models/Dfa');
 
+// @route   POST api/dfas
+// @desc    Create or update an DFA
+// @access  Private
 router.post(
   '/',
   [auth, [check('machine', 'An existing Machine is required').not().isEmpty()]],
@@ -25,9 +28,9 @@ router.post(
     const dfaFields = {};
     if (dfaNumber) dfaFields.dfaNumber = dfaNumber;
     if (remark) dfaFields.remark = remark;
-    if (validationENG) rfaFields.validationENG = validationENG;
-    if (validationOWN) rfaFields.validationOWN = validationOWN;
-    if (validationFIN) rfaFields.validationFIN = validationFIN;
+    if (validationENG) dfaFields.validationENG = validationENG;
+    if (validationOWN) dfaFields.validationOWN = validationOWN;
+    if (validationFIN) dfaFields.validationFIN = validationFIN;
 
     try {
       if (dfaNumber) {
@@ -40,39 +43,29 @@ router.post(
             if (!foundMachine) {
               return res.status(400).json({ msg: 'Machine not found' });
             }
-            // check if machine already offline
             dfaFields.machine = foundMachine;
             dfa = await Dfa.findOneAndUpdate(
               { dfaNumber: dfaNumber },
               { $set: dfaFields },
               { new: true }
-            )
-              .populate({
-                path: 'machines',
+            ).populate({
+              path: 'machine',
+              populate: {
+                path: 'department afa parentMachine manufacturer category',
                 populate: {
-                  path: 'category',
-                  select: 'code trigram description descriptionCN',
-                },
-              })
-              .populate({
-                path: 'machines',
-                populate: {
-                  path: 'department',
-                  select: 'trigram name nameCN',
+                  path: 'owners location department afa manufacturer category',
+                  select:
+                    'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+                  strictPopulate: false,
                   populate: {
-                    path: 'owners',
-                    select: 'name avatar',
+                    path: 'owners location department afa manufacturer category',
+                    select:
+                      'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+                    strictPopulate: false,
                   },
                 },
-              })
-              .populate({
-                path: 'machines',
-                populate: {
-                  path: 'manufacturer',
-                  select: 'name nameCN',
-                },
-              });
-
+              },
+            });
             console.log('DFA updated');
             return res.json(dfa);
           }
@@ -83,44 +76,50 @@ router.post(
         }
       }
       //create a new DFA
+      let dfa2 = await Dfa.findOne({ machine: machine });
+
+      if (dfa2) {
+        return res.status(400).json({
+          msg: 'This Machine already has a DFA',
+        });
+      }
 
       let dfa = await Dfa.findOne()
         .sort('-dfaNumber') // to get the max
         .limit(1);
-      let newDfaNumber = 1;
-
-      console.log(dfa);
-
-      //   if (dfa[0]) {
       dfaFields.dfaNumber = 1; //dfa.dfaNumber + 1;
-      //   }
-      console.log(dfa);
-      if (machine) {
-        const foundMachine = await Machine.findById(machine);
-        if (!foundMachine) {
-          return res.status(400).json({ msg: 'Machine not found' });
-        }
-        // Check if machine not already offline
-        dfaFields.machine = foundMachine;
+      if (dfa) {
+        dfaFields.dfaNumber = dfa.dfaNumber + 1;
+      }
 
-        dfa = new Dfa(dfaFields);
-        await dfa.populate({
-          path: 'machine',
+      const foundMachine = await Machine.findById(machine);
+      if (!foundMachine) {
+        return res.status(400).json({ msg: 'Machine not found' });
+      }
+      dfaFields.machine = foundMachine;
+
+      dfa = new Dfa(dfaFields);
+
+      await dfa.populate({
+        path: 'machine',
+        populate: {
+          path: 'department afa parentMachine manufacturer category',
           populate: {
-            path: 'category manufacturer department',
+            path: 'owners location department afa manufacturer category',
             select:
-              'code name nameCN trigram description descriptionCN trigram owners',
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
             populate: {
+              path: 'owners location department afa manufacturer category',
+              select:
+                'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
               strictPopulate: false,
-              path: 'owners',
-              select: 'name avatar',
             },
           },
-        });
-        await dfa.save();
-        console.log('DFA created');
-        return res.json(dfa);
-      }
+        },
+      });
+      await dfa.save();
+      return res.json(dfa);
     } catch (err) {
       console.error(err.message);
       if (err.code === 11000) {
@@ -133,5 +132,60 @@ router.post(
     }
   }
 );
+
+// @route   GET api/dfas
+// @desc    Display all DFAs
+// @access  Public
+router.get('/', async (req, res) => {
+  try {
+    const dfas = await Dfa.find()
+      .sort({ dfaNumber: -1 })
+      .populate({
+        path: 'machine',
+        populate: {
+          path: 'department afa parentMachine manufacturer category',
+          populate: {
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
+            populate: {
+              path: 'owners location department afa manufacturer category',
+              select:
+                'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+              strictPopulate: false,
+            },
+          },
+        },
+      });
+    if (!dfas) {
+      return res.status(400).json({ msg: 'No DFAS found' });
+    }
+    res.json(dfas);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/dfas/:dfa_id
+// @desc    Delete an DFA
+// @access  Private
+router.delete('/:dfa_id', auth, async (req, res) => {
+  try {
+    const dfa = await Dfa.findById(req.params.dfa_id);
+    if (!dfa) {
+      return res.status(404).json({ msg: 'DFA not found' });
+    }
+    await dfa.remove();
+    res.json({ msg: 'DFA deleted' });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'DFA not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

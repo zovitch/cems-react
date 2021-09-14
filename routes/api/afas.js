@@ -85,31 +85,21 @@ router.post(
           { afaNumber: afaNumber },
           { $set: afaFields },
           { new: true }
-        )
-          .populate({
-            path: 'department',
-            select: 'trigram name nameCN',
+        ).populate({
+          path: 'department parentMachine manufacturer',
+          populate: {
+            path: 'owners location department manufacturer',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
             populate: {
-              strictPopulate: false,
-              path: 'owners',
-              select: 'name avatar',
-            },
-          })
-          .populate({
-            path: 'parentMachine',
-            select: 'machineNumber designation designationCN ',
-            populate: {
-              path: 'category manufacturer department',
+              path: 'owners location department manufacturer',
               select:
-                'code name nameCN trigram description descriptionCN trigram owners',
-              populate: {
-                strictPopulate: false,
-                path: 'owners',
-                select: 'name avatar',
-              },
+                'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+              strictPopulate: false,
             },
-          });
-        console.log('AFA Update');
+          },
+        });
         return res.json(afa);
       }
 
@@ -130,30 +120,21 @@ router.post(
       afa = new Afa(afaFields);
       await afa.save();
       await afa.populate({
-        path: 'department',
-        select: 'trigram name name CN',
+        path: 'department parentMachine manufacturer',
         populate: {
-          strictPopulate: false,
-          path: 'owners',
-          select: 'name avatar',
-        },
-      });
-      await afa.populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
-        populate: {
-          path: 'category manufacturer department',
+          path: 'owners location department manufacturer',
           select:
-            'code name nameCN trigram description descriptionCN trigram owners ',
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+          strictPopulate: false,
           populate: {
+            path: 'owners location department manufacturer',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
-            path: 'owners',
-            select: 'name avatar',
           },
         },
       });
 
-      console.log('AFA Created');
       return res.json(afa);
     } catch (err) {
       console.error(err.message);
@@ -173,22 +154,18 @@ router.get('/', async (req, res) => {
     const afas = await Afa.find()
       .sort({ afaNumber: -1 })
       .populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
+        path: 'department parentMachine manufacturer',
         populate: {
-          path: 'owners location',
-          select: 'name avatar shortname',
-          strictPopulate: false,
-        },
-      })
-      .populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
-        populate: {
-          path: 'category manufacturer department',
+          path: 'owners location department manufacturer',
           select:
-            'shortname floor trigram name nameCN description descriptionCN',
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
+          populate: {
+            path: 'owners location department manufacturer',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
+          },
         },
       });
 
@@ -207,25 +184,23 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:afaNumber', async (req, res) => {
   try {
-    const afa = await Afa.findOne({ afaNumber: req.params.afaNumber })
-      .populate({
-        path: 'department ',
-        select: 'trigram name nameCN owners',
+    const afa = await Afa.findOne({ afaNumber: req.params.afaNumber }).populate(
+      {
+        path: 'department parentMachine manufacturer',
         populate: {
-          path: 'owners',
-          select: 'name avatar',
+          path: 'owners location department manufacturer',
+          select:
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
+          populate: {
+            path: 'owners location department manufacturer',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
+          },
         },
-      })
-      .populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
-        populate: {
-          path: 'category manufacturer department',
-          select: 'trigram name nameCN description descriptionCN',
-          strictPopulate: false,
-        },
-      });
+      }
+    );
 
     if (!afa) {
       return res.status(400).json({ msg: 'AFA not found' });

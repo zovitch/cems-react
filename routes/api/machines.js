@@ -77,49 +77,31 @@ router.post(
       let machine = await Machine.findOne({ machineNumber: machineNumber });
 
       if (machine) {
+        console.log(1);
         // Update machine
-        console.log('Updating the machine');
         machine = await Machine.findOneAndUpdate(
           { machineNumber: machineNumber },
           { $set: machineFields },
           { new: true }
-        )
-          .populate({
-            path: 'department',
-            select: 'trigram name nameCN owners',
-            populate: { path: 'owners', select: 'name avatar' },
-          })
-          .populate({
-            path: 'category',
-            select: 'code trigram description descriptionCN',
-          })
-          .populate({
-            path: 'manufacturer',
-            select: 'name nameCN',
-          })
-          .populate({
-            path: 'afa',
-            select: 'afaNumber',
-          })
-          .populate({
-            path: 'parentMachine',
-            select: 'machineNumber designation designationCN ',
+        ).populate({
+          path: 'department afa parentMachine manufacturer category',
+          populate: {
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
             populate: {
-              path: 'category manufacturer department ',
+              path: 'owners location department afa manufacturer category',
               select:
-                'code name nameCN trigram description descriptionCN trigram owners',
-              populate: {
-                strictPopulate: false,
-                path: 'owners',
-                select: 'name avatar',
-              },
+                'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+              strictPopulate: false,
             },
-          });
+          },
+        });
 
         return res.json(machine);
       }
       // Create machine
-      console.log('Creating a new machine');
       let date = new Date(); //today's date
       if (acquiredDate) {
         date = new Date(acquiredDate);
@@ -130,13 +112,11 @@ router.post(
       const foundLocation = await Location.findById(
         machineFields.department.location
       );
-      console.log(foundLocation.floor);
       if (!foundLocation.floor) {
         return res
           .status(400)
           .json({ msg: 'Error: Floor information is missing' });
       }
-
       let newMachineNumber = '8' + foundLocation.floor + year2digits + '001';
       // This return an array of size 1 with the latest mmachine number
       const latestMachine = await Machine.find({
@@ -147,46 +127,28 @@ router.post(
       })
         .sort('-machineNumber') // to get the max
         .limit(1);
-      // console.log(latestMachine);
       if (latestMachine[0]) {
         newMachineNumber = parseInt(latestMachine[0].machineNumber);
         newMachineNumber = newMachineNumber + 1;
       }
       machineFields.machineNumber = newMachineNumber;
-
       machine = new Machine(machineFields);
       await machine.populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
-      });
-      await machine.populate({
-        path: 'category',
-        select: 'code trigram description descriptionCN',
-      });
-      await machine.populate({
-        path: 'manufacturer',
-        select: 'name nameCN',
-      });
-
-      await machine.populate({
-        path: 'afa',
-        select: 'afaNumber',
-      });
-      await machine.populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
+        path: 'department afa parentMachine manufacturer category',
         populate: {
-          path: 'category manufacturer department ',
+          path: 'owners location department afa manufacturer category',
           select:
-            'code name nameCN trigram description descriptionCN trigram owners',
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+          strictPopulate: false,
           populate: {
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
-            path: 'owners',
-            select: 'name avatar',
           },
         },
       });
+
       await machine.save();
       return res.json(machine);
     } catch (err) {
@@ -204,39 +166,22 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const machines = await Machine.find()
-      .populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
-      })
-      .populate({
-        path: 'category',
-        select: 'code trigram description descriptionCN',
-      })
-      .populate({
-        path: 'manufacturer',
-        select: 'name nameCN',
-      })
-
-      .populate({
-        path: 'afa',
-        select: 'afaNumber',
-      })
-      .populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
+    const machines = await Machine.find().populate({
+      path: 'department afa parentMachine manufacturer category',
+      populate: {
+        path: 'owners location department afa manufacturer category',
+        select:
+          'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+        strictPopulate: false,
         populate: {
-          path: 'category manufacturer department ',
+          path: 'owners location department afa manufacturer category',
           select:
-            'code name nameCN trigram description descriptionCN trigram owners',
-          populate: {
-            strictPopulate: false,
-            path: 'owners',
-            select: 'name avatar',
-          },
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+          strictPopulate: false,
         },
-      });
+      },
+    });
+
     res.json(machines);
   } catch (err) {
     console.error(err.message);
@@ -249,48 +194,56 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:number', async (req, res) => {
   try {
+    const machine_id = await Machine.findById(req.params.number).populate({
+      path: 'department afa parentMachine manufacturer category',
+      populate: {
+        path: 'owners location department afa manufacturer category',
+        select:
+          'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+        strictPopulate: false,
+        populate: {
+          path: 'owners location department afa manufacturer category',
+          select:
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+          strictPopulate: false,
+        },
+      },
+    });
     const machineEQU = await Machine.findOne({
       machineNumber: req.params.number,
-    })
-      .populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
-      })
-      .populate({
-        path: 'category',
-        select: 'code trigram description descriptionCN',
-      })
-      .populate({
-        path: 'afa',
-        select: 'afaNumber',
-      })
-      .populate({
-        path: 'manufacturer',
-        select: 'name nameCN',
-      });
+    }).populate({
+      path: 'department afa parentMachine manufacturer category',
+      populate: {
+        path: 'owners location department afa manufacturer category',
+        select:
+          'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+        strictPopulate: false,
+        populate: {
+          path: 'owners location department afa manufacturer category',
+          select:
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+          strictPopulate: false,
+        },
+      },
+    });
 
     const machineQUA = await Machine.findOne({
       qualityNumber: req.params.number,
-    })
-      .populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
-      })
-      .populate({
-        path: 'afa',
-        select: 'afaNumber',
-      })
-      .populate({
-        path: 'category',
-        select: 'code trigram description descriptionCN',
-      })
-      .populate({
-        path: 'manufacturer',
-        select: 'name nameCN',
-      });
-
+    }).populate({
+      path: 'department afa parentMachine manufacturer category',
+      populate: {
+        path: 'owners location department afa manufacturer category',
+        select:
+          'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+        strictPopulate: false,
+        populate: {
+          path: 'owners location department afa manufacturer category',
+          select:
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+          strictPopulate: false,
+        },
+      },
+    });
     // the number in the params can be the EQU Number or the QUA Number
     if (machineEQU) {
       machine = machineEQU;
@@ -298,7 +251,9 @@ router.get('/:number', async (req, res) => {
       if (machineQUA) {
         machine = machineQUA;
       } else {
-        return res.status(400).json({ msg: 'machine not found' });
+        if (machine_id) {
+          machine = machine_id;
+        } else return res.status(400).json({ msg: 'machine not found' });
       }
     }
 
@@ -382,38 +337,22 @@ router.patch('/:machine_id', auth, async (req, res) => {
       req.params.machine_id,
       { $set: machineFields },
       { new: true }
-    )
-      .populate({
-        path: 'department',
-        select: 'trigram name nameCN owners',
-        populate: { path: 'owners', select: 'name avatar' },
-      })
-      .populate({
-        path: 'category',
-        select: 'code trigram description descriptionCN',
-      })
-      .populate({
-        path: 'manufacturer',
-        select: 'name nameCN',
-      })
-      .populate({
-        path: 'afa',
-        select: 'afaNumber',
-      })
-      .populate({
-        path: 'parentMachine',
-        select: 'machineNumber designation designationCN ',
+    ).populate({
+      path: 'department afa parentMachine manufacturer category',
+      populate: {
+        path: 'owners location department afa manufacturer category',
+        select:
+          'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+        strictPopulate: false,
         populate: {
-          path: 'category manufacturer department',
+          path: 'owners location department afa manufacturer category',
           select:
-            'code name nameCN trigram description descriptionCN trigram owners',
-          populate: {
-            strictPopulate: false,
-            path: 'owners',
-            select: 'name avatar',
-          },
+            'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+          strictPopulate: false,
         },
-      });
+      },
+    });
+
     if (!machine) {
       return res.status(404).json({ msg: 'Machine not found' });
     }

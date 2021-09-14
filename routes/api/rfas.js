@@ -27,21 +27,13 @@ router.post(
       validationRequestor,
     } = req.body;
 
-    let foundMachine = await Machine.findById(machine).populate(
-      'afa',
-      'afaNumber'
-    );
-
     const rfaFields = {};
-    //if we find an AFA Number we use it as RFA Number
-    if (foundMachine.afa.afaNumber) {
-      rfaFields.rfaNumber = foundMachine.afa.afaNumber;
-    }
     if (rfaNumber) rfaFields.rfaNumber = rfaNumber;
     if (validationENG) rfaFields.validationENG = validationENG;
     if (validationPUR) rfaFields.validationPUR = validationPUR;
     if (validationRequestor)
       rfaFields.validationRequestor = validationRequestor;
+
     try {
       let rfa = await Rfa.findOne({ rfaNumber: rfaNumber });
 
@@ -63,69 +55,64 @@ router.post(
             { rfaNumber: rfaNumber },
             { $set: rfaFields },
             { new: true }
-          )
-
-            .populate({
-              path: 'machines',
+          ).populate({
+            path: 'machines',
+            populate: {
+              path: 'department afa parentMachine manufacturer category',
               populate: {
-                path: 'category',
-                select: 'code trigram description descriptionCN',
-              },
-            })
-            .populate({
-              path: 'machines',
-              populate: {
-                path: 'afa',
-                select: 'afaNumber',
-              },
-            })
-            .populate({
-              path: 'machines',
-              populate: {
-                path: 'department',
-                select: 'trigram name nameCN',
+                path: 'owners location department afa manufacturer category',
+                select:
+                  'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+                strictPopulate: false,
                 populate: {
-                  path: 'owners',
-                  select: 'name avatar',
+                  path: 'owners location department afa manufacturer category',
+                  select:
+                    'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+                  strictPopulate: false,
                 },
               },
-            })
-            .populate({
-              path: 'machines',
-              populate: {
-                path: 'manufacturer',
-                select: 'name nameCN',
-              },
-            });
-
-          console.log('RFA updated');
+            },
+          });
           return res.json(rfa);
         }
       }
       // Create a new RFA
+      rfa = await Rfa.find({})
+        .select('rfaNumber')
+        .sort({ rfaNumber: -1 })
+        .limit(1);
+
+      rfaFields.rfaNumber = 9; // by default is set at 1
+      // // Increment by 1 if AFA is found
+      if (rfa[0]) {
+        rfaFields.rfaNumber = rfa[0].rfaNumber + 1;
+      }
       if (machine) {
         const foundMachine = await Machine.findById(machine);
         if (foundMachine) {
           rfaFields.machines = [foundMachine.id]; // We create the Array to receive the first machine;
         }
       }
-
       rfa = new Rfa(rfaFields);
       await rfa.populate({
         path: 'machines',
         populate: {
-          path: 'category manufacturer department afa',
-          select:
-            'code name nameCN trigram description descriptionCN trigram owners afaNumber',
+          path: 'department afa parentMachine manufacturer category',
           populate: {
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
-            path: 'owners',
-            select: 'name avatar',
+            populate: {
+              path: 'owners location department afa manufacturer category',
+              select:
+                'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+              strictPopulate: false,
+            },
           },
         },
       });
       await rfa.save();
-      console.log('RFA created');
       return res.json(rfa);
     } catch (err) {
       console.error(err.message);
@@ -142,33 +129,26 @@ router.post(
 // @access  Public
 router.get('/:rfaNumber', async (req, res) => {
   try {
-    const rfa = await Rfa.findOne({ rfaNumber: req.params.rfaNumber })
-      .populate('afa', 'afaNumber')
-      .populate({
+    const rfa = await Rfa.findOne({ rfaNumber: req.params.rfaNumber }).populate(
+      {
         path: 'machines',
         populate: {
-          path: 'category',
-          select: 'code trigram description descriptionCN',
-        },
-      })
-      .populate({
-        path: 'machines',
-        populate: {
-          path: 'department',
-          select: 'trigram name nameCN',
+          path: 'department afa parentMachine manufacturer category',
           populate: {
-            path: 'owners',
-            select: 'name avatar',
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
+            populate: {
+              path: 'owners location department afa manufacturer category',
+              select:
+                'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+              strictPopulate: false,
+            },
           },
         },
-      })
-      .populate({
-        path: 'machines',
-        populate: {
-          path: 'manufacturer',
-          select: 'name nameCN',
-        },
-      });
+      }
+    );
 
     if (!rfa) {
       return res.status(400).json({ msg: 'RFA not found' });
@@ -196,29 +176,21 @@ router.get('/', async (req, res) => {
       .populate({
         path: 'machines',
         populate: {
-          path: 'category',
-          select: 'code trigram description descriptionCN',
-        },
-      })
-      .populate({
-        path: 'machines',
-        populate: {
-          path: 'department',
-          select: 'trigram name nameCN',
+          path: 'department afa parentMachine manufacturer category',
           populate: {
-            path: 'owners',
-            select: 'name avatar',
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
+            populate: {
+              path: 'owners location department afa manufacturer category',
+              select:
+                'name avatar nameCN shortname floor locationLetter code trigram description descriptionCN',
+              strictPopulate: false,
+            },
           },
         },
-      })
-      .populate({
-        path: 'machines',
-        populate: {
-          path: 'manufacturer',
-          select: 'name nameCN',
-        },
-      })
-      .populate('afa', 'afaNumber');
+      });
     if (!rfas) {
       return res.status(400).json({ msg: 'No RFAs found' });
     }
