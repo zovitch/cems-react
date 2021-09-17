@@ -2,13 +2,9 @@ const mongoose = require('mongoose');
 
 const R3Schema = new mongoose.Schema({
   r3Number: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: Number.isInteger,
-      message: '{VALUE} is not an integer value',
-    },
   },
   machine: {
     type: mongoose.Schema.Types.ObjectId,
@@ -85,4 +81,4 @@ const R3Schema = new mongoose.Schema({
   },
 });
 
-module.export = R3 = mongoose.model('r3', R3Schema);
+module.exports = R3 = mongoose.model('r3', R3Schema);
