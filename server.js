@@ -23,7 +23,9 @@ app.use('/api/afas', require('./routes/api/afas'));
 app.use('/api/rfas', require('./routes/api/rfas'));
 app.use('/api/dfas', require('./routes/api/dfas'));
 app.use('/api/investments', require('./routes/api/investments'));
+app.use('/api/r3s', require('./routes/api/r3s'));
+app.use('/api/failurecodes', require('./routes/api/failurecodes'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log('Server started on port ${PORT}'));
+app.listen(PORT, () => console.log('Server started on port ' + PORT));
