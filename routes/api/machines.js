@@ -4,7 +4,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Machine = require('../../models/Machine');
-
+const Afa = require('../../models/Afa');
 // @route   POST api/machines
 // @desc    Create or Update a machine from AFA
 // @access  Private
@@ -12,8 +12,10 @@ router.post(
   '/',
   [
     auth,
-    [check('afa', 'A prior AFA is required').not().isEmpty()],
-    check('category', 'A Category is required').not().isEmpty(),
+    [
+      check('afa', 'A prior AFA is required').not().isEmpty(),
+      check('category', 'A Category is required').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -77,7 +79,6 @@ router.post(
       let machine = await Machine.findOne({ machineNumber: machineNumber });
 
       if (machine) {
-        console.log(1);
         // Update machine
         machine = await Machine.findOneAndUpdate(
           { machineNumber: machineNumber },
