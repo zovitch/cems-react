@@ -48,9 +48,7 @@ router.post(
     if (descriptionCN) failureCodeFields.descriptionCN = descriptionCN;
 
     try {
-      console.log(1);
       let failureCode = await FailureCode.findOne({ codeNumber: codeNumber });
-      console.log(2);
       if (failureCode) {
         failureCode = await FailureCode.findOneAndUpdate(
           { codeNumber: codeNumber },

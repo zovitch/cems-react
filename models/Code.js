@@ -30,12 +30,12 @@ const CodeSchema = mongoose.Schema({
 //   CodeSchema
 // );
 
-const failureCode = mongoose.model('failureCode', CodeSchema);
-const repairCode = mongoose.model('repairCode', CodeSchema);
-const analysisCode = mongoose.model('analysisCode', CodeSchema);
+const FailureCode = mongoose.model('failureCode', CodeSchema);
+const RepairCode = mongoose.model('repairCode', CodeSchema);
+const AnalysisCode = mongoose.model('analysisCode', CodeSchema);
 
 module.exports = {
-  failureCode: failureCode,
-  repairCode: repairCode,
-  analysisCode: analysisCode,
+  FailureCode,
+  RepairCode,
+  AnalysisCode,
 };

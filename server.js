@@ -25,6 +25,8 @@ app.use('/api/dfas', require('./routes/api/dfas'));
 app.use('/api/investments', require('./routes/api/investments'));
 app.use('/api/r3s', require('./routes/api/r3s'));
 app.use('/api/failurecodes', require('./routes/api/failurecodes'));
+app.use('/api/repaircodes', require('./routes/api/repaircodes'));
+app.use('/api/analysiscodes', require('./routes/api/analysiscodes'));
 
 const PORT = process.env.PORT || 5000;
 
