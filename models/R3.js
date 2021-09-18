@@ -79,6 +79,9 @@ const R3Schema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  remark: {
+    type: String,
+  },
 });
 
 module.exports = R3 = mongoose.model('r3', R3Schema);
