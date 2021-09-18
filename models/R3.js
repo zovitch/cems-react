@@ -5,6 +5,8 @@ const R3Schema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    maxlength: 6,
+    minlength: 6,
   },
   machine: {
     type: mongoose.Schema.Types.ObjectId,
