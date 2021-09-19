@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 
 const R3 = require('../../models/R3');
 const Machine = require('../../models/Machine');
-const Location = require('../../models/Location');
+const { FailureCode, RepairCode, AnalysisCode } = require('../../models/Code');
 
 // @route   POST api/r3s
 // @desc    Create only a Repair Record
@@ -16,6 +16,7 @@ router.post(
     auth,
     [
       check('machine', 'A machine required').not().isEmpty(),
+      check('failureCode', 'A Failure Code is required').not().isEmpty(),
       check('applicant', 'An Applicant for the Failure is required')
         .not()
         .isEmpty(),
@@ -47,11 +48,13 @@ router.post(
       maintenancePlasticAndMetalWaste,
       maintenanceSpareParts,
       repairDate,
+      applicantValidation,
       remark,
     } = req.body;
 
     const r3Fields = {};
     if (remark) r3Fields.remark = remark;
+    if (applicantValidation) r3Fields.applicantValidation = applicantValidation;
     if (machine) r3Fields.machine = machine;
     if (!r3Date) {
       r3Fields.r3Date = new Date();
@@ -122,14 +125,15 @@ router.post(
       r3Fields.r3Number = newR3Number;
       let r3 = new R3(r3Fields);
       await r3.populate({
-        path: 'machine',
-        select: '-afa',
+        path: 'machine failureCode repairCode analysisCode repairEngineer',
+        select: 'name avatar nameCN codeNumber description descriptionCN',
         populate: {
           path: 'category department',
+          strictPopulate: false,
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name avatar shortname nameCN',
+            select: 'name avatar shortname nameCN locationLetter',
           },
         },
       });
@@ -151,18 +155,34 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const r3s = await R3.find().populate({
-      path: 'machine',
-      select: '-afa',
-      populate: {
-        path: 'category department',
+    const r3s = await R3.find()
+      .select('r3Number')
+      .populate({
+        path: 'machine failureCode repairCode analysisCode repairEngineer',
+        select: 'name avatar nameCN codeNumber description descriptionCN',
         populate: {
-          path: 'owners location',
+          path: 'category department',
           strictPopulate: false,
-          select: 'name avatar shortname nameCN',
+          populate: {
+            path: 'owners location',
+            strictPopulate: false,
+            select: 'name avatar shortname nameCN locationLetter',
+          },
         },
-      },
-    });
+      });
+
+    res.json(r3s);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+// @route   GET api/r3s/short // debug short route
+// @desc    GET the list of all repairs
+// @access  Public
+router.get('/shortrs', async (req, res) => {
+  try {
+    const r3s = await R3.find().select('r3Number');
 
     res.json(r3s);
   } catch (err) {
@@ -177,14 +197,15 @@ router.get('/', async (req, res) => {
 router.get('/:r3_id', async (req, res) => {
   try {
     const r3 = await R3.findById(req.params.r3_id).populate({
-      path: 'machine',
-      select: '-afa',
+      path: 'machine failureCode repairCode analysisCode repairEngineer',
+      select: 'name avatar nameCN codeNumber description descriptionCN',
       populate: {
         path: 'category department',
+        strictPopulate: false,
         populate: {
           path: 'owners location',
           strictPopulate: false,
-          select: 'name avatar shortname nameCN',
+          select: 'name avatar shortname nameCN locationLetter',
         },
       },
     });
@@ -223,12 +244,11 @@ router.delete('/:r3_id', auth, async (req, res) => {
 // @access  Private
 router.patch(
   '/:r3_id',
-
   [
     auth,
     [
       check(
-        'r3Number',
+        'r3NumberPartial',
         'R3 Number (###) length should be maximum 3, ex: AYY###'
       )
         .isLength({
@@ -248,7 +268,7 @@ router.patch(
     }
 
     const {
-      r3Number,
+      r3NumberPartial,
       machine,
       r3Date,
       applicant,
@@ -268,11 +288,13 @@ router.patch(
       maintenancePlasticAndMetalWaste,
       maintenanceSpareParts,
       repairDate,
+      applicantValidation,
       remark,
     } = req.body;
 
     const r3Fields = {};
     if (remark) r3Fields.remark = remark;
+    if (applicantValidation) r3Fields.applicantValidation = applicantValidation;
     if (applicant) r3Fields.applicant = applicant;
     if (failureExplanation) r3Fields.failureExplanation = failureExplanation;
     if (failureExplanationCN)
@@ -297,10 +319,11 @@ router.patch(
     try {
       // retrieve the R3 info
       let r3 = await R3.findById(req.params.r3_id).populate({
-        path: 'machine',
-        select: '-afa',
+        path: 'machine failureCode repairCode analysisCode repairEngineer',
+        select: 'name avatar nameCN codeNumber description descriptionCN',
         populate: {
           path: 'category department',
+          strictPopulate: false,
           populate: {
             path: 'owners location',
             strictPopulate: false,
@@ -318,15 +341,19 @@ router.patch(
       let oldR3Date = r3.r3Date;
       let newR3Date = oldR3Date;
       // Check the R3 Number changes
-      let oldR3Number = r3.r3Number;
-      let newR3Number = oldR3Number;
+      let newR3Number = r3.r3Number;
+      let oldR3NumberPartial = parseInt(newR3Number.substring(3));
+      // Retrieve the codess
+      let foundFailureCode = await FailureCode.findById(r3.failureCode);
+      let foundRepairCode = await FailureCode.findById(r3.repairCode);
+      let foundAnalysisCode = await FailureCode.findById(r3.analysisCode);
 
-      // Check the machine exists
+      // Retrieve the machine
       let foundMachine = await Machine.findById(r3.machine).populate({
         path: 'department',
         populate: 'location',
       });
-
+      //Check if the machine in the body
       if (machine) {
         // if machine is in the body, we need to use the machine id instead of the one in the existing R3
         foundMachine = await Machine.findById(machine).populate({
@@ -361,145 +388,162 @@ router.patch(
       }
 
       // Check if update the partial R3 Number
-
+      if (!newR3Letter) {
+        console.log('error to catch');
+        res.status(500).send('Server Error');
+      }
+      const regex =
+        newR3Letter + newR3Date.getFullYear().toString().substring(2);
       if (needNewR3Number) {
-        if (r3Number) {
+        if (r3NumberPartial) {
+          newR3Number =
+            newR3Letter +
+            newR3Date.getFullYear().toString().substring(2) +
+            r3NumberPartial.toString().padStart(3, '0');
           console.log(
-            ' we try to assign the number: ' +
-              newR3Letter +
-              newR3Date.getFullYear().toString().substring(2) +
-              r3Number.toString().padStart(3, '0')
+            '[CODE: 1-0] We try to assign the number: ' + newR3Number
           );
+
+          r3 = await R3.findOne({ r3Number: newR3Number });
+          if (r3) {
+            console.log(
+              '[CODE: 1-1] This R3 Number already exist, we need to create a new one'
+            );
+            r3 = await R3.find({
+              r3Number: {
+                $regex: regex,
+                $options: 'i',
+              },
+            })
+              .sort('-r3Number') // to get the max
+              .limit(1);
+            if (r3[0]) {
+              newR3Number = parseInt(r3[0].r3Number.substring(3)) + 1;
+              newR3Number = regex + newR3Number.toString().padStart(3, '0');
+            }
+            r3Fields.r3Number = newR3Number;
+          } else {
+            console.log(
+              '[CODE: 1-2] This R3 number is unused and can be attributed'
+            );
+            r3Fields.r3Number = newR3Number;
+          }
         } else {
-          console.log(
-            ' We need a new R3 Number with :' +
-              newR3Letter +
-              newR3Date.getFullYear().toString().substring(2)
-          );
+          console.log('[CODE: 2-0] We need a new R3 Number with ' + regex);
+
+          r3 = await R3.find({
+            r3Number: {
+              $regex: regex,
+              $options: 'i',
+            },
+          })
+            .sort('-r3Number') // to get the max
+            .limit(1);
+          newR3Number = regex + '001';
+          if (r3[0]) {
+            newR3Number = parseInt(r3[0].r3Number.substring(3)) + 1;
+            newR3Number = regex + newR3Number.toString().padStart(3, '0');
+          }
+          r3Fields.r3Number = newR3Number;
         }
       } else {
-        if (r3Number & (r3Number != oldR3Number)) {
+        if (r3NumberPartial) {
+          // if Location and Date don't change, and there is a partial provided, we prepare the new r3Number
+          newR3Number =
+            newR3Number.substring(0, 3) + r3NumberPartial.padStart(3, '0');
+
+          if (r3NumberPartial != oldR3NumberPartial) {
+            console.log(
+              '[CODE: 3-0] We try to assign the number: ' + newR3Number
+            );
+            r3 = await R3.findOne({ r3Number: newR3Number });
+            if (r3) {
+              // HERE;
+              console.log(
+                '[CODE: 3-1] This R3 Number already exist, we need to create a new one'
+              );
+              r3 = await R3.find({
+                r3Number: {
+                  $regex: regex,
+                  $options: 'i',
+                },
+              })
+                .sort('-r3Number') // to get the max
+                .limit(1);
+              if (r3[0]) {
+                newR3Number = parseInt(r3[0].r3Number.substring(3)) + 1;
+                newR3Number = regex + newR3Number.toString().padStart(3, '0');
+              }
+              r3Fields.r3Number = newR3Number;
+            } else {
+              console.log(
+                '[CODE: 3-2] This R3 number is unused and can be attributed'
+              );
+              r3Fields.r3Number = newR3Number;
+            }
+          } else {
+            console.log(
+              '[CODE: 4-0] No changes needed to R3 Number ' + r3.r3Number
+            );
+          }
+        } else
           console.log(
-            ' we try to assign the number: ' +
-              newR3Letter +
-              newR3Date.getFullYear().toString().substring(2) +
-              r3Number.toString().padStart(3, '0')
+            '[CODE: 4-1] No changes needed to R3 Number ' + r3.r3Number
           );
-        } else {
-          console.log(' No changes needed to R3 Number ' + r3.r3Number);
-        }
       }
+
+      if (failureCode) {
+        // if failureCode is in the body, we need to use it instead of the one in the existing R3
+        foundFailureCode = await FailureCode.findById(failureCode);
+        if (!foundFailureCode) {
+          return res
+            .status(400)
+            .json({ msg: 'This Failure Code does not exist' });
+        }
+        r3Fields.failureCode = failureCode;
+      }
+
+      if (repairCode) {
+        // if repairCode is in the body, we need to use it instead of the one in the existing R3
+        foundRepairCode = await RepairCode.findById(repairCode);
+        if (!foundRepairCode) {
+          return res
+            .status(400)
+            .json({ msg: 'This Repair Code does not exist' });
+        }
+        r3Fields.repairCode = repairCode;
+      }
+
+      if (analysisCode) {
+        // if analysisCode is in the body, we need to use it instead of the one in the existing R3
+        foundAnalysisCode = await AnalysisCode.findById(analysisCode);
+        if (!foundAnalysisCode) {
+          return res
+            .status(400)
+            .json({ msg: 'This Analysis Code does not exist' });
+        }
+        r3Fields.analysisCode = analysisCode;
+      }
+      r3 = await R3.findByIdAndUpdate(
+        req.params.r3_id,
+        { $set: r3Fields },
+        { new: true }
+      );
+      await r3.populate({
+        path: 'machine failureCode repairCode analysisCode repairEngineer',
+        select: 'name avatar nameCN codeNumber description descriptionCN',
+        populate: {
+          path: 'category department',
+          strictPopulate: false,
+          populate: {
+            path: 'owners location',
+            strictPopulate: false,
+            select: 'name avatar shortname nameCN locationLetter',
+          },
+        },
+      });
+      console.log('R3 Number: ' + r3.r3Number);
       return res.json(r3);
-      // const newR3Letter = 'A';
-      // const newR3Year = r3Fields.r3Date.getFullYear().toString().substring(2);
-
-      // let foundFailureCode = await FailureCode.findById(r3.failureCode);
-      // let foundRepairCode = await FailureCode.findById(r3.repairCode);
-      // let foundAnalysisCode = await FailureCode.findById(r3.analysisCode);
-      // if (failureCode) {
-      //   // if failureCode is in the body, we need to use it instead of the one in the existing R3
-      //   foundFailureCode = await FailureCode.findById(failureCode);
-      //   if (!foundFailureCode) {
-      //     return res
-      //       .status(400)
-      //       .json({ msg: 'This Failure Code does not exist' });
-      //   }
-      //   r3Fields.failureCode = failureCode;
-      // }
-
-      // if (repairCode) {
-      //   // if repairCode is in the body, we need to use it instead of the one in the existing R3
-      //   foundRepairCode = await RepairCode.findById(repairCode);
-      //   if (!foundRepairCode) {
-      //     return res
-      //       .status(400)
-      //       .json({ msg: 'This Failure Code does not exist' });
-      //   }
-      //   r3Fields.repairCode = repairCode;
-      // }
-
-      // if (analysisCode) {
-      //   // if analysisCode is in the body, we need to use it instead of the one in the existing R3
-      //   foundAnalysisCode = await AnalysisCode.findById(analysisCode);
-      //   if (!foundAnalysisCode) {
-      //     return res
-      //       .status(400)
-      //       .json({ msg: 'This Failure Code does not exist' });
-      //   }
-      //   r3Fields.analysisCode = analysisCode;
-      // }
-
-      // if (r3Number) r3Fields.r3Number = r3Number;
-
-      // foundMachineLocationLetter =
-      //   foundMachine.department.location.locationLetter;
-
-      // let foundR3LocationLetter = r3.r3Number.substring(0, 1);
-      // if (r3Number) {
-      //   // if r3Number is in the body, we need to use the r3Number instead of the one in the existing R3
-      //   foundR3LocationLetter = r3Number.substring(0, 1);
-      //   // we need to check the letter found matches an existing location
-      //   existingLocationLetters = await Location.find({
-      //     locationLetter: foundR3LocationLetter,
-      //   });
-      //   if (!existingLocationLetters) {
-      //     return res.status(400).json({
-      //       msg: 'The letter used in the R3 Number is not exising in any Locations',
-      //     });
-      //   }
-      // }
-
-      // if (foundMachineLocationLetter === foundR3LocationLetter) {
-      //   r3 = await R3.findByIdAndUpdate(
-      //     req.params.r3_id,
-      //     { $set: r3Fields },
-      //     { new: true }
-      //   ).populate({
-      //     path: 'machine',
-      //     select: '-afa',
-      //     populate: {
-      //       path: 'category department',
-      //       populate: {
-      //         path: 'owners location',
-      //         strictPopulate: false,
-      //         select: 'name avatar shortname nameCN',
-      //       },
-      //     },
-      //   });
-      //   return res.json(r3);
-      // } else {
-      //   console.log(
-      //     '!! Warning !!, Location of Machine and Letter of R3 Number do not match, new R3 Number will start with letter: ' +
-      //       foundMachineLocationLetter
-      //   );
-
-      //   // Retrieve the year to build the R3 Number
-      //   let date = new Date(); // by default it's today's date
-      //   if (r3.r3Date) {
-      //     // if the R3 beiing edited has a Date, we use it
-      //     date = new Date(r3.r3Date);
-      //   }
-      //   if (r3Date) {
-      //     // if the user provide the r3Date in the body, we use it
-      //     date = new Date(r3Date);
-      //   }
-      //   const year = date.getFullYear(); // 2021
-      //   const year2digits = year.toString().substring(2);
-
-      //   // if (r3Number) {
-      //   //   // if r3Number is provided, the year needs to match the r3Date
-      //   //   if (year2digits != r3Number.substring(1, 3)) {
-      //   //     console.log(year2digits);
-      //   //     console.log(r3Number.substring(1, 3));
-      //   //     return res.status(400).json({
-      //   //       msg: 'The year in the R3 Number is not matching the R3 Date field',
-      //   //     });
-      //   //   }
-      //   // }
-      //   console.log(foundMachineLocationLetter + year2digits);
-
-      //   return res.json(r3);
-      // }
     } catch (err) {
       console.error(err.message);
       if (err.code === 11000) {

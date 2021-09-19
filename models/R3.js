@@ -24,6 +24,7 @@ const R3Schema = new mongoose.Schema({
   failureCode: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'failureCode',
+    required: true,
   },
   failureExplanation: {
     type: String,
