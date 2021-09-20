@@ -180,9 +180,9 @@ router.get('/', async (req, res) => {
 // @route   GET api/r3s/short // debug short route
 // @desc    GET the list of all repairs
 // @access  Public
-router.get('/shortrs', async (req, res) => {
+router.get('/short', async (req, res) => {
   try {
-    const r3s = await R3.find().select('r3Number');
+    const r3s = await R3.find().select('r3Number r3Date');
 
     res.json(r3s);
   } catch (err) {
@@ -521,6 +521,10 @@ router.patch(
         }
         r3Fields.analysisCode = analysisCode;
       }
+
+      console.log(r3.r3Date);
+      console.log('date' + r3.r3Date);
+
       r3 = await R3.findByIdAndUpdate(
         req.params.r3_id,
         { $set: r3Fields },
