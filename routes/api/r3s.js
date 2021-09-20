@@ -375,10 +375,9 @@ router.patch(
       if (r3Date) {
         // if there is a new R3 Date then it should be used for the new R3 Number and the new R3 Date entry
         newR3Date = new Date(r3Date);
-        r3Fields.r3Date = r3Date;
+        r3Fields.r3Date = newR3Date;
       }
-
-      // Chekc if we need to calculate a new R3 Number
+      // Check if we need to calculate a new R3 Number
       if (
         newR3Letter !== oldR3Letter ||
         newR3Date.getFullYear().toString().substring(2) !==
@@ -458,7 +457,6 @@ router.patch(
             );
             r3 = await R3.findOne({ r3Number: newR3Number });
             if (r3) {
-              // HERE;
               console.log(
                 '[CODE: 3-1] This R3 Number already exist, we need to create a new one'
               );
@@ -491,7 +489,6 @@ router.patch(
             '[CODE: 4-1] No changes needed to R3 Number ' + r3.r3Number
           );
       }
-
       if (failureCode) {
         // if failureCode is in the body, we need to use it instead of the one in the existing R3
         foundFailureCode = await FailureCode.findById(failureCode);
@@ -529,6 +526,7 @@ router.patch(
         { $set: r3Fields },
         { new: true }
       );
+
       await r3.populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
         select: 'name avatar nameCN codeNumber description descriptionCN',
