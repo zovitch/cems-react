@@ -1,11 +1,11 @@
-- R3 management
+- R3 management done // problem with date and timezone to check with UI
 - UDR
+- M2 Maintenance
 - Spare Parts
 - ENG Expenses
 - Link with Investments
 - Machine Follow update
 - Tooling
 - MSA
-- M2 Maintenance
 
 import / export batches
