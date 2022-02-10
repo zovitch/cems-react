@@ -388,7 +388,7 @@ router.patch(
 
       // Check if update the partial R3 Number
       if (!newR3Letter) {
-        console.log('error to catch');
+        console.log('error to catch R3s');
         res.status(500).send('Server Error');
       }
       const regex =

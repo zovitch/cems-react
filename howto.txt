@@ -1,0 +1,66 @@
+Prior: Mongo Atlas Set up + White List IP address (warning I changed coz connection error)
+
+1. creation of .gitignore
+	node_modules/
+
+2. git init (init with server.js not index.js)
+
+3. npm init => will create the package.json
+
+4. install dependencies
+	npm install express express-validator bcryptjs config gravatar jsonwebtoken mongoose request 
+	npm install  -D nodemon concurrently
+
+
+5. create a server.js file
+
+
+const express = require("express");
+
+const app = express();
+
+app.get('/', (req, res) => res.send('API running'));
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT , () => console.log('Server started on port ${PORT}'));
+
+6. modify the package.json with some script (replace the test script by start and server)
+
+{
+  "name": "devconnector2",
+  "version": "1.0.0",
+  "description": "Social Network for developers",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server"
+  },
+  "author": "nico",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.6",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.1",
+    "gravatar": "^1.8.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.7",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "nodemon": "^2.0.12"
+  }
+}
+
+7. start the server >> npm run server
+
+if you get an errror from db.js that mongoDB cannot connect, maybe need to whotelist the IP in the Mongo Atlas, or simply it is sleeping coz not used for a long time
+
+8. Check all is ok with Postman Get request to http://localhost:3000 (response API running)
+
+9. stop the server and git add . ; git commit -m "Initial commit"
+
+
+

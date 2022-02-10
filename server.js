@@ -28,6 +28,7 @@ app.use('/api/failurecodes', require('./routes/api/failurecodes'));
 app.use('/api/repaircodes', require('./routes/api/repaircodes'));
 app.use('/api/analysiscodes', require('./routes/api/analysiscodes'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
+// don't forget to update Postman port if needed
 
 app.listen(PORT, () => console.log('Server started on port ' + PORT));
