@@ -5,7 +5,7 @@ export const Logo = () => (
   <Fragment>
     <img
       src={logo}
-      style={{ width: '96px', margin: 'auto', display: 'block' }}
+      style={{ width: '75px', margin: 'auto', display: 'block' }}
       alt='Logo'
     />
   </Fragment>
