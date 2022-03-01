@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CEMS App",
+  "name": "Citel Equipment and Machinery System",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,7 +8,7 @@
       "type": "image/x-icon"
     },
     {
-      "src": "./src/img/citel_logo.png",
+      "src": "citel_logo.png",
       "type": "image/png",
       "sizes": "192x192 512x512"
     }
