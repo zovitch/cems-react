@@ -1,6 +1,7 @@
 /* Global Styles */
 :root {
-  --primary-color: rgb(255, 221, 0);
+  --primary-color: #862648;
+  --secondary-color: #deb754;
   --dark-color: #343a40;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
@@ -161,7 +162,7 @@ img {
 .badge-primary,
 .alert-primary {
   background: var(--primary-color);
-  color: var(--dark-color);
+  color: var(--light-color);
 }
 
 .btn-light,
@@ -308,7 +309,7 @@ button {
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--primary-color);
+  border-bottom: solid 3px var(--primary-color);
   opacity: 0.9;
 }
 
@@ -323,7 +324,7 @@ button {
 }
 
 .navbar a:hover {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .navbar .welcome span {
