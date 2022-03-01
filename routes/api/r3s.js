@@ -126,14 +126,14 @@ router.post(
       let r3 = new R3(r3Fields);
       await r3.populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
-        select: 'name avatar nameCN codeNumber description descriptionCN',
+        select: 'name nameCN codeNumber description descriptionCN',
         populate: {
           path: 'category department',
           strictPopulate: false,
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name avatar shortname nameCN locationLetter',
+            select: 'name shortname nameCN locationLetter',
           },
         },
       });
@@ -159,14 +159,14 @@ router.get('/', async (req, res) => {
       .select('r3Number')
       .populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
-        select: 'name avatar nameCN codeNumber description descriptionCN',
+        select: 'name nameCN codeNumber description descriptionCN',
         populate: {
           path: 'category department',
           strictPopulate: false,
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name avatar shortname nameCN locationLetter',
+            select: 'name shortname nameCN locationLetter',
           },
         },
       });
@@ -198,14 +198,14 @@ router.get('/:r3_id', async (req, res) => {
   try {
     const r3 = await R3.findById(req.params.r3_id).populate({
       path: 'machine failureCode repairCode analysisCode repairEngineer',
-      select: 'name avatar nameCN codeNumber description descriptionCN',
+      select: 'name nameCN codeNumber description descriptionCN',
       populate: {
         path: 'category department',
         strictPopulate: false,
         populate: {
           path: 'owners location',
           strictPopulate: false,
-          select: 'name avatar shortname nameCN locationLetter',
+          select: 'name shortname nameCN locationLetter',
         },
       },
     });
@@ -320,14 +320,14 @@ router.patch(
       // retrieve the R3 info
       let r3 = await R3.findById(req.params.r3_id).populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
-        select: 'name avatar nameCN codeNumber description descriptionCN',
+        select: 'name nameCN codeNumber description descriptionCN',
         populate: {
           path: 'category department',
           strictPopulate: false,
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name avatar shortname nameCN locationLetter',
+            select: 'name shortname nameCN locationLetter',
           },
         },
       });
@@ -533,14 +533,14 @@ router.patch(
 
       await r3.populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
-        select: 'name avatar nameCN codeNumber description descriptionCN',
+        select: 'name nameCN codeNumber description descriptionCN',
         populate: {
           path: 'category department',
           strictPopulate: false,
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name avatar shortname nameCN locationLetter',
+            select: 'name shortname nameCN locationLetter',
           },
         },
       });

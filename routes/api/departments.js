@@ -62,7 +62,7 @@ router.post(
           { $set: departmentFields },
           { new: true }
         )
-          .populate('owners', ['name', 'avatar'])
+          .populate('owners', ['name'])
           .populate('location');
         return res.json(department);
       }
@@ -75,7 +75,7 @@ router.post(
         }
       }
       department = new Department(departmentFields);
-      await department.populate('owners', ['name', 'avatar']);
+      await department.populate('owners', ['name']);
       await department.populate('location');
       await department.save();
       res.json(department);
@@ -98,7 +98,7 @@ router.post(
 router.get('/', async (req, res) => {
   try {
     const departments = await Department.find()
-      .populate('owners', ['name', 'avatar'])
+      .populate('owners', ['name'])
       .populate('location');
     res.json(departments);
   } catch (err) {
@@ -115,7 +115,7 @@ router.get('/:trigram', async (req, res) => {
     const department = await Department.findOne({
       trigram: req.params.trigram,
     })
-      .populate('owners', ['name', 'avatar'])
+      .populate('owners', ['name'])
       .populate('location');
 
     if (!department) {
@@ -160,7 +160,7 @@ router.delete('/:trigram/:user', auth, async (req, res) => {
   try {
     const department = await Department.findOne({
       trigram: req.params.trigram,
-    }).populate('owners', ['name', 'avatar']);
+    }).populate('owners', ['name']);
 
     if (department) {
       const foundUser = await User.findById(req.params.user);

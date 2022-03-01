@@ -44,7 +44,6 @@ router.post(
       user = new User({
         name,
         email,
-        avatar,
         password,
       });
 
@@ -80,7 +79,7 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find().select('name avatar');
+    const users = await User.find().select('name');
 
     res.json(users);
   } catch (err) {
@@ -139,7 +138,7 @@ router.get('/:user_id/departments', auth, async (req, res) => {
     }
     const departments = await Department.find({ owners: user })
       .select('trigram name owners')
-      .populate('owners', ['name', 'avatar']);
+      .populate('owners', ['name']);
     return res.json(departments);
   } catch (err) {
     if (err.kind === 'ObjectId') {
