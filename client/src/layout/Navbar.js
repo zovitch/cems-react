@@ -10,13 +10,28 @@ export const Navbar = () => {
       </Link>
       <ul>
         <li>
-          <Link to='/machines'>Machines</Link>
+          <Link to='/user'>
+            <i className='fas fa-users' />{' '}
+            <span className='hide-sm'> Users</span>
+          </Link>
         </li>
         <li>
-          <Link to='/register'>Register</Link>
+          <Link to='/machines'>
+            <i className='fas fa-list-ul' />{' '}
+            <span className='hide-sm'>Machines</span>
+          </Link>
         </li>
         <li>
-          <Link to='/login'>Login</Link>
+          <Link to='/register'>
+            <i className='fas fa-user-plus' />{' '}
+            <span className='hide-sm'>Register</span>
+          </Link>
+        </li>
+        <li>
+          <Link to='/login'>
+            <i className='fas fa-arrow-right-to-bracket' />{' '}
+            <span className='hide-sm'>Login</span>
+          </Link>
         </li>
       </ul>
     </nav>
