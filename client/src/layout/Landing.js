@@ -6,7 +6,7 @@ export const Landing = () => {
     <section className='landing'>
       <div className='dark-overlay'>
         <div className='landing-inner'>
-          <h1 className='x-large'>Citel Machine Equipment System</h1>
+          <h1 className='x-large'>Citel Machinery and Equipment System</h1>
           <p className='lead'>Add some element for Machines</p>
           <div className='buttons'>
             <Link to='/register' className='btn btn-primary'>
