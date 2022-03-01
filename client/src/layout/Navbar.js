@@ -17,7 +17,7 @@ export const Navbar = () => {
         </li>
         <li>
           <Link to='/machines'>
-            <i className='fas fa-list-ul' />{' '}
+            <i className='fas fa-gears' />{' '}
             <span className='hide-sm'>Machines</span>
           </Link>
         </li>
