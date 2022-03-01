@@ -11,19 +11,19 @@ export const Navbar = () => {
       <ul>
         <li>
           <Link to='/user'>
-            <i className='fas fa-users' />{' '}
+            <i className='fas fa-users hide-bg' />{' '}
             <span className='hide-sm'> Users</span>
           </Link>
         </li>
         <li>
           <Link to='/machines'>
-            <i className='fas fa-gears' />{' '}
+            <i className='fas fa-gears hide-bg' />{' '}
             <span className='hide-sm'>Machines</span>
           </Link>
         </li>
         <li>
           <Link to='/register'>
-            <i className='fas fa-user-plus' />{' '}
+            <i className='fas fa-user-plus hide-bg' />{' '}
             <span className='hide-sm'>Register</span>
           </Link>
         </li>
