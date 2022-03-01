@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import logo from '../img/citel_logo.svg';
+import logo from '../../img/citel_logo.png';
 
 export const Logo = () => (
   <Fragment>
