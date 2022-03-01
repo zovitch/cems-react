@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import setAlert from '../../actions/alert';
+import { setAlert } from '../../actions/alert';
 
 const Login = () => {
   const [formData, setFormData] = useState({
