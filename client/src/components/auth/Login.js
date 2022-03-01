@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export const Login = () => {
+import setAlert from '../../actions/alert';
+
+const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -57,3 +60,5 @@ export const Login = () => {
     </section>
   );
 };
+
+export default connect(null, { setAlert })(Login);
