@@ -1,7 +1,7 @@
 {
   "name": "cems-react",
   "version": "1.0.0",
-  "description": "a web app for Citel Machine Management System",
+  "description": "a web app for Citel Equipment and Machinery System",
   "main": "server.js",
   "dependencies": {
     "axios": "^0.26.0",
