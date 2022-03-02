@@ -1,11 +1,21 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
+import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 
-const Navbar = ({ auth: { isAuthenticated }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
+  // by default a name registered would be 2 or 3 initials, but in case someone register wiht only one name
+  // there would be only 1 initial, so we need to increate the ratio textSizeRation for the avatar
+  // to avoid the single letter displaying too big
+  let textRatio = 0.8;
+  if (user) {
+    const wordCount = user.name.match(/(\w+)/g).length;
+    textRatio = wordCount < 2 ? 1 : 0.8;
+  }
+
   const authLinks = (
     <ul>
       <li>
@@ -19,6 +29,18 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
           <i className='fas fa-users ' />{' '}
           <span className='hide-sm'> Users</span>
         </Link>
+      </li>
+      <li>
+        {user && (
+          <Avatar
+            name={user.name}
+            value='8%'
+            round={true}
+            size='25'
+            textSizeRatio={textRatio}
+            maxInitials='3'
+          />
+        )}
       </li>
       <li>
         <a onClick={logout} href='#!'>
