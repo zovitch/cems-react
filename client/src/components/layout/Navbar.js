@@ -7,15 +7,6 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 
 const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
-  // by default a name registered would be 2 or 3 initials, but in case someone register wiht only one name
-  // there would be only 1 initial, so we need to increate the ratio textSizeRation for the avatar
-  // to avoid the single letter displaying too big
-  let textRatio = 0.8;
-  if (user) {
-    const wordCount = user.name.match(/(\w+)/g).length;
-    textRatio = wordCount < 2 ? 1 : 0.8;
-  }
-
   const authLinks = (
     <ul>
       <li>
@@ -31,7 +22,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
               name={user.name}
               round={true}
               size='25'
-              textSizeRatio={textRatio}
+              textSizeRatio='1.2'
               maxInitials='3'
             />
           </Link>
