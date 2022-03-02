@@ -12,14 +12,16 @@ const Landing = ({ isAuthenticated }) => {
     <section className='landing'>
       <div className='dark-overlay'>
         <div className='landing-inner'>
-          <h1 className='x-large'>Citel Machinery and Equipment System</h1>
+          <h1 className='x-large'>Citel Equipment and Machinery System</h1>
           <p className='lead'>Add some element for Machines</p>
           <div className='buttons'>
             <Link to='/register' className='btn btn-primary'>
-              Sign Up
+              <i className='fas fa-user-plus' />{' '}
+              <span className='hide-sm'>Sign Up</span>
             </Link>
             <Link to='/login' className='btn btn-light'>
-              Login
+              <i className='fas fa-right-to-bracket' />{' '}
+              <span className='hide-sm'>Login</span>
             </Link>
           </div>
         </div>
