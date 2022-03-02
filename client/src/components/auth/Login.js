@@ -65,4 +65,13 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-export default connect(null, { login })(Login);
+Login.proprTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);
