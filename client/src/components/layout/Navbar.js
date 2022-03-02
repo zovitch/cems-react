@@ -19,12 +19,6 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to='/dashboard'>
-          <i className='fas fa-user' />{' '}
-          <span className='hide-sm'>Dashboard</span>
-        </Link>
-      </li>
-      <li>
         <Link to='/user'>
           <i className='fas fa-users ' />{' '}
           <span className='hide-sm'> Users</span>
@@ -32,14 +26,15 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
       </li>
       <li>
         {user && (
-          <Avatar
-            name={user.name}
-            value='8%'
-            round={true}
-            size='25'
-            textSizeRatio={textRatio}
-            maxInitials='3'
-          />
+          <Link to='/dashboard'>
+            <Avatar
+              name={user.name}
+              round={true}
+              size='25'
+              textSizeRatio={textRatio}
+              maxInitials='3'
+            />
+          </Link>
         )}
       </li>
       <li>
