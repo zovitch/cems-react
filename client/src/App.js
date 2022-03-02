@@ -5,6 +5,7 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
+import Dashboard from './components/dashboard/Dashboard';
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -14,6 +15,7 @@ import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 const App = () => {
   useEffect(() => {
@@ -41,6 +43,11 @@ const App = () => {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/login' element={<Login />} />
+          <Route
+            exact
+            path='/dashboard'
+            element={<PrivateRoute component={Dashboard} />}
+          />
         </Routes>
       </Router>
     </Provider>
