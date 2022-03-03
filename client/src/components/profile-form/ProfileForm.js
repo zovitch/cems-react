@@ -73,6 +73,7 @@ const ProfileForm = ({
         />{' '}
         <input type='submit' value='Save' className='btn btn-primary my-1' />
       </form>
+      <div className='line' />
       <div className='my-2 text-center'>
         <button className='btn btn-danger' onClick={() => deleteAccount()}>
           <i className='fas fa-user-minus' /> Delete My Account
