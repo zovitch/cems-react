@@ -8,6 +8,7 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 const Department = require('../../models/Department');
+const Manufacturer = require('../../models/Manufacturer');
 
 // @route   POST api/users
 // @desc    Register user
@@ -107,6 +108,40 @@ router.get('/me', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// @route   PUT api/users/me
+// @desc    Update a user information
+// @access  Private
+router.put(
+  '/me',
+  [auth, [check('name', 'A name is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name } = req.body;
+
+    const nameField = {};
+    if (name) nameField.name = name;
+
+    try {
+      const user = await User.findByIdAndUpdate(
+        { _id: req.user.id },
+        { $set: nameField },
+        { new: true }
+      );
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 // @route   GET api/users/:user_id
 // @desc    Get the details of one user
