@@ -6,6 +6,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
+import ProfileForm from './components/profile-form/ProfileForm';
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -47,6 +48,16 @@ const App = () => {
             exact
             path='/dashboard'
             element={<PrivateRoute component={Dashboard} />}
+          />
+          <Route
+            exact
+            path='/users/me'
+            element={<PrivateRoute component={ProfileForm} />}
+          />
+          <Route
+            exact
+            path='/edit-profile'
+            element={<PrivateRoute component={ProfileForm} />}
           />
         </Routes>
       </Router>

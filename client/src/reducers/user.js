@@ -1,4 +1,4 @@
-import { GET_USER, USER_ERROR } from '../actions/types';
+import { GET_USER, UPDATE_USER, USER_ERROR } from '../actions/types';
 
 const initialState = {
   user: null,
@@ -13,6 +13,7 @@ function userReducer(state = initialState, action) {
 
   switch (type) {
     case GET_USER:
+    case UPDATE_USER:
       return {
         ...state,
         user: payload,

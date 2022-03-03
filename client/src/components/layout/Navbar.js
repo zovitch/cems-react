@@ -17,7 +17,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
       </li>
       <li>
         {user && (
-          <Link to='/dashboard'>
+          <Link to='/edit-profile'>
             <Avatar
               name={user.name}
               round={true}
