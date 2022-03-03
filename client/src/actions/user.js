@@ -1,7 +1,13 @@
 import api from '../utils/api';
 import { setAlert } from './alert';
 
-import { GET_USER, USER_ERROR, UPDATE_USER, USER_LOADED } from './types';
+import {
+  GET_USER,
+  USER_ERROR,
+  UPDATE_USER,
+  USER_LOADED,
+  ACCOUNT_DELETED,
+} from './types';
 
 // Get current user
 export const getCurrentUser = () => async (dispatch) => {
@@ -47,5 +53,23 @@ export const editUser = (formData, navigate) => async (dispatch) => {
       type: USER_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+  }
+};
+
+// Delete a user
+export const deleteAccount = () => async (dispatch) => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await api.delete('/users/');
+
+      dispatch({ type: ACCOUNT_DELETED });
+
+      dispatch(setAlert('Your account has been deleted', 'dark'));
+    } catch (err) {
+      dispatch({
+        type: USER_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
   }
 };

@@ -184,4 +184,19 @@ router.get('/:user_id/departments', auth, async (req, res) => {
   }
 });
 
+// @route   DELETE api/users/
+// @desc    Delete the user account
+// @access  Private
+router.delete('/', auth, async (req, res) => {
+  try {
+    // todo remove things belonging to the user??
+    await User.findByIdAndDelete(req.user.id);
+
+    res.json({ msg: 'User deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrentUser, editUser } from '../../actions/user';
+import { getCurrentUser, editUser, deleteAccount } from '../../actions/user';
 /*
   NOTE: declare initialState outside of component
   so that it doesn't trigger a useEffect
@@ -11,13 +11,19 @@ import { getCurrentUser, editUser } from '../../actions/user';
 
 const initialState = {
   name: '',
+  email: '',
   department: [],
 };
 
-const ProfileForm = ({ auth: { user, loading }, getCurrentUser, editUser }) => {
+const ProfileForm = ({
+  auth: { user, loading },
+  getCurrentUser,
+  editUser,
+  deleteAccount,
+}) => {
   const [formData, setFormData] = useState(initialState);
 
-  const { name } = formData;
+  const { name, email } = formData;
 
   const navigate = useNavigate();
 
@@ -30,7 +36,7 @@ const ProfileForm = ({ auth: { user, loading }, getCurrentUser, editUser }) => {
       }
       setFormData(userData);
     }
-  }, [loading, editUser, getCurrentUser, user]);
+  }, [loading, editUser, getCurrentUser, deleteAccount, user]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,10 +60,24 @@ const ProfileForm = ({ auth: { user, loading }, getCurrentUser, editUser }) => {
             name='name'
             value={name}
             onChange={onChange}
+            required
           />
         </div>
+        <small className='form-text'>E-mail</small>
+        <input
+          type='email'
+          placeholder='Email'
+          name='email'
+          value={email}
+          disabled
+        />{' '}
         <input type='submit' value='Save' className='btn btn-primary my-1' />
       </form>
+      <div className='my-2 text-center'>
+        <button className='btn btn-danger' onClick={() => deleteAccount()}>
+          <i className='fas fa-user-minus' /> Delete My Account
+        </button>
+      </div>
     </section>
   );
 };
@@ -65,6 +85,7 @@ const ProfileForm = ({ auth: { user, loading }, getCurrentUser, editUser }) => {
 ProfileForm.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,
   editUser: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
 };
@@ -74,6 +95,8 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { editUser, getCurrentUser })(
-  ProfileForm
-);
+export default connect(mapStateToProps, {
+  editUser,
+  getCurrentUser,
+  deleteAccount,
+})(ProfileForm);
