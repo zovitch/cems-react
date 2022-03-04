@@ -19,7 +19,7 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
   return (
     <section className='container'>
       <h1 className='large text-primary'>
-        <i class='fa-solid fa-list-check'></i> Dashboard
+        <i className='fa-solid fa-list-check'></i> Dashboard
       </h1>
     </section>
   );
