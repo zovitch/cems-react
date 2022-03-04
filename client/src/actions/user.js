@@ -3,10 +3,12 @@ import { setAlert } from './alert';
 
 import {
   GET_USER,
+  GET_USERS,
   USER_ERROR,
   UPDATE_USER,
   USER_LOADED,
   ACCOUNT_DELETED,
+  CLEAR_USER,
 } from './types';
 
 // Get current user
@@ -14,6 +16,39 @@ export const getCurrentUser = () => async (dispatch) => {
   try {
     const res = await api.get('/users/me');
 
+    dispatch({
+      type: GET_USER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get all users
+export const getUsers = () => async (dispatch) => {
+  dispatch({ type: CLEAR_USER });
+  try {
+    const res = await api.get('/users');
+    dispatch({
+      type: GET_USERS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get user by id
+export const getUserById = (userId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/users/${userId}`);
     dispatch({
       type: GET_USER,
       payload: res.data,
@@ -62,8 +97,8 @@ export const deleteAccount = () => async (dispatch) => {
     try {
       await api.delete('/users/');
 
+      dispatch({ type: CLEAR_USER });
       dispatch({ type: ACCOUNT_DELETED });
-
       dispatch(setAlert('Your account has been deleted', 'dark'));
     } catch (err) {
       dispatch({

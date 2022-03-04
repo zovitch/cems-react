@@ -1,4 +1,10 @@
-import { GET_USER, UPDATE_USER, USER_ERROR } from '../actions/types';
+import {
+  CLEAR_USER,
+  GET_USER,
+  GET_USERS,
+  UPDATE_USER,
+  USER_ERROR,
+} from '../actions/types';
 
 const initialState = {
   user: null,
@@ -19,11 +25,22 @@ function userReducer(state = initialState, action) {
         user: payload,
         loading: false,
       };
+    case GET_USERS:
+      return {
+        ...state,
+        users: payload,
+        loading: false,
+      };
     case USER_ERROR:
       return {
         ...state,
         error: payload,
         loading: false,
+      };
+    case CLEAR_USER:
+      return {
+        ...state,
+        user: null,
       };
     default:
       return state;

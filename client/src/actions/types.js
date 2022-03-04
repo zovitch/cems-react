@@ -9,5 +9,7 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const ACCOUNT_DELETED = 'ACCOUNT_DELETED';
 export const GET_USER = 'GET_USER';
+export const GET_USERS = 'GET_USERS';
 export const USER_ERROR = 'USER_ERROR';
 export const UPDATE_USER = 'UPDATE_USER';
+export const CLEAR_USER = 'CLEAR_USER';
