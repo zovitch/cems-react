@@ -36,7 +36,6 @@ function userReducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
-        user: null,
       };
     case CLEAR_USER:
       return {
