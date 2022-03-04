@@ -5,6 +5,7 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
 import ProfileForm from './components/profile-form/ProfileForm';
@@ -46,6 +47,7 @@ const App = () => {
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/users' element={<Profiles />} />
+          <Route exact path='/users/:id' element={<Profile />} />
           <Route
             exact
             path='/dashboard'
