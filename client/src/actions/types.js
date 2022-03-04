@@ -13,3 +13,6 @@ export const GET_USERS = 'GET_USERS';
 export const USER_ERROR = 'USER_ERROR';
 export const UPDATE_USER = 'UPDATE_USER';
 export const CLEAR_USER = 'CLEAR_USER';
+export const GET_DEPARTMENT = 'GET_DEPARTMENT';
+export const GET_DEPARTMENTS = 'GET_DEPARTMENTS';
+export const DEPARTMENT_ERROR = 'DEPARTMENT_ERROR';

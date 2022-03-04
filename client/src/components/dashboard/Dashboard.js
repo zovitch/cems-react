@@ -28,12 +28,10 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
 Dashboard.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  user: state.user,
 });
 
 export default connect(mapStateToProps, { getCurrentUser })(Dashboard);

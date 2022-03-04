@@ -9,6 +9,9 @@ import Profile from './components/profile/Profile';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
 import ProfileForm from './components/profile-form/ProfileForm';
+import Departments from './components/departments/Departments';
+import Department from './components/department/Department';
+
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -48,6 +51,8 @@ const App = () => {
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/users' element={<Profiles />} />
           <Route exact path='/users/:id' element={<Profile />} />
+          <Route exact path='/departments' element={<Departments />} />
+          <Route exact path='/departments/:id' element={<Department />} />
           <Route
             exact
             path='/dashboard'

@@ -132,8 +132,8 @@ router.get('/:trigram', async (req, res) => {
 
 // @route   DELETE api/departments/:trigram
 // @desc    Delete a department
-// @access  Private
-router.delete('/:trigram', auth, async (req, res) => {
+// @access  Public
+router.delete('/:trigram', async (req, res) => {
   try {
     const department = await Department.findOne({
       trigram: req.params.trigram,
