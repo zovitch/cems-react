@@ -145,8 +145,8 @@ router.put(
 
 // @route   GET api/users/:user_id
 // @desc    Get the details of one user
-// @access  Private
-router.get('/:user_id', auth, async (req, res) => {
+// @access  Public
+router.get('/:user_id', async (req, res) => {
   try {
     const user = await User.findById(req.params.user_id).select('-password');
     if (!user) {
