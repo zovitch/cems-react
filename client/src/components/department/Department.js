@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -30,21 +29,6 @@ const Department = ({ getDepartment, department: { department, loading } }) => {
       )}
     </section>
   );
-=======
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getDepartment } from '../../actions/department';
-
-const Department = ({ getDepartment, department: { department, loading } }) => {
-  const { trigram } = useParams();
-  useEffect(() => {
-    getDepartment(trigram);
-  }, [getDepartment, trigram]);
-
-  return <div>Department</div>;
->>>>>>> a6388f7a246a8801ba360f96e42e8ae913782402
 };
 
 Department.propTypes = {

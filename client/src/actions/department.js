@@ -8,11 +8,7 @@ export const getDepartment = (trigram) => async (dispatch) => {
     const res = await api.get(`/departments/${trigram}`);
     dispatch({
       type: GET_DEPARTMENT,
-<<<<<<< HEAD
       payload: res.data,
-=======
-      paylload: res.data,
->>>>>>> a6388f7a246a8801ba360f96e42e8ae913782402
     });
   } catch (err) {
     dispatch({
@@ -28,11 +24,7 @@ export const getDepartments = () => async (dispatch) => {
     const res = await api.get('/departments');
     dispatch({
       type: GET_DEPARTMENTS,
-<<<<<<< HEAD
       payload: res.data,
-=======
-      paylload: res.data,
->>>>>>> a6388f7a246a8801ba360f96e42e8ae913782402
     });
   } catch (err) {
     dispatch({

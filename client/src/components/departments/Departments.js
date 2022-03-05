@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 import React, { Fragment, useEffect } from 'react';
-=======
-import React, { useEffect } from 'react';
->>>>>>> a6388f7a246a8801ba360f96e42e8ae913782402
 import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
 import { getDepartments } from '../../actions/department';
-<<<<<<< HEAD
 import DepartmentItem from './DepartmentItem';
 
 const Departments = ({
@@ -37,14 +32,6 @@ const Departments = ({
       )}
     </section>
   );
-=======
-
-const Departments = ({ getDepartments, department }) => {
-  useEffect(() => {
-    getDepartments();
-  }, [getDepartments]);
-  return <div>Departments</div>;
->>>>>>> a6388f7a246a8801ba360f96e42e8ae913782402
 };
 
 Departments.propTypes = {
