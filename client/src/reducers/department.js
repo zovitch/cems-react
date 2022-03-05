@@ -25,6 +25,10 @@ function departmentReducer(state = initialState, action) {
     case GET_DEPARTMENTS: {
       return {
         ...state,
+<<<<<<< HEAD
+=======
+        department: payload,
+>>>>>>> a6388f7a246a8801ba360f96e42e8ae913782402
         departments: payload,
         loading: false,
       };
