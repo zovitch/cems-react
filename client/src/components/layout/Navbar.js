@@ -11,6 +11,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
     <ul>
       <li>
         <Link to='/departments'>
+          <i className='fas fa-briefcase'></i>
           <span className='hide-sm'>Departments</span>
         </Link>
       </li>
@@ -46,6 +47,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
     <ul>
       <li>
         <Link to='/departments'>
+          <i className='fas fa-briefcase'></i>{' '}
           <span className='hide-sm'>Departments</span>
         </Link>
       </li>
