@@ -18,7 +18,9 @@ const Departments = ({
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>Departments</h1>
+          <h1 className='large text-primary'>
+            <i className='fas fa-briefcase'></i> Departments
+          </h1>
           <div className='profiles'>
             {departments.length > 0 ? (
               departments.map((department) => (
