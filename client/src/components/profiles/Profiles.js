@@ -16,10 +16,10 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>List of Users</h1>
-          <p className='lead'>
-            <i className='fab fa-connectdevelop' /> See who is on the CEMS
-          </p>
+          <h1 className='large text-primary'>
+            {' '}
+            <i className='fas fa-users'></i> Users
+          </h1>
           <div className='profiles'>
             {users.length > 0 ? (
               users.map((user) => <ProfileItem key={user._id} user={user} />)
