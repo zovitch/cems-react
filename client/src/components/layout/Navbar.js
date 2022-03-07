@@ -12,7 +12,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
       <li>
         <Link to='/departments'>
           <i className='fas fa-briefcase'></i>
-          <span className='hide-sm'>Departments</span>
+          <span className='hide-sm'> Departments</span>
         </Link>
       </li>
       <li>
@@ -23,7 +23,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
       </li>
       <li>
         {user && (
-          <Link to='/edit-profile'>
+          <Link to={`/users/${user._id}`}>
             <Avatar
               name={user.name}
               round={true}
