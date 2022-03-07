@@ -9,9 +9,7 @@ const DepartmentTop = ({ department: { trigram, name, location, owners } }) => {
       {' '}
       <div> this should be a form</div>
       <div className='profile'>
-        <Link to={`/departments/${trigram}`}>
-          <h2>{trigram}</h2>
-        </Link>
+        <h2>{trigram}</h2>
         <div>
           <h2>{name}</h2>
           <p>Location: {location.name}</p>
