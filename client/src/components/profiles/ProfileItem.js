@@ -1,20 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
-import { connect } from 'react-redux';
-import { getDepartments } from '../../actions/department';
 import { Link } from 'react-router-dom';
 
-const ProfileItem = ({
-  getDepartments,
-  department: { departments },
-  user: { _id, name },
-}) => {
-  useEffect(() => {
-    getDepartments();
-  }, [getDepartments]);
-
+const ProfileItem = ({ user: { _id, name } }) => {
   return (
     <div className='profile bg-light'>
       <Link to={`/users/${_id}`}>
@@ -29,26 +19,12 @@ const ProfileItem = ({
       <Link to={`/users/${_id}`}>
         <h2>{name}</h2>
       </Link>
-      <div>
-        {/* below doesnt work yet */}
-        {/* {departments
-          .filter((department) => department.owners.name === name)
-          .map((filteredDepartment) => (
-            <li>{filteredDepartment}</li>
-          ))} */}
-      </div>
     </div>
   );
 };
 
 ProfileItem.propTypes = {
   user: PropTypes.object.isRequired,
-  department: PropTypes.object.isRequired,
-  getDepartments: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  department: state.department,
-});
-
-export default connect(mapStateToProps, { getDepartments })(ProfileItem);
+export default ProfileItem;
