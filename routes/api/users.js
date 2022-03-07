@@ -165,7 +165,7 @@ router.get('/:user_id', async (req, res) => {
 // @route   GET api/users/:user_id/department
 // @desc    Show all the department owned by one person
 // @access  Public
-router.get('/:user_id/departments', auth, async (req, res) => {
+router.get('/:user_id/departments', async (req, res) => {
   try {
     const user = await User.findById(req.params.user_id).select('-password');
     if (!user) {
