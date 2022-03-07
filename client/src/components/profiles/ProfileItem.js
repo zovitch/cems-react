@@ -22,8 +22,8 @@ const ProfileItem = ({
           name={name}
           round={true}
           size='55'
-          textSizeRatio='1.2'
-          maxInitials='3'
+          // textSizeRatio='1.2'
+          // maxInitials='3'
         />{' '}
       </Link>
       <Link to={`/users/${_id}`}>

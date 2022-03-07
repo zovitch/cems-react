@@ -24,8 +24,7 @@ const DepartmentTop = ({ department: { trigram, name, location, owners } }) => {
                   name={owner.name}
                   size='25px'
                   round={true}
-                  textSizeRatio='1.2'
-                  maxInitials='3'
+                  // textSizeRatio='1.2'
                 />{' '}
                 {owner.name}
               </Link>

@@ -26,7 +26,7 @@ const DepartmentItem = ({
                 size='25px'
                 round={true}
                 textSizeRatio='1.2'
-                maxInitials='3'
+                // maxInitials='3'
               />{' '}
               {owner.name}
             </Link>

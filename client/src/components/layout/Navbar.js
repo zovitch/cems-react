@@ -28,8 +28,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
               name={user.name}
               round={true}
               size='25'
-              textSizeRatio='1.2'
-              maxInitials='3'
+              // textSizeRatio='1.2'
             />
           </Link>
         )}
