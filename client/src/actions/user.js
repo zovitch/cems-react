@@ -114,7 +114,6 @@ export const deleteAccount = () => async (dispatch) => {
 export const getDepartmentsByUserId = (userId) => async (dispatch) => {
   try {
     const res = await api.get(`/users/${userId}/departments`);
-    console.log(res);
     dispatch({
       type: GET_USERDEPARTMENTS,
       payload: res.data,
