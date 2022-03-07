@@ -30,11 +30,12 @@ const ProfileItem = ({
         <h2>{name}</h2>
       </Link>
       <div>
-        {departments
+        {/* below doesnt work yet */}
+        {/* {departments
           .filter((department) => department.owners.name === name)
           .map((filteredDepartment) => (
             <li>{filteredDepartment}</li>
-          ))}
+          ))} */}
       </div>
     </div>
   );

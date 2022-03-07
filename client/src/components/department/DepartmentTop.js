@@ -16,21 +16,12 @@ const DepartmentTop = ({ department: { trigram, name, location, owners } }) => {
           <h2>{name}</h2>
           <p>Location: {location.name}</p>
         </div>
-        <ul>
-          {owners.map((owner, index) => (
-            <li key={index} className='text-primary'>
-              <Link to={`/users/${owner._id}`}>
-                <Avatar
-                  name={owner.name}
-                  size='25px'
-                  round={true}
-                  // textSizeRatio='1.2'
-                />{' '}
-                {owner.name}
-              </Link>
-            </li>
+        {owners.length > 0 &&
+          owners.map((owner) => (
+            <Link to={`/users/${owner._id}`}>
+              <Avatar name={owner.name} round={true} size='50px' />
+            </Link>
           ))}
-        </ul>
       </div>
     </div>
   );

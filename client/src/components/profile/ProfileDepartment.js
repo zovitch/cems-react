@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDepartmentsByUserId } from '../../actions/user';
+import { Link } from 'react-router-dom';
 
 const ProfileDepartment = ({
   getDepartmentsByUserId,
@@ -12,11 +13,12 @@ const ProfileDepartment = ({
   }, [getDepartmentsByUserId, user._id]);
   return (
     <div className='post bg-light p-1'>
-      <ul>
-        {departments.map((department) => (
-          <li key={department._id}>• {department.trigram}</li>
+      {departments.length > 0 &&
+        departments.map((department) => (
+          <Link to={`/departments/${department.trigram}`}>
+            {department.trigram}
+          </Link>
         ))}
-      </ul>
     </div>
   );
 };
