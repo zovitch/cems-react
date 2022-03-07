@@ -9,6 +9,7 @@ import {
   USER_LOADED,
   ACCOUNT_DELETED,
   CLEAR_USER,
+  GET_USERDEPARTMENTS,
 } from './types';
 
 // Get current user
@@ -106,5 +107,22 @@ export const deleteAccount = () => async (dispatch) => {
         payload: { msg: err.response.statusText, status: err.response.status },
       });
     }
+  }
+};
+
+// Get all departments for one user
+export const getDepartmentsByUserId = (userId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/users/${userId}/departments`);
+    console.log(res);
+    dispatch({
+      type: GET_USERDEPARTMENTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };

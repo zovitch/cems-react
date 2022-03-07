@@ -11,6 +11,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import ProfileForm from './components/profile-form/ProfileForm';
 import Departments from './components/departments/Departments';
 import Department from './components/department/Department';
+import ProfileDepartment from './components/profile/ProfileDepartment';
 
 import { LOGOUT } from './actions/types';
 
@@ -53,6 +54,11 @@ const App = () => {
           <Route exact path='/users/:id' element={<Profile />} />
           <Route exact path='/departments' element={<Departments />} />
           <Route exact path='/departments/:id' element={<Department />} />
+          <Route
+            exact
+            path='/users/:user_id/departments/'
+            element={<ProfileDepartment />}
+          />
           <Route
             exact
             path='/dashboard'

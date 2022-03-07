@@ -4,12 +4,13 @@ import {
   GET_USERS,
   UPDATE_USER,
   USER_ERROR,
+  GET_USERDEPARTMENTS,
 } from '../actions/types';
 
 const initialState = {
   user: null,
   users: [],
-  // departments: [],
+  departments: [],
   loading: true,
   error: {},
 };
@@ -42,6 +43,12 @@ function userReducer(state = initialState, action) {
       return {
         ...state,
         user: null,
+      };
+    case GET_USERDEPARTMENTS:
+      return {
+        ...state,
+        departments: payload,
+        loading: false,
       };
     default:
       return state;

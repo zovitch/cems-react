@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { getUserById } from '../../actions/user';
 import { Link, useParams } from 'react-router-dom';
 import ProfileTop from './ProfileTop';
+import ProfileDepartment from './ProfileDepartment';
 
 const Profile = ({ getUserById, user: { user }, auth }) => {
   const { id } = useParams();
@@ -31,6 +32,9 @@ const Profile = ({ getUserById, user: { user }, auth }) => {
             )}
           <div className=' my-1'>
             <ProfileTop user={user} />
+          </div>
+          <div>
+            <ProfileDepartment user={user} />
           </div>
         </Fragment>
       )}
