@@ -12,14 +12,19 @@ const ProfileDepartment = ({
     getDepartmentsByUserId(user._id);
   }, [getDepartmentsByUserId, user._id]);
   return (
-    <div className='post bg-light p-1'>
+    <ul className='post bg-light p-1'>
       {departments.length > 0 &&
         departments.map((department) => (
-          <Link key={department._id} to={`/departments/${department.trigram}`}>
-            {department.trigram}
-          </Link>
+          <li>
+            <Link
+              key={department._id}
+              to={`/departments/${department.trigram}`}
+            >
+              {department.trigram}
+            </Link>
+          </li>
         ))}
-    </div>
+    </ul>
   );
 };
 

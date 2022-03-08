@@ -8,17 +8,17 @@ const DepartmentItem = ({
 }) => {
   return (
     <div className='departments-item bg-light'>
-      <Link className='trigram' to={`/departments/${trigram}`}>
+      <Link className='department-trigram' to={`/departments/${trigram}`}>
         <h2>{trigram}</h2>
       </Link>
-      <div className='name'>{name}</div>
+      <div className='department-name'>{name}</div>
 
       <div className='line'></div>
       <div>
         {owners.length > 0 &&
           owners.map((owner) => (
             <Link
-              className='owners badge'
+              className='department-owners badge'
               key={owner._id}
               to={`/users/${owner._id}`}
             >
@@ -26,7 +26,7 @@ const DepartmentItem = ({
             </Link>
           ))}
       </div>
-      <h5 className='location'>{location.name}</h5>
+      <h5 className='department-location'>{location.name}</h5>
     </div>
   );
 };

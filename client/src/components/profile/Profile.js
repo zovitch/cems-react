@@ -4,8 +4,8 @@ import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
 import { getUserById } from '../../actions/user';
 import { Link, useParams } from 'react-router-dom';
-import ProfileTop from './ProfileTop';
 import ProfileDepartment from './ProfileDepartment';
+import ProfileItem from '../profiles/ProfileItem';
 
 const Profile = ({ getUserById, user: { user }, auth }) => {
   const { id } = useParams();
@@ -30,11 +30,15 @@ const Profile = ({ getUserById, user: { user }, auth }) => {
                 Edit Profile
               </Link>
             )}
-          <div className=' my-1'>
-            <ProfileTop user={user} />
-          </div>
-          <div>
-            <ProfileDepartment user={user} />
+          <div className='my-1 profile-grid'>
+            <div className='profile-info'>
+              <div className='lead'>Profile</div>
+              <ProfileItem user={user} />
+            </div>
+            <div className='profile-departments'>
+              <div className='lead'>Departments</div>
+              {/* <ProfileDepartment user={user} /> */} BUG
+            </div>
           </div>
         </Fragment>
       )}

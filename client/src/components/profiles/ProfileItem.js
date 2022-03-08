@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 
 const ProfileItem = ({ user: { _id, name } }) => {
   return (
-    <div className='profile bg-light'>
-      <Link to={`/users/${_id}`}>
+    <div className='profiles-item bg-light'>
+      <Link className='profile-avatar' to={`/users/${_id}`}>
         <Avatar
           name={name}
           round={true}
@@ -16,7 +16,7 @@ const ProfileItem = ({ user: { _id, name } }) => {
           // maxInitials='3'
         />{' '}
       </Link>
-      <Link to={`/users/${_id}`}>
+      <Link className='profile-name' to={`/users/${_id}`}>
         <h2>{name}</h2>
       </Link>
     </div>
