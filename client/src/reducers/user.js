@@ -5,7 +5,7 @@ import {
   UPDATE_USER,
   USER_ERROR,
   GET_USERDEPARTMENTS,
-  CLEAR_DEPARTMENT,
+  CLEAR_DEPARTMENTS,
 } from '../actions/types';
 
 const initialState = {
@@ -47,7 +47,7 @@ function userReducer(state = initialState, action) {
         user: null,
         departments: null,
       };
-    case CLEAR_DEPARTMENT:
+    case CLEAR_DEPARTMENTS:
       return {
         ...state,
         departments: null,

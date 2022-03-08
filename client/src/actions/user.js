@@ -10,7 +10,7 @@ import {
   ACCOUNT_DELETED,
   CLEAR_USER,
   GET_USERDEPARTMENTS,
-  CLEAR_DEPARTMENT,
+  CLEAR_DEPARTMENTS,
 } from './types';
 
 // Get current user
@@ -114,7 +114,7 @@ export const deleteAccount = () => async (dispatch) => {
 // Get all departments for one user
 export const getDepartmentsByUserId = (userId) => async (dispatch) => {
   dispatch({
-    type: CLEAR_DEPARTMENT,
+    type: CLEAR_DEPARTMENTS,
   });
   try {
     const res = await api.get(`/users/${userId}/departments`);
