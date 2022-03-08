@@ -16,7 +16,7 @@ const DepartmentTop = ({ department: { trigram, name, location, owners } }) => {
         </div>
         {owners.length > 0 &&
           owners.map((owner) => (
-            <Link to={`/users/${owner._id}`}>
+            <Link key={owner._id} to={`/users/${owner._id}`}>
               <Avatar name={owner.name} round={true} size='50px' />
             </Link>
           ))}

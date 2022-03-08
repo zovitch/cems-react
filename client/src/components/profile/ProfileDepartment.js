@@ -15,7 +15,7 @@ const ProfileDepartment = ({
     <div className='post bg-light p-1'>
       {departments.length > 0 &&
         departments.map((department) => (
-          <Link to={`/departments/${department.trigram}`}>
+          <Link key={department._id} to={`/departments/${department.trigram}`}>
             {department.trigram}
           </Link>
         ))}
