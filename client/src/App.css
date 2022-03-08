@@ -335,7 +335,7 @@ button {
 }
 
 /* Departments Page */
-.department {
+.departments {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
@@ -345,7 +345,7 @@ button {
   line-height: 1.8;
 }
 
-.department-item {
+.departments-item {
   display: grid;
   grid-template-areas:
     'trigram'
@@ -355,7 +355,6 @@ button {
     'owners';
   /* border: steelblue 2px solid; */
   padding: 1rem;
-  justify-content: center;
 }
 
 .trigram {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getDepartment } from '../../actions/department';
 import Spinner from '../layout/Spinner';
-import DepartmentTop from './DepartmentTop';
+import DepartmentItem from '../departments/DepartmentItem';
 
 const Department = ({ getDepartment, department: { department, loading } }) => {
   const { id } = useParams();
@@ -21,9 +21,8 @@ const Department = ({ getDepartment, department: { department, loading } }) => {
           <Link to='/departments' className='btn btn-light'>
             Back to Departments
           </Link>
-
-          <div className='my-1'>
-            <DepartmentTop department={department} />
+          <div className='my-1 bg-light'>
+            <DepartmentItem department={department} />
           </div>
         </Fragment>
       )}

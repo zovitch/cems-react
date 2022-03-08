@@ -7,7 +7,7 @@ const DepartmentItem = ({
   department: { trigram, name, location, owners },
 }) => {
   return (
-    <div className='department-item bg-light'>
+    <div className='departments-item bg-light'>
       <Link className='trigram' to={`/departments/${trigram}`}>
         <h2>{trigram}</h2>
       </Link>

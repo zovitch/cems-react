@@ -21,7 +21,7 @@ const Departments = ({
           <h1 className='large text-primary'>
             <i className='fas fa-briefcase'></i> Departments
           </h1>
-          <div className='department'>
+          <div className='departments'>
             {departments.length > 0 ? (
               departments.map((department) => (
                 <DepartmentItem key={department._id} department={department} />
