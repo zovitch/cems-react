@@ -273,22 +273,6 @@ button {
   width: 4rem;
 }
 
-.form .social-input i.fa-twitter {
-  color: #38a1f3;
-}
-.form .social-input i.fa-facebook {
-  color: #3b5998;
-}
-.form .social-input i.fa-instagram {
-  color: #3f729b;
-}
-.form .social-input i.fa-youtube {
-  color: #c4302b;
-}
-.form .social-input i.fa-linkedin {
-  color: #0077b5;
-}
-
 .table th,
 .table td {
   padding: 1rem;
@@ -350,7 +334,49 @@ button {
   text-align: center;
 }
 
-/* below this maybe we can redo */
+/* Departments Page */
+.department {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+  grid-gap: 2rem;
+  padding: 1rem;
+  align-items: stretch;
+  line-height: 1.8;
+}
+
+.department-item {
+  display: grid;
+  grid-template-areas:
+    'trigram'
+    'name'
+    'line'
+    'location'
+    'owners';
+  /* border: steelblue 2px solid; */
+  padding: 1rem;
+  justify-content: center;
+}
+
+.trigram {
+  grid-area: trigram;
+  text-align: center;
+}
+.location {
+  grid-area: location;
+  text-align: center;
+}
+.name {
+  grid-area: name;
+  text-align: center;
+}
+.line {
+  grid-area: line;
+}
+.owners {
+  grid-area: owners;
+  text-align: center;
+}
 
 /* Profiles Page */
 .profile {
@@ -543,6 +569,11 @@ button {
 
   .navbar .welcome {
     display: none;
+  }
+
+  /* Departments Page */
+  .department {
+    grid-template-columns: 1fr;
   }
 
   /* Profiles Page */

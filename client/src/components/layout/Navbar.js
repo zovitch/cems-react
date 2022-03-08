@@ -24,12 +24,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
       <li>
         {user && (
           <Link to={`/users/${user._id}`}>
-            <Avatar
-              name={user.name}
-              round={true}
-              size='25'
-              // textSizeRatio='1.2'
-            />
+            <Avatar name={user.name} round={true} size='25' />
           </Link>
         )}
       </li>
