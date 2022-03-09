@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDepartment, createDepartment } from '../../actions/department';
+import { getLocations } from '../../actions/location';
 /*
   NOTE: declare initialState outside of component
   so that it doesn't trigger a useEffect
@@ -13,32 +14,36 @@ const initialState = {
   trigram: '',
   name: '',
   location: '',
+  owners: '',
 };
 
 const DepartmentForm = ({
   getDepartment,
+  getLocations,
+  location: { locations },
   createDepartment,
   department: { department, loading },
 }) => {
   const [formData, setFormData] = useState(initialState);
 
-  const { trigram, name, location } = formData;
-
   const navigate = useNavigate();
 
   useEffect(() => {
+    getLocations();
+
     if (!department) getDepartment();
     if (!loading && department) {
       const departmentData = { ...initialState };
       for (const key in department) {
         if (key in departmentData) departmentData[key] = department[key];
       }
+
       // if the owners is an array from the API response
       //   if (Array.isArray(owners))
       //     departmentData.owners = departmentData.owners.join(', ');
       setFormData(departmentData);
     }
-  }, [department, getDepartment, loading]);
+  }, [department, getDepartment, getLocations, loading]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -60,7 +65,7 @@ const DepartmentForm = ({
             type='text'
             placeholder='Trigram'
             name='trigram'
-            value={trigram}
+            value={formData.trigram}
             onChange={onChange}
             required
           />
@@ -71,23 +76,46 @@ const DepartmentForm = ({
             type='text'
             placeholder='Name'
             name='name'
-            value={name}
+            value={formData.name}
             onChange={onChange}
           />
         </div>
         <div className='form-group'>
           <small className='form-text'>Location</small>
-
-          <input
-            type='text'
-            placeholder='Location'
-            name='location'
-            value={location.name}
-            onChange={onChange}
-            disabled
-          />
+          {locations.length > 0 ? (
+            <select
+              name='location'
+              value={formData.location._id}
+              id='location-select'
+              onChange={onChange}
+            >
+              {locations.map((l) => (
+                <option key={l._id} value={l._id}>
+                  {l.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <h4>No Location Found</h4>
+          )}
         </div>
 
+        <div className='form-group'>
+          <small className='form-text'>Owners</small>
+
+          {formData.owners.length > 0 &&
+            formData.owners.map((owner) => (
+              <input
+                type='text'
+                placeholder='Owners'
+                name='owners'
+                key='owner._id'
+                value={owner.name}
+                onChange={onChange}
+                disabled
+              />
+            ))}
+        </div>
         <input type='submit' value='Save' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/departments'>
           Go Back
@@ -106,12 +134,16 @@ const DepartmentForm = ({
 DepartmentForm.propTypes = {
   department: PropTypes.object.isRequired,
   getDepartment: PropTypes.func.isRequired,
+  getLocations: PropTypes.func.isRequired,
   createDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   department: state.department,
+  location: state.location,
 });
-export default connect(mapStateToProps, { getDepartment, createDepartment })(
-  DepartmentForm
-);
+export default connect(mapStateToProps, {
+  getDepartment,
+  getLocations,
+  createDepartment,
+})(DepartmentForm);

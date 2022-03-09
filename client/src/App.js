@@ -13,6 +13,7 @@ import DepartmentForm from './components/department-form/DepartmentForm';
 import Departments from './components/departments/Departments';
 import Department from './components/department/Department';
 import ProfileDepartment from './components/profile/ProfileDepartment';
+import Locations from './components/locations/Locations';
 
 import { LOGOUT } from './actions/types';
 
@@ -55,6 +56,7 @@ const App = () => {
           <Route exact path='/users/:id' element={<Profile />} />
           <Route exact path='/departments' element={<Departments />} />
           <Route exact path='/departments/:id' element={<Department />} />
+          <Route exact path='/locations' element={<Locations />} />
           <Route
             exact
             path='/users/:user_id/departments/'
