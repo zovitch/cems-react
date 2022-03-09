@@ -9,6 +9,7 @@ import Profile from './components/profile/Profile';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
 import ProfileForm from './components/profile-form/ProfileForm';
+import DepartmentForm from './components/department-form/DepartmentForm';
 import Departments from './components/departments/Departments';
 import Department from './components/department/Department';
 import ProfileDepartment from './components/profile/ProfileDepartment';
@@ -73,6 +74,16 @@ const App = () => {
             exact
             path='/edit-profile'
             element={<PrivateRoute component={ProfileForm} />}
+          />
+          <Route
+            exact
+            path='/department'
+            element={<PrivateRoute component={DepartmentForm} />}
+          />
+          <Route
+            exact
+            path='/edit-department'
+            element={<PrivateRoute component={DepartmentForm} />}
           />
         </Routes>
       </Router>

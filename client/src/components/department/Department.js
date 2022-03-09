@@ -6,7 +6,7 @@ import { getDepartment } from '../../actions/department';
 import Spinner from '../layout/Spinner';
 import DepartmentItem from '../departments/DepartmentItem';
 
-const Department = ({ getDepartment, department: { department, loading } }) => {
+const Department = ({ getDepartment, department: { department }, auth }) => {
   const { id } = useParams();
   useEffect(() => {
     getDepartment(id);
@@ -21,6 +21,11 @@ const Department = ({ getDepartment, department: { department, loading } }) => {
           <Link to='/departments' className='btn btn-light'>
             Back to Departments
           </Link>
+          {auth.isAuthenticated && auth.loading === false && (
+            <Link to='/edit-department' className='btn btn-dark'>
+              Edit Department
+            </Link>
+          )}
           <div className='my-1 bg-light'>
             <DepartmentItem department={department} />
           </div>
@@ -33,10 +38,12 @@ const Department = ({ getDepartment, department: { department, loading } }) => {
 Department.propTypes = {
   getDepartment: PropTypes.func.isRequired,
   department: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   department: state.department,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getDepartment })(Department);
