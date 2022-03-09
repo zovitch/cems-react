@@ -52,7 +52,7 @@ const ProfileForm = ({
       </h1>
       <form className='form py' onSubmit={onSubmit}>
         <div className='form-group'>
-          <small className='form-text m'>Name</small>
+          <small className='form-text '>Name</small>
           <input
             type='text'
             placeholder='Name'
@@ -62,14 +62,17 @@ const ProfileForm = ({
             required
           />
         </div>
-        <small className='form-text'>E-mail</small>
-        <input
-          type='email'
-          placeholder='Email'
-          name='email'
-          value={email}
-          disabled
-        />{' '}
+        <div className='form-group'>
+          <small className='form-text '>E-mail</small>
+          <input
+            type='email'
+            placeholder='Email'
+            name='email'
+            value={email}
+            disabled
+          />
+        </div>
+
         <input type='submit' value='Save' className='btn btn-primary my-1' />
       </form>
       <div className='line' />
