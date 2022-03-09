@@ -12,7 +12,6 @@ import { getCurrentUser, editUser, deleteAccount } from '../../actions/user';
 const initialState = {
   name: '',
   email: '',
-  department: [],
 };
 
 const ProfileForm = ({
