@@ -37,7 +37,7 @@ const Profile = ({ getUserById, user: { user }, auth }) => {
             </div>
             <div className='profile-departments'>
               <div className='lead'>Departments</div>
-              {/* <ProfileDepartment user={user} /> */} BUG
+              <ProfileDepartment user={user} />
             </div>
           </div>
         </Fragment>

@@ -1,29 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDepartmentsByUserId } from '../../actions/user';
 import { Link } from 'react-router-dom';
+import Spinner from '../layout/Spinner';
 
 const ProfileDepartment = ({
   getDepartmentsByUserId,
-  user: { user, departments },
+  user: { user, departments, loading },
 }) => {
   useEffect(() => {
     getDepartmentsByUserId(user._id);
   }, [getDepartmentsByUserId, user._id]);
   return (
     <ul className='post bg-light p-1'>
-      {departments.length > 0 &&
-        departments.map((department) => (
-          <li>
-            <Link
-              key={department._id}
-              to={`/departments/${department.trigram}`}
-            >
-              {department.trigram}
-            </Link>
-          </li>
-        ))}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          {departments &&
+            departments.length > 0 &&
+            departments.map((department) => (
+              <li key={department._id}>
+                <Link
+                  className='lead m'
+                  to={`/departments/${department.trigram}`}
+                >
+                  {department.trigram}
+                </Link>
+              </li>
+            ))}
+        </Fragment>
+      )}
     </ul>
   );
 };
