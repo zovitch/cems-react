@@ -264,15 +264,6 @@ button {
   font: inherit;
 }
 
-.form .social-input {
-  display: flex;
-}
-
-.form .social-input i {
-  padding: 0.5rem;
-  width: 4rem;
-}
-
 .table th,
 .table td {
   padding: 1rem;
