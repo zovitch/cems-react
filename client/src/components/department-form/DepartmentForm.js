@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDepartment, createDepartment } from '../../actions/department';
 import { getLocations } from '../../actions/location';
+import { getUsers } from '../../actions/user';
 /*
   NOTE: declare initialState outside of component
   so that it doesn't trigger a useEffect
@@ -20,6 +21,8 @@ const initialState = {
 const DepartmentForm = ({
   getDepartment,
   getLocations,
+  getUsers,
+  user: { users },
   location: { locations },
   createDepartment,
   department: { department, loading },
@@ -30,7 +33,7 @@ const DepartmentForm = ({
 
   useEffect(() => {
     getLocations();
-
+    getUsers();
     if (!department) getDepartment();
     if (!loading && department) {
       const departmentData = { ...initialState };
@@ -70,6 +73,7 @@ const DepartmentForm = ({
             required
           />
         </div>
+
         <div className='form-group'>
           <small className='form-text'>Name</small>
           <input
@@ -80,6 +84,7 @@ const DepartmentForm = ({
             onChange={onChange}
           />
         </div>
+
         <div className='form-group'>
           <small className='form-text'>Location</small>
           {locations.length > 0 ? (
@@ -116,6 +121,21 @@ const DepartmentForm = ({
               />
             ))}
         </div>
+
+        <div className='form-group'>
+          {users.length > 0 &&
+            users.map((user) => (
+              <ol key={user._id}>
+                <input
+                  type='checkbox'
+                  value={user.name}
+                  checked={formData.owners.map((owner) => owner === user)}
+                />{' '}
+                {user.name}
+              </ol>
+            ))}
+        </div>
+
         <input type='submit' value='Save' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/departments'>
           Go Back
@@ -136,14 +156,18 @@ DepartmentForm.propTypes = {
   getDepartment: PropTypes.func.isRequired,
   getLocations: PropTypes.func.isRequired,
   createDepartment: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  getUsers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   department: state.department,
   location: state.location,
+  user: state.user,
 });
 export default connect(mapStateToProps, {
   getDepartment,
   getLocations,
   createDepartment,
+  getUsers,
 })(DepartmentForm);
