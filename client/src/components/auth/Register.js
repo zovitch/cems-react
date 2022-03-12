@@ -52,6 +52,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             value={name}
             onChange={onChange}
             required
+            autoFocus
           />
         </div>
         <div className='form-group'>

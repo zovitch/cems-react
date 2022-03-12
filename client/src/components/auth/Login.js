@@ -43,6 +43,7 @@ const Login = ({ login, isAuthenticated }) => {
             name='email'
             value={email}
             onChange={onChange}
+            autoFocus
             required
           />
           <small className='form-text'></small>
