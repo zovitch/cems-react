@@ -14,6 +14,7 @@ import Departments from './components/departments/Departments';
 import Department from './components/department/Department';
 import ProfileDepartment from './components/profile/ProfileDepartment';
 import Locations from './components/locations/Locations';
+import Location from './components/location/Location';
 
 import { LOGOUT } from './actions/types';
 
@@ -55,8 +56,9 @@ const App = () => {
           <Route exact path='/users' element={<Profiles />} />
           <Route exact path='/users/:id' element={<Profile />} />
           <Route exact path='/departments' element={<Departments />} />
-          <Route exact path='/departments/:id' element={<Department />} />
+          <Route exact path='/departments/:trigram' element={<Department />} />
           <Route exact path='/locations' element={<Locations />} />
+          <Route exact path='/locations/:locationId' element={<Location />} />
           <Route
             exact
             path='/users/:user_id/departments/'
@@ -77,11 +79,11 @@ const App = () => {
             path='/edit-profile'
             element={<PrivateRoute component={ProfileForm} />}
           />
-          <Route
+          {/* <Route
             exact
             path='/department'
             element={<PrivateRoute component={DepartmentForm} />}
-          />
+          /> */}
           <Route
             exact
             path='/edit-department'

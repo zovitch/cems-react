@@ -87,14 +87,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route   GET api/locations/:shortname
-// @desc    GET the detail of one location from its shortname
-// @access  Publice
-router.get('/:shortname', async (req, res) => {
+// @route   GET api/locations/:locationId
+// @desc    GET the detail of one location from its id
+// @access  Public
+router.get('/:locationId', async (req, res) => {
   try {
-    const location = await Location.findOne({
-      shortname: req.params.shortname,
-    });
+    const location = await Location.findById(req.params.locationId);
 
     if (!location) {
       return res.status(400).json({ msg: 'Location not found' });
@@ -106,12 +104,12 @@ router.get('/:shortname', async (req, res) => {
   }
 });
 
-// @route   DELETE api/locations/:location_id
+// @route   DELETE api/locations/:locationId
 // @desc    Delete a Location
 // @access  Private
-router.delete('/:location_id', auth, async (req, res) => {
+router.delete('/:locationId', auth, async (req, res) => {
   try {
-    const location = await Location.findById(req.params.location_id);
+    const location = await Location.findById(req.params.locationId);
     if (!location) {
       return res.status(404).json({ msg: 'Location not found' });
     }

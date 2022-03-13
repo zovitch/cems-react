@@ -4,6 +4,7 @@ import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
 import { getDepartments } from '../../actions/department';
 import DepartmentItem from './DepartmentItem';
+import { Link } from 'react-router-dom';
 
 const Departments = ({
   getDepartments,
@@ -22,9 +23,17 @@ const Departments = ({
             <i className='fas fa-briefcase'></i> Departments
           </h1>
           <div className='departments'>
-            {departments.length > 0 ? (
+            {departments && departments.length > 0 ? (
               departments.map((department) => (
-                <DepartmentItem key={department._id} department={department} />
+                <Link
+                  key={department._id}
+                  to={`/departments/${department.trigram}`}
+                >
+                  <DepartmentItem
+                    key={department._id}
+                    department={department}
+                  />
+                </Link>
               ))
             ) : (
               <h4>No department found</h4>

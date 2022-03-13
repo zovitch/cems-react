@@ -172,8 +172,8 @@ router.get('/:user_id/departments', async (req, res) => {
       return res.status(400).json({ msg: 'User not found' });
     }
     const departments = await Department.find({ owners: user })
-      .select('trigram name owners')
-      .populate('owners', ['name']);
+      .select('trigram name owners location')
+      .populate('owners', ['name'], 'location');
     return res.json(departments);
   } catch (err) {
     if (err.kind === 'ObjectId') {

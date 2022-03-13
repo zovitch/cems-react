@@ -34,7 +34,7 @@ function departmentReducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
-        department: null,
+        // department: null,
       };
     default:
       return state;

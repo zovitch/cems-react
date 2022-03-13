@@ -32,11 +32,15 @@ const Profile = ({ getUserById, user: { user }, auth }) => {
             )}
           <div className='my-1 profile-grid'>
             <div className='profile-info'>
-              <div className='lead'>Profile</div>
+              <div className='lead'>
+                <i className='fas fa-user'></i> Profile
+              </div>
               <ProfileItem user={user} />
             </div>
             <div className='profile-departments'>
-              <div className='lead'>Departments</div>
+              <div className='lead'>
+                <i className='fas fa-briefcase'></i> Departments
+              </div>
               <ProfileDepartment user={user} />
             </div>
           </div>

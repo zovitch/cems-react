@@ -29,34 +29,49 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, nameCN, user, location } = req.body;
+    const { name, nameCN, owners, location } = req.body;
     const trigram = req.body.trigram.toUpperCase();
 
     const departmentFields = {};
     if (name) departmentFields.name = name;
     if (nameCN) departmentFields.nameCN = nameCN;
+    if (owners) departmentFields.owners = owners;
     if (trigram) departmentFields.trigram = trigram;
     if (location) departmentFields.location = location;
 
     try {
       let department = await Department.findOne({ trigram: trigram });
+      let departmentWithName = await Department.findOne({ name: name });
+      let departmentWithNameCN = await Department.findOne({ name: nameCN });
+
+      if (
+        departmentWithName &&
+        department &&
+        departmentWithName.trigram !== department.trigram
+      ) {
+        return res.status(400).json({
+          errors: [
+            {
+              msg: 'A department with this name already exists, please chose a different name',
+            },
+          ],
+        });
+      }
+      if (
+        departmentWithNameCN &&
+        department &&
+        departmentWithNameCN.trigram !== department.trigram
+      ) {
+        return res.status(400).json({
+          errors: [
+            {
+              msg: 'A department with this Chinese name already exists, please chose a different Chinese name',
+            },
+          ],
+        });
+      }
 
       if (department) {
-        if (user) {
-          const foundUser = await User.findById(user);
-          if (foundUser) {
-            if (
-              // Check if the foundUser is not already in the list of owners
-              !department.owners.filter(
-                (owner) => owner.toString() === foundUser.id
-              ).length > 0
-            ) {
-              department.owners.unshift(foundUser);
-              await department.save();
-            }
-          }
-        }
-
         department = await Department.findOneAndUpdate(
           { trigram: trigram },
           { $set: departmentFields },
@@ -68,19 +83,19 @@ router.post(
       }
 
       // no department found so we Create
-      if (user) {
+      if (owners) {
         const foundUser = await User.findById(user);
         if (foundUser) {
           departmentFields.owners = [foundUser.id]; // We create the Array to receive the first owner
         }
       }
       department = new Department(departmentFields);
+
       await department.populate('owners', ['name']);
       await department.populate('location');
       await department.save();
       res.json(department);
     } catch (err) {
-      console.error(err.message);
       if (err.kind === 'ObjectId') {
         return res.status(404).json({ msg: 'User not found' });
       }
@@ -152,49 +167,50 @@ router.delete('/:trigram', async (req, res) => {
   }
 });
 
+// NOT NEEDED BECAUSE THE LIST OF OWNERS IS OVERWRITTEN EVERY TIME WE EDIT THE DEPARTMENT
 // @route   DELETE api/departments/:trigram/:user
 // @desc    DELETE a user from the department's owners
 // @access  Private
 
-router.delete('/:trigram/:user', auth, async (req, res) => {
-  try {
-    const department = await Department.findOne({
-      trigram: req.params.trigram,
-    }).populate('owners', ['name']);
+// router.delete('/:trigram/:user', auth, async (req, res) => {
+//   try {
+//     const department = await Department.findOne({
+//       trigram: req.params.trigram,
+//     }).populate('owners', ['name']);
 
-    if (department) {
-      const foundUser = await User.findById(req.params.user);
-      if (foundUser) {
-        if (
-          department.owners.filter(
-            (owner) => owner.id.toString() === foundUser.id
-          ).length > 0
-        ) {
-          department.owners.splice(foundUser, 1);
-          await department.save();
-          res.json(department);
-        } else {
-          return res
-            .status(404)
-            .json({ msg: 'User was not found in the list of owners' });
-        }
-      } else {
-        return res
-          .status(404)
-          .json({ msg: 'User was not found in the list of owners' });
-      }
-    } else {
-      return res.status(404).json({ msg: 'Department not found' });
-    }
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res
-        .status(404)
-        .json({ msg: 'User was not found in the list of owners' });
-    }
-    res.status(500).send('Server Error');
-  }
-});
+//     if (department) {
+//       const foundUser = await User.findById(req.params.user);
+//       if (foundUser) {
+//         if (
+//           department.owners.filter(
+//             (owner) => owner.id.toString() === foundUser.id
+//           ).length > 0
+//         ) {
+//           department.owners.splice(foundUser, 1);
+//           await department.save();
+//           res.json(department);
+//         } else {
+//           return res
+//             .status(404)
+//             .json({ msg: 'User was not found in the list of owners' });
+//         }
+//       } else {
+//         return res
+//           .status(404)
+//           .json({ msg: 'User was not found in the list of owners' });
+//       }
+//     } else {
+//       return res.status(404).json({ msg: 'Department not found' });
+//     }
+//   } catch (err) {
+//     console.error(err.message);
+//     if (err.kind === 'ObjectId') {
+//       return res
+//         .status(404)
+//         .json({ msg: 'User was not found in the list of owners' });
+//     }
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 module.exports = router;

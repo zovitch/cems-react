@@ -1,4 +1,4 @@
-import { GET_LOCATIONS, LOCATION_ERROR } from '../actions/types';
+import { GET_LOCATIONS, GET_LOCATION, LOCATION_ERROR } from '../actions/types';
 
 const initialState = {
   location: null,
@@ -15,6 +15,13 @@ function locationReducer(state = initialState, action) {
       return {
         ...state,
         locations: payload,
+        loading: false,
+      };
+    }
+    case GET_LOCATION: {
+      return {
+        ...state,
+        location: payload,
         loading: false,
       };
     }

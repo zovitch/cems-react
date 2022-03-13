@@ -142,11 +142,11 @@ img {
 
 .badge {
   font-size: 0.8rem;
-  padding: 0.1rem;
-  text-align: center;
-  margin: 0.3rem;
-  background: var(--light-color);
-  color: #333;
+  /* padding: 0.1rem; */
+  /* text-align: center; */
+  margin: 0.1rem;
+  /* background: var(--light-color); */
+  /* color: #333; */
 }
 
 .alert {
@@ -257,6 +257,7 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .form input[type='submit'],
@@ -284,7 +285,7 @@ button {
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 3px var(--primary-color);
+  border-bottom: solid 3px var(--secondary-color);
   opacity: 0.9;
 }
 
@@ -325,8 +326,8 @@ button {
   text-align: center;
 }
 
-/* Departments Page */
-.departments {
+/* Locations Page*/
+.locations {
   display: grid;
   /* grid-template-columns: repeat(3, 1fr); */
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -336,35 +337,75 @@ button {
   line-height: 1.8;
 }
 
-.departments-item {
+.locations-item {
   display: grid;
   grid-template-areas:
-    'trigram'
-    'name'
-    'line'
-    'location'
-    'owners';
+    'locationShortname locationLetter'
+    'line line'
+    'locationName locationName'
+    'locationFloor locationFloor';
+  padding: 1rem;
+}
+
+.location-locationLetter {
+  grid-area: locationLetter;
+  text-align: center;
+}
+
+.location-shortname {
+  grid-area: locationShortname;
+  text-align: center;
+}
+
+.location-name {
+  grid-area: locationName;
+  margin-left: 1rem;
+}
+
+.location-floor {
+  grid-area: locationFloor;
+  margin-left: 1rem;
+}
+
+/* Departments Page */
+.departments {
+  display: grid;
+  /* grid-template-columns: repeat(3, 1fr); */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 2rem;
+  padding: 1rem;
+  line-height: 1.8;
+}
+
+.departments-grid-item {
+  display: grid;
+  grid-template-areas:
+    'trigram trigram trigram .'
+    'name name name .'
+    'location location location .'
+    'owners owners owners owners';
   padding: 1rem;
 }
 
 .department-trigram {
   grid-area: trigram;
-  text-align: center;
+  color: text-primary;
+  /* text-align: center; */
 }
 .department-location {
   grid-area: location;
-  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 .department-name {
   grid-area: name;
-  text-align: center;
-}
-.line {
-  grid-area: line;
 }
 .department-owners {
   grid-area: owners;
-  text-align: center;
+  /* background-color: #862648; */
+  /* padding-left: 0.5rem; */
+  align-self: center;
+  justify-self: end;
 }
 
 /* Profiles Page */
@@ -465,8 +506,7 @@ button {
     display: none;
   }
 
-  /* Departments Page */
-  .departments {
+  .locations {
     grid-template-columns: 1fr;
   }
 

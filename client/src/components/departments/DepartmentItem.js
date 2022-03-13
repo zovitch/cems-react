@@ -7,26 +7,24 @@ const DepartmentItem = ({
   department: { trigram, name, location, owners },
 }) => {
   return (
-    <div className='departments-item bg-light'>
-      <Link className='department-trigram' to={`/departments/${trigram}`}>
-        <h2>{trigram}</h2>
-      </Link>
+    <div className='departments-grid-item bg-light'>
+      <h2 className='department-trigram'>{trigram}</h2>
       <div className='department-name'>{name}</div>
 
-      <div className='line'></div>
-      <div>
+      <h5 className='department-location'>{location.name}</h5>
+      <div className='department-owners '>
         {owners.length > 0 &&
           owners.map((owner) => (
-            <Link
-              className='department-owners badge'
-              key={owner._id}
-              to={`/users/${owner._id}`}
-            >
-              <Avatar name={owner.name} round={true} size='30px' />
+            <Link key={owner._id} to={`/users/${owner._id}`}>
+              <Avatar
+                className='badge '
+                name={owner.name}
+                round={true}
+                size='30px'
+              />
             </Link>
           ))}
       </div>
-      <h5 className='department-location'>{location.name}</h5>
     </div>
   );
 };

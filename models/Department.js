@@ -16,6 +16,7 @@ const DepartmentSchema = new mongoose.Schema({
   },
   nameCN: {
     type: String,
+    index: { unique: true, sparse: true },
   },
   owners: [
     {

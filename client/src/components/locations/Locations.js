@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
 import { getLocations } from '../../actions/location';
+import LocationItem from './LocationItem';
+import { Link } from 'react-router-dom';
 
 const Locations = ({ getLocations, location: { locations, loading } }) => {
   useEffect(() => {
@@ -18,10 +20,12 @@ const Locations = ({ getLocations, location: { locations, loading } }) => {
           <h1 className='large text-primary'>
             <i className='fas fa-location'> </i> Locations
           </h1>
-          <div className='departments'>
-            {locations.length > 0 ? (
+          <div className='locations'>
+            {locations && locations.length > 0 ? (
               locations.map((location) => (
-                <h4 key={location._id}>{location.name}</h4>
+                <Link key={location._id} to={`/locations/${location._id}`}>
+                  <LocationItem key={location._id} location={location} />
+                </Link>
               ))
             ) : (
               <h4>No Location found</h4>

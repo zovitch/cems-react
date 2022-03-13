@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getDepartmentsByUserId } from '../../actions/user';
 import { Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
+import DepartmentItem from '../departments/DepartmentItem';
 
 const ProfileDepartment = ({
   getDepartmentsByUserId,
@@ -12,24 +13,30 @@ const ProfileDepartment = ({
   useEffect(() => {
     getDepartmentsByUserId(user._id);
   }, [getDepartmentsByUserId, user._id]);
+
   return (
     <ul className='post bg-light p-1'>
       {loading ? (
         <Spinner />
       ) : (
         <Fragment>
-          {departments &&
-            departments.length > 0 &&
-            departments.map((department) => (
-              <li key={department._id}>
+          <div className=''>
+            {departments && departments.length > 0 ? (
+              departments.map((department) => (
                 <Link
-                  className='lead m'
+                  key={department._id}
                   to={`/departments/${department.trigram}`}
                 >
-                  {department.trigram}
+                  <DepartmentItem
+                    key={department._id}
+                    department={department}
+                  />
                 </Link>
-              </li>
-            ))}
+              ))
+            ) : (
+              <h4>No department found</h4>
+            )}
+          </div>{' '}
         </Fragment>
       )}
     </ul>

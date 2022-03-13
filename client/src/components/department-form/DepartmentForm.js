@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDepartment, createDepartment } from '../../actions/department';
 import { getLocations } from '../../actions/location';
 import { getUsers } from '../../actions/user';
+import Select from 'react-select';
+
 /*
   NOTE: declare initialState outside of component
   so that it doesn't trigger a useEffect
@@ -14,39 +16,49 @@ import { getUsers } from '../../actions/user';
 const initialState = {
   trigram: '',
   name: '',
+  nameCN: '',
   location: '',
-  owners: '',
+  owners: [],
 };
 
 const DepartmentForm = ({
   getDepartment,
   getLocations,
   getUsers,
+  createDepartment,
   user: { users },
   location: { locations },
-  createDepartment,
-  department: { department, loading },
+  department: { department },
 }) => {
   const [formData, setFormData] = useState(initialState);
-
   const navigate = useNavigate();
+  // const { departmentId } = useParams();
+
+  const defaultOwners = formData.owners.map((o) => ({
+    value: o._id,
+    label: o.name,
+  }));
 
   useEffect(() => {
-    getLocations();
-    getUsers();
-    if (!department) getDepartment();
-    if (!loading && department) {
+    !department && getDepartment(department.trigram);
+    locations.length <= 0 && getLocations();
+    users.length <= 0 && getUsers();
+    if (!department.loading && department) {
       const departmentData = { ...initialState };
       for (const key in department) {
         if (key in departmentData) departmentData[key] = department[key];
       }
-
-      // if the owners is an array from the API response
-      //   if (Array.isArray(owners))
-      //     departmentData.owners = departmentData.owners.join(', ');
       setFormData(departmentData);
     }
-  }, [department, getDepartment, getLocations, loading]);
+  }, [
+    department,
+    getDepartment,
+    getLocations,
+    getUsers,
+    department.loading,
+    locations.length,
+    users.length,
+  ]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,6 +66,15 @@ const DepartmentForm = ({
   const onSubmit = (e) => {
     e.preventDefault();
     createDepartment(formData, navigate, department ? true : false);
+  };
+
+  const handleOnChange = (value) => {
+    const newValues = { ...formData };
+    newValues.owners = value.map((item) => ({
+      _id: item.value,
+      name: item.label,
+    }));
+    setFormData(newValues);
   };
 
   return (
@@ -70,7 +91,7 @@ const DepartmentForm = ({
             name='trigram'
             value={formData.trigram}
             onChange={onChange}
-            required
+            disabled
           />
         </div>
 
@@ -81,6 +102,17 @@ const DepartmentForm = ({
             placeholder='Name'
             name='name'
             value={formData.name}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className='form-group'>
+          <small className='form-text'>Name in Chinese</small>
+          <input
+            type='text'
+            placeholder='Name in Chinese'
+            name='nameCN'
+            value={formData.nameCN}
             onChange={onChange}
           />
         </div>
@@ -105,36 +137,22 @@ const DepartmentForm = ({
           )}
         </div>
 
-        <div className='form-group'>
-          <small className='form-text'>Owners</small>
-
-          {formData.owners.length > 0 &&
-            formData.owners.map((owner) => (
-              <input
-                type='text'
-                placeholder='Owners'
+        <Fragment>
+          <div className='form-group'>
+            <small className='form-text'>Owners</small>
+            {users.length > 0 && (
+              <Select
                 name='owners'
-                key='owner._id'
-                value={owner.name}
-                onChange={onChange}
-                disabled
+                value={formData.owners._id}
+                onChange={handleOnChange}
+                isMulti
+                defaultValue={defaultOwners}
+                key={defaultOwners}
+                options={users.map((u) => ({ value: u._id, label: u.name }))}
               />
-            ))}
-        </div>
-
-        <div className='form-group'>
-          {users.length > 0 &&
-            users.map((user) => (
-              <ol key={user._id}>
-                <input
-                  type='checkbox'
-                  value={user.name}
-                  checked={formData.owners.map((owner) => owner === user)}
-                />{' '}
-                {user.name}
-              </ol>
-            ))}
-        </div>
+            )}
+          </div>
+        </Fragment>
 
         <input type='submit' value='Save' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/departments'>
@@ -152,12 +170,13 @@ const DepartmentForm = ({
 };
 
 DepartmentForm.propTypes = {
-  department: PropTypes.object.isRequired,
   getDepartment: PropTypes.func.isRequired,
+  getUsers: PropTypes.func.isRequired,
   getLocations: PropTypes.func.isRequired,
   createDepartment: PropTypes.func.isRequired,
+  department: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  getUsers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -168,6 +187,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getDepartment,
   getLocations,
-  createDepartment,
   getUsers,
+  createDepartment,
 })(DepartmentForm);
