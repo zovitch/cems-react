@@ -29,6 +29,9 @@ const Profile = ({
         <Spinner />
       ) : (
         <Fragment>
+          <h1 className='large text-primary'>
+            <i className='fas fa-user'></i> User
+          </h1>
           <Link to='/users' className='btn btn-light'>
             Back to Users
           </Link>
@@ -39,7 +42,7 @@ const Profile = ({
                 Edit Profile
               </Link>
             )}
-          <div className='profile-grid py-1'>
+          <div className='profile-grid py-2'>
             <div className='profile-info'>
               <div className='lead'>
                 <i className='fas fa-user'></i> Profile

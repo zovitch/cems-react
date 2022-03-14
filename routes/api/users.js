@@ -173,7 +173,8 @@ router.get('/:user_id/departments', async (req, res) => {
     }
     const departments = await Department.find({ owners: user })
       .select('trigram name owners location')
-      .populate('owners', ['name'], 'location');
+      .populate('owners', ['name'])
+      .populate('location');
     return res.json(departments);
   } catch (err) {
     if (err.kind === 'ObjectId') {

@@ -18,6 +18,9 @@ const Department = ({ getDepartment, department: { department }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
+          <h1 className='large text-primary'>
+            <i className='fas fa-briefcase'></i> Department
+          </h1>
           <Link to='/departments' className='btn btn-light'>
             Back to Departments
           </Link>
@@ -26,7 +29,7 @@ const Department = ({ getDepartment, department: { department }, auth }) => {
               Edit Department
             </Link>
           )}
-          <div className='department-grid py-1'>
+          <div className='department-grid py-2'>
             <DepartmentItem department={department} />
           </div>
         </Fragment>

@@ -17,7 +17,6 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
       ) : (
         <Fragment>
           <h1 className='large text-primary'>
-            {' '}
             <i className='fas fa-users'></i> Users
           </h1>
           <div className='profiles'>
