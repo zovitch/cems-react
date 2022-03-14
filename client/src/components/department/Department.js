@@ -26,7 +26,7 @@ const Department = ({ getDepartment, department: { department }, auth }) => {
               Edit Department
             </Link>
           )}
-          <div className='my-1 bg-light'>
+          <div className='department-grid py-1'>
             <DepartmentItem department={department} />
           </div>
         </Fragment>

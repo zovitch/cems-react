@@ -2,17 +2,26 @@ import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
-import { getUserById } from '../../actions/user';
+import { getDepartmentsByUserId, getUserById } from '../../actions/user';
 import { Link, useParams } from 'react-router-dom';
-import ProfileDepartment from './ProfileDepartment';
 import ProfileItem from '../profiles/ProfileItem';
+import DepartmentItem from '../departments/DepartmentItem';
 
-const Profile = ({ getUserById, user: { user }, auth }) => {
+const Profile = ({
+  getUserById,
+  getDepartmentsByUserId,
+  user: { user, departments },
+  auth,
+}) => {
   const { id } = useParams();
 
   useEffect(() => {
     getUserById(id);
-  }, [getUserById, id]);
+    getDepartmentsByUserId(id);
+  }, [getDepartmentsByUserId, getUserById, id]);
+
+  console.log(user);
+  console.log(departments);
 
   return (
     <section className='container'>
@@ -30,7 +39,7 @@ const Profile = ({ getUserById, user: { user }, auth }) => {
                 Edit Profile
               </Link>
             )}
-          <div className='my-1 profile-grid'>
+          <div className='profile-grid py-1'>
             <div className='profile-info'>
               <div className='lead'>
                 <i className='fas fa-user'></i> Profile
@@ -41,7 +50,19 @@ const Profile = ({ getUserById, user: { user }, auth }) => {
               <div className='lead'>
                 <i className='fas fa-briefcase'></i> Departments
               </div>
-              <ProfileDepartment user={user} />
+              <div className='departments'>
+                {departments && departments.length > 0 ? (
+                  departments.map((department) => (
+                    <DepartmentItem
+                      className='departments'
+                      key={department._id}
+                      department={department}
+                    />
+                  ))
+                ) : (
+                  <h4>No department found</h4>
+                )}
+              </div>
             </div>
           </div>
         </Fragment>
@@ -52,6 +73,7 @@ const Profile = ({ getUserById, user: { user }, auth }) => {
 
 Profile.propTypes = {
   getUserById: PropTypes.func.isRequired,
+  getDepartmentsByUserId: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -61,4 +83,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getUserById })(Profile);
+export default connect(mapStateToProps, {
+  getUserById,
+  getDepartmentsByUserId,
+})(Profile);

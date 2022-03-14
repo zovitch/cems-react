@@ -22,18 +22,14 @@ const Departments = ({
           <h1 className='large text-primary'>
             <i className='fas fa-briefcase'></i> Departments
           </h1>
-          <div className='departments'>
+          <div className='departments py-1'>
             {departments && departments.length > 0 ? (
               departments.map((department) => (
-                <Link
+                <DepartmentItem
+                  className='departments'
                   key={department._id}
-                  to={`/departments/${department.trigram}`}
-                >
-                  <DepartmentItem
-                    key={department._id}
-                    department={department}
-                  />
-                </Link>
+                  department={department}
+                />
               ))
             ) : (
               <h4>No department found</h4>

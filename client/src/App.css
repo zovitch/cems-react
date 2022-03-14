@@ -6,6 +6,7 @@
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
+  --border-radius: 10px;
 }
 
 * {
@@ -138,6 +139,7 @@ img {
   margin-right: 0.5rem;
   transition: opacity 0.2s ease-in;
   outline: none;
+  border-radius: var(--border-radius);
 }
 
 .badge {
@@ -171,6 +173,7 @@ img {
 .alert-light {
   background: var(--light-color);
   color: var(--dark-color);
+  border: #ccc solid 1px;
 }
 
 .btn-dark,
@@ -208,6 +211,10 @@ img {
 
 .btn:hover {
   opacity: 0.8;
+}
+.btn-light:hover {
+  background: var(--dark-color);
+  color: var(--light-color);
 }
 
 .bg-light,
@@ -257,7 +264,7 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
 }
 
 .form input[type='submit'],
@@ -326,13 +333,138 @@ button {
   text-align: center;
 }
 
+/* Departments Page */
+.departments {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 2rem;
+  line-height: 1.8;
+}
+
+.departments-grid-item {
+  display: grid;
+  max-width: fit-content;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas:
+    '...............       department-trigram    card-button-more'
+    'department-name       department-name       department-name'
+    'department-location   department-location   department-location'
+    'department-ownerLabel     department-owners     department-owners';
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.department-trigram {
+  grid-area: department-trigram;
+  height: max-content;
+  text-align: center;
+}
+.card-button-more {
+  grid-area: card-button-more;
+  text-align: end;
+  align-self: center;
+}
+
+.department-name {
+  grid-area: department-name;
+  text-align: center;
+  padding-top: 1rem;
+  min-height: 5rem;
+  border-top: #862648 2px solid;
+}
+
+.department-location {
+  grid-area: department-location;
+  text-align: center;
+  min-height: 4rem;
+  border-bottom: #ccc 1px solid;
+  margin-bottom: 5px;
+}
+
+.department-ownerLabel {
+  grid-area: department-ownerLabel;
+  color: var(--text-primary);
+  align-self: center;
+  color: grey;
+}
+
+.department-owners {
+  grid-area: department-owners;
+  min-height: 2rem;
+  text-align: center;
+  padding-left: 2%;
+}
+
+/* Department */
+.department-grid {
+  line-height: 1.8;
+}
+
+/* Profiles Page */
+.profiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-gap: 2rem;
+  line-height: 1.8;
+  /* padding: 1rem; */
+}
+
+.profiles-grid-item {
+  display: grid;
+  grid-template-areas:
+    'profile-avatar'
+    'profile-name'
+    'profile-cta';
+  padding: 1rem;
+  align-items: center;
+  border-radius: var(--border-radius);
+}
+
+.profiles-grid-item h3 {
+  text-align: center;
+}
+
+.profile-avatar {
+  grid-area: profile-avatar;
+  text-align: center;
+  margin-top: 10%;
+}
+
+.profile-name {
+  grid-area: profile-name;
+  text-align: center;
+  padding: 1rem;
+}
+
+.profile-cta {
+  grid-area: profile-cta;
+  text-align: center;
+}
+
+/* Profile Page */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas: 'profile-info profile-departments';
+  grid-gap: 1rem;
+  line-height: 1.8;
+}
+
+.profile-info {
+  grid-area: profile-info;
+}
+
+.profile-departments {
+  grid-area: profile-departments;
+}
+
 /* Locations Page*/
 .locations {
   display: grid;
   /* grid-template-columns: repeat(3, 1fr); */
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 2rem;
-  padding: 1rem;
+  /* padding: 1rem; */
   align-items: stretch;
   line-height: 1.8;
 }
@@ -344,7 +476,7 @@ button {
     'line line'
     'locationName locationName'
     'locationFloor locationFloor';
-  padding: 1rem;
+  /* padding: 1rem; */
 }
 
 .location-locationLetter {
@@ -365,91 +497,6 @@ button {
 .location-floor {
   grid-area: locationFloor;
   margin-left: 1rem;
-}
-
-/* Departments Page */
-.departments {
-  display: grid;
-  /* grid-template-columns: repeat(3, 1fr); */
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 2rem;
-  padding: 1rem;
-  line-height: 1.8;
-}
-
-.departments-grid-item {
-  display: grid;
-  grid-template-areas:
-    'trigram trigram trigram .'
-    'name name name .'
-    'location location location .'
-    'owners owners owners owners';
-  padding: 1rem;
-}
-
-.department-trigram {
-  grid-area: trigram;
-  color: text-primary;
-  /* text-align: center; */
-}
-.department-location {
-  grid-area: location;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-.department-name {
-  grid-area: name;
-}
-.department-owners {
-  grid-area: owners;
-  /* background-color: #862648; */
-  /* padding-left: 0.5rem; */
-  align-self: center;
-  justify-self: end;
-}
-
-/* Profiles Page */
-.profiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 2rem;
-  padding: 1rem;
-  line-height: 1.8;
-}
-
-.profiles-item {
-  display: grid;
-  grid-template-areas: 'avatar name';
-  padding: 1rem;
-  align-items: center;
-}
-
-.profile-avatar {
-  grid-area: avatar;
-  text-align: center;
-}
-
-.profile-name {
-  grid-area: name;
-  text-align: center;
-  padding: 1rem;
-}
-
-/* Profile Page */
-
-.profile-grid {
-  display: grid;
-  grid-template-areas: 'left right';
-  grid-gap: 1rem;
-  line-height: 1.8;
-}
-
-.profile-info {
-  grid-area: left;
-}
-
-.profile-departments {
-  grid-area: right;
 }
 
 /* Mobile Styles */
@@ -534,11 +581,8 @@ button {
 
   .profile-grid {
     grid-template-areas:
-      'top'
-      'about'
-      'exp'
-      'edu'
-      'github';
+      'profile-info'
+      'profile-departments';
   }
 }
 

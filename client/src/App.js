@@ -12,7 +12,6 @@ import ProfileForm from './components/profile-form/ProfileForm';
 import DepartmentForm from './components/department-form/DepartmentForm';
 import Departments from './components/departments/Departments';
 import Department from './components/department/Department';
-import ProfileDepartment from './components/profile/ProfileDepartment';
 import Locations from './components/locations/Locations';
 import Location from './components/location/Location';
 
@@ -59,11 +58,6 @@ const App = () => {
           <Route exact path='/departments/:trigram' element={<Department />} />
           <Route exact path='/locations' element={<Locations />} />
           <Route exact path='/locations/:locationId' element={<Location />} />
-          <Route
-            exact
-            path='/users/:user_id/departments/'
-            element={<ProfileDepartment />}
-          />
           <Route
             exact
             path='/dashboard'
