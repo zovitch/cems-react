@@ -1,7 +1,7 @@
 /* Global Styles */
 :root {
   --primary-color: #862648;
-  --secondary-color: #deb754;
+  --secondary-color: rgb(255, 221, 0);
   --dark-color: #343a40;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
@@ -339,18 +339,16 @@ button {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 2rem;
-  line-height: 1.8;
 }
 
 .departments-grid-item {
   display: grid;
-  max-width: fit-content;
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-areas:
     '...............       department-trigram    card-button-more'
     'department-name       department-name       department-name'
     'department-location   department-location   department-location'
-    'department-ownerLabel     department-owners     department-owners';
+    'department-ownerLabel department-owners     department-owners';
   padding: 1rem;
   border-radius: var(--border-radius);
 }
@@ -398,16 +396,14 @@ button {
 
 /* Department */
 .department-grid {
-  line-height: 1.8;
+  max-width: fit-content;
 }
 
 /* Profiles Page */
 .profiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 2rem;
-  line-height: 1.8;
-  /* padding: 1rem; */
 }
 
 .profiles-grid-item {
@@ -447,8 +443,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-areas: 'profile-info profile-departments';
-  grid-gap: 1rem;
-  line-height: 1.8;
+  grid-gap: 4rem;
 }
 
 .profile-info {
@@ -462,44 +457,45 @@ button {
 /* Locations Page*/
 .locations {
   display: grid;
-  /* grid-template-columns: repeat(3, 1fr); */
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 2rem;
-  /* padding: 1rem; */
-  align-items: stretch;
-  line-height: 1.8;
 }
 
-.locations-item {
+.locations-grid-item {
   display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   grid-template-areas:
-    'locationShortname locationLetter'
-    'line line'
-    'locationName locationName'
-    'locationFloor locationFloor';
-  /* padding: 1rem; */
+    '. location-shortname card-button-more'
+    'location-name location-name location-name'
+    'location-letter location-letter location-letter'
+    'location-floor location-floor location-floor';
+  padding: 1rem;
+  border-radius: var(--border-radius);
 }
 
-.location-locationLetter {
-  grid-area: locationLetter;
+.location-letter {
+  grid-area: location-letter;
   text-align: center;
 }
 
 .location-shortname {
-  grid-area: locationShortname;
+  grid-area: location-shortname;
   text-align: center;
 }
 
 .location-name {
-  grid-area: locationName;
-  margin-left: 1rem;
+  grid-area: location-name;
+  text-align: center;
 }
 
 .location-floor {
-  grid-area: locationFloor;
-  margin-left: 1rem;
+  grid-area: location-floor;
+  text-align: center;
 }
 
+.location-grid {
+  max-width: fit-content;
+}
 /* Mobile Styles */
 
 @media (min-width: 700px) {

@@ -12,13 +12,17 @@ const DepartmentItem = ({ department }) => {
       {trigram !== department.trigram && (
         <div className='card-button-more '>
           <Link to={`/departments/${department.trigram}`}>
-            <i className='fa-solid fa-angles-right  '></i>
+            <i className='fa-solid fa-angles-right'></i>
           </Link>
         </div>
       )}
       <div className='department-name'>{department.name}</div>
+
       <small className='department-location'>
-        Location: {department.location.name}
+        Location:{' '}
+        <Link to={`/locations/${department.location._id}`}>
+          {department.location.name}
+        </Link>
       </small>
       {department.owners.length > 1 ? (
         <small className='department-ownerLabel'>Owners </small>

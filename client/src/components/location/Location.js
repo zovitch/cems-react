@@ -18,6 +18,9 @@ const Location = ({ getLocation, location: { location }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
+          <h1 className='large text-primary'>
+            <i className='fas fa-location'></i> Location
+          </h1>
           <Link to='/locations' className='btn btn-light'>
             Back to Locations
           </Link>
@@ -26,7 +29,7 @@ const Location = ({ getLocation, location: { location }, auth }) => {
               Edit Location
             </Link>
           )}
-          <div className='my-1 bg-light'>
+          <div className='location-grid py-2'>
             <LocationItem location={location} />
           </div>
         </Fragment>

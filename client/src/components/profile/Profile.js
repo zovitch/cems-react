@@ -54,7 +54,11 @@ const Profile = ({
                 <i className='fas fa-briefcase'></i> Departments
               </div>
               <div className='departments'>
-                {departments && departments.length > 0 ? (
+                {departments === null ? (
+                  <Spinner />
+                ) : (
+                  departments &&
+                  departments.length > 0 &&
                   departments.map((department) => (
                     <DepartmentItem
                       className='departments'
@@ -62,8 +66,6 @@ const Profile = ({
                       department={department}
                     />
                   ))
-                ) : (
-                  <h4>No department found</h4>
                 )}
               </div>
             </div>

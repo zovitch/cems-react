@@ -20,12 +20,10 @@ const Locations = ({ getLocations, location: { locations, loading } }) => {
           <h1 className='large text-primary'>
             <i className='fas fa-location'> </i> Locations
           </h1>
-          <div className='locations'>
+          <div className='locations py-1'>
             {locations && locations.length > 0 ? (
               locations.map((location) => (
-                <Link key={location._id} to={`/locations/${location._id}`}>
-                  <LocationItem key={location._id} location={location} />
-                </Link>
+                <LocationItem key={location._id} location={location} />
               ))
             ) : (
               <h4>No Location found</h4>
