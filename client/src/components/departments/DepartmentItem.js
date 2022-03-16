@@ -4,26 +4,30 @@ import Avatar from 'react-avatar';
 import { Link, useParams } from 'react-router-dom';
 
 const DepartmentItem = ({ department }) => {
-  const { trigram } = useParams();
+  // will return undefined if url has no params
+  // will return the id for a single item if in the params (so a single card shown)
+  const { departmentId } = useParams();
 
   return (
     <div className='departments-grid-item bg-white'>
       <h2 className='department-trigram '>{department.trigram}</h2>
-      {trigram !== department.trigram && (
+      {departmentId !== department._id && (
         <div className='card-button-more '>
-          <Link to={`/departments/${department.trigram}`}>
+          <Link to={`/departments/${department._id}`}>
             <i className='fa-solid fa-angles-right'></i>
           </Link>
         </div>
       )}
       <div className='department-name'>{department.name}</div>
+      {department.location && (
+        <small className='department-location'>
+          Location:{' '}
+          <Link to={`/locations/${department.location._id}`}>
+            {department.location.floor + '/F ' + department.location.initials}
+          </Link>
+        </small>
+      )}
 
-      <small className='department-location'>
-        Location:{' '}
-        <Link to={`/locations/${department.location._id}`}>
-          {department.location.name}
-        </Link>
-      </small>
       {department.owners.length > 1 ? (
         <small className='department-ownerLabel'>Owners </small>
       ) : (
@@ -39,7 +43,6 @@ const DepartmentItem = ({ department }) => {
               round={true}
               size='30px'
             />
-            {/* <small> {owner.name}</small> */}
           </Link>
         ))}
       </div>

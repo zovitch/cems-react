@@ -2,6 +2,8 @@ import {
   GET_DEPARTMENT,
   GET_DEPARTMENTS,
   DEPARTMENT_ERROR,
+  CLEAR_DEPARTMENT,
+  DEPARTMENT_DELETED,
 } from '../actions/types';
 
 const initialState = {
@@ -25,6 +27,7 @@ function departmentReducer(state = initialState, action) {
     case GET_DEPARTMENTS: {
       return {
         ...state,
+        department: null,
         departments: payload,
         loading: false,
       };
@@ -34,8 +37,17 @@ function departmentReducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
-        // department: null,
+        department: null,
+        departments: [],
       };
+    case CLEAR_DEPARTMENT:
+    case DEPARTMENT_DELETED:
+      return {
+        ...state,
+        department: null,
+        departments: [],
+      };
+
     default:
       return state;
   }

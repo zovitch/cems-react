@@ -25,7 +25,7 @@ const Location = ({ getLocation, location: { location }, auth }) => {
             Back to Locations
           </Link>
           {auth.isAuthenticated && auth.loading === false && (
-            <Link to='/edit-location' className='btn btn-dark'>
+            <Link to={`/locations/edit/${locationId}`} className='btn btn-dark'>
               Edit Location
             </Link>
           )}

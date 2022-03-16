@@ -133,7 +133,7 @@ router.post(
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name shortname nameCN locationLetter',
+            select: 'name initials nameCN locationLetter',
           },
         },
       });
@@ -166,7 +166,7 @@ router.get('/', async (req, res) => {
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name shortname nameCN locationLetter',
+            select: 'name initials nameCN locationLetter',
           },
         },
       });
@@ -205,7 +205,7 @@ router.get('/:r3_id', async (req, res) => {
         populate: {
           path: 'owners location',
           strictPopulate: false,
-          select: 'name shortname nameCN locationLetter',
+          select: 'name initials nameCN locationLetter',
         },
       },
     });
@@ -327,7 +327,7 @@ router.patch(
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name shortname nameCN locationLetter',
+            select: 'name initials nameCN locationLetter',
           },
         },
       });
@@ -335,8 +335,8 @@ router.patch(
         return res.status(400).json({ msg: 'Repair Record not found' });
       }
       // Create a new letter for the repair number, by default the existing one
-      let oldR3Letter = r3.machine.department.location.locationLetter;
-      let newR3Letter = oldR3Letter;
+      let oldlocationLetter = r3.machine.department.location.locationLetter;
+      let newlocationLetter = oldlocationLetter;
       // Create a new date for the repair, by default the existing one
       let oldR3Date = r3.r3Date;
       let newR3Date = oldR3Date;
@@ -366,7 +366,7 @@ router.patch(
             .json({ msg: 'Machine not found in the database' });
         }
         // and we need to update the R3 Letter for R3 Number
-        newR3Letter = foundMachine.department.location.locationLetter;
+        newlocationLetter = foundMachine.department.location.locationLetter;
         // we prepare the machine field for the update
         r3Fields.machine = machine;
       }
@@ -379,7 +379,7 @@ router.patch(
       }
       // Check if we need to calculate a new R3 Number
       if (
-        newR3Letter !== oldR3Letter ||
+        newlocationLetter !== oldlocationLetter ||
         newR3Date.getFullYear().toString().substring(2) !==
           oldR3Date.getFullYear().toString().substring(2)
       ) {
@@ -387,16 +387,16 @@ router.patch(
       }
 
       // Check if update the partial R3 Number
-      if (!newR3Letter) {
+      if (!newlocationLetter) {
         console.log('error to catch');
         res.status(500).send('Server Error');
       }
       const regex =
-        newR3Letter + newR3Date.getFullYear().toString().substring(2);
+        newlocationLetter + newR3Date.getFullYear().toString().substring(2);
       if (needNewR3Number) {
         if (r3NumberPartial) {
           newR3Number =
-            newR3Letter +
+            newlocationLetter +
             newR3Date.getFullYear().toString().substring(2) +
             r3NumberPartial.toString().padStart(3, '0');
           console.log(
@@ -540,7 +540,7 @@ router.patch(
           populate: {
             path: 'owners location',
             strictPopulate: false,
-            select: 'name shortname nameCN locationLetter',
+            select: 'name initials nameCN locationLetter',
           },
         },
       });

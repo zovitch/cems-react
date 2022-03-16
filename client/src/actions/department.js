@@ -1,22 +1,12 @@
 import api from '../utils/api';
 import { setAlert } from './alert';
-import { GET_DEPARTMENT, GET_DEPARTMENTS, DEPARTMENT_ERROR } from './types';
-
-// Get  departments/:trigram
-export const getDepartment = (trigram) => async (dispatch) => {
-  try {
-    const res = await api.get(`/departments/${trigram}`);
-    dispatch({
-      type: GET_DEPARTMENT,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: DEPARTMENT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
+import {
+  GET_DEPARTMENT,
+  GET_DEPARTMENTS,
+  DEPARTMENT_ERROR,
+  DEPARTMENT_DELETED,
+  CLEAR_DEPARTMENT,
+} from './types';
 
 // Get all departments
 export const getDepartments = () => async (dispatch) => {
@@ -34,24 +24,61 @@ export const getDepartments = () => async (dispatch) => {
   }
 };
 
-// Create or Update Department
-export const createDepartment =
-  (formData, navigate, edit = false) =>
-  async (dispatch) => {
+// Get  departments/:departmentId
+export const getDepartment = (departmentId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/departments/${departmentId}`);
+    dispatch({
+      type: GET_DEPARTMENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: DEPARTMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Create Department
+export const createDepartment = (formData, navigate) => async (dispatch) => {
+  try {
+    const res = await api.post('/departments', formData);
+
+    dispatch({
+      type: GET_DEPARTMENT,
+      payload: res.data,
+    });
+    dispatch(setAlert('Department Created', 'success'));
+
+    navigate('/departments');
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: DEPARTMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Update Department
+export const updateDepartment =
+  (departmentId, formData, navigate) => async (dispatch) => {
     try {
-      const res = await api.post('/departments', formData);
+      const res = await api.put(`/departments/${departmentId}`, formData);
 
       dispatch({
         type: GET_DEPARTMENT,
         payload: res.data,
       });
-      dispatch(
-        setAlert(edit ? 'Department Updated' : 'Department Created', 'success')
-      );
+      dispatch(setAlert('Department Updated', 'success'));
 
-      if (!edit) {
-        navigate('/dashboard');
-      }
+      navigate('/departments');
     } catch (err) {
       const errors = err.response.data.errors;
 
@@ -63,5 +90,33 @@ export const createDepartment =
         type: DEPARTMENT_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
       });
+    }
+  };
+
+// Delete a Department
+export const deleteDepartment =
+  (departmentId, navigate) => async (dispatch) => {
+    if (window.confirm('Are you sure? This can NOT be undone!')) {
+      try {
+        await api.delete(`/departments/${departmentId}`);
+        dispatch({ type: CLEAR_DEPARTMENT });
+        dispatch({ type: DEPARTMENT_DELETED });
+        dispatch(setAlert('Department has been deleted', 'dark'));
+        navigate('/departments');
+      } catch (err) {
+        const errors = err.response.data.errors;
+
+        if (errors) {
+          errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+        }
+
+        dispatch({
+          type: DEPARTMENT_ERROR,
+          payload: {
+            msg: err.response.statusText,
+            status: err.response.status,
+          },
+        });
+      }
     }
   };

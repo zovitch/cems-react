@@ -4,15 +4,13 @@ const DepartmentSchema = new mongoose.Schema({
   trigram: {
     type: String,
     required: true,
-    unqiue: true,
-    maxlength: 3,
-    minlength: 3,
+    minlength: 2,
+    maxlength: 5,
     uppercase: true,
   },
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   nameCN: {
     type: String,

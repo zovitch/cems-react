@@ -89,12 +89,12 @@ router.post(
           populate: {
             path: 'owners location department afa manufacturer category',
             select:
-              'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+              'name nameCN initials floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
             populate: {
               path: 'owners location department afa manufacturer category',
               select:
-                'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+                'name nameCN initials floor locationLetter code trigram description descriptionCN',
               strictPopulate: false,
             },
           },
@@ -139,12 +139,12 @@ router.post(
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
-            'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+            'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
           populate: {
             path: 'owners location department afa manufacturer category',
             select:
-              'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+              'name nameCN initials floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
           },
         },
@@ -172,12 +172,12 @@ router.get('/', async (req, res) => {
       populate: {
         path: 'owners location department afa manufacturer category',
         select:
-          'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+          'name nameCN initials floor locationLetter code trigram description descriptionCN',
         strictPopulate: false,
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
-            'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+            'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
         },
       },
@@ -200,12 +200,12 @@ router.get('/:number', async (req, res) => {
       populate: {
         path: 'owners location department afa manufacturer category',
         select:
-          'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+          'name nameCN initials floor locationLetter code trigram description descriptionCN',
         strictPopulate: false,
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
-            'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+            'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
         },
       },
@@ -217,12 +217,12 @@ router.get('/:number', async (req, res) => {
       populate: {
         path: 'owners location department afa manufacturer category',
         select:
-          'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+          'name nameCN initials floor locationLetter code trigram description descriptionCN',
         strictPopulate: false,
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
-            'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+            'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
         },
       },
@@ -235,12 +235,12 @@ router.get('/:number', async (req, res) => {
       populate: {
         path: 'owners location department afa manufacturer category',
         select:
-          'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+          'name nameCN initials floor locationLetter code trigram description descriptionCN',
         strictPopulate: false,
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
-            'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+            'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
         },
       },
@@ -343,12 +343,12 @@ router.patch('/:machine_id', auth, async (req, res) => {
       populate: {
         path: 'owners location department afa manufacturer category',
         select:
-          'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+          'name nameCN initials floor locationLetter code trigram description descriptionCN',
         strictPopulate: false,
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
-            'name nameCN shortname floor locationLetter code trigram description descriptionCN',
+            'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
         },
       },

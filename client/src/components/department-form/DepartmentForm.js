@@ -2,7 +2,12 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getDepartment, createDepartment } from '../../actions/department';
+import {
+  // getDepartment,
+  createDepartment,
+  updateDepartment,
+  deleteDepartment,
+} from '../../actions/department';
 import { getLocations } from '../../actions/location';
 import { getUsers } from '../../actions/user';
 import Select from 'react-select';
@@ -22,65 +27,74 @@ const initialState = {
 };
 
 const DepartmentForm = ({
-  getDepartment,
   getLocations,
   getUsers,
   createDepartment,
+  updateDepartment,
+  deleteDepartment,
   user: { users },
   location: { locations },
   department: { department },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
-  // const { departmentId } = useParams();
+  const { departmentId } = useParams();
+  let creatingDepartment = true;
+  if (departmentId) creatingDepartment = false;
 
   const defaultOwners = formData.owners.map((o) => ({
     value: o._id,
     label: o.name,
   }));
 
+  const defaultLocation = {
+    label: formData.location ? formData.location.name : 'Choose a Location',
+  };
+
   useEffect(() => {
-    !department && getDepartment(department.trigram);
-    locations.length <= 0 && getLocations();
+    getLocations();
     users.length <= 0 && getUsers();
-    if (!department.loading && department) {
+    if (department && !department.loading) {
       const departmentData = { ...initialState };
       for (const key in department) {
         if (key in departmentData) departmentData[key] = department[key];
       }
       setFormData(departmentData);
     }
-  }, [
-    department,
-    getDepartment,
-    getLocations,
-    getUsers,
-    department.loading,
-    locations.length,
-    users.length,
-  ]);
+  }, [department, getLocations, getUsers, users.length]);
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    createDepartment(formData, navigate, department ? true : false);
   };
 
-  const handleOnChange = (value) => {
+  const onChangeOwners = (e) => {
     const newValues = { ...formData };
-    newValues.owners = value.map((item) => ({
+    newValues.owners = e.map((item) => ({
       _id: item.value,
       name: item.label,
     }));
     setFormData(newValues);
   };
 
+  const onChangeLocation = (e) => {
+    setFormData({ ...formData, location: e.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (creatingDepartment) {
+      createDepartment(formData, navigate);
+    } else {
+      updateDepartment(departmentId, formData, navigate);
+    }
+  };
+
   return (
     <section className='container'>
       <h1 className='large text-primary'>
-        <i className='fas fa-briefcase'></i> Edit Department
+        <i className='fas fa-briefcase'></i>{' '}
+        {creatingDepartment ? 'Create a new Department' : 'Edit Department'}
       </h1>
       <form className='form py' onSubmit={onSubmit}>
         <div className='form-group'>
@@ -91,7 +105,6 @@ const DepartmentForm = ({
             name='trigram'
             value={formData.trigram}
             onChange={onChange}
-            disabled
           />
         </div>
 
@@ -117,7 +130,7 @@ const DepartmentForm = ({
           />
         </div>
 
-        <div className='form-group'>
+        {/* <div className='form-group'>
           <small className='form-text'>Location</small>
           {locations.length > 0 ? (
             <select
@@ -135,7 +148,26 @@ const DepartmentForm = ({
           ) : (
             <h4>No Location Found</h4>
           )}
-        </div>
+        </div> */}
+        <Fragment>
+          <div className='form-group'>
+            <small className='form-text'>Location</small>
+            {locations && locations.length > 0 && (
+              <Select
+                // placeholder='Select a Location'
+                // value={formData.location._id}
+                // isMulti
+                defaultValue={formData.location}
+                // key={formData.location._id}
+                onChange={onChangeLocation}
+                options={locations.map((l) => ({
+                  value: l._id,
+                  label: l.name,
+                }))}
+              />
+            )}
+          </div>
+        </Fragment>
 
         <Fragment>
           <div className='form-group'>
@@ -143,11 +175,12 @@ const DepartmentForm = ({
             {users.length > 0 && (
               <Select
                 name='owners'
+                placeholder='Select the Owners'
                 value={formData.owners._id}
-                onChange={handleOnChange}
                 isMulti
                 defaultValue={defaultOwners}
                 key={defaultOwners}
+                onChange={onChangeOwners}
                 options={users.map((u) => ({ value: u._id, label: u.name }))}
               />
             )}
@@ -159,21 +192,30 @@ const DepartmentForm = ({
           Go Back
         </Link>
       </form>
-      <div className='line' />
-      <div className='my-2 text-center'>
-        <button className='btn btn-danger'>
-          <i className='fas fa-user-minus' /> Delete the Department
-        </button>
-      </div>
+      {creatingDepartment === false && (
+        <>
+          <div className='line' />
+          <div className='my-2 text-center'>
+            <button
+              className='btn btn-danger'
+              onClick={() => deleteDepartment(departmentId, navigate)}
+            >
+              <i className='fas fa-trash' /> Delete the Department
+            </button>
+          </div>
+        </>
+      )}
     </section>
   );
 };
 
 DepartmentForm.propTypes = {
-  getDepartment: PropTypes.func.isRequired,
+  // getDepartment: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
   getLocations: PropTypes.func.isRequired,
   createDepartment: PropTypes.func.isRequired,
+  updateDepartment: PropTypes.func.isRequired,
+  deleteDepartment: PropTypes.func.isRequired,
   department: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
@@ -185,8 +227,10 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 export default connect(mapStateToProps, {
-  getDepartment,
+  // getDepartment,
   getLocations,
   getUsers,
   createDepartment,
+  updateDepartment,
+  deleteDepartment,
 })(DepartmentForm);

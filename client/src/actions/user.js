@@ -22,6 +22,8 @@ export const getCurrentUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    dispatch({ CLEAR_USER });
+
     dispatch({
       type: USER_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },

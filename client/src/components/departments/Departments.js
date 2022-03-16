@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getDepartments } from '../../actions/department';
 import DepartmentItem from './DepartmentItem';
 import { Link } from 'react-router-dom';
+import AddNew from '../layout/AddNew';
 
 const Departments = ({
   getDepartments,
@@ -34,6 +35,7 @@ const Departments = ({
             ) : (
               <h4>No department found</h4>
             )}
+            <AddNew item='department' />
           </div>
         </Fragment>
       )}

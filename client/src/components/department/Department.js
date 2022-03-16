@@ -7,10 +7,10 @@ import Spinner from '../layout/Spinner';
 import DepartmentItem from '../departments/DepartmentItem';
 
 const Department = ({ getDepartment, department: { department }, auth }) => {
-  const { trigram } = useParams();
+  const { departmentId } = useParams();
   useEffect(() => {
-    getDepartment(trigram);
-  }, [getDepartment, trigram]);
+    getDepartment(departmentId);
+  }, [getDepartment, departmentId]);
 
   return (
     <section className='container'>
@@ -25,7 +25,10 @@ const Department = ({ getDepartment, department: { department }, auth }) => {
             Back to Departments
           </Link>
           {auth && auth.isAuthenticated && auth.loading === false && (
-            <Link to='/edit-department' className='btn btn-dark'>
+            <Link
+              to={`/departments/edit/${departmentId}`}
+              className='btn btn-dark'
+            >
               Edit Department
             </Link>
           )}

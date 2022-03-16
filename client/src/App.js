@@ -14,6 +14,7 @@ import Departments from './components/departments/Departments';
 import Department from './components/department/Department';
 import Locations from './components/locations/Locations';
 import Location from './components/location/Location';
+import LocationForm from './components/location-form/LocationForm';
 
 import { LOGOUT } from './actions/types';
 
@@ -52,17 +53,21 @@ const App = () => {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/login' element={<Login />} />
-          <Route exact path='/users' element={<Profiles />} />
-          <Route exact path='/users/:id' element={<Profile />} />
-          <Route exact path='/departments' element={<Departments />} />
-          <Route exact path='/departments/:trigram' element={<Department />} />
-          <Route exact path='/locations' element={<Locations />} />
-          <Route exact path='/locations/:locationId' element={<Location />} />
           <Route
             exact
             path='/dashboard'
             element={<PrivateRoute component={Dashboard} />}
           />
+          <Route exact path='/users' element={<Profiles />} />
+          <Route exact path='/users/:id' element={<Profile />} />
+          <Route exact path='/departments' element={<Departments />} />
+          <Route
+            exact
+            path='/departments/:departmentId'
+            element={<Department />}
+          />
+          <Route exact path='/locations' element={<Locations />} />
+          <Route exact path='/locations/:locationId' element={<Location />} />
           <Route
             exact
             path='/users/me'
@@ -70,17 +75,27 @@ const App = () => {
           />
           <Route
             exact
+            path='/create-location'
+            element={<PrivateRoute component={LocationForm} />}
+          />
+          <Route
+            exact
+            path='/create-department'
+            element={<PrivateRoute component={DepartmentForm} />}
+          />
+          <Route
+            exact
             path='/edit-profile'
             element={<PrivateRoute component={ProfileForm} />}
           />
-          {/* <Route
-            exact
-            path='/department'
-            element={<PrivateRoute component={DepartmentForm} />}
-          /> */}
           <Route
             exact
-            path='/edit-department'
+            path='/locations/edit/:locationId'
+            element={<PrivateRoute component={LocationForm} />}
+          />
+          <Route
+            exact
+            path='/departments/edit/:departmentId'
             element={<PrivateRoute component={DepartmentForm} />}
           />
         </Routes>
