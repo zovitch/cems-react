@@ -20,9 +20,6 @@ const Profile = ({
     getDepartmentsByUserId(id);
   }, [getDepartmentsByUserId, getUserById, id]);
 
-  console.log(user);
-  console.log(departments);
-
   return (
     <section className='container'>
       {user === null ? (

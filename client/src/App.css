@@ -334,6 +334,20 @@ button {
   text-align: center;
 }
 
+/* Add new Element Button */
+.addNewbtn {
+  color: var(--dark-color);
+  text-align: center;
+  align-self: center;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.addNewbtn h1 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 /* Departments Page */
 .departments {
   display: grid;
@@ -465,7 +479,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-areas:
-    '. location-shortname card-button-more'
+    '. location-initials card-button-more'
     'location-name location-name location-name'
     'location-letter location-letter location-letter'
     'location-floor location-floor location-floor';
@@ -478,8 +492,8 @@ button {
   text-align: center;
 }
 
-.location-shortname {
-  grid-area: location-shortname;
+.location-initials {
+  grid-area: location-initials;
   text-align: center;
 }
 
