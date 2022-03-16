@@ -1,4 +1,4 @@
-- R3 management done // problem with date and timezone to check with UI
+- R3 management 
 - UDR
 - M2 Maintenance
 - Spare Parts
@@ -8,17 +8,17 @@
 - Tooling
 - MSA
 
-import / export batches
 
+FEATURES
+- user shoudl be able to change the initials of the avatar or add a profile picture
+- edit buttons on department cards if permisitonns
+- import / export batches
 
-user shoudl be able to change the initials of the avatar or add a profile picture
-
-
+BUGS
 what happen if delete account but there are dept still there
+if editing the Department Form, the location already existing doesnt load up and need to be reselected
 
 
-horizontal bar change to yellow --> done
-
-change the route with trigram to _id
-
-edit buttons on department cards if permisitonns
+DONE
+- horizontal bar change to yellow -
+- change the route with trigram to _id
