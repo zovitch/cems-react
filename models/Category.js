@@ -17,7 +17,7 @@ const CategorySchema = new mongoose.Schema({
     required: true,
     unique: true,
     maxlength: 3,
-    minlength: 3,
+    minlength: 2,
     uppercase: true,
   },
   description: {

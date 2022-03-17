@@ -468,7 +468,7 @@ button {
   grid-area: profile-departments;
 }
 
-/* Locations Page*/
+/* Locations Page */
 .locations {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -510,6 +510,48 @@ button {
 .location-grid {
   max-width: fit-content;
 }
+
+/* Categories Page */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 2rem;
+}
+
+.categories-grid-item {
+  display: grid;
+  /* grid-template-columns: 1fr 2fr 1fr; */
+  grid-template-areas:
+    'category-code'
+    'category-trigram'
+    'category-description'
+    'category-descriptionCN';
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.category-code {
+  grid-area: category-code;
+  text-align: center;
+}
+.category-trigram {
+  grid-area: category-trigram;
+  text-align: center;
+}
+
+.category-description {
+  grid-area: category-description;
+  text-align: center;
+}
+.category-descriptionCN {
+  grid-area: category-descriptionCN;
+  text-align: center;
+}
+
+.category-grid {
+  max-width: fit-content;
+}
+
 /* Mobile Styles */
 
 @media (min-width: 700px) {

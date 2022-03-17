@@ -4,5 +4,13 @@ import auth from './auth';
 import user from './user';
 import department from './department';
 import location from './location';
+import category from './category';
 
-export default combineReducers({ alert, auth, user, department, location });
+export default combineReducers({
+  alert,
+  auth,
+  user,
+  department,
+  location,
+  category,
+});
