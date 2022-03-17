@@ -11,6 +11,7 @@ import {
 import { getLocations } from '../../actions/location';
 import { getUsers } from '../../actions/user';
 import Select from 'react-select';
+// import AsyncSelect from 'react-select/async'
 
 /*
   NOTE: declare initialState outside of component
@@ -47,10 +48,10 @@ const DepartmentForm = ({
     label: o.name,
   }));
 
-  const defaultLocation = {
-    label: formData.location ? formData.location.name : 'Choose a Location',
-  };
-
+  const defaultLocations = locations.map((o) => ({
+    value: o._id,
+    label: o.name,
+  }));
   useEffect(() => {
     getLocations();
     users.length <= 0 && getUsers();
@@ -63,6 +64,12 @@ const DepartmentForm = ({
     }
   }, [department, getLocations, getUsers, users.length]);
 
+  // to use the <Select, the default value needs to be an item from the options,
+  // this allow to find the index number based on the data from the Form
+  const defaultLocationsIndex = defaultLocations
+    .map((e) => e.value)
+    .indexOf(formData.location._id);
+  console.log(defaultLocationsIndex);
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -157,13 +164,10 @@ const DepartmentForm = ({
                 // placeholder='Select a Location'
                 // value={formData.location._id}
                 // isMulti
-                defaultValue={formData.location}
+                defaultValue={defaultLocations[defaultLocationsIndex]}
                 // key={formData.location._id}
                 onChange={onChangeLocation}
-                options={locations.map((l) => ({
-                  value: l._id,
-                  label: l.name,
-                }))}
+                options={defaultLocations}
               />
             )}
           </div>
