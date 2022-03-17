@@ -11,7 +11,6 @@ import {
 import { getLocations } from '../../actions/location';
 import { getUsers } from '../../actions/user';
 import Select from 'react-select';
-// import AsyncSelect from 'react-select/async'
 
 /*
   NOTE: declare initialState outside of component
@@ -43,15 +42,6 @@ const DepartmentForm = ({
   let creatingDepartment = true;
   if (departmentId) creatingDepartment = false;
 
-  const defaultOwners = formData.owners.map((o) => ({
-    value: o._id,
-    label: o.name,
-  }));
-
-  const defaultLocations = locations.map((o) => ({
-    value: o._id,
-    label: o.name,
-  }));
   useEffect(() => {
     getLocations();
     users.length <= 0 && getUsers();
@@ -64,12 +54,19 @@ const DepartmentForm = ({
     }
   }, [department, getLocations, getUsers, users.length]);
 
-  // to use the <Select, the default value needs to be an item from the options,
-  // this allow to find the index number based on the data from the Form
-  const defaultLocationsIndex = defaultLocations
-    .map((e) => e.value)
-    .indexOf(formData.location._id);
-  console.log(defaultLocationsIndex);
+  const defaultOwners = formData.owners.map((o) => ({
+    value: o._id,
+    label: o.name,
+  }));
+
+  const defaultLocation = locations.map((e) => ({
+    value: e._id,
+    label: e.name,
+  }));
+  // We add an empty value at the beginning of the Array, so we will have an empty vlaue in the dropdown
+  // it will be used for a new Department Creation only
+  creatingDepartment && defaultLocation.unshift({ label: '' });
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -81,10 +78,6 @@ const DepartmentForm = ({
       name: item.label,
     }));
     setFormData(newValues);
-  };
-
-  const onChangeLocation = (e) => {
-    setFormData({ ...formData, location: e.value });
   };
 
   const onSubmit = (e) => {
@@ -137,42 +130,6 @@ const DepartmentForm = ({
           />
         </div>
 
-        {/* <div className='form-group'>
-          <small className='form-text'>Location</small>
-          {locations.length > 0 ? (
-            <select
-              name='location'
-              value={formData.location._id}
-              id='location-select'
-              onChange={onChange}
-            >
-              {locations.map((l) => (
-                <option key={l._id} value={l._id}>
-                  {l.name}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <h4>No Location Found</h4>
-          )}
-        </div> */}
-        <Fragment>
-          <div className='form-group'>
-            <small className='form-text'>Location</small>
-            {locations && locations.length > 0 && (
-              <Select
-                // placeholder='Select a Location'
-                // value={formData.location._id}
-                // isMulti
-                defaultValue={defaultLocations[defaultLocationsIndex]}
-                // key={formData.location._id}
-                onChange={onChangeLocation}
-                options={defaultLocations}
-              />
-            )}
-          </div>
-        </Fragment>
-
         <Fragment>
           <div className='form-group'>
             <small className='form-text'>Owners</small>
@@ -190,6 +147,26 @@ const DepartmentForm = ({
             )}
           </div>
         </Fragment>
+
+        <div className='form-group'>
+          <small className='form-text'>Location</small>
+          {defaultLocation.length > 0 ? (
+            <select
+              name='location'
+              value={formData.location._id}
+              id='location-select'
+              onChange={onChange}
+            >
+              {defaultLocation.map((l) => (
+                <option key={l.value} value={l.value}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <h4>No Location Found</h4>
+          )}
+        </div>
 
         <input type='submit' value='Save' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/departments'>
