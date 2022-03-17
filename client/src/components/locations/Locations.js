@@ -8,7 +8,11 @@ import { Link } from 'react-router-dom';
 import LocationForm from '../location-form/LocationForm';
 import { AddNew } from '../layout/AddNew';
 
-const Locations = ({ getLocations, location: { locations, loading } }) => {
+const Locations = ({
+  getLocations,
+  auth,
+  location: { locations, loading },
+}) => {
   useEffect(() => {
     getLocations();
   }, [getLocations]);
@@ -31,7 +35,9 @@ const Locations = ({ getLocations, location: { locations, loading } }) => {
             ) : (
               <h4>No Location found</h4>
             )}
-            <AddNew item='location' />
+            {auth && auth.isAuthenticated && auth.loading === false && (
+              <AddNew item='location' />
+            )}
           </div>
         </Fragment>
       )}
@@ -42,10 +48,12 @@ const Locations = ({ getLocations, location: { locations, loading } }) => {
 Locations.propTypes = {
   getLocations: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   location: state.location,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getLocations })(Locations);

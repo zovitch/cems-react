@@ -9,6 +9,7 @@ import AddNew from '../layout/AddNew';
 
 const Departments = ({
   getDepartments,
+  auth,
   department: { departments, loading },
 }) => {
   useEffect(() => {
@@ -35,7 +36,9 @@ const Departments = ({
             ) : (
               <h4>No department found</h4>
             )}
-            <AddNew item='department' />
+            {auth && auth.isAuthenticated && auth.loading === false && (
+              <AddNew item='department' />
+            )}
           </div>
         </Fragment>
       )}
@@ -46,10 +49,12 @@ const Departments = ({
 Departments.propTypes = {
   getDepartments: PropTypes.func.isRequired,
   department: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   department: state.department,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getDepartments })(Departments);
