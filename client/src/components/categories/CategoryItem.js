@@ -10,6 +10,7 @@ const CategoryItem = ({ category }) => {
   return (
     <div className='categories-grid-item bg-white'>
       <h2 className='category-code'>{category.code}</h2>
+      <h2 className='category-trigram'>{category.trigram}</h2>
       {categoryId !== category._id && (
         <div className='card-button-more'>
           <Link to={`/categories/${category._id}`}>
@@ -17,7 +18,6 @@ const CategoryItem = ({ category }) => {
           </Link>
         </div>
       )}
-      <div className='category-trigram'>{category.trigram}</div>
       <div className='category-description'>{category.description}</div>
       <div className='category-descriptionCN'>{category.descriptionCN}</div>
     </div>

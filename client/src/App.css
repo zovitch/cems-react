@@ -520,14 +520,14 @@ button {
 
 .categories-grid-item {
   display: grid;
-  /* grid-template-columns: 1fr 2fr 1fr; */
+  grid-template-columns: 2fr 2fr 1fr;
   grid-template-areas:
-    'category-code'
-    'category-trigram'
-    'category-description'
-    'category-descriptionCN';
+    'category-code category-trigram card-button-more'
+    'category-description category-description category-description'
+    'category-descriptionCN category-descriptionCN category-descriptionCN';
   padding: 1rem;
   border-radius: var(--border-radius);
+  align-items: center;
 }
 
 .category-code {
