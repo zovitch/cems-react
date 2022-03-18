@@ -29,6 +29,7 @@ export const getCategories = () => async (dispatch) => {
 export const getCategory = (categoryId) => async (dispatch) => {
   try {
     const res = await api.get(`/categories/${categoryId}`);
+
     dispatch({
       type: GET_CATEGORY,
       payload: res.data,
@@ -41,29 +42,40 @@ export const getCategory = (categoryId) => async (dispatch) => {
   }
 };
 
-// Create Category
-export const createCategory = (formData, navigate) => async (dispatch) => {
-  try {
-    const res = await api.post('/categories', formData);
+// Create or Update a Category
+export const createCategory =
+  (formData, navigate, creating = false, categoryId) =>
+  async (dispatch) => {
+    try {
+      let res = null;
+      console.log(categoryId);
+      if (categoryId) {
+        res = await api.put(`/categories/${categoryId}`, formData);
+      } else {
+        res = await api.post('/categories', formData);
+      }
+      dispatch({
+        type: GET_CATEGORY,
+        payload: res.data,
+      });
+      dispatch(
+        setAlert(creating ? 'Category Created' : 'Category Updated', 'success')
+      );
 
-    dispatch({
-      type: GET_CATEGORY,
-      payload: res.data,
-    });
-    dispatch(setAlert('Category Created', 'success'));
-    navigate('/categories');
-  } catch (err) {
-    const errors = err.response.data.errors;
+      navigate('/categories');
+    } catch (err) {
+      const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
+
+      dispatch({
+        type: CATEGORY_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
     }
-    dispatch({
-      type: CATEGORY_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
+  };
 
 // Delete a Category
 export const deleteCategory = (categoryId, navigate) => async (dispatch) => {

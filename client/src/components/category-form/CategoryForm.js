@@ -17,7 +17,7 @@ const CategoryForm = ({
   category: { category },
 }) => {
   const [formData, setFormData] = useState(initialState);
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const { categoryId } = useParams();
   let creatingCategory = true;
   if (categoryId) creatingCategory = false;
@@ -38,9 +38,7 @@ const CategoryForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (creatingCategory) {
-      createCategory(formData, navigate);
-    }
+    createCategory(formData, navigate, creatingCategory, categoryId);
   };
 
   return (
@@ -54,7 +52,7 @@ const CategoryForm = ({
           <small className='form-text'>Code</small>
           <input
             type='text'
-            placeholder='Enter a Number for the Code'
+            placeholder='ex: 123'
             name='code'
             value={formData.code}
             onChange={onChange}
@@ -64,7 +62,7 @@ const CategoryForm = ({
           <small className='form-text'>Trigram</small>
           <input
             type='text'
-            placeholder='3 letter to represent this Category'
+            placeholder='ex: ABC'
             name='trigram'
             value={formData.trigram}
             onChange={onChange}
