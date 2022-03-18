@@ -9,23 +9,19 @@ const Location = require('../../models/Location');
 // @access  Private
 router.post(
   '/',
-  [
-    auth,
-    [
-      check('floor', 'A floor number is required').not().isEmpty(),
-      check('initials', 'Initials are required for the Location')
-        .not()
-        .isEmpty(),
-      check('name', 'A name is required for the Location').not().isEmpty(),
-      check('locationLetter', 'Location Letter should be one letter').isLength({
-        max: 1,
-        min: 1,
-      }),
-      check('initials', 'Initials can be only 5 letters maximum').isLength({
-        max: 5,
-      }),
-    ],
-  ],
+  auth,
+  check('initials', 'Initials are required for the Location').not().isEmpty(),
+  check('initials', 'Initials can be only 5 letters maximum').isLength({
+    max: 5,
+  }),
+  check('floor', 'A floor number is required').not().isEmpty(),
+
+  check('name', 'A name is required for the Location').not().isEmpty(),
+  check('locationLetter', 'Location Letter should be one letter').isLength({
+    max: 1,
+    min: 1,
+  }),
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -92,6 +88,7 @@ router.put(
     max: 1,
     min: 1,
   }),
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -106,7 +103,6 @@ router.put(
     if (floor) locationFields.floor = floor;
     if (locationLetter) locationFields.locationLetter = locationLetter;
     if (code) locationFields.code = code;
-
     try {
       //Check the unicity of the data in the form
       const otherLocations = await Location.find({
@@ -116,7 +112,6 @@ router.put(
       });
 
       let arrayOfLocationsId = otherLocations.map((o) => o._id.toString());
-
       if (
         arrayOfLocationsId.length > 1 ||
         (arrayOfLocationsId.length === 1 &&

@@ -12,6 +12,7 @@ import {
 export const getLocations = () => async (dispatch) => {
   try {
     const res = await api.get('/locations');
+
     dispatch({
       type: GET_LOCATIONS,
       payload: res.data,
@@ -41,43 +42,25 @@ export const getLocation = (locationId) => async (dispatch) => {
   }
 };
 
-// Create Location
-export const createLocation = (formData, navigate) => async (dispatch) => {
-  try {
-    const res = await api.post('/locations', formData);
-
-    dispatch({
-      type: GET_LOCATION,
-      payload: res.data,
-    });
-    dispatch(setAlert('Location Created', 'success'));
-
-    navigate('/locations');
-  } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
-
-    dispatch({
-      type: LOCATION_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Update Location
-export const updateLocation =
-  (locationId, formData, navigate) => async (dispatch) => {
+// Create or Update a Location
+export const createLocation =
+  (formData, navigate, creating = false, locationId) =>
+  async (dispatch) => {
     try {
-      const res = await api.put(`/locations/${locationId}`, formData);
+      let res = null;
+      if (locationId) {
+        res = await api.put(`/locations/${locationId}`, formData);
+      } else {
+        res = await api.post(`/locations/`, formData);
+      }
 
       dispatch({
         type: GET_LOCATION,
         payload: res.data,
       });
-      dispatch(setAlert('Location Updated', 'success'));
+      dispatch(
+        setAlert(creating ? 'Location Created' : 'Location Updated', 'success')
+      );
 
       navigate('/locations');
     } catch (err) {

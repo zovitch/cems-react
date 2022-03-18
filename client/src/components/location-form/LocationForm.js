@@ -2,17 +2,12 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  // getLocation,
-  createLocation,
-  updateLocation,
-  deleteLocation,
-} from '../../actions/location';
+import { createLocation, deleteLocation } from '../../actions/location';
 
 /*
   NOTE: declare initialState outside of component
   so that it doesn't trigger a useEffect
-  we can then safely use this to construct our profileData
+  we can then safely use this to construct our locationData
  */
 
 const initialState = {
@@ -27,7 +22,6 @@ const initialState = {
 const LocationForm = ({
   // getLocation,
   createLocation,
-  updateLocation,
   deleteLocation,
   location: { location },
 }) => {
@@ -53,12 +47,12 @@ const LocationForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    if (creatingLocation) {
-      createLocation(formData, navigate);
-    } else {
-      updateLocation(locationId, formData, navigate);
-    }
+    createLocation(
+      formData,
+      navigate,
+      creatingLocation,
+      createLocation && locationId
+    );
   };
 
   return (
@@ -142,9 +136,7 @@ const LocationForm = ({
 
 LocationForm.propTypes = {
   location: PropTypes.object.isRequired,
-  // getLocation: PropTypes.func.isRequired,
   createLocation: PropTypes.func.isRequired,
-  updateLocation: PropTypes.func.isRequired,
   deleteLocation: PropTypes.func.isRequired,
 };
 
@@ -153,8 +145,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  // getLocation,
-  updateLocation,
   createLocation,
   deleteLocation,
 })(LocationForm);
