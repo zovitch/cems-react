@@ -1,67 +1,66 @@
 import api from '../utils/api';
 import { setAlert } from './alert';
 import {
-  GET_CATEGORY,
-  GET_CATEGORIES,
-  CATEGORY_ERROR,
-  CLEAR_CATEGORY,
-  CATEGORY_DELETED,
+  GET_CODE,
+  GET_CODES,
+  CODE_ERROR,
+  CLEAR_CODE,
+  CODE_DELETED,
 } from './types';
 
-// Get Categories
-export const getCategories = () => async (dispatch) => {
+// Get Codes
+export const getFailureCodes = () => async (dispatch) => {
   try {
-    const res = await api.get('/categories');
+    const res = await api.get('/failurecodes');
 
     dispatch({
-      type: GET_CATEGORIES,
+      type: GET_CODES,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: CATEGORY_ERROR,
+      type: CODE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Get categories/:categoryId
-export const getCategory = (categoryId) => async (dispatch) => {
+// Get Code/:codeId
+export const getFailureCode = (codeId) => async (dispatch) => {
+  console.log('getting failure code');
   try {
-    const res = await api.get(`/categories/${categoryId}`);
+    const res = await api.get(`/failurecodes/${codeId}`);
 
     dispatch({
-      type: GET_CATEGORY,
+      type: GET_CODE,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: CATEGORY_ERROR,
+      type: CODE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Create or Update a Category
-export const createCategory =
-  (formData, navigate, creating = false, categoryId) =>
+// Create or Update a Code
+export const createFailureCode =
+  (formData, navigate, creating = false, codeId) =>
   async (dispatch) => {
     try {
       let res = null;
-      if (categoryId) {
-        res = await api.put(`/categories/${categoryId}`, formData);
+      if (codeId) {
+        res = await api.put(`/failurecodes/${codeId}`, formData);
       } else {
-        res = await api.post('/categories', formData);
+        res = await api.post('/failurecodes', formData);
       }
       dispatch({
-        type: GET_CATEGORY,
+        type: GET_CODE,
         payload: res.data,
       });
-      dispatch(
-        setAlert(creating ? 'Category Created' : 'Category Updated', 'success')
-      );
+      dispatch(setAlert(creating ? 'Code Created' : 'Code Updated', 'success'));
 
-      navigate('/categories');
+      navigate('/failurecodes');
     } catch (err) {
       const errors = err.response.data.errors;
 
@@ -70,21 +69,21 @@ export const createCategory =
       }
 
       dispatch({
-        type: CATEGORY_ERROR,
+        type: CODE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
       });
     }
   };
 
-// Delete a Category
-export const deleteCategory = (categoryId, navigate) => async (dispatch) => {
+// Delete a Code
+export const deleteFailureCode = (codeId, navigate) => async (dispatch) => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
     try {
-      await api.delete(`/categories/${categoryId}`);
+      await api.delete(`/failurecodes/${codeId}`);
 
-      dispatch({ type: CLEAR_CATEGORY });
-      dispatch({ type: CATEGORY_DELETED });
-      dispatch(setAlert('Category has been deleted', 'dark'));
+      dispatch({ type: CLEAR_CODE });
+      dispatch({ type: CODE_DELETED });
+      dispatch(setAlert('Failure Code has been deleted', 'dark'));
       navigate('/categories');
     } catch (err) {
       const errors = err.response.data.errors;
@@ -93,7 +92,7 @@ export const deleteCategory = (categoryId, navigate) => async (dispatch) => {
         errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
       }
       dispatch({
-        type: CATEGORY_ERROR,
+        type: CODE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
       });
     }

@@ -65,7 +65,6 @@ router.post(
       if (err.code === 11000) {
         return res.status(400).json({ 'Duplicate Entry': err.keyValue });
       }
-      console.log(err);
       res.status(500).send('Server Error');
     }
   }

@@ -6,6 +6,9 @@
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
+  --failure-color: rgb(196, 48, 196);
+  --repair-color: rgb(48, 196, 68);
+  --analysis-color: rgb(48, 70, 196);
   --border-radius: 10px;
   --border-small-radius: 4px;
 }
@@ -71,6 +74,10 @@ img {
 
 .text-primary {
   color: var(--primary-color);
+}
+
+.text-failure {
+  color: var(--failure-color);
 }
 
 .text-dark {
@@ -374,7 +381,7 @@ button {
 }
 .card-button-more {
   grid-area: card-button-more;
-  text-align: end;
+  text-align: center;
   align-self: center;
 }
 
@@ -550,6 +557,37 @@ button {
 
 .category-grid {
   max-width: fit-content;
+}
+
+/* Codes Page */
+.codes {
+  border: 1px #ccc solid;
+}
+
+.codes-grid-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr 2fr 1fr;
+  grid-template-areas: 'code-codeNumber code-name code-description  code-descriptionCN card-button-more';
+  align-items: center;
+}
+
+.code-codeNumber {
+  grid-area: code-codeNumber;
+  text-align: center;
+}
+.code-name {
+  grid-area: code-name;
+}
+
+.code-description {
+  grid-area: code-description;
+}
+.code-descriptionCN {
+  grid-area: code-descriptionCN;
+}
+
+.code-grid {
+  /* max-width: fit-content; */
 }
 
 /* Mobile Styles */

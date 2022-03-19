@@ -8,6 +8,8 @@
 - Tooling
 - MSA
 
+TODO
+- CSS small media categories department users codes locations
 
 FEATURES
 - user shoudl be able to change the initials of the avatar or add a profile picture

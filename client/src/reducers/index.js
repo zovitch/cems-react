@@ -5,6 +5,9 @@ import user from './user';
 import department from './department';
 import location from './location';
 import category from './category';
+import failureCode from './code';
+import repairCode from './code';
+import analysisCode from './code';
 
 export default combineReducers({
   alert,
@@ -13,4 +16,7 @@ export default combineReducers({
   department,
   location,
   category,
+  failureCode,
+  repairCode,
+  analysisCode,
 });

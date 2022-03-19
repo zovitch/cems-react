@@ -84,3 +84,19 @@ router.get('/', async (req, res) => {
   }
 });
 module.exports = router;
+
+// @route   GET api/failurecodes/:failureCodeId
+// @desc    GET the list of all failure codes
+// @access  Public
+router.get('/:failureCodeId', async (req, res) => {
+  try {
+    const failurecode = await Failurecode.findById(req.params.failureCodeId);
+
+    if (!failurecode) {
+      return res.status(400).json({ msg: 'Failure Code not found' });
+    }
+    return res.json(failurecode);
+  } catch (err) {
+    res.status(500).send('Server Error');
+  }
+});

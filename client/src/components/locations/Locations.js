@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
+import Spinner from '../layout/Spinner';
+import { AddNew } from '../layout/AddNew';
 import { getLocations } from '../../actions/location';
 import LocationItem from './LocationItem';
-import { Link } from 'react-router-dom';
-import LocationForm from '../location-form/LocationForm';
-import { AddNew } from '../layout/AddNew';
 
 const Locations = ({
   getLocations,

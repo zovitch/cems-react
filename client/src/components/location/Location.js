@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link, useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getLocation } from '../../actions/location';
 import LocationItem from '../locations/LocationItem';
-import { Link, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 const Location = ({ getLocation, location: { location }, auth }) => {
   const { locationId } = useParams();

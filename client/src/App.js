@@ -18,6 +18,8 @@ import LocationForm from './components/location-form/LocationForm';
 import Categories from './components/categories/Categories';
 import Category from './components/category/Category';
 import CategoryForm from './components/category-form/CategoryForm';
+import Codes from './components/codes/Codes';
+import CodeForm from './components/code-form/CodeForm';
 
 import { LOGOUT } from './actions/types';
 
@@ -68,6 +70,7 @@ const App = () => {
           />
           <Route exact path='/categories' element={<Categories />} />
           <Route exact path='/categories/:categoryId' element={<Category />} />
+          <Route exact path='/failurecodes' element={<Codes />} />
 
           <Route
             exact
@@ -95,6 +98,11 @@ const App = () => {
             path='/create-category'
             element={<PrivateRoute component={CategoryForm} />}
           />
+          <Route
+            exact
+            path='/create-code'
+            element={<PrivateRoute component={CodeForm} />}
+          />
 
           <Route
             exact
@@ -115,6 +123,11 @@ const App = () => {
             exact
             path='/categories/edit/:categoryId'
             element={<PrivateRoute component={CategoryForm} />}
+          />
+          <Route
+            exact
+            path='/codes/edit/:codeId'
+            element={<PrivateRoute component={CodeForm} />}
           />
         </Routes>
       </Router>
