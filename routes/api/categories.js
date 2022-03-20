@@ -26,7 +26,8 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { trigram, code, description, descriptionCN } = req.body;
+    const { code, description, descriptionCN } = req.body;
+    const trigram = req.body.trigram.toUpperCase();
 
     const categoryFields = {};
     if (trigram) categoryFields.trigram = trigram;
@@ -76,7 +77,7 @@ router.post(
   }
 );
 
-// @route   PUT api/categories
+// @route   PUT api/categories/categoryId
 // @desc    Update a category
 // @access  Private
 router.put(
@@ -98,7 +99,8 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { trigram, code, description, descriptionCN } = req.body;
+    const { code, description, descriptionCN } = req.body;
+    const trigram = req.body.trigram.toUpperCase();
 
     const categoryFields = {};
     if (trigram) categoryFields.trigram = trigram;
@@ -126,11 +128,11 @@ router.put(
         let duplicateField = null;
         let duplicateValue = null;
 
-        if (otherCategories[k].trigram.toUpperCase() == trigram.toUpperCase()) {
+        if (otherCategories[k].trigram == trigram) {
           duplicateField = 'Trigram';
           duplicateValue = trigram;
         }
-        if (otherCategories[k].code.toUpperCase() == code.toUpperCase()) {
+        if (otherCategories[k].code == code) {
           duplicateField = 'Code';
           duplicateValue = code;
         }

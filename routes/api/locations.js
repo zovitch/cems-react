@@ -28,7 +28,9 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { initials, name, nameCN, floor, locationLetter, code } = req.body;
+    const { name, nameCN, floor, code } = req.body;
+    const initials = req.body.initials.toUpperCase();
+    const locationLetter = req.body.locationLetter.toUpperCase();
 
     const locationFields = {};
     if (initials) locationFields.initials = initials;
@@ -94,7 +96,10 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { initials, name, nameCN, floor, locationLetter, code } = req.body;
+
+    const { name, nameCN, floor, code } = req.body;
+    const initials = req.body.initials.toUpperCase();
+    const locationLetter = req.body.locationLetter.toUpperCase();
 
     const locationFields = {};
     if (initials) locationFields.initials = initials;
