@@ -14,6 +14,8 @@ const CodeSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
+    uppercase: true,
   },
   description: {
     type: String,

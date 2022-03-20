@@ -29,7 +29,7 @@ const CodeForm = ({
   if (codeId) creatingCode = false;
 
   useEffect(() => {
-    if (!creatingCode) getFailureCode(codeId);
+    if (!code) getFailureCode(codeId);
 
     if (code && !code.loading) {
       const codeData = { ...initialState };
@@ -60,7 +60,7 @@ const CodeForm = ({
           <input
             type='text'
             placeholder='ex: 123'
-            name='code'
+            name='codeNumber'
             value={formData.codeNumber}
             onChange={onChange}
           />
@@ -70,7 +70,7 @@ const CodeForm = ({
           <input
             type='text'
             placeholder='ex: ABC'
-            name='trigram'
+            name='name'
             value={formData.name}
             onChange={onChange}
           />
@@ -119,6 +119,7 @@ const CodeForm = ({
 CodeForm.propTypes = {
   failureCode: PropTypes.object.isRequired,
   createFailureCode: PropTypes.func.isRequired,
+  getFailureCode: PropTypes.func.isRequired,
   deleteFailureCode: PropTypes.func.isRequired,
 };
 

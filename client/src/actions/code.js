@@ -27,7 +27,6 @@ export const getFailureCodes = () => async (dispatch) => {
 
 // Get Code/:codeId
 export const getFailureCode = (codeId) => async (dispatch) => {
-  console.log('getting failure code');
   try {
     const res = await api.get(`/failurecodes/${codeId}`);
 
@@ -84,7 +83,7 @@ export const deleteFailureCode = (codeId, navigate) => async (dispatch) => {
       dispatch({ type: CLEAR_CODE });
       dispatch({ type: CODE_DELETED });
       dispatch(setAlert('Failure Code has been deleted', 'dark'));
-      navigate('/categories');
+      navigate('/failurecodes');
     } catch (err) {
       const errors = err.response.data.errors;
 
