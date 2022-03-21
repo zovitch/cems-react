@@ -8,10 +8,10 @@ import {
   CODE_DELETED,
 } from './types';
 
-// Get Codes
-export const getFailureCodes = () => async (dispatch) => {
+// Get Codes - codetype can be failure, repair or analysis
+export const getCodes = (codetype) => async (dispatch) => {
   try {
-    const res = await api.get('/failurecodes');
+    const res = await api.get(`/${codetype}codes`);
 
     dispatch({
       type: GET_CODES,
@@ -26,9 +26,9 @@ export const getFailureCodes = () => async (dispatch) => {
 };
 
 // Get Code/:codeId
-export const getFailureCode = (codeId) => async (dispatch) => {
+export const getCode = (codeId, codetype) => async (dispatch) => {
   try {
-    const res = await api.get(`/failurecodes/${codeId}`);
+    const res = await api.get(`/${codetype}codes/${codeId}`);
 
     dispatch({
       type: GET_CODE,
@@ -43,15 +43,15 @@ export const getFailureCode = (codeId) => async (dispatch) => {
 };
 
 // Create or Update a Code
-export const createFailureCode =
-  (formData, navigate, creating = false, codeId) =>
+export const createCode =
+  (formData, navigate, creating = false, codeId, codetype) =>
   async (dispatch) => {
     try {
       let res = null;
       if (codeId) {
-        res = await api.put(`/failurecodes/${codeId}`, formData);
+        res = await api.put(`/${codetype}codes/${codeId}`, formData);
       } else {
-        res = await api.post('/failurecodes', formData);
+        res = await api.post(`/${codetype}codes`, formData);
       }
       dispatch({
         type: GET_CODE,
@@ -59,7 +59,7 @@ export const createFailureCode =
       });
       dispatch(setAlert(creating ? 'Code Created' : 'Code Updated', 'success'));
 
-      navigate('/failurecodes');
+      navigate(`/${codetype}codes`);
     } catch (err) {
       const errors = err.response.data.errors;
 
@@ -75,15 +75,15 @@ export const createFailureCode =
   };
 
 // Delete a Code
-export const deleteFailureCode = (codeId, navigate) => async (dispatch) => {
+export const deleteCode = (codetype, codeId, navigate) => async (dispatch) => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
     try {
-      await api.delete(`/failurecodes/${codeId}`);
+      await api.delete(`/${codetype}codes/${codeId}`);
 
       dispatch({ type: CLEAR_CODE });
       dispatch({ type: CODE_DELETED });
-      dispatch(setAlert('Failure Code has been deleted', 'dark'));
-      navigate('/failurecodes');
+      dispatch(setAlert('The Code has been deleted', 'dark'));
+      navigate(`/${codetype}codes`);
     } catch (err) {
       const errors = err.response.data.errors;
 
@@ -92,7 +92,10 @@ export const deleteFailureCode = (codeId, navigate) => async (dispatch) => {
       }
       dispatch({
         type: CODE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+        },
       });
     }
   }

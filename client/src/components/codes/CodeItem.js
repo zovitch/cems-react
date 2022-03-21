@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
-const CodeItem = ({ code, auth }) => {
+const CodeItem = ({ code, ctype, auth }) => {
   // will return undefined if url has no params
   // will return the id for a single item if in the params (so a single card shown)
   const { codeId } = useParams();
@@ -14,7 +14,7 @@ const CodeItem = ({ code, auth }) => {
       <h2 className='code-name'>{code.name}</h2>
       {auth.isAuthenticated && auth.loading === false && codeId !== code._id && (
         <div className='card-button-more'>
-          <Link to={`/codes/edit/${code._id}`}>
+          <Link to={`/${ctype}codes/edit/${code._id}`}>
             <i className='fa-solid fa-edit'></i>
           </Link>
         </div>

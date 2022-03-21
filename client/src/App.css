@@ -80,6 +80,14 @@ img {
   color: var(--failure-color);
 }
 
+.text-repair {
+  color: var(--repair-color);
+}
+
+.text-analysis {
+  color: var(--analysis-color);
+}
+
 .text-dark {
   color: var(--dark-color);
 }

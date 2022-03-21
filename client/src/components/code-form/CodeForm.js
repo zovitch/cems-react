@@ -2,11 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  createFailureCode,
-  getFailureCode,
-  deleteFailureCode,
-} from '../../actions/code';
+import { createCode, getCode, deleteCode } from '../../actions/code';
 
 const initialState = {
   codeNumber: '',
@@ -16,43 +12,68 @@ const initialState = {
 };
 
 const CodeForm = ({
-  createFailureCode,
-  getFailureCode,
-  deleteFailureCode,
+  createCode,
+  getCode,
+  deleteCode,
+  failureCode,
+  repairCode,
+  analysisCode,
   auth,
-  failureCode: { code },
+  codetype,
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
   const { codeId } = useParams();
   let creatingCode = true;
-  if (codeId) creatingCode = false;
+  if (codeId) {
+    creatingCode = false;
+  }
+  let codeFunction;
+  switch (codetype) {
+    case 'failure':
+      codeFunction = failureCode;
+      break;
+    case 'repair':
+      codeFunction = repairCode;
+      break;
+    case 'analysis':
+      codeFunction = analysisCode;
+      break;
+    default:
+      codeFunction = repairCode;
+      break;
+  }
 
   useEffect(() => {
-    if (!code) getFailureCode(codeId);
-
-    if (code && !code.loading) {
+    if (!creatingCode && !codeFunction.code) {
+      getCode(codeId, codetype);
+    }
+    if (codeFunction.code && !codeFunction.code.loading) {
       const codeData = { ...initialState };
-      for (const key in code) {
-        if (key in codeData) codeData[key] = code[key];
+      for (const key in codeFunction.code) {
+        if (key in codeData) codeData[key] = codeFunction.code[key];
       }
       setFormData(codeData);
     }
-  }, [code, codeId, creatingCode, getFailureCode]);
+  }, [codeId, codetype, codeFunction.code, getCode, creatingCode]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    createFailureCode(formData, navigate, creatingCode, codeId);
+    createCode(formData, navigate, creatingCode, codeId, codetype);
   };
 
   return (
     <section className='container'>
-      <h1 className='large text-failure'>
+      <h1 className={`large text-${codetype}`}>
         <i className='fas fa-code'></i>{' '}
-        {creatingCode ? 'Create a new Code' : 'Edit Code'}
+        {creatingCode
+          ? `Create a new ${
+              codetype[0].toUpperCase() + codetype.substring(1)
+            } Code`
+          : `Edit a ${codetype} Code`}
       </h1>
       <form className='form py' onSubmit={onSubmit}>
         <div className='form-group'>
@@ -96,7 +117,7 @@ const CodeForm = ({
           />
         </div>
         <input type='submit' value='Save' className='btn btn-primary my-1' />
-        <Link className='btn btn-light my-1' to='/failurecodes'>
+        <Link className='btn btn-light my-1' to={`/${codetype}codes`}>
           Go Back
         </Link>
       </form>
@@ -106,7 +127,10 @@ const CodeForm = ({
           <div className='my-2 text-center'>
             <button
               className='btn btn-danger'
-              onClick={() => deleteFailureCode(codeId, navigate)}
+              onClick={() => {
+                deleteCode(codetype, codeId, navigate);
+                // small BUG: the useEffect will trigger again after the delete, and will try to getCode with the id that has just been deleted, will have to fix this bug later or not calling delete from the form
+              }}
             >
               <i className='fas fa-trash' /> Delete the Code
             </button>
@@ -118,17 +142,21 @@ const CodeForm = ({
 };
 CodeForm.propTypes = {
   failureCode: PropTypes.object.isRequired,
-  createFailureCode: PropTypes.func.isRequired,
-  getFailureCode: PropTypes.func.isRequired,
-  deleteFailureCode: PropTypes.func.isRequired,
+  repairCode: PropTypes.object.isRequired,
+  analysisCode: PropTypes.object.isRequired,
+  createCode: PropTypes.func.isRequired,
+  getCode: PropTypes.func.isRequired,
+  deleteCode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   failureCode: state.failureCode,
+  repairCode: state.repairCode,
+  analysisCode: state.analysisCode,
 });
 
 export default connect(mapStateToProps, {
-  createFailureCode,
-  getFailureCode,
-  deleteFailureCode,
+  createCode,
+  getCode,
+  deleteCode,
 })(CodeForm);

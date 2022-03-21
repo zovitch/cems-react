@@ -3,34 +3,59 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { AddNew } from '../layout/AddNew';
-import { getFailureCodes } from '../../actions/code';
+import { getCodes } from '../../actions/code';
 import CodeItem from './CodeItem';
 
-const Codes = ({ getFailureCodes, auth, failureCode }) => {
+const Codes = ({
+  getCodes,
+  auth,
+  failureCode,
+  repairCode,
+  analysisCode,
+  codetype,
+}) => {
   useEffect(() => {
-    getFailureCodes();
-  }, [getFailureCodes]);
+    getCodes(codetype);
+  }, [codetype, getCodes]);
+
+  let codeFunction;
+  switch (codetype) {
+    case 'failure':
+      codeFunction = failureCode;
+      break;
+    case 'repair':
+      codeFunction = repairCode;
+      break;
+    case 'analysis':
+      codeFunction = analysisCode;
+      break;
+    default:
+      codeFunction = repairCode;
+      break;
+  }
+
   return (
     <section className='container'>
-      {failureCode.loading ? (
+      {codeFunction.loading ? (
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-failure'>
-            <i className='fas fa-code'> </i> Failure Codes
+          <h1 className={`large text-${codetype}`}>
+            <i className='fas fa-code'> </i>{' '}
+            {codetype[0].toUpperCase() + codetype.substring(1)} Codes
           </h1>
 
           <div className='codes my-2'>
-            {failureCode.codes && failureCode.codes.length > 0 ? (
-              failureCode.codes.map((code) => (
-                <CodeItem key={code._id} code={code} />
+            {codeFunction.codes && codeFunction.codes.length > 0 ? (
+              codeFunction.codes.map((code) => (
+                <CodeItem key={code._id} ctype={codetype} code={code} />
               ))
             ) : (
               <h4>No Code found</h4>
             )}
           </div>
           {auth && auth.isAuthenticated && auth.loading === false && (
-            <AddNew item='code' />
+            <AddNew item={`${codetype}code`} />
           )}
         </Fragment>
       )}
@@ -39,14 +64,18 @@ const Codes = ({ getFailureCodes, auth, failureCode }) => {
 };
 
 Codes.propTypes = {
-  getFailureCodes: PropTypes.func.isRequired,
   failureCode: PropTypes.object.isRequired,
+  repairCode: PropTypes.object.isRequired,
+  analysisCode: PropTypes.object.isRequired,
+  getCodes: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   failureCode: state.failureCode,
+  repairCode: state.repairCode,
+  analysisCode: state.analysisCode,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getFailureCodes })(Codes);
+export default connect(mapStateToProps, { getCodes })(Codes);

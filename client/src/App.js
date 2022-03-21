@@ -70,14 +70,26 @@ const App = () => {
           />
           <Route exact path='/categories' element={<Categories />} />
           <Route exact path='/categories/:categoryId' element={<Category />} />
-          <Route exact path='/failurecodes' element={<Codes />} />
-
+          <Route
+            exact
+            path='/failurecodes'
+            element={<Codes codetype='failure' />}
+          />{' '}
+          <Route
+            exact
+            path='/repaircodes'
+            element={<Codes codetype='repair' />}
+          />{' '}
+          <Route
+            exact
+            path='/analysiscodes'
+            element={<Codes codetype='analysis' />}
+          />
           <Route
             exact
             path='/dashboard'
             element={<PrivateRoute component={Dashboard} />}
           />
-
           <Route
             exact
             path='/users/me'
@@ -100,10 +112,19 @@ const App = () => {
           />
           <Route
             exact
-            path='/create-code'
-            element={<PrivateRoute component={CodeForm} />}
+            path='/create-failurecode'
+            element={<PrivateRoute component={CodeForm} codetype='failure' />}
           />
-
+          <Route
+            exact
+            path='/create-repaircode'
+            element={<PrivateRoute component={CodeForm} codetype='repair' />}
+          />{' '}
+          <Route
+            exact
+            path='/create-analysiscode'
+            element={<PrivateRoute component={CodeForm} codetype='analysis' />}
+          />
           <Route
             exact
             path='/edit-profile'
@@ -126,8 +147,18 @@ const App = () => {
           />
           <Route
             exact
-            path='/codes/edit/:codeId'
-            element={<PrivateRoute component={CodeForm} />}
+            path='/failurecodes/edit/:codeId'
+            element={<PrivateRoute component={CodeForm} codetype='failure' />}
+          />{' '}
+          <Route
+            exact
+            path='/repaircodes/edit/:codeId'
+            element={<PrivateRoute component={CodeForm} codetype='repair' />}
+          />
+          <Route
+            exact
+            path='/analysiscodes/edit/:codeId'
+            element={<PrivateRoute component={CodeForm} codetype='analysis' />}
           />
         </Routes>
       </Router>

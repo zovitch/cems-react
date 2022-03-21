@@ -206,7 +206,7 @@ router.get('/', async (req, res) => {
 module.exports = router;
 
 // @route   GET api/failurecodes/:codeId
-// @desc    GET the list of all failure codes
+// @desc    GET the details of a failure
 // @access  Public
 router.get('/:codeId', async (req, res) => {
   try {

@@ -6,20 +6,21 @@ import Spinner from '../layout/Spinner';
 
 const PrivateRoute = ({
   component: Component,
-  auth: { isAuthenticated, loading }
+  codetype,
+  auth: { isAuthenticated, loading },
 }) => {
   if (loading) return <Spinner />;
-  if (isAuthenticated) return <Component />;
+  if (isAuthenticated) return <Component codetype={codetype} />;
 
-  return <Navigate to="/login" />;
+  return <Navigate to='/login' />;
 };
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);
