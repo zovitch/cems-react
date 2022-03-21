@@ -32,7 +32,7 @@ function locationReducer(state = initialState, action) {
         loading: false,
       };
     }
-    case LOCATION_ERROR:
+    case LOCATION_ERROR: {
       return {
         ...state,
         error: payload,
@@ -40,13 +40,15 @@ function locationReducer(state = initialState, action) {
         location: null,
         locations: [],
       };
+    }
     case CLEAR_LOCATION:
-    case LOCATION_DELETED:
+    case LOCATION_DELETED: {
       return {
         ...state,
         location: null,
         locations: [],
       };
+    }
     default:
       return state;
   }
