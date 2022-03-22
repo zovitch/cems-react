@@ -23,7 +23,7 @@ const Manufacturer = ({
       ) : (
         <Fragment>
           <h1 className='large text-primary'>
-            <i className='fas fa-industry'></i> Manufacturer
+            <i className='fas fa-industry'></i> Manufacturer 制造商
           </h1>
           <Link to='/manufacturers' className='btn btn-light'>
             Back to Manufacturers

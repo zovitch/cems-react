@@ -22,7 +22,7 @@ const Manufacturers = ({
       ) : (
         <Fragment>
           <h1 className='large text-primary'>
-            <i className='fas fa-industry'> </i> Manufacturers
+            <i className='fas fa-industry'> </i> Manufacturers 制造商
           </h1>
 
           <div className='manufacturers my-2'>
