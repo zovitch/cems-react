@@ -151,6 +151,9 @@ router.put(
         { $set: categoryFields },
         { new: true }
       );
+      if (!category) {
+        return res.status(404).json({ msg: 'Category not found' });
+      }
       return res.json(category);
     } catch (err) {
       console.error(err.message);
@@ -168,6 +171,9 @@ router.put(
 router.get('/', async (req, res) => {
   try {
     const categories = await Category.find();
+    if (!categories) {
+      return res.status(404).json({ msg: 'Categories not found' });
+    }
     res.json(categories);
   } catch (err) {
     console.error(err.message);
@@ -187,6 +193,10 @@ router.get('/:categoryId', async (req, res) => {
     }
     return res.json(category);
   } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Category not found' });
+    }
+    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
