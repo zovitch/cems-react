@@ -8,6 +8,7 @@ import category from './category';
 import failureCode from './code';
 import repairCode from './code';
 import analysisCode from './code';
+import manufacturer from './manufacturer';
 
 export default combineReducers({
   alert,
@@ -19,4 +20,5 @@ export default combineReducers({
   failureCode,
   repairCode,
   analysisCode,
+  manufacturer,
 });

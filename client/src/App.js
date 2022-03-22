@@ -20,6 +20,9 @@ import Category from './components/category/Category';
 import CategoryForm from './components/category-form/CategoryForm';
 import Codes from './components/codes/Codes';
 import CodeForm from './components/code-form/CodeForm';
+import Manufacturer from './components/manufacturer/Manufacturer';
+import Manufacturers from './components/manufacturers/Manufacturers';
+import ManufacturerForm from './components/manufacturer-form/ManufacturerForm';
 
 import { LOGOUT } from './actions/types';
 
@@ -62,6 +65,12 @@ const App = () => {
           <Route exact path='/users/:id' element={<Profile />} />
           <Route exact path='/locations' element={<Locations />} />
           <Route exact path='/locations/:locationId' element={<Location />} />
+          <Route exact path='/manufacturers' element={<Manufacturers />} />
+          <Route
+            exact
+            path='/manufacturers/:manufacturerId'
+            element={<Manufacturer />}
+          />
           <Route exact path='/departments' element={<Departments />} />
           <Route
             exact
@@ -102,6 +111,11 @@ const App = () => {
           />
           <Route
             exact
+            path='/create-manufacturer'
+            element={<PrivateRoute component={ManufacturerForm} />}
+          />
+          <Route
+            exact
             path='/create-department'
             element={<PrivateRoute component={DepartmentForm} />}
           />
@@ -134,6 +148,11 @@ const App = () => {
             exact
             path='/locations/edit/:locationId'
             element={<PrivateRoute component={LocationForm} />}
+          />
+          <Route
+            exact
+            path='/manufacturers/edit/:manufacturerId'
+            element={<PrivateRoute component={ManufacturerForm} />}
           />
           <Route
             exact

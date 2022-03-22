@@ -358,6 +358,15 @@ button {
   border-radius: var(--border-radius);
 }
 
+/* Dashboard card */
+.dashboardCard {
+  color: var(--dark-color);
+  text-align: center;
+  align-self: center;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
 .addNewbtn h1 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -526,6 +535,32 @@ button {
   max-width: fit-content;
 }
 
+/* Manufacturers Page */
+.manufacturers {
+  border: 1px #ccc solid;
+}
+
+.manufacturers-grid-item {
+  display: grid;
+  grid-template-columns: 5fr 5fr 1fr;
+  grid-template-areas: 'manufacturer-name manufacturer-nameCN card-button-more';
+  align-items: center;
+}
+
+.manufacturer-name {
+  grid-area: manufacturer-name;
+  padding-left: 1rem;
+}
+
+.manufacturer-nameCN {
+  grid-area: manufacturer-nameCN;
+  padding-left: 1rem;
+}
+
+.manufacturer-grid {
+  max-width: fit-content;
+}
+
 /* Categories Page */
 .categories {
   display: grid;
@@ -567,7 +602,7 @@ button {
   max-width: fit-content;
 }
 
-/* Codes Page */
+/* Codes Page  for Failure Repair and Analysis */
 .codes {
   border: 1px #ccc solid;
 }
@@ -595,7 +630,7 @@ button {
 }
 
 .code-grid {
-  /* max-width: fit-content; */
+  max-width: fit-content;
 }
 
 /* Mobile Styles */
