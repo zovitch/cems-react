@@ -359,11 +359,18 @@ button {
 }
 
 /* Dashboard card */
-.dashboardCard {
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 2rem;
+}
+
+.card {
   color: var(--dark-color);
   text-align: center;
   align-self: center;
-  padding: 1rem;
+  padding: 2rem;
+  /* max-width: max-content; */
   border-radius: var(--border-radius);
 }
 
@@ -501,7 +508,7 @@ button {
 
 .locations-grid-item {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr;
   grid-template-areas:
     '. location-initials card-button-more'
     'location-name location-name location-name'
