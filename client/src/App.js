@@ -23,6 +23,8 @@ import CodeForm from './components/code-form/CodeForm';
 import Manufacturer from './components/manufacturer/Manufacturer';
 import Manufacturers from './components/manufacturers/Manufacturers';
 import ManufacturerForm from './components/manufacturer-form/ManufacturerForm';
+import Machines from './components/machines/Machines';
+// import Machine from './components/machines/Machine';
 
 import { LOGOUT } from './actions/types';
 
@@ -65,6 +67,8 @@ const App = () => {
           <Route exact path='/users/:id' element={<Profile />} />
           <Route exact path='/locations' element={<Locations />} />
           <Route exact path='/locations/:locationId' element={<Location />} />
+          <Route exact path='/machines' element={<Machines />} />
+          {/* <Route exact path='/machines/:machineId' element={<Machine />} /> */}
           <Route exact path='/manufacturers' element={<Manufacturers />} />
           <Route
             exact

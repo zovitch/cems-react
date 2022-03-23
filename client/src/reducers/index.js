@@ -9,6 +9,7 @@ import failureCode from './code';
 import repairCode from './code';
 import analysisCode from './code';
 import manufacturer from './manufacturer';
+import machine from './machine';
 
 export default combineReducers({
   alert,
@@ -21,4 +22,5 @@ export default combineReducers({
   repairCode,
   analysisCode,
   manufacturer,
+  machine,
 });

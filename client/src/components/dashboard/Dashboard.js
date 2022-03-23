@@ -21,6 +21,30 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
 
   const listOfItemsOnDashboard = [
     {
+      name: 'L.F.A.',
+      nameCN: '固定资产一览表',
+      route: 'machines',
+      faLogo: 'fas fa-clipboard-list',
+    },
+    {
+      name: 'machines',
+      nameCN: '机器',
+      route: 'machines',
+      faLogo: 'fas fa-screwdriver',
+    },
+    {
+      name: 'machines',
+      nameCN: '机器',
+      route: 'machines',
+      faLogo: 'fas fa-screwdriver-wrench',
+    },
+    {
+      name: 'machines',
+      nameCN: '机器',
+      route: 'machines',
+      faLogo: 'fas fa-toolbox',
+    },
+    {
       name: 'manufacturers',
       nameCN: '制造商',
       route: 'manufacturers',
@@ -72,8 +96,7 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
   return (
     <section className='container'>
       <h1 className='large text-primary'>
-        <i className='fa-solid fa-list-check'></i> Citel Equipment & Machinery
-        System
+        <i className='fa-solid fa-gears'></i> Citel Equipment & Machinery System
       </h1>
       <div className='cards py-2'>
         {listOfItemsOnDashboard.length > 1 &&

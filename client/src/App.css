@@ -50,6 +50,15 @@ img {
   margin-bottom: 3rem;
 }
 
+.container-large {
+  max-width: 1800px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 2rem;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+}
+
 /* Text Styles*/
 .x-large {
   font-size: 4rem;
@@ -288,16 +297,6 @@ button {
   font: inherit;
 }
 
-.table th,
-.table td {
-  padding: 1rem;
-  text-align: left;
-}
-
-.table th {
-  background: var(--light-color);
-}
-
 /* Navbar */
 .navbar {
   display: flex;
@@ -442,6 +441,13 @@ button {
 /* Department */
 .department-grid {
   max-width: fit-content;
+}
+
+/* Machines */
+.machines {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  /* border: 3px rgb(13, 129, 104) solid; */
 }
 
 /* Profiles Page */
@@ -648,11 +654,40 @@ button {
   }
 }
 
-@media (max-width: 700px) {
+@media screen and (max-width: 736px) {
+  /* Machines Pages */
+  .machines-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+
+  .item {
+    border: 1px solid gray;
+    border-radius: 2px;
+    padding: 10px;
+  }
+
+  /* Don't display the first item, since it is used to display the header for tabular layouts*/
+  .machines-grid-container > li:first-child {
+    display: none;
+  }
+
+  .attribute::before {
+    content: attr(data-name);
+  }
+
+  /* Attribute name for first column, and attribute value for second column. */
+  .attribute {
+    display: grid;
+    grid-template-columns: minmax(9em, 30%) 1fr;
+  }
+
   .container {
     margin-top: 9rem;
   }
 
+  /* Hide on small screen */
   .hide-sm {
     display: none;
   }
@@ -724,6 +759,101 @@ button {
     grid-template-areas:
       'profile-info'
       'profile-departments';
+  }
+}
+
+/* 1 Column Card Layout */
+@media screen and (max-width: 580px) {
+  .machines-grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tabular Layout */
+@media screen and (min-width: 737px) {
+  /* The maximum column width, that can wrap */
+  .item-container {
+    display: grid;
+    grid-template-columns: 2em 8fr 2fr 3fr 6fr 2fr;
+  }
+
+  .attribute-container {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(var(--column-width-min), 1fr)
+    );
+  }
+
+  /* Definition of wrapping column width for attribute groups. */
+  .equ-qua-designation-designationCN {
+    --column-width-min: 6rem;
+  }
+
+  .equ-qua {
+    --column-width-min: 1rem;
+  }
+
+  .designation-designationCN {
+    --column-width-min: 10rem;
+  }
+
+  .afa-rfa {
+    --column-width-min: 4rem;
+  }
+
+  .manufacturer {
+    --column-width-min: 6rem;
+  }
+
+  .category-department-location {
+    --column-width-min: 6rem;
+  }
+  .department {
+    --column-width-min: 7rem;
+  }
+  .category {
+    --column-width-min: 1rem;
+  }
+
+  .investment-date {
+    --column-width-min: 5rem;
+  }
+
+  /* In order to maximize row lines, only display one line for a cell */
+  .attribute {
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    padding: 2px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 0.5rem;
+  }
+
+  .machines-grid-container > .item-container:first-child {
+    background-color: var(--dark-color);
+    border-bottom: 2px var(--secondary-color) solid;
+    color: var(--light-color);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+  }
+
+  .item-container:hover {
+    background-color: rgb(200, 227, 252);
+  }
+
+  /* Center header labels */
+  .machines-grid-container > .item-container:first-child .attribute {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    text-overflow: initial;
+    overflow: auto;
+    white-space: normal;
+    border-bottom: 1px #ccc solid;
   }
 }
 
