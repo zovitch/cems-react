@@ -24,6 +24,7 @@ import Manufacturer from './components/manufacturer/Manufacturer';
 import Manufacturers from './components/manufacturers/Manufacturers';
 import ManufacturerForm from './components/manufacturer-form/ManufacturerForm';
 import Machines from './components/machines/Machines';
+import MachineForm from './components/machine-form/MachineForm';
 // import Machine from './components/machines/Machine';
 
 import { LOGOUT } from './actions/types';
@@ -107,6 +108,11 @@ const App = () => {
             exact
             path='/users/me'
             element={<PrivateRoute component={ProfileForm} />}
+          />
+          <Route
+            exact
+            path='/create-machine'
+            element={<PrivateRoute component={MachineForm} />}
           />
           <Route
             exact
