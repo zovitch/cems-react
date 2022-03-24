@@ -62,8 +62,10 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
             {machines && machines.length > 0 ? (
               machines.map((machine) => (
                 <li className='item item-container'>
-                  <div className='attribute' data-name='Select'>
-                    <input type='checkbox' name='' id='' />
+                  <div className='attribute' data-name='Actions'>
+                    <i className='fas fa-edit'></i>
+                    <br />
+                    <i className='fas fa-trash'></i>
                   </div>
 
                   <div className='attribute-container equ-qua-designation-designationCN'>
