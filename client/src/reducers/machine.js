@@ -17,22 +17,22 @@ function machineReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_MACHINE: {
+    case GET_MACHINE:
       return {
         ...state,
         machine: payload,
         loading: false,
       };
-    }
-    case GET_MACHINES: {
+
+    case GET_MACHINES:
       return {
         ...state,
         machines: payload,
         machine: null,
         loading: false,
       };
-    }
-    case MACHINE_ERROR: {
+
+    case MACHINE_ERROR:
       return {
         ...state,
         error: payload,
@@ -40,15 +40,15 @@ function machineReducer(state = initialState, action) {
         machine: null,
         machines: [],
       };
-    }
+
     case CLEAR_MACHINE:
-    case MACHINE_DELETED: {
+    case MACHINE_DELETED:
       return {
         ...state,
         machine: null,
         machines: [],
       };
-    }
+
     default:
       return state;
   }

@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   code: null,
-  codes: null,
+  codes: [],
   loading: true,
   error: {},
 };

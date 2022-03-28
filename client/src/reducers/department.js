@@ -17,21 +17,21 @@ function departmentReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_DEPARTMENT: {
+    case GET_DEPARTMENT:
       return {
         ...state,
         department: payload,
         loading: false,
       };
-    }
-    case GET_DEPARTMENTS: {
+
+    case GET_DEPARTMENTS:
       return {
         ...state,
         department: null,
         departments: payload,
         loading: false,
       };
-    }
+
     case DEPARTMENT_ERROR:
       return {
         ...state,
