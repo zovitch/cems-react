@@ -4,6 +4,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Machine = require('../../models/Machine');
 const Afa = require('../../models/Afa');
+const Department = require('../../models/Department');
 
 // @route   POST api/machines
 // @desc    Create or Update a machine from AFA
@@ -11,7 +12,6 @@ const Afa = require('../../models/Afa');
 router.post(
   '/',
   auth,
-  check('machineNumber', 'A Machine Number is required').not().isEmpty(),
   check('designation', 'A Machine Designation is required').not().isEmpty(),
   check('category', 'A Category is required').not().isEmpty(),
   check('department', 'A Department is required').not().isEmpty(),
@@ -41,9 +41,9 @@ router.post(
       parentMachine,
     } = req.body;
 
-    let foundAfa = await Afa.findById(afa).populate({
-      path: 'department',
-    });
+    // let foundAfa = await Afa.findById(afa).populate({
+    //   path: 'department',
+    // });
 
     const machineFields = {};
     if (machineNumber) machineFields.machineNumber = machineNumber;
@@ -59,13 +59,13 @@ router.post(
     if (comment) machineFields.comment = comment;
     if (costCenter) machineFields.costCenter = costCenter;
 
-    if (foundAfa) machineFields.afa = foundAfa;
-    if (foundAfa.designation) machineFields.designation = foundAfa.designation;
-    if (foundAfa.designationCN)
-      machineFields.designationCN = foundAfa.designationCN;
-    if (foundAfa.parentMachine)
-      machineFields.parentMachine = foundAfa.parentMachine;
-    if (foundAfa.department) machineFields.department = foundAfa.department;
+    // if (foundAfa) machineFields.afa = foundAfa;
+    // if (foundAfa.designation) machineFields.designation = foundAfa.designation;
+    // if (foundAfa.designationCN)
+    //   machineFields.designationCN = foundAfa.designationCN;
+    // if (foundAfa.parentMachine)
+    //   machineFields.parentMachine = foundAfa.parentMachine;
+    // if (foundAfa.department) machineFields.department = foundAfa.department;
 
     // if the body contains this info, we overwrite the AFA infos
     if (designation) machineFields.designation = designation;
@@ -74,33 +74,42 @@ router.post(
     if (department) machineFields.department = department;
 
     try {
-      let machine = await Machine.findOne({ machineNumber: machineNumber });
+      // Check the unicity of the data in the form
+      const otherMachines = await Machine.find({
+        $or: [
+          { qualityNumber: qualityNumber },
+          { designation: designation },
+          { designationCN: designationCN },
+        ],
+      });
 
-      if (machine) {
-        // Update machine
-        machine = await Machine.findOneAndUpdate(
-          { machineNumber: machineNumber },
-          { $set: machineFields },
-          { new: true }
-        ).populate({
-          path: 'department afa parentMachine manufacturer category',
-          populate: {
-            path: 'owners location department afa manufacturer category',
-            select:
-              'name nameCN initials floor locationLetter code trigram description descriptionCN',
-            strictPopulate: false,
-            populate: {
-              path: 'owners location department afa manufacturer category',
-              select:
-                'name nameCN initials floor locationLetter code trigram description descriptionCN',
-              strictPopulate: false,
+      let duplicateField = null;
+      let duplicateValue = null;
+
+      if (otherMachines.length > 0) {
+        if (otherMachines[0].qualityNumber == qualityNumber) {
+          duplicateField = 'QUA No.';
+          duplicateValue = qualityNumber;
+        }
+        if (otherMachines[0].designation == designation) {
+          duplicateField = 'Designation';
+          duplicateValue = designation;
+        }
+        if (otherMachines[0].designationCN == designationCN) {
+          duplicateField = '设备名称';
+          duplicateValue = designationCN;
+        }
+
+        return res.status(400).json({
+          errors: [
+            {
+              msg: `The ${duplicateField} ${duplicateValue} already exists`,
             },
-          },
+          ],
         });
-
-        return res.json(machine);
       }
-      // Create machine
+
+      // Create a new Machine
       let date = new Date(); //today's date
       if (acquiredDate) {
         date = new Date(acquiredDate);
@@ -108,19 +117,21 @@ router.post(
       const year = date.getFullYear(); // 2021
       const year2digits = year.toString().substring(2);
 
-      const foundLocation = await Location.findById(
-        machineFields.department.location
-      );
-      if (!foundLocation.floor) {
+      const foundDepartment = await Department.findById(
+        machineFields.department
+      ).populate('location');
+
+      if (!foundDepartment.location.floor) {
         return res
           .status(400)
-          .json({ msg: 'Error: Floor information is missing' });
+          .json({ msg: 'Error: Department information are incorrect' });
       }
-      let newMachineNumber = '8' + foundLocation.floor + year2digits + '001';
+      let newMachineNumber =
+        '8' + foundDepartment.location.floor + year2digits + '001';
       // This return an array of size 1 with the latest mmachine number
       const latestMachine = await Machine.find({
         machineNumber: {
-          $regex: '8' + foundLocation.floor + year2digits,
+          $regex: '8' + foundDepartment.location.floor + year2digits,
           $options: 'i',
         },
       })
@@ -188,12 +199,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route   GET api/machines/:number
+// @route   GET api/machines/:machineId
 // @desc    GET the detail of one machine
 // @access  Public
-router.get('/:number', async (req, res) => {
+router.get('/:machineId', async (req, res) => {
   try {
-    const machine_id = await Machine.findById(req.params.number).populate({
+    const machine = await Machine.findById(req.params.machineId).populate({
       path: 'department afa parentMachine manufacturer category',
       populate: {
         path: 'owners location department afa manufacturer category',
@@ -208,52 +219,8 @@ router.get('/:number', async (req, res) => {
         },
       },
     });
-    const machineEQU = await Machine.findOne({
-      machineNumber: req.params.number,
-    }).populate({
-      path: 'department afa parentMachine manufacturer category',
-      populate: {
-        path: 'owners location department afa manufacturer category',
-        select:
-          'name nameCN initials floor locationLetter code trigram description descriptionCN',
-        strictPopulate: false,
-        populate: {
-          path: 'owners location department afa manufacturer category',
-          select:
-            'name nameCN initials floor locationLetter code trigram description descriptionCN',
-          strictPopulate: false,
-        },
-      },
-    });
-
-    const machineQUA = await Machine.findOne({
-      qualityNumber: req.params.number,
-    }).populate({
-      path: 'department afa parentMachine manufacturer category',
-      populate: {
-        path: 'owners location department afa manufacturer category',
-        select:
-          'name nameCN initials floor locationLetter code trigram description descriptionCN',
-        strictPopulate: false,
-        populate: {
-          path: 'owners location department afa manufacturer category',
-          select:
-            'name nameCN initials floor locationLetter code trigram description descriptionCN',
-          strictPopulate: false,
-        },
-      },
-    });
-    // the number in the params can be the EQU Number or the QUA Number
-    if (machineEQU) {
-      machine = machineEQU;
-    } else {
-      if (machineQUA) {
-        machine = machineQUA;
-      } else {
-        if (machine_id) {
-          machine = machine_id;
-        } else return res.status(400).json({ msg: 'machine not found' });
-      }
+    if (!machine) {
+      return res.status(400).json({ msg: 'machine not found' });
     }
 
     res.json(machine);
@@ -286,94 +253,137 @@ router.delete('/:machine_id', auth, async (req, res) => {
 // @route   PATCH api/machines/:machine_id
 // @desc    Update a Machine Number and other infos
 // @access  Private
-router.patch('/:machine_id', auth, async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+router.patch(
+  '/:machineId',
+  auth,
+  check('designation', 'A Machine Designation is required').not().isEmpty(),
+  check('category', 'A Category is required').not().isEmpty(),
+  check('department', 'A Department is required').not().isEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  const {
-    machineNumber,
-    qualityNumber,
-    designation,
-    designationCN,
-    category,
-    department,
-    manufacturer,
-    model,
-    manufacturingDate,
-    acquiredDate,
-    investmentNumber,
-    retiredDate,
-    purchasedPrice,
-    comment,
-    costCenter,
-    afa,
-    parentMachine,
-  } = req.body;
-  const machineFields = {};
-  if (machineNumber) machineFields.machineNumber = machineNumber;
-  if (qualityNumber) machineFields.qualityNumber = qualityNumber;
-  if (category) machineFields.category = category;
-  if (manufacturer) machineFields.manufacturer = manufacturer;
-  if (model) machineFields.model = model;
-  if (manufacturingDate) machineFields.manufacturingDate = manufacturingDate;
-  if (acquiredDate) machineFields.acquiredDate = acquiredDate;
-  if (investmentNumber) machineFields.investmentNumber = investmentNumber;
-  if (retiredDate) machineFields.retiredDate = retiredDate;
-  if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
-  if (comment) machineFields.comment = comment;
-  if (costCenter) machineFields.costCenter = costCenter;
-  if (designation) machineFields.designation = designation;
-  if (designationCN) machineFields.designationCN = designationCN;
-  if (parentMachine) machineFields.parentMachine = parentMachine;
-  if (department) machineFields.department = department;
-  if (afa) machineFields.afa = afa;
+    const {
+      machineNumber,
+      qualityNumber,
+      designation,
+      designationCN,
+      category,
+      department,
+      manufacturer,
+      model,
+      manufacturingDate,
+      acquiredDate,
+      investmentNumber,
+      retiredDate,
+      purchasedPrice,
+      comment,
+      costCenter,
+      afa,
+      parentMachine,
+    } = req.body;
 
-  console.log('Updating a machine ');
-  try {
-    const machine = await Machine.findByIdAndUpdate(
-      req.params.machine_id,
-      { $set: machineFields },
-      { new: true }
-    ).populate({
-      path: 'department afa parentMachine manufacturer category',
-      populate: {
-        path: 'owners location department afa manufacturer category',
-        select:
-          'name nameCN initials floor locationLetter code trigram description descriptionCN',
-        strictPopulate: false,
+    const machineFields = {};
+    if (machineNumber) machineFields.machineNumber = machineNumber;
+    if (qualityNumber) machineFields.qualityNumber = qualityNumber;
+    if (category) machineFields.category = category;
+    if (manufacturer) machineFields.manufacturer = manufacturer;
+    if (model) machineFields.model = model;
+    if (manufacturingDate) machineFields.manufacturingDate = manufacturingDate;
+    if (acquiredDate) machineFields.acquiredDate = acquiredDate;
+    if (investmentNumber) machineFields.investmentNumber = investmentNumber;
+    if (retiredDate) machineFields.retiredDate = retiredDate;
+    if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
+    if (comment) machineFields.comment = comment;
+    if (costCenter) machineFields.costCenter = costCenter;
+
+    if (designation) machineFields.designation = designation;
+    if (designationCN) machineFields.designationCN = designationCN;
+    if (parentMachine) machineFields.parentMachine = parentMachine;
+    if (department) machineFields.department = department;
+    // if (afa) machineFields.afa = afa;
+
+    try {
+      // Check the unicity of the data in the form
+      const otherMachines = await Machine.find({
+        $or: [
+          { machineNumber: machineNumber },
+          { qualityNumber: qualityNumber },
+          { designation: designation },
+          { designationCN: designationCN },
+        ],
+      });
+      let arrayOfMachinesId = otherMachines.map((o) => o._id.toString());
+      if (
+        arrayOfMachinesId.length > 1 ||
+        (arrayOfMachinesId.length === 1 &&
+          arrayOfMachinesId.indexOf(req.params.machineId) === -1)
+      ) {
+        let k = 0;
+        if (arrayOfMachinesId[k] === req.params.machineId) k = 1;
+        let duplicateField = null;
+        let duplicateValue = null;
+
+        if (otherMachines[k].machineNumber === machineNumber) {
+          duplicateField = 'EQU No.';
+          duplicateValue = machineNumber;
+        }
+        if (otherMachines[k].qualityNumber === qualityNumber) {
+          duplicateField = 'QUA No.';
+          duplicateValue = qualityNumber;
+        }
+        if (otherMachines[k].designationCN === designationCN) {
+          duplicateField = '设备名称';
+          duplicateValue = designationCN;
+        }
+        if (otherMachines[k].designation === designation) {
+          duplicateField = 'Designation';
+          duplicateValue = designation;
+        }
+
+        return res.status(400).json({
+          errors: [
+            {
+              msg: `The ${duplicateField} ${duplicateValue} already exists`,
+            },
+          ],
+        });
+      }
+
+      const machine = await Machine.findByIdAndUpdate(
+        { _id: req.params.machineId },
+        { $set: machineFields },
+        { new: true }
+      ).populate({
+        path: 'department afa parentMachine manufacturer category',
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
             'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
+          populate: {
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name nameCN initials floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
+          },
         },
-      },
-    });
+      });
 
-    if (!machine) {
-      return res.status(404).json({ msg: 'Machine not found' });
+      if (!machine) {
+        return res.status(404).json({ msg: 'Machine not found' });
+      }
+      return res.json(machine);
+    } catch (err) {
+      console.error(err.message);
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'Machine not found' });
+      }
+      res.status(500).send('Server Error');
     }
-    return res.json(machine);
-
-    // machine.save(function (err, result) {
-    //   if (err) {
-    //     if (err.code === 11000) {
-    //       return res.status(400).json({ 'Duplicate Entry': err.keyValue });
-    //     }
-    //     console.log(err);
-    //   } else {
-    //     res.json(machine);
-    //   }
-    // });
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Machine not found' });
-    }
-    res.status(500).send('Server Error');
   }
-});
+);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -61,11 +62,13 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
             {/* The rest of the items in the list are the actual data */}
             {machines && machines.length > 0 ? (
               machines.map((machine) => (
-                <li className='item item-container'>
+                <li key={machine._id} className='item item-container'>
                   <div className='attribute' data-name='Actions'>
-                    <i className='fas fa-edit'></i>
-                    <br />
-                    <i className='fas fa-trash'></i>
+                    {auth && auth.isAuthenticated && (
+                      <Link to={`/machines/edit/${machine._id}`}>
+                        <i className='fas fa-edit'></i>
+                      </Link>
+                    )}
                   </div>
 
                   <div className='attribute-container equ-qua-designation-designationCN'>
@@ -88,13 +91,10 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                   </div>
                   <div className='attribute-container afa-rfa'>
                     <div className='attribute' data-name='AFA'>
-                      AFA{' '}
                       {machine.afa &&
-                        String(machine.afa.afaNumber).padStart(4, '0')}
+                        'AFA ' + String(machine.afa.afaNumber).padStart(4, '0')}
                     </div>
-                    <div className='attribute' data-name='RFA'>
-                      RFA ⎵⎵⎵⎵
-                    </div>
+                    <div className='attribute' data-name='RFA'></div>
                   </div>
                   <div className='attribute-container manufacturer'>
                     <div className='attribute' data-name='制造商'>
@@ -139,6 +139,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
               <h4>No Machine found</h4>
             )}
           </ol>
+          <AddNew item='machine' />
         </Fragment>
       )}
     </section>

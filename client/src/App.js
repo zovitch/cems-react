@@ -156,6 +156,11 @@ const App = () => {
           />
           <Route
             exact
+            path='/machines/edit/:machineId'
+            element={<PrivateRoute component={MachineForm} />}
+          />
+          <Route
+            exact
             path='/locations/edit/:locationId'
             element={<PrivateRoute component={LocationForm} />}
           />

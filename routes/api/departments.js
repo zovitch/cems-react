@@ -59,9 +59,7 @@ router.post(
       await department.save();
       res.json(department);
     } catch (err) {
-      if (err.kind === 'ObjectId') {
-        return res.status(404).json({ msg: 'User not found' });
-      }
+      console.error(err.message);
       if (err.code === 11000) {
         return res.status(400).json({ 'Duplicate Entry': err.keyValue });
       }
