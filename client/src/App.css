@@ -443,11 +443,102 @@ button {
   max-width: fit-content;
 }
 
-/* Machines */
-.machines {
-  display: grid;
-  grid-template-columns: 1fr 1fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  /* border: 3px rgb(13, 129, 104) solid; */
+/* Machines Tabular Layout */
+@media screen and (min-width: 737px) {
+  /* .machines-grid {
+    border-right: #ccc 1px solid;
+  } */
+
+  /* The maximum column width, that can wrap */
+  .item-container {
+    display: grid;
+    grid-template-columns: 2em 10rem 4fr 2fr 3fr 6fr 2fr;
+    border-right: #ccc 1px solid;
+  }
+
+  .attribute-container {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(var(--column-width-min), var(--column-width-max))
+    );
+  }
+
+  /* Definition of wrapping column width for attribute groups. */
+
+  .equ-qua {
+    --column-width-min: 5rem;
+    --column-width-max: 5rem;
+  }
+
+  .designation-designationCN {
+    --column-width-min: 10rem;
+    --column-width-max: 1fr;
+  }
+
+  .afa-rfa {
+    --column-width-min: 4rem;
+    --column-width-max: 1fr;
+  }
+
+  .manufacturer {
+    --column-width-min: 6rem;
+    --column-width-max: 1fr;
+  }
+
+  .category-department-location {
+    --column-width-min: 6rem;
+    --column-width-max: 1fr;
+  }
+  .department {
+    --column-width-min: 7rem;
+    --column-width-max: 1fr;
+  }
+  .category {
+    --column-width-min: 1rem;
+    --column-width-max: 1fr;
+  }
+
+  .investment-date {
+    --column-width-min: 5rem;
+    --column-width-max: 1fr;
+  }
+
+  /* In order to maximize row lines, only display one line for a cell */
+  .attribute {
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    padding: 2px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 0.5rem;
+  }
+
+  .machines-grid-container > .item-container:first-child {
+    background-color: var(--dark-color);
+    /* border-right: 1px var(--dark-color) solid; */
+    border-bottom: 2px var(--secondary-color) solid;
+    color: var(--light-color);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+  }
+
+  .item-container:hover {
+    background-color: rgb(200, 227, 252);
+  }
+
+  /* Center header labels */
+  .machines-grid-container > .item-container:first-child .attribute {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    text-overflow: initial;
+    overflow: auto;
+    white-space: normal;
+    border-bottom: 1px #ccc solid;
+  }
 }
 
 /* Profiles Page */
@@ -767,93 +858,6 @@ button {
   .machines-grid-container {
     display: grid;
     grid-template-columns: 1fr;
-  }
-}
-
-/* Tabular Layout */
-@media screen and (min-width: 737px) {
-  /* The maximum column width, that can wrap */
-  .item-container {
-    display: grid;
-    grid-template-columns: 2em 8fr 2fr 3fr 6fr 2fr;
-  }
-
-  .attribute-container {
-    display: grid;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(var(--column-width-min), 1fr)
-    );
-  }
-
-  /* Definition of wrapping column width for attribute groups. */
-  .equ-qua-designation-designationCN {
-    --column-width-min: 6rem;
-  }
-
-  .equ-qua {
-    --column-width-min: 1rem;
-  }
-
-  .designation-designationCN {
-    --column-width-min: 10rem;
-  }
-
-  .afa-rfa {
-    --column-width-min: 4rem;
-  }
-
-  .manufacturer {
-    --column-width-min: 6rem;
-  }
-
-  .category-department-location {
-    --column-width-min: 6rem;
-  }
-  .department {
-    --column-width-min: 7rem;
-  }
-  .category {
-    --column-width-min: 1rem;
-  }
-
-  .investment-date {
-    --column-width-min: 5rem;
-  }
-
-  /* In order to maximize row lines, only display one line for a cell */
-  .attribute {
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    padding: 2px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-left: 0.5rem;
-  }
-
-  .machines-grid-container > .item-container:first-child {
-    background-color: var(--dark-color);
-    border-bottom: 2px var(--secondary-color) solid;
-    color: var(--light-color);
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-  }
-
-  .item-container:hover {
-    background-color: rgb(200, 227, 252);
-  }
-
-  /* Center header labels */
-  .machines-grid-container > .item-container:first-child .attribute {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    text-overflow: initial;
-    overflow: auto;
-    white-space: normal;
-    border-bottom: 1px #ccc solid;
   }
 }
 

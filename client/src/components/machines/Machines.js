@@ -25,15 +25,13 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
             <li className='item item-container header'>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
-              <div className='attribute-container equ-qua-designation-designationCN'>
-                <div className='attribute-container equ-qua'>
-                  <div className='attribute'>EQU No.</div>
-                  <div className='attribute'>QUA No.</div>
-                </div>
-                <div className='attribute-container designation-designationCN'>
-                  <div className='attribute'>设备名称</div>
-                  <div className='attribute'>Designation</div>
-                </div>
+              <div className='attribute-container equ-qua'>
+                <div className='attribute'>EQU No.</div>
+                <div className='attribute'>QUA No.</div>
+              </div>
+              <div className='attribute-container designation-designationCN'>
+                <div className='attribute'>设备名称</div>
+                <div className='attribute'>Designation</div>
               </div>
               <div className='attribute-container afa-rfa'>
                 <div className='attribute'>AFA</div>
@@ -71,22 +69,20 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                     )}
                   </div>
 
-                  <div className='attribute-container equ-qua-designation-designationCN'>
-                    <div className='attribute-container equ-qua'>
-                      <div className='attribute' data-name='EQU No.'>
-                        {machine.machineNumber}
-                      </div>
-                      <div className='attribute' data-name='QUA No.'>
-                        {machine.qualityNumber}
-                      </div>
+                  <div className='attribute-container equ-qua'>
+                    <div className='attribute' data-name='EQU No.'>
+                      {machine.machineNumber}
                     </div>
-                    <div className='attribute-container designation-designationCN'>
-                      <div className='attribute' data-name='设备名称'>
-                        {machine.designationCN}
-                      </div>
-                      <div className='attribute' data-name='Designation'>
-                        {machine.designation}
-                      </div>
+                    <div className='attribute' data-name='QUA No.'>
+                      {machine.qualityNumber}
+                    </div>
+                  </div>
+                  <div className='attribute-container designation-designationCN'>
+                    <div className='attribute' data-name='设备名称'>
+                      {machine.designationCN}
+                    </div>
+                    <div className='attribute' data-name='Designation'>
+                      {machine.designation}
                     </div>
                   </div>
                   <div className='attribute-container afa-rfa'>
