@@ -357,6 +357,18 @@ button {
   border-radius: var(--border-radius);
 }
 
+/* Page Title and Actions */
+.pageHeader {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.pageTitle {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 /* Dashboard card */
 .cards {
   display: grid;
@@ -443,17 +455,29 @@ button {
   max-width: fit-content;
 }
 
-/* Machines Tabular Layout */
+/*  Tabular Layout */
 @media screen and (min-width: 737px) {
-  /* .machines-grid {
-    border-right: #ccc 1px solid;
-  } */
-
   /* The maximum column width, that can wrap */
   .item-container {
     display: grid;
-    grid-template-columns: 2em 10rem 4fr 2fr 3fr 6fr 2fr;
+    /* grid-template-columns: 2rem 10rem 4fr 2fr 3fr 6fr 2fr; */
     border-right: #ccc 1px solid;
+  }
+
+  .item-container-3 {
+    grid-template-columns: 2rem 1fr 1fr;
+  }
+
+  .item-container-5 {
+    grid-template-columns: 2rem 5rem 5rem 1fr 1fr;
+  }
+
+  .item-container-6 {
+    grid-template-columns: 2rem 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .item-container-7 {
+    grid-template-columns: 2rem 10rem 4fr 2fr 3fr 6fr 2fr;
   }
 
   .attribute-container {
@@ -515,7 +539,7 @@ button {
     padding-left: 0.5rem;
   }
 
-  .machines-grid-container > .item-container:first-child {
+  .table-grid-container > .item-container:first-child {
     background-color: var(--dark-color);
     /* border-right: 1px var(--dark-color) solid; */
     border-bottom: 2px var(--secondary-color) solid;
@@ -529,7 +553,7 @@ button {
   }
 
   /* Center header labels */
-  .machines-grid-container > .item-container:first-child .attribute {
+  .table-grid-container > .item-container:first-child .attribute {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -747,7 +771,7 @@ button {
 
 @media screen and (max-width: 736px) {
   /* Machines Pages */
-  .machines-grid-container {
+  .table-grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
@@ -760,7 +784,7 @@ button {
   }
 
   /* Don't display the first item, since it is used to display the header for tabular layouts*/
-  .machines-grid-container > li:first-child {
+  .table-grid-container > li:first-child {
     display: none;
   }
 
@@ -855,7 +879,7 @@ button {
 
 /* 1 Column Card Layout */
 @media screen and (max-width: 580px) {
-  .machines-grid-container {
+  .table-grid-container {
     display: grid;
     grid-template-columns: 1fr;
   }

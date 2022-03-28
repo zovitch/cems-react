@@ -23,22 +23,61 @@ const Categories = ({
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>
-            <i className='fas fa-tags'> </i> Categories
-          </h1>
+          <div className='pageHeader'>
+            <h1 className='large text-primary pageTitle'>
+              <i className='fas fa-tags'> </i> Categories
+            </h1>
+            <div className='pageActions'>
+              {auth && auth.isAuthenticated && auth.loading === false && (
+                <AddNew item='category' />
+              )}
+            </div>
+          </div>
 
-          <div className='categories py-1'>
+          <ol className='table-grid-container my-2'>
+            {/* The first list item is the header of the table  */}
+            <li className='item item-container item-container-5'>
+              <div className='attribute'></div>
+              {/* Enclose semantically similar attributes as a div hierarchy */}
+              <div className='attribute'>Code</div>
+              <div className='attribute'>Trigram</div>
+              <div className='attribute'>Designation</div>
+              <div className='attribute'>设备名称</div>
+            </li>
+
+            {/* The rest of the items in the list are the actual data */}
+
             {categories && categories.length > 0 ? (
               categories.map((category) => (
-                <CategoryItem key={category._id} category={category} />
+                <li
+                  key={category._id}
+                  className='item item-container item-container-5'
+                >
+                  <div className='attribute' data-name='Actions'>
+                    {auth && auth.isAuthenticated && (
+                      <Link to={`/categories/edit/${category._id}`}>
+                        <i className='fas fa-edit'></i>
+                      </Link>
+                    )}
+                  </div>
+                  <div className='attribute' data-name='Code'>
+                    {category.code}
+                  </div>
+                  <div className='attribute' data-name='Trigram'>
+                    {category.trigram}
+                  </div>
+                  <div className='attribute' data-name='Designation'>
+                    {category.description}
+                  </div>
+                  <div className='attribute' data-name='设备名称'>
+                    {category.descriptionCN}
+                  </div>
+                </li>
               ))
             ) : (
-              <h4>No Category found</h4>
+              <h4>No category found</h4>
             )}
-            {auth && auth.isAuthenticated && auth.loading === false && (
-              <AddNew item='category' />
-            )}
-          </div>
+          </ol>
         </Fragment>
       )}
     </section>

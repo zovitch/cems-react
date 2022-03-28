@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 export const AddNew = ({ item }) => {
   return (
     <Link to={`/create-${item}`}>
-      <div className='addNewbtn bg-light '>
-        <h1>
-          <i className='fas fa-circle-plus fa-2xl '></i>
-        </h1>
-        <h1>Add new {item[0].toUpperCase() + item.substring(1)} </h1>
+      <div className='addNewbtn btn-light '>
+        <h4>
+          <i className='fas fa-circle-plus fa-2xl ' />{' '}
+          <span className='hide-sm'>
+            {item[0].toUpperCase() + item.substring(1)}
+          </span>
+        </h4>
       </div>
     </Link>
   );

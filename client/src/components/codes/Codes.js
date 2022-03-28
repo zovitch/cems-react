@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { AddNew } from '../layout/AddNew';
 import { getCodes } from '../../actions/code';
-import CodeItem from './CodeItem';
 
 const Codes = ({
   getCodes,
@@ -40,23 +40,63 @@ const Codes = ({
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className={`large text-${codetype}`}>
-            <i className='fas fa-code'> </i>{' '}
-            {codetype[0].toUpperCase() + codetype.substring(1)} Codes
-          </h1>
+          <div className='pageHeader'>
+            <h1 className={`large pageTitle text-${codetype}`}>
+              <i className='fas fa-code'> </i>{' '}
+              {codetype[0].toUpperCase() + codetype.substring(1)}
+              <span className='hide-sm'>Codes</span>
+            </h1>
+            <div className='pageActions'>
+              {auth && auth.isAuthenticated && auth.loading === false && (
+                <AddNew item={`${codetype}code`} />
+              )}
+            </div>
+          </div>
 
-          <div className='codes my-2'>
+          <ol className='table-grid-container my-2'>
+            {/* The first list item is the header of the table  */}
+            <li className='item item-container item-container-5 '>
+              <div className='attribute'></div>
+              {/* Enclose semantically similar attributes as a div hierarchy */}
+              <div className='attribute'>Code</div>
+              <div className='attribute'>Name</div>
+              <div className='attribute'>Designation</div>
+              <div className='attribute'>设备名称</div>
+            </li>
+
+            {/* The rest of the items in the list are the actual data */}
+
             {codeFunction.codes && codeFunction.codes.length > 0 ? (
               codeFunction.codes.map((code) => (
-                <CodeItem key={code._id} ctype={codetype} code={code} />
+                <li
+                  key={code._id}
+                  className='item item-container item-container-5'
+                >
+                  <div className='attribute' data-name='Actions'>
+                    {auth && auth.isAuthenticated && (
+                      <Link to={`/${codetype}codes/edit/${code._id}`}>
+                        <i className='fas fa-edit'></i>
+                      </Link>
+                    )}
+                  </div>
+                  <div className='attribute' data-name='Code'>
+                    {code.codeNumber}
+                  </div>
+                  <div className='attribute' data-name='Name'>
+                    {code.name}
+                  </div>
+                  <div className='attribute' data-name='Designation'>
+                    {code.description}
+                  </div>
+                  <div className='attribute' data-name='设备名称'>
+                    {code.descriptionCN}
+                  </div>
+                </li>
               ))
             ) : (
               <h4>No Code found</h4>
             )}
-          </div>
-          {auth && auth.isAuthenticated && auth.loading === false && (
-            <AddNew item={`${codetype}code`} />
-          )}
+          </ol>
         </Fragment>
       )}
     </section>

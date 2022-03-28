@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { AddNew } from '../layout/AddNew';
 import { getManufacturers } from '../../actions/manufacturer';
-import ManufacturerItem from './ManufacturerItem';
 
 const Manufacturers = ({
   getManufacturers,
@@ -21,25 +21,54 @@ const Manufacturers = ({
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>
-            <i className='fas fa-industry'> </i> Manufacturers 制造商
-          </h1>
+          <div className='pageHeader'>
+            <h1 className='large text-primary pageTitle'>
+              <i className='fas fa-industry'> </i> Manufacturers
+              <span className='hide-sm'> 制造商</span>
+            </h1>
+            <div className='pageActions'>
+              {auth && auth.isAuthenticated && auth.loading === false && (
+                <AddNew item='manufacturer' />
+              )}
+            </div>
+          </div>
 
-          <div className='manufacturers my-2'>
+          <ol className='table-grid-container my-2'>
+            {/* The first list item is the header of the table  */}
+            <li className='item item-container item-container-3'>
+              <div className='attribute'></div>
+              {/* Enclose semantically similar attributes as a div hierarchy */}
+              <div className='attribute'>Manufacturer</div>
+              <div className='attribute'>制造商</div>
+            </li>
+
+            {/* The rest of the items in the list are the actual data */}
+
             {manufacturers && manufacturers.length > 0 ? (
               manufacturers.map((manufacturer) => (
-                <ManufacturerItem
+                <li
                   key={manufacturer._id}
-                  manufacturer={manufacturer}
-                />
+                  className='item item-container item-container-3'
+                >
+                  <div className='attribute' data-name='Actions'>
+                    {auth && auth.isAuthenticated && (
+                      <Link to={`/manufacturers/edit/${manufacturer._id}`}>
+                        <i className='fas fa-edit'></i>
+                      </Link>
+                    )}
+                  </div>
+                  <div className='attribute' data-name='Manufacturer'>
+                    {manufacturer.name}
+                  </div>
+                  <div className='attribute' data-name='制造商'>
+                    {manufacturer.nameCN}
+                  </div>
+                </li>
               ))
             ) : (
               <h4>No Manufacturer found</h4>
             )}
-          </div>
-          {auth && auth.isAuthenticated && auth.loading === false && (
-            <AddNew item='manufacturer' />
-          )}
+          </ol>
         </Fragment>
       )}
     </section>

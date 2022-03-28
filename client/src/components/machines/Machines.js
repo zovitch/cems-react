@@ -16,13 +16,23 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>
-            <i className='fas fa-clipboard-list'> </i> List of Fixed Assets
-            固定资产一览表
-          </h1>
-          <ol className='machines-grid machines-grid-container'>
+          <div className='pageHeader'>
+            <h1 className='large text-primary pageTitle'>
+              <i className='fas fa-clipboard-list'> </i> L
+              <span className='hide-sm'>ist of </span>F
+              <span className='hide-sm'>ixed </span>A
+              <span className='hide-sm'>ssets 固定资产一览表</span>
+            </h1>
+            <div className='pageActions'>
+              {auth && auth.isAuthenticated && auth.loading === false && (
+                <AddNew item='machine' />
+              )}
+            </div>
+          </div>
+
+          <ol className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container header'>
+            <li className='item item-container item-container-7 '>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
               <div className='attribute-container equ-qua'>
@@ -60,7 +70,10 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
             {/* The rest of the items in the list are the actual data */}
             {machines && machines.length > 0 ? (
               machines.map((machine) => (
-                <li key={machine._id} className='item item-container'>
+                <li
+                  key={machine._id}
+                  className='item item-container item-container-7'
+                >
                   <div className='attribute' data-name='Actions'>
                     {auth && auth.isAuthenticated && (
                       <Link to={`/machines/edit/${machine._id}`}>
@@ -135,7 +148,6 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
               <h4>No Machine found</h4>
             )}
           </ol>
-          <AddNew item='machine' />
         </Fragment>
       )}
     </section>
