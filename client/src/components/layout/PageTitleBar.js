@@ -37,7 +37,6 @@ const PageTitleBar = ({ auth, item, faIcon }) => {
 PageTitleBar.propTypes = {
   auth: PropTypes.object.isRequired,
   item: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   faIcon: PropTypes.string.isRequired,
 };
 
