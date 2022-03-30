@@ -17,9 +17,13 @@ FEATURES
 - import / export batches
 
 BUGS
-what happen if delete account but there are dept still there
-if editing the Department Form, the location already existing doesnt load up and need to be reselected
+- what happen if delete account but there are dept still there
+- if editing the Department Form, the location already existing doesnt load up and need to be reselected
+- store in lower case in database and display capitalize, this would be to avoid dupplicated with case-sensitive
 
+- after deleting, there is a useEffect trigger, so we have a routing error for the _id just deleted
+- after deleting, there is sometimes the objects not reloading properly (manufacturers are empty)
+=> Check if this can be avoided if we dont delete from the forms
 
 DONE
 - horizontal bar change to yellow -
