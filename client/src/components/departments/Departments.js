@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { getDepartments } from '../../actions/department';
 import Avatar from 'react-avatar';
 import { Link } from 'react-router-dom';
-import AddNew from '../layout/AddNew';
-
+import PageTitleBar from '../layout/PageTitleBar';
 const Departments = ({
   getDepartments,
   auth,
@@ -21,16 +20,7 @@ const Departments = ({
         <Spinner />
       ) : (
         <Fragment>
-          <div className='pageHeader'>
-            <h1 className='large text-primary pageTitle'>
-              <i className='fas fa-briefcase'> </i> Departments
-            </h1>
-            <div className='pageActions'>
-              {auth && auth.isAuthenticated && auth.loading === false && (
-                <AddNew item='department' />
-              )}
-            </div>
-          </div>
+          <PageTitleBar item='department' faIcon='fas fa-briefcase' />
 
           <ol className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}

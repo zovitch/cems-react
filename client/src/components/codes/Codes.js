@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { AddNew } from '../layout/AddNew';
+import PageTitleBar from '../layout/PageTitleBar';
 import { getCodes } from '../../actions/code';
 
 const Codes = ({
@@ -40,18 +40,7 @@ const Codes = ({
         <Spinner />
       ) : (
         <Fragment>
-          <div className='pageHeader'>
-            <h1 className={`large pageTitle text-${codetype}`}>
-              <i className='fas fa-code'> </i>{' '}
-              {codetype[0].toUpperCase() + codetype.substring(1)}
-              <span className='hide-sm'>Codes</span>
-            </h1>
-            <div className='pageActions'>
-              {auth && auth.isAuthenticated && auth.loading === false && (
-                <AddNew item={`${codetype}code`} />
-              )}
-            </div>
-          </div>
+          <PageTitleBar item={`${codetype}code`} faIcon='fas fa-code' />
 
           <ol className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}

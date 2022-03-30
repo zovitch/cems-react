@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { AddNew } from '../layout/AddNew';
+import PageTitleBar from '../layout/PageTitleBar';
 import { getMachines } from '../../actions/machine';
 
 const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
@@ -16,19 +16,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <div className='pageHeader'>
-            <h1 className='large text-primary pageTitle'>
-              <i className='fas fa-clipboard-list'> </i> L
-              <span className='hide-sm'>ist of </span>F
-              <span className='hide-sm'>ixed </span>A
-              <span className='hide-sm'>ssets 固定资产一览表</span>
-            </h1>
-            <div className='pageActions'>
-              {auth && auth.isAuthenticated && auth.loading === false && (
-                <AddNew item='machine' />
-              )}
-            </div>
-          </div>
+          <PageTitleBar item='machine' faIcon='fas fa-clipboard-list' />
 
           <ol className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}

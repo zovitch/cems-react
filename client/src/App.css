@@ -9,6 +9,8 @@
   --failure-color: rgb(196, 48, 196);
   --repair-color: rgb(48, 196, 68);
   --analysis-color: rgb(48, 70, 196);
+  --hover-color: rgb(200, 227, 252);
+
   --border-radius: 10px;
   --border-small-radius: 4px;
 }
@@ -63,13 +65,13 @@ img {
 .x-large {
   font-size: 4rem;
   line-height: 1.2;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .large {
   font-size: 3rem;
   line-height: 1.2;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .lead {
@@ -360,13 +362,30 @@ button {
 /* Page Title and Actions */
 .pageHeader {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3rem 4fr 1fr;
+}
+
+.pageHeader a {
+  color: var(--dark-color);
+  text-align: center;
+  align-self: center;
+}
+
+.pageHeader a:hover {
+  color: var(--secondary-color);
 }
 
 .pageTitle {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  align-self: end;
+  align-items: center;
+  text-align: center;
+}
+
+.pageActions {
+  align-self: center;
 }
 
 /* Dashboard card */
@@ -383,6 +402,10 @@ button {
   padding: 2rem;
   /* max-width: max-content; */
   border-radius: var(--border-radius);
+}
+
+.card:hover {
+  background-color: var(--hover-color);
 }
 
 .addNewbtn h1 {
@@ -549,7 +572,7 @@ button {
   }
 
   .item-container:hover {
-    background-color: rgb(200, 227, 252);
+    background-color: var(--hover-color);
   }
 
   /* Center header labels */

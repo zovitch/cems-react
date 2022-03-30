@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { AddNew } from '../layout/AddNew';
+import PageTitleBar from '../layout/PageTitleBar';
 import { getManufacturers } from '../../actions/manufacturer';
 
 const Manufacturers = ({
@@ -21,17 +21,7 @@ const Manufacturers = ({
         <Spinner />
       ) : (
         <Fragment>
-          <div className='pageHeader'>
-            <h1 className='large text-primary pageTitle'>
-              <i className='fas fa-industry'> </i> Manufacturers
-              <span className='hide-sm'> 制造商</span>
-            </h1>
-            <div className='pageActions'>
-              {auth && auth.isAuthenticated && auth.loading === false && (
-                <AddNew item='manufacturer' />
-              )}
-            </div>
-          </div>
+          <PageTitleBar item='manufacturer' faIcon='fas fa-industry' />
 
           <ol className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}

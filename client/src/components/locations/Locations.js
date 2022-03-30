@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { AddNew } from '../layout/AddNew';
+import PageTitleBar from '../layout/PageTitleBar';
 import { getLocations } from '../../actions/location';
 import { Link } from 'react-router-dom';
 
@@ -21,17 +21,7 @@ const Locations = ({
         <Spinner />
       ) : (
         <Fragment>
-          <div className='pageHeader'>
-            <h1 className='large text-primary pageTitle'>
-              <i className='fas fa-location'> </i> Locations
-            </h1>
-            <div className='pageActions'>
-              {auth && auth.isAuthenticated && auth.loading === false && (
-                <AddNew item='location' />
-              )}
-            </div>
-          </div>
-
+          <PageTitleBar item='location' faIcon='fas fa-location' />
           <ol className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-5'>

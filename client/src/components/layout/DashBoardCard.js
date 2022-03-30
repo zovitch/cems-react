@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const DashBoardCard = ({ item: { name, nameCN, route, faLogo, color } }) => {
@@ -16,7 +15,5 @@ const DashBoardCard = ({ item: { name, nameCN, route, faLogo, color } }) => {
     </Link>
   );
 };
-
-DashBoardCard.propTypes = {};
 
 export default DashBoardCard;

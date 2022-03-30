@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
 import { getCategories } from '../../actions/category';
-import CategoryItem from './CategoryItem';
 import { Link } from 'react-router-dom';
-import CategoryForm from '../category-form/CategoryForm';
-import { AddNew } from '../layout/AddNew';
+import PageTitleBar from '../layout/PageTitleBar';
 
 const Categories = ({
   getCategories,
@@ -23,16 +21,7 @@ const Categories = ({
         <Spinner />
       ) : (
         <Fragment>
-          <div className='pageHeader'>
-            <h1 className='large text-primary pageTitle'>
-              <i className='fas fa-tags'> </i> Categories
-            </h1>
-            <div className='pageActions'>
-              {auth && auth.isAuthenticated && auth.loading === false && (
-                <AddNew item='category' />
-              )}
-            </div>
-          </div>
+          <PageTitleBar item='category' faIcon='fas fa-tags' />
 
           <ol className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}

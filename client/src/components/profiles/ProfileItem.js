@@ -7,7 +7,7 @@ const ProfileItem = ({ user: { _id, name } }) => {
   const { id } = useParams();
 
   return (
-    <div className='profiles-grid-item bg-white'>
+    <div className='profiles-grid-item card bg-white'>
       <div className='profile-avatar'>
         <Avatar name={name} round={true} className size='55' />
       </div>

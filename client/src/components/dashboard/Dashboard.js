@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { getCurrentUser } from '../../actions/user';
 
 import DashBoardCard from '../layout/DashBoardCard';
-import AddNew from '../layout/AddNew';
 
 // Check if user hit back button from an unauthenticated state and force reload to update browser cache
 const perfEntries = performance.getEntriesByType('navigation');
