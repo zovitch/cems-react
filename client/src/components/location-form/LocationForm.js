@@ -2,7 +2,11 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createLocation, deleteLocation } from '../../actions/location';
+import {
+  createLocation,
+  getLocation,
+  deleteLocation,
+} from '../../actions/location';
 
 /*
   NOTE: declare initialState outside of component
@@ -20,7 +24,7 @@ const initialState = {
 };
 
 const LocationForm = ({
-  // getLocation,
+  getLocation,
   createLocation,
   deleteLocation,
   location: { location },
@@ -32,6 +36,8 @@ const LocationForm = ({
   if (locationId) creatingLocation = false;
 
   useEffect(() => {
+    !location && locationId && getLocation(locationId);
+
     if (location && !location.loading) {
       const locationData = { ...initialState };
       for (const key in location) {
@@ -39,7 +45,7 @@ const LocationForm = ({
       }
       setFormData(locationData);
     }
-  }, [location]);
+  }, [getLocation, location, locationId]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,12 +53,7 @@ const LocationForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createLocation(
-      formData,
-      navigate,
-      creatingLocation,
-      createLocation && locationId
-    );
+    createLocation(formData, navigate, creatingLocation, locationId);
   };
 
   return (
@@ -137,6 +138,7 @@ const LocationForm = ({
 LocationForm.propTypes = {
   location: PropTypes.object.isRequired,
   createLocation: PropTypes.func.isRequired,
+  getLocation: PropTypes.func.isRequired,
   deleteLocation: PropTypes.func.isRequired,
 };
 
@@ -146,5 +148,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   createLocation,
+  getLocation,
   deleteLocation,
 })(LocationForm);

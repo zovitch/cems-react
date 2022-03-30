@@ -24,7 +24,24 @@ export const getMachines = () => async (dispatch) => {
   }
 };
 
-// Create Machine
+// Get info on one machine
+export const getMachine = (machineId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/machines/${machineId}`);
+
+    dispatch({
+      type: GET_MACHINE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: MACHINE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Create  or update Machine
 export const createMachine =
   (formData, navigate, creating = false, machineId) =>
   async (dispatch) => {
@@ -61,19 +78,30 @@ export const createMachine =
     }
   };
 
-// Get info on one machine
-export const getMachine = (machineId) => async (dispatch) => {
-  try {
-    const res = await api.get(`/machines/${machineId}`);
+// Delete a Machine
+export const deleteMachine = (machineId, navigate) => async (dispatch) => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await api.delete(`/machines/${machineId}`);
 
-    dispatch({
-      type: GET_MACHINE,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: MACHINE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      dispatch({ type: CLEAR_MACHINE });
+      dispatch({ type: MACHINE_DELETED });
+      dispatch(setAlert('Machine has been deleted', 'dark'));
+      navigate('/machines');
+    } catch (err) {
+      const errors = err.response.data.errors;
+
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
+
+      dispatch({
+        type: MACHINE_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+        },
+      });
+    }
   }
 };

@@ -2,7 +2,11 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createMachine, getMachine } from '../../actions/machine';
+import {
+  createMachine,
+  getMachine,
+  deleteMachine,
+} from '../../actions/machine';
 import { getCategories } from '../../actions/category';
 import { getDepartments } from '../../actions/department';
 import Select from 'react-select';
@@ -36,6 +40,7 @@ const MachineForm = ({
   getMachine,
   getCategories,
   getDepartments,
+  deleteMachine,
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -53,7 +58,6 @@ const MachineForm = ({
       for (const key in machine) {
         if (key in machineData) machineData[key] = machine[key];
       }
-
       setFormData(machineData);
     }
   }, [
@@ -292,6 +296,19 @@ const MachineForm = ({
           Go Back
         </Link>
       </form>
+      {creatingMachine === false && (
+        <>
+          <div className='line' />
+          <div className='my-2 text-center'>
+            <button
+              className='btn btn-danger'
+              onClick={() => deleteMachine(machineId, navigate)}
+            >
+              <i className='fas fa-trash' /> Delete the Machine
+            </button>
+          </div>
+        </>
+      )}
     </section>
   );
 };
@@ -302,6 +319,7 @@ MachineForm.propTypes = {
   department: PropTypes.object.isRequired,
   createMachine: PropTypes.func.isRequired,
   getMachine: PropTypes.func.isRequired,
+  deleteMachine: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   getDepartments: PropTypes.func.isRequired,
 };
@@ -315,6 +333,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   createMachine,
   getMachine,
+  deleteMachine,
   getCategories,
   getDepartments,
 })(MachineForm);

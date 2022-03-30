@@ -3,9 +3,8 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  // getDepartment,
+  getDepartment,
   createDepartment,
-  updateDepartment,
   deleteDepartment,
 } from '../../actions/department';
 import { getLocations } from '../../actions/location';
@@ -30,7 +29,7 @@ const DepartmentForm = ({
   getLocations,
   getUsers,
   createDepartment,
-  updateDepartment,
+  getDepartment,
   deleteDepartment,
   user: { users },
   location: { locations },
@@ -45,6 +44,7 @@ const DepartmentForm = ({
   useEffect(() => {
     getLocations();
     users.length <= 0 && getUsers();
+    !department && departmentId && getDepartment(departmentId);
     if (department && !department.loading) {
       const departmentData = { ...initialState };
       for (const key in department) {
@@ -52,7 +52,14 @@ const DepartmentForm = ({
       }
       setFormData(departmentData);
     }
-  }, [department, getLocations, getUsers, users.length]);
+  }, [
+    department,
+    departmentId,
+    getDepartment,
+    getLocations,
+    getUsers,
+    users.length,
+  ]);
 
   const defaultOwners = formData.owners.map((o) => ({
     value: o._id,
@@ -82,12 +89,7 @@ const DepartmentForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    if (creatingDepartment) {
-      createDepartment(formData, navigate);
-    } else {
-      updateDepartment(departmentId, formData, navigate);
-    }
+    createDepartment(formData, navigate, creatingDepartment, departmentId);
   };
 
   return (
@@ -191,11 +193,10 @@ const DepartmentForm = ({
 };
 
 DepartmentForm.propTypes = {
-  // getDepartment: PropTypes.func.isRequired,
+  getDepartment: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
   getLocations: PropTypes.func.isRequired,
   createDepartment: PropTypes.func.isRequired,
-  updateDepartment: PropTypes.func.isRequired,
   deleteDepartment: PropTypes.func.isRequired,
   department: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
@@ -208,10 +209,9 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 export default connect(mapStateToProps, {
-  // getDepartment,
+  getDepartment,
   getLocations,
   getUsers,
   createDepartment,
-  updateDepartment,
   deleteDepartment,
 })(DepartmentForm);

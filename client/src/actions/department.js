@@ -41,42 +41,27 @@ export const getDepartment = (departmentId) => async (dispatch) => {
 };
 
 // Create Department
-export const createDepartment = (formData, navigate) => async (dispatch) => {
-  try {
-    const res = await api.post('/departments', formData);
-
-    dispatch({
-      type: GET_DEPARTMENT,
-      payload: res.data,
-    });
-    dispatch(setAlert('Department Created', 'success'));
-
-    navigate('/departments');
-  } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
-
-    dispatch({
-      type: DEPARTMENT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Update Department
-export const updateDepartment =
-  (departmentId, formData, navigate) => async (dispatch) => {
+export const createDepartment =
+  (formData, navigate, creating = false, departmentId) =>
+  async (dispatch) => {
     try {
-      const res = await api.put(`/departments/${departmentId}`, formData);
+      let res = null;
+      if (departmentId) {
+        res = await api.put(`/departments/${departmentId}`, formData);
+      } else {
+        res = await api.post('/departments', formData);
+      }
 
       dispatch({
         type: GET_DEPARTMENT,
         payload: res.data,
       });
-      dispatch(setAlert('Department Updated', 'success'));
+      dispatch(
+        setAlert(
+          creating ? 'Department Created' : 'Department Updated',
+          'success'
+        )
+      );
 
       navigate('/departments');
     } catch (err) {

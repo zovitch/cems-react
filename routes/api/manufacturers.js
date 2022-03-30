@@ -159,7 +159,7 @@ router.get('/', async (req, res) => {
 });
 
 // @route   GET api/manufacturers/:manufacturerId
-// @desc    GET the list of all manufacturers
+// @desc    GET details of a manufacturer
 // @access  Public
 router.get('/:manufacturerId', async (req, res) => {
   try {

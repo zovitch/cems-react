@@ -2,7 +2,11 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createCategory, deleteCategory } from '../../actions/category';
+import {
+  createCategory,
+  getCategory,
+  deleteCategory,
+} from '../../actions/category';
 
 const initialState = {
   code: '',
@@ -13,6 +17,7 @@ const initialState = {
 
 const CategoryForm = ({
   createCategory,
+  getCategory,
   deleteCategory,
   category: { category },
 }) => {
@@ -23,6 +28,8 @@ const CategoryForm = ({
   if (categoryId) creatingCategory = false;
 
   useEffect(() => {
+    !category && categoryId && getCategory(categoryId);
+
     if (category && !category.loading) {
       const categoryData = { ...initialState };
       for (const key in category) {
@@ -30,7 +37,7 @@ const CategoryForm = ({
       }
       setFormData(categoryData);
     }
-  }, [category]);
+  }, [category, categoryId, getCategory]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -113,12 +120,15 @@ const CategoryForm = ({
 CategoryForm.propTypes = {
   category: PropTypes.object.isRequired,
   createCategory: PropTypes.func.isRequired,
+  getCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   category: state.category,
 });
-export default connect(mapStateToProps, { createCategory, deleteCategory })(
-  CategoryForm
-);
+export default connect(mapStateToProps, {
+  createCategory,
+  getCategory,
+  deleteCategory,
+})(CategoryForm);

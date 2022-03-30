@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   createManufacturer,
+  getManufacturer,
   deleteManufacturer,
 } from '../../actions/manufacturer';
 
@@ -20,6 +21,7 @@ const initialState = {
 
 const ManufacturerForm = ({
   createManufacturer,
+  getManufacturer,
   deleteManufacturer,
   manufacturer: { manufacturer },
 }) => {
@@ -30,6 +32,8 @@ const ManufacturerForm = ({
   if (manufacturerId) creatingManufacturer = false;
 
   useEffect(() => {
+    !manufacturer && manufacturerId && getManufacturer(manufacturerId);
+
     if (manufacturer && !manufacturer.loading) {
       const manufacturerData = { ...initialState };
       for (const key in manufacturer) {
@@ -37,7 +41,7 @@ const ManufacturerForm = ({
       }
       setFormData(manufacturerData);
     }
-  }, [manufacturer]);
+  }, [getManufacturer, manufacturer, manufacturerId]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,7 +53,7 @@ const ManufacturerForm = ({
       formData,
       navigate,
       creatingManufacturer,
-      createManufacturer && manufacturerId
+      manufacturerId
     );
   };
 
@@ -107,6 +111,7 @@ const ManufacturerForm = ({
 ManufacturerForm.propTypes = {
   manufacturer: PropTypes.object.isRequired,
   createManufacturer: PropTypes.func.isRequired,
+  getManufacturer: PropTypes.func.isRequired,
   deleteManufacturer: PropTypes.func.isRequired,
 };
 
@@ -116,5 +121,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   createManufacturer,
+  getManufacturer,
   deleteManufacturer,
 })(ManufacturerForm);
