@@ -66,13 +66,15 @@ const DepartmentForm = ({
     label: o.name,
   }));
 
-  const defaultLocation = locations.map((e) => ({
-    value: e._id,
-    label: e.name,
-  }));
+  const defaultLocation = !formData.location
+    ? null
+    : {
+        value: formData.location._id,
+        label: formData.location.name,
+      };
   // We add an empty value at the beginning of the Array, so we will have an empty vlaue in the dropdown
   // it will be used for a new Department Creation only
-  creatingDepartment && defaultLocation.unshift({ label: '' });
+  // creatingDepartment && defaultLocation.unshift({ label: '' });
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -87,6 +89,12 @@ const DepartmentForm = ({
     setFormData(newValues);
   };
 
+  const onChangeLocation = (e) => {
+    const newValues = { ...formData };
+    newValues.location._id = e.value;
+    newValues.location.name = e.label;
+    setFormData(newValues);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     createDepartment(formData, navigate, creatingDepartment, departmentId);
@@ -152,19 +160,17 @@ const DepartmentForm = ({
 
         <div className='form-group'>
           <small className='form-text'>Location</small>
-          {defaultLocation.length > 0 ? (
-            <select
+
+          {locations.length > 0 ? (
+            <Select
               name='location'
-              value={formData.location._id}
-              id='location-select'
-              onChange={onChange}
-            >
-              {defaultLocation.map((l) => (
-                <option key={l.value} value={l.value}>
-                  {l.label}
-                </option>
-              ))}
-            </select>
+              placeholder='Select one Location'
+              // value={formData.location._id}
+              defaultValue={defaultLocation}
+              key={formData.location._id}
+              onChange={onChangeLocation}
+              options={locations.map((l) => ({ value: l._id, label: l.name }))}
+            />
           ) : (
             <h4>No Location Found</h4>
           )}
