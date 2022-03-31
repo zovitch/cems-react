@@ -30,7 +30,8 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
 
             {/* The rest of the items in the list are the actual data */}
 
-            {users && users.length > 0 ? (
+            {users &&
+              users.length > 0 &&
               users.map((user) => (
                 <li
                   key={user._id}
@@ -48,10 +49,7 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
                   </div>
                   <div className='attribute' data-name='Departments'></div>
                 </li>
-              ))
-            ) : (
-              <h4>No User found</h4>
-            )}
+              ))}
           </ol>
         </Fragment>
       )}

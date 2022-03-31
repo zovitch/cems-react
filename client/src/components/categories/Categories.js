@@ -36,7 +36,8 @@ const Categories = ({
 
             {/* The rest of the items in the list are the actual data */}
 
-            {categories && categories.length > 0 ? (
+            {categories &&
+              categories.length > 0 &&
               categories.map((category) => (
                 <li
                   key={category._id}
@@ -62,10 +63,7 @@ const Categories = ({
                     {category.descriptionCN}
                   </div>
                 </li>
-              ))
-            ) : (
-              <h4>No category found</h4>
-            )}
+              ))}
           </ol>
         </Fragment>
       )}

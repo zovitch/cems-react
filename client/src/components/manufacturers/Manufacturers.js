@@ -34,7 +34,8 @@ const Manufacturers = ({
 
             {/* The rest of the items in the list are the actual data */}
 
-            {manufacturers && manufacturers.length > 0 ? (
+            {manufacturers &&
+              manufacturers.length > 0 &&
               manufacturers.map((manufacturer) => (
                 <li
                   key={manufacturer._id}
@@ -54,10 +55,7 @@ const Manufacturers = ({
                     {manufacturer.nameCN}
                   </div>
                 </li>
-              ))
-            ) : (
-              <h4>No Manufacturer found</h4>
-            )}
+              ))}
           </ol>
         </Fragment>
       )}

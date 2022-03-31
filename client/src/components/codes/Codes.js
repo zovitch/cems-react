@@ -55,7 +55,8 @@ const Codes = ({
 
             {/* The rest of the items in the list are the actual data */}
 
-            {codeFunction.codes && codeFunction.codes.length > 0 ? (
+            {codeFunction.codes &&
+              codeFunction.codes.length > 0 &&
               codeFunction.codes.map((code) => (
                 <li
                   key={code._id}
@@ -81,10 +82,7 @@ const Codes = ({
                     {code.descriptionCN}
                   </div>
                 </li>
-              ))
-            ) : (
-              <h4>No Code found</h4>
-            )}
+              ))}
           </ol>
         </Fragment>
       )}

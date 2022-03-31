@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import PageTitleBar from '../layout/PageTitleBar';
 import { getMachines } from '../../actions/machine';
+import nth from '../../utils/nth';
 
 const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
   useEffect(() => {
     getMachines();
   }, [getMachines]);
+
   return (
     <section className='container-large'>
       {loading ? (
@@ -56,7 +58,8 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
             </li>
 
             {/* The rest of the items in the list are the actual data */}
-            {machines && machines.length > 0 ? (
+            {machines &&
+              machines.length > 0 &&
               machines.map((machine) => (
                 <li
                   key={machine._id}
@@ -117,7 +120,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                       <div className='attribute' data-name='Location'>
                         {machine.department &&
                           machine.department.location &&
-                          machine.department.location.floor + '/F'}
+                          nth(machine.department.location.floor) + ' floor'}
                       </div>
                     </div>
                   </div>
@@ -131,10 +134,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                     </div>
                   </div>
                 </li>
-              ))
-            ) : (
-              <h4>No Machine found</h4>
-            )}
+              ))}
           </ol>
         </Fragment>
       )}

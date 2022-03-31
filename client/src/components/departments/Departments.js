@@ -6,6 +6,8 @@ import { getDepartments } from '../../actions/department';
 import Avatar from 'react-avatar';
 import { Link } from 'react-router-dom';
 import PageTitleBar from '../layout/PageTitleBar';
+import nth from '../../utils/nth';
+
 const Departments = ({
   getDepartments,
   auth,
@@ -14,6 +16,7 @@ const Departments = ({
   useEffect(() => {
     getDepartments();
   }, [getDepartments]);
+
   return (
     <section className='container'>
       {loading ? (
@@ -36,7 +39,8 @@ const Departments = ({
 
             {/* The rest of the items in the list are the actual data */}
 
-            {departments && departments.length > 0 ? (
+            {departments &&
+              departments.length > 0 &&
               departments.map((department) => (
                 <li
                   key={department._id}
@@ -73,15 +77,12 @@ const Departments = ({
                   </div>
                   <div className='attribute' data-name='Location'>
                     {department.location &&
-                      department.location.floor +
-                        '/F ' +
+                      nth(department.location.floor) +
+                        ' floor ' +
                         department.location.initials}
                   </div>
                 </li>
-              ))
-            ) : (
-              <h4>No department found</h4>
-            )}
+              ))}
           </ol>
         </Fragment>
       )}

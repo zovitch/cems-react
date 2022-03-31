@@ -5,6 +5,7 @@ import Spinner from '../layout/Spinner';
 import PageTitleBar from '../layout/PageTitleBar';
 import { getLocations } from '../../actions/location';
 import { Link } from 'react-router-dom';
+import nth from '../../utils/nth';
 
 const Locations = ({
   getLocations,
@@ -34,8 +35,8 @@ const Locations = ({
             </li>
 
             {/* The rest of the items in the list are the actual data */}
-
-            {locations && locations.length > 0 ? (
+            {locations &&
+              locations.length > 0 &&
               locations.map((location) => (
                 <li
                   key={location._id}
@@ -49,7 +50,7 @@ const Locations = ({
                     )}
                   </div>
                   <div className='attribute' data-name='Floor'>
-                    {location.floor}
+                    {nth(location.floor)}
                   </div>
                   <div className='attribute' data-name='R3 Letter'>
                     {location.locationLetter}
@@ -61,10 +62,7 @@ const Locations = ({
                     {location.name}
                   </div>
                 </li>
-              ))
-            ) : (
-              <h4>No location found</h4>
-            )}
+              ))}
           </ol>
         </Fragment>
       )}
