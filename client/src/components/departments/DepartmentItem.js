@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from 'react-avatar';
 import { Link, useParams } from 'react-router-dom';
+import nth from '../../utils/nth';
 
 const DepartmentItem = ({ department }) => {
   // will return undefined if url has no params
@@ -23,7 +24,9 @@ const DepartmentItem = ({ department }) => {
         <small className='department-location'>
           Location:{' '}
           <Link to={`/locations/${department.location._id}`}>
-            {department.location.floor + '/F ' + department.location.initials}
+            {nth(department.location.floor) +
+              ' floor ' +
+              department.location.initials}
           </Link>
         </small>
       )}
