@@ -1,0 +1,55 @@
+ /* Toggle Switch Component */
+
+.toggle-switch {
+  text-align: left;
+  /* position:initial; */
+  width: 50px;
+  /* display: inline-block; */
+  display: block;
+}
+  input[type="checkbox"] {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+  label {
+    width: 45px;
+    height: 20px;
+    /* display:block; */
+    background-color: #243d42;
+    border-radius: 11px;
+    position: absolute;
+    cursor: pointer;
+    transition: 0.25s;
+    /* box-shadow: 0 0 20px #477a8550; */
+  }
+  label::after {
+    content: "";
+    width: 21px;
+    height: 21px;
+    background-color: #e8f5f7;
+    position: absolute;
+    border-radius: 20px;
+    border: 2px solid #243d4295;
+    top: -2px;
+    left: -1px;
+    transition: 0.25s;
+  }
+  input:checked + label:after {
+    left: calc(100% + 1px);
+    transform: translateX(-100%);
+    border: 2px solid #477a85;
+    
+  }
+  
+  input:checked + label {
+    background-color: #477a85;
+  }
+
+  
+  label:active:after {
+    width: 20px;
+  }
+
+   /* code adapted from
+  https://dev.to/karankumarjs/how-to-create-a-custom-toggle-switch-using-css-4pmi */

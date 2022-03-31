@@ -11,6 +11,7 @@ import { getCategories } from '../../actions/category';
 import { getDepartments } from '../../actions/department';
 import Select from 'react-select';
 import nth from '../../utils/nth';
+import ToggleSwitch from '../layout/ToggleSwitch';
 
 const initialState = {
   machineNumber: '',
@@ -70,6 +71,8 @@ const MachineForm = ({
     machine,
     machineId,
   ]);
+
+  const [lockMachineNumber, toggleMachineNumberField] = useState(true);
 
   const defaultCategory = !formData.category
     ? null
@@ -134,21 +137,31 @@ const MachineForm = ({
           </div>
         )}
       </h1>
-      <h2>EQU No. XXXXXXX</h2>
 
       <form className='form py' onSubmit={onSubmit}>
         {/* Import from AFA */}
 
         <div className='form-group'>
           <small className='form-text'>EQU No.</small>
-          <input
-            type='text'
-            placeholder='Equipment Number'
-            name='machineNumber'
-            value={formData.machineNumber}
-            onChange={onChange}
-            disabled
-          />
+          <div className='lockField'>
+            <ToggleSwitch
+              name='machineNumberToggle'
+              onClick={() => toggleMachineNumberField(!lockMachineNumber)}
+            />
+
+            <input
+              type='text'
+              placeholder={
+                lockMachineNumber
+                  ? 'Automatically Created'
+                  : 'Enter an Equipment Number'
+              }
+              name='machineNumber'
+              value={formData.machineNumber}
+              onChange={onChange}
+              disabled={lockMachineNumber}
+            />
+          </div>
         </div>
 
         <div className='form-group'>
