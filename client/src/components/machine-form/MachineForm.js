@@ -191,7 +191,7 @@ const MachineForm = ({
               name='category'
               placeholder='Select a Category'
               defaultValue={defaultCategory}
-              key={formData.category._id}
+              key={formData.category && formData.category._id}
               onChange={onChangeCategory}
               options={categories.map((e) => ({
                 value: e._id,
@@ -209,7 +209,7 @@ const MachineForm = ({
               name='department'
               placeholder='Select one Department'
               defaultValue={defaultDepartment}
-              key={formData.department._id}
+              key={formData.department && formData.department._id}
               onChange={onChangeDepartment}
               options={departments.map((e) => ({
                 value: e._id,

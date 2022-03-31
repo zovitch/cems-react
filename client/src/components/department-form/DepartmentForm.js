@@ -170,7 +170,7 @@ const DepartmentForm = ({
               name='location'
               placeholder='Select one Location'
               defaultValue={defaultLocation}
-              key={formData.location._id}
+              key={formData.location && formData.location._id}
               onChange={onChangeLocation}
               options={locations.map((e) => ({ value: e._id, label: e.name }))}
               menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
