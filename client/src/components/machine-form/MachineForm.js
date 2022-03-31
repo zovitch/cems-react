@@ -3,13 +3,14 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  createMachine,
   getMachine,
+  createMachine,
   deleteMachine,
 } from '../../actions/machine';
 import { getCategories } from '../../actions/category';
 import { getDepartments } from '../../actions/department';
 import Select from 'react-select';
+import nth from '../../utils/nth';
 
 const initialState = {
   machineNumber: '',
@@ -70,8 +71,49 @@ const MachineForm = ({
     machineId,
   ]);
 
+  const defaultCategory = !formData.category
+    ? null
+    : {
+        value: formData.category._id,
+        label:
+          formData.category.code +
+          ' - ' +
+          formData.category.trigram +
+          ' - ' +
+          formData.category.description,
+      };
+
+  const defaultDepartment = !formData.department
+    ? null
+    : {
+        value: formData.department._id,
+        label: formData.department.name,
+        // how to import the location.floor without an undefined
+      };
+
+  // On Change handlers
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onChangeCategory = (e) => {
+    const newValues = { ...formData };
+    newValues.category = {
+      _id: e.value,
+      code: e.label.split(' - ', 3)[0],
+      trigram: e.label.split(' - ', 3)[1],
+      description: e.label.split(' - ', 3)[2],
+    };
+    setFormData(newValues);
+  };
+
+  const onChangeDepartment = (e) => {
+    const newValues = { ...formData };
+    newValues.department = {
+      _id: e.value,
+      name: e.label,
+    };
+    setFormData(newValues);
   };
 
   const onSubmit = (e) => {
@@ -92,15 +134,7 @@ const MachineForm = ({
           </div>
         )}
       </h1>
-      <h2>
-        EQU No. 8
-        {/* {formData.department}
-        {formData.department && formData.department.location
-          ? formData.department.location.floor
-          : '⎵'}
-        {formData.acquiredDate ? formData.acquiredDate : '⎵⎵'} */}
-        ⎵⎵⎵
-      </h2>
+      <h2>EQU No. XXXXXXX</h2>
 
       <form className='form py' onSubmit={onSubmit}>
         {/* Import from AFA */}
@@ -152,51 +186,37 @@ const MachineForm = ({
 
         <div className='form-group'>
           <small className='form-text'>Category</small>
-          {categories.length > 0 ? (
-            <select
+          {categories.length > 0 && (
+            <Select
               name='category'
-              value={formData.category && formData.category._id}
-              id='category-select'
-              onChange={onChange}
-            >
-              {categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category.code} - {category.trigram} - {category.description}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <h4>Loading Categories</h4>
+              placeholder='Select a Category'
+              defaultValue={defaultCategory}
+              key={formData.category._id}
+              onChange={onChangeCategory}
+              options={categories.map((e) => ({
+                value: e._id,
+                label: e.code + ' - ' + e.trigram + ' - ' + e.description,
+              }))}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+            />
           )}
         </div>
 
-        {/* <div className='form-group'>
-          <small className='form-text'>Category</small>
-          {categories.length > 0 ? (
-            <Select name='category' />
-          ) : (
-            <h4>Loading Categories</h4>
-          )}
-        </div> */}
-
         <div className='form-group'>
           <small className='form-text'>Department</small>
-          {departments.length > 0 ? (
-            <select
+          {departments.length > 0 && (
+            <Select
               name='department'
-              value={formData.department && formData.department._id}
-              id='department-select'
-              onChange={onChange}
-            >
-              {departments.map((department) => (
-                <option key={department._id} value={department._id}>
-                  {department.name} -{' '}
-                  {department.location && department.location.floor}/F
-                </option>
-              ))}
-            </select>
-          ) : (
-            <h4>Loading Departments</h4>
+              placeholder='Select one Department'
+              defaultValue={defaultDepartment}
+              key={formData.department._id}
+              onChange={onChangeDepartment}
+              options={departments.map((e) => ({
+                value: e._id,
+                label: e.name + ' - ' + nth(e.location.floor) + ' floor',
+              }))}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+            />
           )}
         </div>
         {/* manufacturer */}

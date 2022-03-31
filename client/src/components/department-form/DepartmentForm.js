@@ -42,9 +42,10 @@ const DepartmentForm = ({
   if (departmentId) creatingDepartment = false;
 
   useEffect(() => {
-    getLocations();
-    users.length <= 0 && getUsers();
+    !locations.length > 0 && getLocations();
+    !users.length > 0 && getUsers();
     !department && departmentId && getDepartment(departmentId);
+
     if (department && !department.loading) {
       const departmentData = { ...initialState };
       for (const key in department) {
@@ -61,10 +62,12 @@ const DepartmentForm = ({
     users.length,
   ]);
 
-  const defaultOwners = formData.owners.map((o) => ({
-    value: o._id,
-    label: o.name,
-  }));
+  const defaultOwners = !formData.owners
+    ? null
+    : formData.owners.map((o) => ({
+        value: o._id,
+        label: o.name,
+      }));
 
   const defaultLocation = !formData.location
     ? null
@@ -72,14 +75,12 @@ const DepartmentForm = ({
         value: formData.location._id,
         label: formData.location.name,
       };
-  // We add an empty value at the beginning of the Array, so we will have an empty vlaue in the dropdown
-  // it will be used for a new Department Creation only
-  // creatingDepartment && defaultLocation.unshift({ label: '' });
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Because we use <Select /> the onChange is a bit different
   const onChangeOwners = (e) => {
     const newValues = { ...formData };
     newValues.owners = e.map((item) => ({
@@ -89,12 +90,16 @@ const DepartmentForm = ({
     setFormData(newValues);
   };
 
+  // Because we use <Select /> the onChange is a bit different
   const onChangeLocation = (e) => {
     const newValues = { ...formData };
-    newValues.location._id = e.value;
-    newValues.location.name = e.label;
+    newValues.location = {
+      _id: e.value,
+      name: e.label,
+    };
     setFormData(newValues);
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
     createDepartment(formData, navigate, creatingDepartment, departmentId);
@@ -147,12 +152,12 @@ const DepartmentForm = ({
               <Select
                 name='owners'
                 placeholder='Select the Owners'
-                value={formData.owners._id}
                 isMulti
                 defaultValue={defaultOwners}
                 key={defaultOwners}
                 onChange={onChangeOwners}
                 options={users.map((u) => ({ value: u._id, label: u.name }))}
+                menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
               />
             )}
           </div>
@@ -160,19 +165,16 @@ const DepartmentForm = ({
 
         <div className='form-group'>
           <small className='form-text'>Location</small>
-
-          {locations.length > 0 ? (
+          {locations.length > 0 && (
             <Select
               name='location'
               placeholder='Select one Location'
-              // value={formData.location._id}
               defaultValue={defaultLocation}
               key={formData.location._id}
               onChange={onChangeLocation}
-              options={locations.map((l) => ({ value: l._id, label: l.name }))}
+              options={locations.map((e) => ({ value: e._id, label: e.name }))}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
             />
-          ) : (
-            <h4>No Location Found</h4>
           )}
         </div>
 
