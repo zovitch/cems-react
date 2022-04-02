@@ -1,4 +1,5 @@
  /* Toggle Switch Component */
+ 
 
 .toggle-switch {
   text-align: left;
@@ -13,37 +14,39 @@
     visibility: hidden;
   }
   label {
-    width: 45px;
-    height: 20px;
+    width: 48px;
+    height: 25px;
     /* display:block; */
-    background-color: #243d42;
-    border-radius: 11px;
+    background-color:    rgb(210  , 210, 210);
+    /* border: 2px solid #477a85; */
+    border-radius: 20px;
     position: absolute;
     cursor: pointer;
     transition: 0.25s;
-    /* box-shadow: 0 0 20px #477a8550; */
+    /* box-shadow: 0 0 20px rgb(239, 239, 239); */
   }
   label::after {
     content: "";
     width: 21px;
     height: 21px;
-    background-color: #e8f5f7;
+    background-color: #fff;
     position: absolute;
     border-radius: 20px;
-    border: 2px solid #243d4295;
-    top: -2px;
-    left: -1px;
+    /* border: 2px solid #477a85; */
+    box-shadow: 1px 1px 3px rgb(180,180,180);
+    top: 2px;
+    left: 2px;
     transition: 0.25s;
   }
   input:checked + label:after {
-    left: calc(100% + 1px);
+    left: calc(100% - 2px);
     transform: translateX(-100%);
-    border: 2px solid #477a85;
+    box-shadow: none;
     
   }
   
   input:checked + label {
-    background-color: #477a85;
+    background-color: var(--primary-color)
   }
 
   
