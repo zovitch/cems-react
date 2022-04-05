@@ -6,6 +6,7 @@ import {
   getMachine,
   createMachine,
   deleteMachine,
+  getNewMachineNumber,
 } from '../../actions/machine';
 import { getCategories } from '../../actions/category';
 import { getDepartments } from '../../actions/department';
@@ -34,13 +35,34 @@ const initialState = {
   afa: '',
 };
 
+// Styling for <Select />
+// const customStyles = {
+//   option: (provided, state) => ({
+//     ...provided,
+//     borderBottom: '1px dotted pink',
+//     color: state.isSelected ? 'red' : 'blue',
+//     padding: 20,
+//   }),
+//   control: () => ({
+//     // none of react-select's styles are passed to <Control />
+//     width: 200,
+//   }),
+//   singleValue: (provided, state) => {
+//     const opacity = state.isDisabled ? 0.5 : 1;
+//     const transition = 'opacity 300ms';
+
+//     return { ...provided, opacity, transition };
+//   },
+// };
+
 const MachineForm = ({
-  machine: { machine },
+  machine: { machine, newMachineNumber },
   category: { categories },
   department: { departments },
   createMachine,
   getMachine,
   getCategories,
+  getNewMachineNumber,
   getDepartments,
   deleteMachine,
 }) => {
@@ -54,7 +76,6 @@ const MachineForm = ({
     !machine && machineId && getMachine(machineId);
     !categories.length > 0 && getCategories();
     !departments.length > 0 && getDepartments();
-
     if (machine && !machine.loading) {
       const machineData = { ...initialState };
       for (const key in machine) {
@@ -67,12 +88,15 @@ const MachineForm = ({
     departments.length,
     getCategories,
     getDepartments,
+    getNewMachineNumber,
     getMachine,
     machine,
     machineId,
   ]);
 
-  const [lockMachineNumber, toggleMachineNumberField] = useState(true);
+  // if we create a Machine (creatingMachine: true) then the toogle should be OFF (false)
+  // if we edit a Machine (creatingMachine: false) then toggle should be ON (true)
+  const [toggleCheckboxOn, setToggleCheckboxOn] = useState(!creatingMachine);
 
   const defaultCategory = !formData.category
     ? null
@@ -94,9 +118,27 @@ const MachineForm = ({
         // how to import the location.floor without an undefined
       };
 
+  // Hangle toggle for the checkbox ToggleSwitch Component
+  const onToggle = (e) => {
+    setToggleCheckboxOn(!toggleCheckboxOn);
+    // e.checked ?
+
+    //     ? formData
+    //     ? formData.machineNumber
+    //     : machine.machineNumber
+    //   : !newMachineNumber
+    //   ? ''
+    //   : newMachineNumber
+  };
+
   // On Change handlers
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+      // machineNumber: !toggleCheckboxOn && newMachineNumber,
+    });
+    formData.department && getNewMachineNumber(formData);
   };
 
   const onChangeCategory = (e) => {
@@ -117,13 +159,28 @@ const MachineForm = ({
       name: e.label,
     };
     setFormData(newValues);
+    getNewMachineNumber(newValues);
+  };
+
+  const onChangeAcquiredDate = (e) => {
+    const newValues = { ...formData };
+    newValues.acquiredDate = e.target.value;
+    setFormData(newValues);
+    formData.department && getNewMachineNumber(newValues);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createMachine(formData, navigate, creatingMachine, machineId);
-  };
 
+    const newValues = { ...formData };
+    newValues.machineNumber = newMachineNumber;
+    setFormData(newValues);
+
+    document.querySelector('#machineNumberToggle') &&
+    document.querySelector('#machineNumberToggle').checked
+      ? createMachine(formData, navigate, creatingMachine, machineId)
+      : createMachine(newValues, navigate, creatingMachine, machineId);
+  };
   return (
     <section className='container'>
       <h1 className='large text-primary'>
@@ -142,24 +199,44 @@ const MachineForm = ({
         {/* Import from AFA */}
 
         <div className='form-group'>
-          <small className='form-text'>EQU No.</small>
+          <div className='lockField'>
+            <span></span>
+            <small className='form-text'>
+              {document.querySelector('#machineNumberToggle') &&
+              document.querySelector('#machineNumberToggle').checked
+                ? ' EQU No.'
+                : 'Automatically generated EQU No.'}
+            </small>
+          </div>
           <div className='lockField'>
             <ToggleSwitch
               name='machineNumberToggle'
-              onClick={() => toggleMachineNumberField(!lockMachineNumber)}
+              id='machineNumberToggle'
+              defaultChecked={toggleCheckboxOn}
+              onClick={onToggle}
+              onChange={onChange}
             />
 
             <input
               type='text'
               placeholder={
-                lockMachineNumber
-                  ? 'Automatically Created'
-                  : 'Enter an Equipment Number'
+                document.querySelector('#machineNumberToggle') &&
+                document.querySelector('#machineNumberToggle').checked
+                  ? 'Enter an Equipment Number'
+                  : 'Select a Department to generate an EQU No.'
               }
               name='machineNumber'
-              value={formData.machineNumber}
+              value={
+                document.querySelector('#machineNumberToggle') &&
+                document.querySelector('#machineNumberToggle').checked
+                  ? formData.machineNumber
+                  : !newMachineNumber
+                  ? ''
+                  : newMachineNumber
+              }
               onChange={onChange}
-              disabled={lockMachineNumber}
+              readOnly={!toggleCheckboxOn}
+              // autoFocus
             />
           </div>
         </div>
@@ -201,6 +278,7 @@ const MachineForm = ({
           <small className='form-text'>Category</small>
           {categories.length > 0 && (
             <Select
+              // styles={customStyles}
               name='category'
               placeholder='Select a Category'
               defaultValue={defaultCategory}
@@ -220,7 +298,7 @@ const MachineForm = ({
           {departments.length > 0 && (
             <Select
               name='department'
-              placeholder='Select one Department'
+              placeholder='Select a Department'
               defaultValue={defaultDepartment}
               key={formData.department && formData.department._id}
               onChange={onChangeDepartment}
@@ -274,7 +352,8 @@ const MachineForm = ({
             placeholder='Acquired Date'
             name='acquiredDate'
             value={formData.acquiredDate}
-            onChange={onChange}
+            onChange={onChangeAcquiredDate}
+            // onBlur={onBlur}
           />
         </div>
 
@@ -352,6 +431,7 @@ MachineForm.propTypes = {
   department: PropTypes.object.isRequired,
   createMachine: PropTypes.func.isRequired,
   getMachine: PropTypes.func.isRequired,
+  getNewMachineNumber: PropTypes.func.isRequired,
   deleteMachine: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   getDepartments: PropTypes.func.isRequired,
@@ -366,6 +446,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   createMachine,
   getMachine,
+  getNewMachineNumber,
   deleteMachine,
   getCategories,
   getDepartments,

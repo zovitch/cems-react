@@ -6,6 +6,55 @@ const Machine = require('../../models/Machine');
 const Afa = require('../../models/Afa');
 const Department = require('../../models/Department');
 
+// @route   POST api/newMachineNumber
+// @desc    Get the machineNumber without saving into the database through a post request
+// @access  Private
+router.post(
+  '/newMachineNumber',
+  auth,
+  check('department', 'A Department is required').not().isEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { department, acquiredDate } = req.body;
+    let date = new Date(); //today's date
+    if (acquiredDate) {
+      date = new Date(acquiredDate);
+    }
+    const year = date.getFullYear(); // 2021
+    const year2digits = year.toString().substring(2);
+
+    const foundDepartment = await Department.findById(department).populate(
+      'location'
+    );
+
+    if (!foundDepartment.location.floor) {
+      return res
+        .status(400)
+        .json({ msg: 'Error: Department information are incorrect' });
+    }
+    let newMachineNumber =
+      '8' + foundDepartment.location.floor + year2digits + '001';
+    // This return an array of size 1 with the latest mmachine number
+    const latestMachine = await Machine.find({
+      machineNumber: {
+        $regex: '8' + foundDepartment.location.floor + year2digits,
+        $options: 'i',
+      },
+    })
+      .sort('-machineNumber') // to get the max
+      .limit(1);
+    if (latestMachine[0]) {
+      newMachineNumber = parseInt(latestMachine[0].machineNumber);
+      newMachineNumber = newMachineNumber + 1;
+    }
+
+    return res.json(newMachineNumber);
+  }
+);
+
 // @route   POST api/machines
 // @desc    Create or Update a machine from AFA
 // @access  Private
@@ -72,7 +121,6 @@ router.post(
     if (designationCN) machineFields.designationCN = designationCN;
     if (parentMachine) machineFields.parentMachine = parentMachine;
     if (department) machineFields.department = department;
-
     try {
       // Check the unicity of the data in the form
       const otherMachines = await Machine.find({
@@ -141,7 +189,12 @@ router.post(
         newMachineNumber = parseInt(latestMachine[0].machineNumber);
         newMachineNumber = newMachineNumber + 1;
       }
-      machineFields.machineNumber = newMachineNumber;
+
+      // we use the newMachineNumber only if none is provided
+      if (!machineNumber) {
+        machineFields.machineNumber = newMachineNumber;
+      }
+
       machine = new Machine(machineFields);
       await machine.populate({
         path: 'department afa parentMachine manufacturer category',

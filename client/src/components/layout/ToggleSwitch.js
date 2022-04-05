@@ -7,10 +7,12 @@ class ToggleSwitch extends Component {
       <div className='toggle-switch'>
         <input
           onClick={this.props.onClick}
+          onChange={this.props.onChange}
           type='checkbox'
           className='toggle-switch-checkbox'
           name={this.props.name}
           id={this.props.name}
+          defaultChecked={this.props.defaultChecked}
         />
         <label className='toggle-switch-label' htmlFor={this.props.name}>
           <span className='toggle-switch-inner' />

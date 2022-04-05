@@ -1,6 +1,7 @@
 import {
   GET_MACHINES,
   GET_MACHINE,
+  GET_NEWMACHINENUMBER,
   MACHINE_ERROR,
   CLEAR_MACHINE,
   MACHINE_DELETED,
@@ -8,6 +9,7 @@ import {
 
 const initialState = {
   machine: null,
+  newMachineNumber: null,
   machines: [],
   loading: true,
   error: {},
@@ -29,6 +31,13 @@ function machineReducer(state = initialState, action) {
         ...state,
         machines: payload,
         machine: null,
+        newMachineNumber: null,
+        loading: false,
+      };
+    case GET_NEWMACHINENUMBER:
+      return {
+        ...state,
+        newMachineNumber: payload,
         loading: false,
       };
 
@@ -37,6 +46,7 @@ function machineReducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
+        newMachineNumber: null,
         machine: null,
         machines: [],
       };
@@ -46,6 +56,7 @@ function machineReducer(state = initialState, action) {
       return {
         ...state,
         machine: null,
+        newMachineNumber: null,
         machines: [],
       };
 

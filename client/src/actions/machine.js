@@ -2,6 +2,7 @@ import api from '../utils/api';
 import { setAlert } from './alert';
 import {
   GET_MACHINES,
+  GET_NEWMACHINENUMBER,
   GET_MACHINE,
   MACHINE_ERROR,
   CLEAR_MACHINE,
@@ -31,6 +32,22 @@ export const getMachine = (machineId) => async (dispatch) => {
 
     dispatch({
       type: GET_MACHINE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: MACHINE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const getNewMachineNumber = (formData) => async (dispatch) => {
+  try {
+    const res = await api.post('/machines/newMachineNumber', formData);
+
+    dispatch({
+      type: GET_NEWMACHINENUMBER,
       payload: res.data,
     });
   } catch (err) {
