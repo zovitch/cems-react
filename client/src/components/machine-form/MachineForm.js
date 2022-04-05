@@ -111,13 +111,19 @@ const MachineForm = ({
           formData.category.description,
       };
 
-  const defaultDepartment = !formData.department
-    ? null
-    : {
-        value: formData.department._id,
-        label: formData.department.name,
-        // how to import the location.floor without an undefined
-      };
+  const defaultDepartment =
+    formData.department &&
+    formData.department.location &&
+    formData.department.location.floor
+      ? {
+          value: formData.department._id,
+          label:
+            formData.department.name +
+            ' - ' +
+            nth(formData.department.location.floor) +
+            ' floor',
+        }
+      : null;
 
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggle = (e) => {
@@ -148,7 +154,10 @@ const MachineForm = ({
     const newValues = { ...formData };
     newValues.department = {
       _id: e.value,
-      name: e.label,
+      name: e.label.split(' - ', 2)[0],
+      location: {
+        floor: e.label.split(' - ', 2)[1][0], // this work only if floor is one digit
+      },
     };
     setFormData(newValues);
     getNewMachineNumber(newValues);
