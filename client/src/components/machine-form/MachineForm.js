@@ -12,6 +12,7 @@ import { getCategories } from '../../actions/category';
 import { getDepartments } from '../../actions/department';
 import Select from 'react-select';
 import nth from '../../utils/nth';
+import formatDate from '../../utils/formatDate';
 import ToggleSwitch from '../layout/ToggleSwitch';
 
 const initialState = {
@@ -121,14 +122,6 @@ const MachineForm = ({
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggle = (e) => {
     setToggleCheckboxOn(!toggleCheckboxOn);
-    // e.checked ?
-
-    //     ? formData
-    //     ? formData.machineNumber
-    //     : machine.machineNumber
-    //   : !newMachineNumber
-    //   ? ''
-    //   : newMachineNumber
   };
 
   // On Change handlers
@@ -136,7 +129,6 @@ const MachineForm = ({
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-      // machineNumber: !toggleCheckboxOn && newMachineNumber,
     });
     formData.department && getNewMachineNumber(formData);
   };
@@ -181,6 +173,7 @@ const MachineForm = ({
       ? createMachine(formData, navigate, creatingMachine, machineId)
       : createMachine(newValues, navigate, creatingMachine, machineId);
   };
+
   return (
     <section className='container'>
       <h1 className='large text-primary'>
@@ -334,29 +327,32 @@ const MachineForm = ({
           />
         </div>
 
-        <div className='form-group'>
-          <small className='form-text'>Manufacturing Date</small>
-          <input
-            type='date'
-            placeholder='Manufacturing Date'
-            name='manufacturingDate'
-            value={formData.manufacturingDate}
-            onChange={onChange}
-          />
-        </div>
+        {formData.manufacturingDate && (
+          <div className='form-group'>
+            <small className='form-text'>Manufacturing Date</small>
+            <input
+              type='date'
+              placeholder='Manufacturing Date'
+              name='manufacturingDate'
+              value={formatDate(formData.manufacturingDate)}
+              onChange={onChange}
+            />
+          </div>
+        )}
 
-        <div className='form-group'>
-          <small className='form-text'>Acquired Date</small>
-          <input
-            type='date'
-            placeholder='Acquired Date'
-            name='acquiredDate'
-            value={formData.acquiredDate}
-            onChange={onChangeAcquiredDate}
-            // onBlur={onBlur}
-          />
-        </div>
-
+        {formData.acquiredDate && (
+          <div className='form-group'>
+            <small className='form-text'>Acquired Date</small>
+            <input
+              type='date'
+              placeholder='Acquired Date'
+              name='acquiredDate'
+              value={formatDate(formData.acquiredDate)}
+              onChange={onChangeAcquiredDate}
+              // onBlur={onBlur}
+            />
+          </div>
+        )}
         {/* Investment Number */}
 
         <div className='form-group'>
