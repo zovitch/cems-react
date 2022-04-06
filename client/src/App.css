@@ -62,7 +62,7 @@ input:disabled:-ms-input-placeholder { /* Internet Explorer 10+ */
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
-  margin-top: 6rem;
+  margin-top: 2rem;
   margin-bottom: 3rem;
 }
 
@@ -322,11 +322,11 @@ button {
 
 /* Navbar */
 .navbar {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 75px 1fr 2fr;
   align-items: center;
-  padding: 0.2rem 2rem;
-  position: fixed;
+  padding: 1rem 1rem;
+  position:sticky;
   z-index: 1;
   width: 100%;
   top: 0;
@@ -334,23 +334,31 @@ button {
   opacity: 0.9;
 }
 
-.navbar ul {
-  display: flex;
+.navbar h4  {
+color: var(--light-color);
+padding-left: 1rem;
 }
+
+.navbar ul li {
+  display: inline;
+  padding-left: 1rem;
+}
+
+.navbar ul {
+padding-right: 1rem;
+justify-self: end;
+}
+
 
 .navbar a {
   color: #fff;
-  padding: 0.45rem;
-  margin: 0 0.25rem;
 }
 
 .navbar a:hover {
   color: var(--secondary-color);
 }
 
-.navbar .welcome span {
-  margin-right: 0.6rem;
-}
+
 
 /* Landing Page */
 .landing {
@@ -364,11 +372,11 @@ button {
   height: 100%;
   width: 80%;
   margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* text-align: center; */
 }
 
 /* Add new Element Button */
@@ -843,7 +851,7 @@ button {
   }
 
   .container {
-    margin-top: 9rem;
+    margin-top: 2rem;
   }
 
   /* Hide on small screen */
@@ -878,15 +886,9 @@ button {
   .navbar ul {
     text-align: center;
     justify-content: center;
+ margin-top: 1rem;
   }
 
-  .navbar h1 {
-    margin-bottom: 1rem;
-  }
-
-  .navbar .welcome {
-    display: none;
-  }
 
   .locations {
     grid-template-columns: 1fr;

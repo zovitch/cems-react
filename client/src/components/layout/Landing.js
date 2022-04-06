@@ -32,15 +32,15 @@ const Landing = ({ isAuthenticated }) => {
   return (
     <section className='landing'>
       <div className='dark-overlay'>
-        <div className='landing-inner'>
-          <h1 className='x-large'>Citel Equipment and Machinery System</h1>
-          <div className='cards py-2'>
-            {listOfItemsOnLanding.length > 1 &&
-              listOfItemsOnLanding.map((i) => (
-                <DashBoardCard key={i.key} item={i} />
-              ))}
-          </div>
-          <p className='lead'>Add some element for Machines</p>
+        {/* <div className=' py-3'> */}
+        {/* <h1 className='x-large'>Citel Equipment & Machinery System</h1> */}
+        <div className='cards p-3'>
+          {listOfItemsOnLanding.length > 1 &&
+            listOfItemsOnLanding.map((i) => (
+              <DashBoardCard key={i.key} item={i} />
+            ))}
+        </div>
+        {/* <p className='lead'>Add some element for Machines</p>
           <div className='buttons'>
             <Link to='/register' className='btn btn-primary'>
               <i className='fas fa-user-plus' />{' '}
@@ -50,9 +50,9 @@ const Landing = ({ isAuthenticated }) => {
               <i className='fas fa-right-to-bracket' />{' '}
               <span className='hide-sm'>Login</span>
             </Link>
-          </div>
-        </div>
+          </div> */}
       </div>
+      {/* </div> */}
     </section>
   );
 };

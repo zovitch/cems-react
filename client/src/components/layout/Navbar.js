@@ -51,7 +51,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
           <span className='hide-sm'>LFA</span>
         </Link>
       </li>
-      <li>
+      {/* <li>
         <Link to='/departments'>
           <i className='fas fa-briefcase'></i>{' '}
           <span className='hide-sm'>Departments</span>
@@ -68,11 +68,10 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
           <i className='fas fa-user-plus ' />{' '}
           <span className='hide-sm'>Sign Up</span>
         </Link>
-      </li>
+      </li> */}
       <li>
         <Link to='/login'>
-          <i className='fas fa-right-to-bracket' />{' '}
-          <span className='hide-sm'>Login</span>
+          <i className='fas fa-user' /> <span className='hide-sm'>Login</span>
         </Link>
       </li>
     </ul>
@@ -83,6 +82,8 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
       <Link to='/'>
         <Logo />
       </Link>
+      <h4 className='hide-sm'>Citel Equipment & Machinery System</h4>
+
       <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
     </nav>
   );
