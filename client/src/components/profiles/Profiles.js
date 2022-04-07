@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
-import ProfileItem from './ProfileItem';
 import { getUsers } from '../../actions/user';
 import PageTitleBar from '../layout/PageTitleBar';
 
-const Profiles = ({ getUsers, user: { users, loading } }) => {
+const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
   useEffect(() => {
     getUsers();
   }, [getUsers]);
@@ -19,7 +19,7 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
         <Fragment>
           <PageTitleBar item='user' faIcon='fas fa-users' />
 
-          <ol className='table-grid-container my-2'>
+          <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-3'>
               <div className='attribute'></div>
@@ -38,11 +38,13 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
                   className='item item-container item-container-3'
                 >
                   <div className='attribute' data-name='Actions'>
-                    {/* {auth && auth.isAuthenticated && (
-                      <Link to={`/users/edit/${user._id}`}>
-                        <i className='fas fa-edit'></i>
-                      </Link>
-                    )} */}
+                    {auth &&
+                      auth.isAuthenticated &&
+                      auth.user._id === user._id && (
+                        <Link to={`/users/edit/${user._id}`}>
+                          <i className='fas fa-edit'></i>
+                        </Link>
+                      )}
                   </div>
                   <div className='attribute' data-name='Name'>
                     {user.name}
@@ -50,7 +52,7 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
                   <div className='attribute' data-name='Departments'></div>
                 </li>
               ))}
-          </ol>
+          </ul>
         </Fragment>
       )}
     </section>
@@ -60,10 +62,12 @@ const Profiles = ({ getUsers, user: { users, loading } }) => {
 Profiles.propTypes = {
   getUsers: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getUsers })(Profiles);

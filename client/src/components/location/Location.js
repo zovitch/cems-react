@@ -1,13 +1,15 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getLocation } from '../../actions/location';
+import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
 import LocationItem from '../locations/LocationItem';
 
 const Location = ({ getLocation, location: { location }, auth }) => {
   const { locationId } = useParams();
+
   useEffect(() => {
     getLocation(locationId);
   }, [getLocation, locationId]);
@@ -18,19 +20,21 @@ const Location = ({ getLocation, location: { location }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>
-            <i className='fas fa-location'></i> Location
-          </h1>
-          <Link to='/locations' className='btn btn-light'>
-            Back to Locations
-          </Link>
-          {auth.isAuthenticated && auth.loading === false && (
-            <Link to={`/locations/edit/${locationId}`} className='btn btn-dark'>
-              Edit Location
-            </Link>
-          )}
-          <div className='location-grid py-2'>
-            <LocationItem location={location} />
+          <PageTitleBarSingleView item='location' />
+
+          <div className='viewPage-25-75 py-2'>
+            <div className='view-25'>
+              <div className='lead'>
+                <i className='fas fa-location'></i> Location
+              </div>
+              <LocationItem location={location} />
+            </div>
+            <div className='view-75'>
+              <div className='lead'>
+                <i className='fas fa-question'></i> Some Other stuff @NICO
+              </div>
+              <div className='cards'>some stuff</div>
+            </div>
           </div>
         </Fragment>
       )}

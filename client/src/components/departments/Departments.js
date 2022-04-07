@@ -25,7 +25,7 @@ const Departments = ({
         <Fragment>
           <PageTitleBar item='department' faIcon='fas fa-briefcase' />
 
-          <ol className='table-grid-container my-2'>
+          <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-6'>
               <div className='attribute'></div>
@@ -83,7 +83,7 @@ const Departments = ({
                   </div>
                 </li>
               ))}
-          </ol>
+          </ul>
         </Fragment>
       )}
     </section>

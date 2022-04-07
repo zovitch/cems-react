@@ -1,13 +1,15 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getDepartment } from '../../actions/department';
 import Spinner from '../layout/Spinner';
 import DepartmentItem from '../departments/DepartmentItem';
+import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
 
 const Department = ({ getDepartment, department: { department }, auth }) => {
   const { departmentId } = useParams();
+
   useEffect(() => {
     getDepartment(departmentId);
   }, [getDepartment, departmentId]);
@@ -18,22 +20,22 @@ const Department = ({ getDepartment, department: { department }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>
-            <i className='fas fa-briefcase'></i> Department
-          </h1>
-          <Link to='/departments' className='btn btn-light'>
-            Back to Departments
-          </Link>
-          {auth && auth.isAuthenticated && auth.loading === false && (
-            <Link
-              to={`/departments/edit/${departmentId}`}
-              className='btn btn-dark'
-            >
-              Edit Department
-            </Link>
-          )}
-          <div className='department-grid py-2'>
-            <DepartmentItem department={department} />
+          <PageTitleBarSingleView item='department' />
+
+          <div className='viewPage-25-75 py-2'>
+            <div className='view-25'>
+              <div className='lead'>
+                <i className='fas fa-briefcase'></i> Department
+              </div>
+              <DepartmentItem department={department} />
+            </div>
+            <div className='view-75'>
+              <div className='lead'>
+                <i className='fas fa-clipboard-list'></i> Show some machine here
+                @NICO
+              </div>
+              <div className='cards'>some stuff</div>
+            </div>
           </div>
         </Fragment>
       )}

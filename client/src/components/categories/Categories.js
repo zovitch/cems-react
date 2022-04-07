@@ -23,7 +23,7 @@ const Categories = ({
         <Fragment>
           <PageTitleBar item='category' faIcon='fas fa-tags' />
 
-          <ol className='table-grid-container my-2'>
+          <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-5'>
               <div className='attribute'></div>
@@ -64,7 +64,7 @@ const Categories = ({
                   </div>
                 </li>
               ))}
-          </ol>
+          </ul>
         </Fragment>
       )}
     </section>

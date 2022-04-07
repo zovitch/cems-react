@@ -6,6 +6,7 @@ import Spinner from '../layout/Spinner';
 import PageTitleBar from '../layout/PageTitleBar';
 import { getMachines } from '../../actions/machine';
 import nth from '../../utils/nth';
+import formatDate from '../../utils/formatDate';
 
 const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
         <Fragment>
           <PageTitleBar item='machine' faIcon='fas fa-clipboard-list' />
 
-          <ol className='table-grid-container my-2'>
+          <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-7 '>
               <div className='attribute'></div>
@@ -129,13 +130,15 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                       {machine.investmentNumber &&
                         machine.investmentNumber.investmentNumber}
                     </div>
-                    <div className='attribute' data-name='Acquired date'>
-                      {machine.acquiredDate}
-                    </div>
+                    {machine.acquiredDate && (
+                      <div className='attribute' data-name='Acquired date'>
+                        {formatDate(machine.acquiredDate)}
+                      </div>
+                    )}
                   </div>
                 </li>
               ))}
-          </ol>
+          </ul>
         </Fragment>
       )}
     </section>

@@ -19,6 +19,7 @@ import Categories from './components/categories/Categories';
 import Category from './components/category/Category';
 import CategoryForm from './components/category-form/CategoryForm';
 import Codes from './components/codes/Codes';
+// import Code from './components/code/Code';
 import CodeForm from './components/code-form/CodeForm';
 import Manufacturer from './components/manufacturer/Manufacturer';
 import Manufacturers from './components/manufacturers/Manufacturers';
@@ -89,12 +90,17 @@ const App = () => {
             exact
             path='/failurecodes'
             element={<Codes codetype='failure' />}
-          />{' '}
+          />
+          {/* <Route
+            exact
+            path='/failurecodes/:codeId'
+            element={<Code codetype='failure' />}
+          /> */}
           <Route
             exact
             path='/repaircodes'
             element={<Codes codetype='repair' />}
-          />{' '}
+          />
           <Route
             exact
             path='/analysiscodes'
@@ -144,7 +150,7 @@ const App = () => {
             exact
             path='/create-repaircode'
             element={<PrivateRoute component={CodeForm} codetype='repair' />}
-          />{' '}
+          />
           <Route
             exact
             path='/create-analysiscode'
@@ -153,6 +159,11 @@ const App = () => {
           <Route
             exact
             path='/edit-profile'
+            element={<PrivateRoute component={ProfileForm} />}
+          />
+          <Route
+            exact
+            path='/users/edit/:id'
             element={<PrivateRoute component={ProfileForm} />}
           />
           <Route
@@ -184,7 +195,7 @@ const App = () => {
             exact
             path='/failurecodes/edit/:codeId'
             element={<PrivateRoute component={CodeForm} codetype='failure' />}
-          />{' '}
+          />
           <Route
             exact
             path='/repaircodes/edit/:codeId'

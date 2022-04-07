@@ -60,6 +60,7 @@ const DepartmentForm = ({
     getLocations,
     getUsers,
     users.length,
+    locations.length,
   ]);
 
   const defaultOwners = !formData.owners

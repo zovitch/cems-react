@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 import { getCategory } from '../../actions/category';
 import CategoryItem from '../categories/CategoryItem';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
 import { connect } from 'react-redux';
 
 const Category = ({ getCategory, category: { category }, auth }) => {
   const { categoryId } = useParams();
+
   useEffect(() => {
     getCategory(categoryId);
   }, [getCategory, categoryId]);
@@ -18,22 +20,21 @@ const Category = ({ getCategory, category: { category }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>
-            <i className='fas fa-tag'></i> Category
-          </h1>
-          <Link to='/categories' className='btn btn-light'>
-            Back to Categories
-          </Link>
-          {auth.isAuthenticated && auth.loading === false && (
-            <Link
-              to={`/categories/edit/${categoryId}`}
-              className='btn btn-dark'
-            >
-              Edit Category
-            </Link>
-          )}
-          <div className='category-grid py-2'>
-            <CategoryItem category={category} />
+          <PageTitleBarSingleView item='category' />
+
+          <div className='viewPage-25-75 py-2'>
+            <div className='view-25'>
+              <div className='lead'>
+                <i className='fas fa-tag'></i> Category
+              </div>
+              <CategoryItem category={category} />
+            </div>
+            <div className='view-75'>
+              <div className='lead'>
+                <i className='fas fa-question'></i> Some Other stuff @NICO
+              </div>
+              <div className='cards'>some stuff</div>
+            </div>
           </div>
         </Fragment>
       )}

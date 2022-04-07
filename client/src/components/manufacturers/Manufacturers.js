@@ -23,7 +23,7 @@ const Manufacturers = ({
         <Fragment>
           <PageTitleBar item='manufacturer' faIcon='fas fa-industry' />
 
-          <ol className='table-grid-container my-2'>
+          <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-3'>
               <div className='attribute'></div>
@@ -56,7 +56,7 @@ const Manufacturers = ({
                   </div>
                 </li>
               ))}
-          </ol>
+          </ul>
         </Fragment>
       )}
     </section>
