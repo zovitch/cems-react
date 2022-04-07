@@ -9,11 +9,21 @@
 - MSA
 
 TODO
-- CSS small media categories department users codes locations
+- Code.js Machine.js CodeItem MachineItem 
+- use Chinese where written Chinese
+- sort codes by code
+- sort by date or otehrs for big tables
+- pagination for tables
+- search bar
+- complete machineForm
+- Avatars dont display nice in department mobile view
+- adust back button and edit button to look similar
+- add a view button to open single item from the table view
 
 FEATURES
 - user shoudl be able to change the initials of the avatar or add a profile picture
 - import / export batches
+- Add a not found page
 
 BUGS
 - what happen if delete account but there are dept still there
@@ -29,3 +39,4 @@ DONE
 - if editing the Department Form, the location already existing doesnt load up and need to be reselected
 - edit buttons on department cards if permisitonns
 - MachineForm: defaultDepartment cannot show the floor when loading an existing department, fixed
+- CSS small media categories department users codes locations, reuse card
