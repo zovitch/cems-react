@@ -27,7 +27,8 @@ const Departments = ({
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-6'>
+            <li className='item item-container item-container-7'>
+              <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
               <div className='attribute'>Trigram</div>
@@ -44,9 +45,14 @@ const Departments = ({
               departments.map((department) => (
                 <li
                   key={department._id}
-                  className='item item-container item-container-6'
+                  className='item item-container item-container-7'
                 >
-                  <div className='attribute' data-name='Actions'>
+                  <div className='attribute' data-name='Open'>
+                    <Link to={`/departments/${department._id}`}>
+                      <i className='fas fa-eye'></i>
+                    </Link>
+                  </div>
+                  <div className='attribute' data-name='Edit'>
                     {auth && auth.isAuthenticated && (
                       <Link to={`/departments/edit/${department._id}`}>
                         <i className='fas fa-edit'></i>

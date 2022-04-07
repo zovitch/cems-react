@@ -25,7 +25,8 @@ const Manufacturers = ({
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-3'>
+            <li className='item item-container item-container-4'>
+              <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
               <div className='attribute'>Manufacturer</div>
@@ -39,9 +40,14 @@ const Manufacturers = ({
               manufacturers.map((manufacturer) => (
                 <li
                   key={manufacturer._id}
-                  className='item item-container item-container-3'
+                  className='item item-container item-container-4'
                 >
-                  <div className='attribute' data-name='Actions'>
+                  <div className='attribute' data-name='Open'>
+                    <Link to={`/manufacturers/${manufacturer._id}`}>
+                      <i className='fas fa-eye'></i>
+                    </Link>
+                  </div>
+                  <div className='attribute' data-name='Edit'>
                     {auth && auth.isAuthenticated && (
                       <Link to={`/manufacturers/edit/${manufacturer._id}`}>
                         <i className='fas fa-edit'></i>

@@ -23,7 +23,8 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-7 '>
+            <li className='item item-container item-container-8 '>
+              <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
               <div className='attribute-container equ-qua'>
@@ -64,9 +65,14 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
               machines.map((machine) => (
                 <li
                   key={machine._id}
-                  className='item item-container item-container-7'
+                  className='item item-container item-container-8'
                 >
-                  <div className='attribute' data-name='Actions'>
+                  <div className='attribute' data-name='Open'>
+                    <Link to={`/machines/${machine._id}`}>
+                      <i className='fas fa-eye'></i>
+                    </Link>
+                  </div>
+                  <div className='attribute' data-name='Edit'>
                     {auth && auth.isAuthenticated && (
                       <Link to={`/machines/edit/${machine._id}`}>
                         <i className='fas fa-edit'></i>

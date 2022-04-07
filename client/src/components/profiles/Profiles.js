@@ -21,7 +21,8 @@ const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-3'>
+            <li className='item item-container item-container-4'>
+              <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
               <div className='attribute'>Name</div>
@@ -35,9 +36,14 @@ const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
               users.map((user) => (
                 <li
                   key={user._id}
-                  className='item item-container item-container-3'
+                  className='item item-container item-container-4'
                 >
-                  <div className='attribute' data-name='Actions'>
+                  <div className='attribute' data-name='Open'>
+                    <Link to={`/users/${user._id}`}>
+                      <i className='fas fa-eye'></i>
+                    </Link>
+                  </div>
+                  <div className='attribute' data-name='Edit'>
                     {auth &&
                       auth.isAuthenticated &&
                       auth.user._id === user._id && (

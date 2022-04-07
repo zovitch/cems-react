@@ -38,6 +38,7 @@ a {
 a:hover {
   color:var(--secondary-color)
 }
+
 ul {
   list-style: none;
 }
@@ -628,22 +629,23 @@ justify-self: end;
     /* this class should be combined with a .item-container-x to grid-template-columns */
     display: grid;
     border-right: var(--grey-color) 1px solid;
+    color: var(--dark-color);
   }
-
-  .item-container-3 {
-    grid-template-columns: 2rem 1fr 1fr;
-  }
-
-  .item-container-5 {
-    grid-template-columns: 2rem 5rem 5rem 1fr 1fr;
+  
+  .item-container-4 {
+    grid-template-columns: 2rem 2rem 1fr 1fr;
   }
 
   .item-container-6 {
-    grid-template-columns: 2rem 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2rem 2rem 5rem 5rem 1fr 1fr;
   }
 
   .item-container-7 {
-    grid-template-columns: 2rem 10rem 4fr 2fr 3fr 6fr 2fr;
+    grid-template-columns: 2rem 2rem 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .item-container-8 {
+    grid-template-columns: 2rem 2rem 10rem 4fr 2fr 3fr 6fr 2fr;
   }
 
   .attribute-container {
@@ -741,8 +743,17 @@ justify-self: end;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     grid-gap: 2rem;
+    align-items: stretch;
   }   
 
+  .table-grid-container > a {
+    color: var(--dark-color)
+  }
+
+   .item-container:hover {
+    background-color: var(--hover-color);
+  }
+  
   .item {
     border: 1px solid gray;
     border-radius: var(--border-radius);
@@ -762,7 +773,6 @@ justify-self: end;
   .attribute {
     display: grid;
     grid-template-columns: minmax(9em, 30%) 1fr;
-    
   }
 
   /* Hide on small screen */
