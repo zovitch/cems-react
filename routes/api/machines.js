@@ -79,6 +79,7 @@ router.post(
       department,
       manufacturer,
       model,
+      serialNumber,
       manufacturingDate,
       acquiredDate,
       investmentNumber,
@@ -100,6 +101,7 @@ router.post(
     if (category) machineFields.category = category;
     if (manufacturer) machineFields.manufacturer = manufacturer;
     if (model) machineFields.model = model;
+    if (serialNumber) machineFields.serialNumber = serialNumber;
     if (manufacturingDate) machineFields.manufacturingDate = manufacturingDate;
     if (acquiredDate) machineFields.acquiredDate = acquiredDate;
     if (investmentNumber) machineFields.investmentNumber = investmentNumber;
@@ -327,6 +329,7 @@ router.patch(
       department,
       manufacturer,
       model,
+      serialNumber,
       manufacturingDate,
       acquiredDate,
       investmentNumber,
@@ -344,6 +347,7 @@ router.patch(
     if (category) machineFields.category = category;
     if (manufacturer) machineFields.manufacturer = manufacturer;
     if (model) machineFields.model = model;
+    if (serialNumber) machineFields.serialNumber = serialNumber;
     if (manufacturingDate) machineFields.manufacturingDate = manufacturingDate;
     if (acquiredDate) machineFields.acquiredDate = acquiredDate;
     if (investmentNumber) machineFields.investmentNumber = investmentNumber;
