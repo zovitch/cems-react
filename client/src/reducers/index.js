@@ -5,9 +5,10 @@ import user from './user';
 import department from './department';
 import location from './location';
 import category from './category';
-import failureCode from './code';
-import repairCode from './code';
-import analysisCode from './code';
+// import failureCode from './code';
+// import repairCode from './code';
+// import analysisCode from './code';
+import code from './code';
 import manufacturer from './manufacturer';
 import machine from './machine';
 
@@ -18,9 +19,10 @@ export default combineReducers({
   department,
   location,
   category,
-  failureCode,
-  repairCode,
-  analysisCode,
+  // failureCode,
+  // repairCode,
+  // analysisCode,
+  code,
   manufacturer,
   machine,
 });

@@ -9,34 +9,19 @@ import { getCodes } from '../../actions/code';
 const Codes = ({
   getCodes,
   auth,
-  failureCode,
-  repairCode,
-  analysisCode,
+  // failureCode,
+  // repairCode,
+  // analysisCode,
+  code: { codes, loading },
   codetype,
 }) => {
   useEffect(() => {
     getCodes(codetype);
   }, [codetype, getCodes]);
 
-  let codeFunction;
-  switch (codetype) {
-    case 'failure':
-      codeFunction = failureCode;
-      break;
-    case 'repair':
-      codeFunction = repairCode;
-      break;
-    case 'analysis':
-      codeFunction = analysisCode;
-      break;
-    default:
-      codeFunction = repairCode;
-      break;
-  }
-
   return (
     <section className='container'>
-      {codeFunction.loading ? (
+      {loading ? (
         <Spinner />
       ) : (
         <Fragment>
@@ -56,15 +41,15 @@ const Codes = ({
 
             {/* The rest of the items in the list are the actual data */}
 
-            {codeFunction.codes &&
-              codeFunction.codes.length > 0 &&
-              codeFunction.codes.map((code) => (
+            {codes &&
+              codes.length > 0 &&
+              codes.map((code) => (
                 <li
                   key={code._id}
                   className='item item-container item-container-6'
                 >
                   <div className='attribute' data-name='Open'>
-                    <Link to={`/codes/${code._id}`}>
+                    <Link to={`/${codetype}codes/${code._id}`}>
                       <i className='fas fa-eye'></i>
                     </Link>
                   </div>
@@ -76,7 +61,7 @@ const Codes = ({
                     )}
                   </div>
                   <div className='attribute' data-name='Code'>
-                    {code.codeNumber}
+                    {String(code.codeNumber).padStart(2, '0')}
                   </div>
                   <div className='attribute' data-name='Name'>
                     {code.name}
@@ -97,17 +82,20 @@ const Codes = ({
 };
 
 Codes.propTypes = {
-  failureCode: PropTypes.object.isRequired,
-  repairCode: PropTypes.object.isRequired,
-  analysisCode: PropTypes.object.isRequired,
+  // failureCode: PropTypes.object.isRequired,
+  // repairCode: PropTypes.object.isRequired,
+  // analysisCode: PropTypes.object.isRequired,
+  code: PropTypes.object.isRequired,
   getCodes: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  codetype: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  failureCode: state.failureCode,
-  repairCode: state.repairCode,
-  analysisCode: state.analysisCode,
+  // failureCode: state.failureCode,
+  // repairCode: state.repairCode,
+  // analysisCode: state.analysisCode,
+  code: state.code,
   auth: state.auth,
 });
 

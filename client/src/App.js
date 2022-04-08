@@ -19,7 +19,7 @@ import Categories from './components/categories/Categories';
 import Category from './components/category/Category';
 import CategoryForm from './components/category-form/CategoryForm';
 import Codes from './components/codes/Codes';
-// import Code from './components/code/Code';
+import Code from './components/code/Code';
 import CodeForm from './components/code-form/CodeForm';
 import Manufacturer from './components/manufacturer/Manufacturer';
 import Manufacturers from './components/manufacturers/Manufacturers';
@@ -91,11 +91,11 @@ const App = () => {
             path='/failurecodes'
             element={<Codes codetype='failure' />}
           />
-          {/* <Route
+          <Route
             exact
             path='/failurecodes/:codeId'
             element={<Code codetype='failure' />}
-          /> */}
+          />
           <Route
             exact
             path='/repaircodes'
@@ -103,8 +103,18 @@ const App = () => {
           />
           <Route
             exact
+            path='/repaircodes/:codeId'
+            element={<Code codetype='repair' />}
+          />
+          <Route
+            exact
             path='/analysiscodes'
             element={<Codes codetype='analysis' />}
+          />
+          <Route
+            exact
+            path='/analysiscodes/:codeId'
+            element={<Code codetype='analysis' />}
           />
           <Route
             exact

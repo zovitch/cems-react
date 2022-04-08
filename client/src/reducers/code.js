@@ -21,6 +21,7 @@ function codeReducer(state = initialState, action) {
       return {
         ...state,
         code: payload,
+        codes: [],
         loading: false,
       };
     }

@@ -15,11 +15,9 @@ const CodeForm = ({
   createCode,
   getCode,
   deleteCode,
-  failureCode,
-  repairCode,
-  analysisCode,
   auth,
   codetype,
+  code: { code },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -28,34 +26,19 @@ const CodeForm = ({
   if (codeId) {
     creatingCode = false;
   }
-  let codeFunction;
-  switch (codetype) {
-    case 'failure':
-      codeFunction = failureCode;
-      break;
-    case 'repair':
-      codeFunction = repairCode;
-      break;
-    case 'analysis':
-      codeFunction = analysisCode;
-      break;
-    default:
-      codeFunction = repairCode;
-      break;
-  }
 
   useEffect(() => {
-    if (!creatingCode && !codeFunction.code) {
+    if (!creatingCode && !code) {
       getCode(codeId, codetype);
     }
-    if (codeFunction.code && !codeFunction.code.loading) {
+    if (code && !code.loading) {
       const codeData = { ...initialState };
-      for (const key in codeFunction.code) {
-        if (key in codeData) codeData[key] = codeFunction.code[key];
+      for (const key in code) {
+        if (key in codeData) codeData[key] = code[key];
       }
       setFormData(codeData);
     }
-  }, [codeId, codetype, codeFunction.code, getCode, creatingCode]);
+  }, [codeId, codetype, code, getCode, creatingCode]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -141,18 +124,15 @@ const CodeForm = ({
   );
 };
 CodeForm.propTypes = {
-  failureCode: PropTypes.object.isRequired,
-  repairCode: PropTypes.object.isRequired,
-  analysisCode: PropTypes.object.isRequired,
+  code: PropTypes.object.isRequired,
   createCode: PropTypes.func.isRequired,
   getCode: PropTypes.func.isRequired,
   deleteCode: PropTypes.func.isRequired,
+  codetype: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  failureCode: state.failureCode,
-  repairCode: state.repairCode,
-  analysisCode: state.analysisCode,
+  code: state.code,
 });
 
 export default connect(mapStateToProps, {

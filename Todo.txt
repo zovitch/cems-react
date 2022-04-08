@@ -9,16 +9,17 @@
 - MSA
 
 TODO
-- Code.js Machine.js CodeItem MachineItem 
+- Machine Card will all info 
+- Machine Card layout grid
+- complete machineForm
 - use Chinese where written Chinese
+
 - sort codes by code
 - sort by date or otehrs for big tables
 - pagination for tables
 - search bar
-- complete machineForm
 - Avatars dont display nice in department mobile view
 - adust back button and edit button to look similar
-- Machine table, fine tune the details
 
 FEATURES
 - user shoudl be able to change the initials of the avatar or add a profile picture
@@ -44,3 +45,5 @@ DONE
 - MachineForm: defaultDepartment cannot show the floor when loading an existing department, fixed
 - CSS small media categories department users codes locations, reuse card
 - add a view button to open single item from the table view
+- Code.js Machine.js CodeItem MachineItem 
+- Machine table, fine tune the details
