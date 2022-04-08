@@ -26,7 +26,7 @@ import Manufacturers from './components/manufacturers/Manufacturers';
 import ManufacturerForm from './components/manufacturer-form/ManufacturerForm';
 import Machines from './components/machines/Machines';
 import MachineForm from './components/machine-form/MachineForm';
-// import Machine from './components/machines/Machine';
+import Machine from './components/machine/Machine';
 
 import { LOGOUT } from './actions/types';
 
@@ -71,7 +71,7 @@ const App = () => {
           <Route exact path='/locations' element={<Locations />} />
           <Route exact path='/locations/:locationId' element={<Location />} />
           <Route exact path='/machines' element={<Machines />} />
-          {/* <Route exact path='/machines/:machineId' element={<Machine />} /> */}
+          <Route exact path='/machines/:machineId' element={<Machine />} />
           <Route exact path='/manufacturers' element={<Manufacturers />} />
           <Route
             exact

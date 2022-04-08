@@ -160,6 +160,22 @@ img {
   margin: 3rem 0;
 }
 
+/********** Alert **********/
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: var(--light-color);
+  color: #333;
+}
+
+.alert-wrapper {
+  position: fixed;
+  top: 4rem;
+  right: 2rem;
+  display: inline-block;
+}
+
 /********** Buttons **********/
 .btn {
   display: inline-block;
@@ -260,22 +276,6 @@ img {
 .addNewbtn h1 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-/********** Alert **********/
-.alert {
-  padding: 0.8rem;
-  margin: 1rem 0;
-  opacity: 0.9;
-  background: var(--light-color);
-  color: #333;
-}
-
-.alert-wrapper {
-  position: fixed;
-  top: 4rem;
-  right: 2rem;
-  display: inline-block;
 }
 
 /********* Other UI **********/
@@ -438,6 +438,128 @@ justify-self: end;
   width: 80%;
   margin: auto;
 }
+
+
+/********** Machine **********/
+.machine-card {
+  display: grid;
+  /* grid-template-columns: 1fr 1fr ; */
+  grid-template-areas: 
+  'machine-machineNumber      machine-machineNumber'
+  'machine-qualityNumber      machine-qualityNumber'
+  'machine-designationCN      machine-designationCN'
+  'machine-designation        machine-designation'
+  'machine-afa                machine-afa'
+  'machine-category           machine-category'
+  'machine-department         machine-department'
+  'machine-location           machine-location'
+  'machine-manufacturer-label machine-manufacturer-value'
+  'machine-model-label        machine-model-value'
+  'machine-manuDate-label     machine-manuDate-value'
+  'machine-acquDate-label     machine-acquDate-value'
+  'machine-investment-label   machine-investment-value'
+  'machine-costCenter-label   machine-costCenter-value'
+  'machine-price-label        machine-price-value'
+  'machine-comment            machine-comment'
+ 
+  ;
+}
+
+.machine-machineNumber  {
+  grid-area: machine-machineNumber;
+}
+
+.machine-qualityNumber {
+  grid-area: machine-qualityNumber;
+}
+ 
+.machine-designationCN{
+  grid-area: machine-designationCN;
+} 
+
+.machine-designation{
+  grid-area: machine-designation;
+
+}    
+.machine-afa {
+  grid-area: machine-afa;
+}            
+  
+.machine-category{
+  grid-area: machine-category;
+}
+
+.machine-department{
+  grid-area: machine-department;
+}
+
+.machine-location{
+  grid-area: machine-location;
+}
+
+.machine-manufacturer-label {
+  grid-area: machine-manufacturer-label;
+}
+
+.machine-manufacturer-value {
+  grid-area: machine-manufacturer-value;
+}
+
+.machine-model-label {
+  grid-area:  machine-model-label;
+}
+
+.machine-model-value {
+  grid-area:  machine-model-value;
+}
+
+.machine-manuDate-label {
+  grid-area: machine-manuDate-label;
+}
+
+.machine-manuDate-value {
+  grid-area: machine-manuDate-value;
+}
+
+.machine-acquDate-label {
+  grid-area: machine-acquDate-label;
+}
+
+.machine-acquDate-value {
+  grid-area: machine-acquDate-value;
+}
+
+.machine-investment-label {
+  grid-area: machine-investment-label;
+}
+
+.machine-investment-value {
+  grid-area: machine-investment-value;
+}
+
+.machine-costCenter-label {
+  grid-area: machine-costCenter-label;
+}
+
+.machine-costCenter-value {
+  grid-area: machine-costCenter-value;
+}
+
+.machine-price-label {
+  grid-area:machine-price-label;
+}
+
+.machine-price-value {
+  grid-area:machine-price-value;
+}
+
+  .machine-comment {
+  grid-area: machine-comment;
+}
+
+
+
+
 
 
 /********** Department **********/
