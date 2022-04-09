@@ -447,6 +447,7 @@ justify-self: end;
   grid-template-areas: 
   'machine-machineNumber      machine-machineNumber'
   'machine-qualityNumber      machine-qualityNumber'
+  'machine-spacer1            machine-spacer1'
   'machine-designationCN      machine-designationCN'
   'machine-designation        machine-designation'
   'machine-afa                machine-afa'
@@ -454,14 +455,16 @@ justify-self: end;
   'machine-department         machine-department'
   'machine-location           machine-location'
   'machine-manufacturer-label machine-manufacturer-value'
+  'machine-manufacturerCN-label machine-manufacturerCN-value'
+  'machine-spacer2             machine-spacer2'
   'machine-model-label        machine-model-value'
+  'machine-sn-label           machine-sn-value'
   'machine-manuDate-label     machine-manuDate-value'
   'machine-acquDate-label     machine-acquDate-value'
   'machine-investment-label   machine-investment-value'
   'machine-costCenter-label   machine-costCenter-value'
   'machine-price-label        machine-price-value'
   'machine-comment            machine-comment'
- 
   ;
 }
 
@@ -499,67 +502,127 @@ justify-self: end;
 
 .machine-manufacturer-label {
   grid-area: machine-manufacturer-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-manufacturer-value {
   grid-area: machine-manufacturer-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
+}
+
+.machine-manufacturerCN-label {
+  grid-area: machine-manufacturerCN-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
+}
+
+.machine-manufacturerCN-value {
+  grid-area: machine-manufacturerCN-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-model-label {
   grid-area:  machine-model-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-model-value {
   grid-area:  machine-model-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
+}
+
+.machine-sn-label {
+  grid-area:  machine-sn-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
+}
+
+.machine-sn-value {
+  grid-area:  machine-sn-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-manuDate-label {
   grid-area: machine-manuDate-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-manuDate-value {
   grid-area: machine-manuDate-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-acquDate-label {
   grid-area: machine-acquDate-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-acquDate-value {
   grid-area: machine-acquDate-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-investment-label {
   grid-area: machine-investment-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-investment-value {
   grid-area: machine-investment-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-costCenter-label {
   grid-area: machine-costCenter-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-costCenter-value {
   grid-area: machine-costCenter-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-price-label {
   grid-area:machine-price-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-price-value {
   grid-area:machine-price-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
 }
 
-  .machine-comment {
+.machine-comment {
   grid-area: machine-comment;
 }
 
+.machine-spacer1 {
+  grid-area: machine-spacer1;
+  margin: 1rem ;
+  border-top: var(--grey-color) 1px solid;
+}
 
-
-
+.machine-spacer2 {
+  grid-area: machine-spacer2;
+  margin: 1rem ;
+  border-top: var(--grey-color) 1px solid;
+}
 
 
 /********** Department **********/
@@ -700,8 +763,11 @@ justify-self: end;
 /********** Failure, Repair and Analysis Codes **********/
 .code-card {
   display: grid;
-  grid-template-columns: 1fr 1fr 3fr 2fr ;
-  grid-template-areas: 'code-codeNumber code-name code-description  code-descriptionCN ';
+  /* grid-template-columns: 1fr 1fr 3fr 2fr ; */
+  grid-template-areas: 
+  'code-codeNumber code-name '
+  'code-description  code-description'
+  'code-descriptionCN code-descriptionCN ';
   max-width: fit-content;
 }
 

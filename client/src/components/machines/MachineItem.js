@@ -28,6 +28,7 @@ const MachineItem = ({
     <div className='machine-card card-nohover bg-white'>
       <h2 className='machine-machineNumber'>{machineNumber}</h2>
       <h3 className='machine-qualityNumber'>{qualityNumber}</h3>
+      <div className='machine-spacer1'></div>
       <div className='machine-designationCN'>{designationCN}</div>
       <div className='machine-designation'>{designation}</div>
 
@@ -53,18 +54,29 @@ const MachineItem = ({
         </div>
       )}
 
-      {manufacturer && (
-        <div>
-          <small className='machine-manufacturer-label'>Manufacturer </small>
-          <div className='machine-manufacturer-value'>{manufacturer} </div>
+      {manufacturer && manufacturer.name && (
+        <small className='machine-manufacturer-label'>Manufacturer </small>
+      )}
+      {manufacturer && manufacturer.name && (
+        <div className='machine-manufacturer-value'>{manufacturer.name} </div>
+      )}
+
+      {manufacturer && manufacturer.nameCN && (
+        <small className='machine-manufacturerCN-label'>制造商 </small>
+      )}
+      {manufacturer && manufacturer.nameCN && (
+        <div className='machine-manufacturerCN-value'>
+          {manufacturer.nameCN}
         </div>
       )}
+
+      <div className='machine-spacer2'></div>
 
       {model && <small className='machine-model-label'>Model </small>}
       {model && <div className='machine-model-value'>{model} </div>}
 
-      {serialNumber && <small className='machine-label'>s/n </small>}
-      {serialNumber && <div className='machine-value'>{serialNumber} </div>}
+      {serialNumber && <small className='machine-sn-label'>s/n </small>}
+      {serialNumber && <div className='machine-sn-value'>{serialNumber} </div>}
 
       {manufacturingDate && (
         <small className='machine-manuDate-label'>Manufactured </small>
@@ -88,14 +100,14 @@ const MachineItem = ({
       )}
 
       {costCenter && (
-        <small className='machine-costCenter-label'>costCenter </small>
+        <small className='machine-costCenter-label'>Cost Center </small>
       )}
       {costCenter && (
         <div className='machine-costCenter-value'>{costCenter} </div>
       )}
 
       {purchasedPrice && (
-        <small className='machine-price-label'>purchasedPrice </small>
+        <small className='machine-price-label'>Purchased Price </small>
       )}
       {purchasedPrice && (
         <div className='machine-price-value'>{purchasedPrice} </div>

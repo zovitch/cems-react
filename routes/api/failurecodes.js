@@ -196,14 +196,15 @@ router.put(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const failureCodes = await FailureCode.find().populate();
+    const failureCodes = await FailureCode.find().populate().sort({
+      codeNumber: 1,
+    });
     res.json(failureCodes);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
-module.exports = router;
 
 // @route   GET api/failurecodes/:codeId
 // @desc    GET the details of a failure
@@ -240,3 +241,5 @@ router.delete('/:codeId', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+module.exports = router;

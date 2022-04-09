@@ -9,13 +9,10 @@
 - MSA
 
 TODO
-- Machine Card will all info 
-- Machine Card layout grid
 - complete machineForm
+- Machine Card will all info 
 - use Chinese where written Chinese
-
-- sort codes by code
-- sort by date or otehrs for big tables
+- sort by date or others for big tables
 - pagination for tables
 - search bar
 - Avatars dont display nice in department mobile view
@@ -47,3 +44,5 @@ DONE
 - add a view button to open single item from the table view
 - Code.js Machine.js CodeItem MachineItem 
 - Machine table, fine tune the details
+- sort codes by code
+- Machine Card layout grid
