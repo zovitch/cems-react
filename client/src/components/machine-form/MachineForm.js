@@ -10,6 +10,7 @@ import {
 } from '../../actions/machine';
 import { getCategories } from '../../actions/category';
 import { getDepartments } from '../../actions/department';
+import { getManufacturers } from '../../actions/manufacturer';
 import Select from 'react-select';
 import nth from '../../utils/nth';
 import formatDate from '../../utils/formatDate';
@@ -60,11 +61,13 @@ const MachineForm = ({
   machine: { machine, newMachineNumber },
   category: { categories },
   department: { departments },
+  manufacturer: { manufacturers },
   createMachine,
   getMachine,
   getCategories,
   getNewMachineNumber,
   getDepartments,
+  getManufacturers,
   deleteMachine,
 }) => {
   const [formData, setFormData] = useState(initialState);
@@ -76,6 +79,7 @@ const MachineForm = ({
   useEffect(() => {
     !machine && machineId && getMachine(machineId);
     !categories.length > 0 && getCategories();
+    !manufacturers.length > 0 && getManufacturers();
     !departments.length > 0 && getDepartments();
     if (machine && !machine.loading) {
       const machineData = { ...initialState };
@@ -93,6 +97,8 @@ const MachineForm = ({
     getMachine,
     machine,
     machineId,
+    manufacturers.length,
+    getManufacturers,
   ]);
 
   // if we create a Machine (creatingMachine: true) then the toogle should be OFF (false)
@@ -109,6 +115,14 @@ const MachineForm = ({
           formData.category.trigram +
           ' - ' +
           formData.category.description,
+      };
+
+  const defaultManufacturer = !formData.manufacturer
+    ? null
+    : {
+        value: formData.manufacturer._id,
+        label:
+          formData.manufacturer.name + ' - ' + formData.manufacturer.nameCN,
       };
 
   const defaultDepartment =
@@ -150,6 +164,16 @@ const MachineForm = ({
     setFormData(newValues);
   };
 
+  const onChangeManufacturer = (e) => {
+    const newValues = { ...formData };
+    newValues.manufacturer = {
+      _id: e.value,
+      name: e.label.split(' - ', 2)[0],
+      nameCN: e.label.split(' - ', 2)[1],
+    };
+    setFormData(newValues);
+  };
+
   const onChangeDepartment = (e) => {
     const newValues = { ...formData };
     newValues.department = {
@@ -182,7 +206,6 @@ const MachineForm = ({
       ? createMachine(formData, navigate, creatingMachine, machineId)
       : createMachine(newValues, navigate, creatingMachine, machineId);
   };
-
   return (
     <section className='container'>
       <h1 className='large text-primary'>
@@ -232,9 +255,9 @@ const MachineForm = ({
                 document.querySelector('#machineNumberToggle') &&
                 document.querySelector('#machineNumberToggle').checked
                   ? formData.machineNumber
-                  : !newMachineNumber
-                  ? ''
                   : newMachineNumber
+                  ? newMachineNumber
+                  : ''
               }
               onChange={onChange}
               readOnly={!toggleCheckboxOn}
@@ -312,7 +335,24 @@ const MachineForm = ({
             />
           )}
         </div>
-        {/* manufacturer */}
+
+        <div className='form-group'>
+          <small className='form-text'>Manufacturer</small>
+          {manufacturers.length > 0 && (
+            <Select
+              name='manufacturer'
+              placeholder='Select a Manufacturer'
+              defaultValue={defaultManufacturer}
+              key={formData.manufacturer && formData.manufacturer._id}
+              onChange={onChangeManufacturer}
+              options={manufacturers.map((e) => ({
+                value: e._id,
+                label: e.name + ' - ' + e.nameCN,
+              }))}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+            />
+          )}
+        </div>
 
         <div className='form-group'>
           <small className='form-text'>Model</small>
@@ -336,32 +376,31 @@ const MachineForm = ({
           />
         </div>
 
-        {formData.manufacturingDate && (
-          <div className='form-group'>
-            <small className='form-text'>Manufacturing Date</small>
-            <input
-              type='date'
-              placeholder='Manufacturing Date'
-              name='manufacturingDate'
-              value={formatDate(formData.manufacturingDate)}
-              onChange={onChange}
-            />
-          </div>
-        )}
+        <div className='form-group'>
+          <small className='form-text'>Manufacturing Date</small>
+          <input
+            type='date'
+            placeholder='Manufacturing Date'
+            name='manufacturingDate'
+            value={
+              formData.manufacturingDate &&
+              formatDate(formData.manufacturingDate)
+            }
+            onChange={onChange}
+          />
+        </div>
 
-        {formData.acquiredDate && (
-          <div className='form-group'>
-            <small className='form-text'>Acquired Date</small>
-            <input
-              type='date'
-              placeholder='Acquired Date'
-              name='acquiredDate'
-              value={formatDate(formData.acquiredDate)}
-              onChange={onChangeAcquiredDate}
-              // onBlur={onBlur}
-            />
-          </div>
-        )}
+        <div className='form-group'>
+          <small className='form-text'>Acquired Date</small>
+          <input
+            type='date'
+            placeholder='Acquired Date'
+            name='acquiredDate'
+            value={formData.acquiredDate && formatDate(formData.acquiredDate)}
+            onChange={onChangeAcquiredDate}
+            // onBlur={onBlur}
+          />
+        </div>
         {/* Investment Number */}
 
         <div className='form-group'>
@@ -434,18 +473,21 @@ MachineForm.propTypes = {
   machine: PropTypes.object.isRequired,
   category: PropTypes.object.isRequired,
   department: PropTypes.object.isRequired,
+  manufacturer: PropTypes.object.isRequired,
   createMachine: PropTypes.func.isRequired,
   getMachine: PropTypes.func.isRequired,
   getNewMachineNumber: PropTypes.func.isRequired,
   deleteMachine: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   getDepartments: PropTypes.func.isRequired,
+  getManufacturers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   machine: state.machine,
   category: state.category,
   department: state.department,
+  manufacturer: state.manufacturer,
 });
 
 export default connect(mapStateToProps, {
@@ -455,4 +497,5 @@ export default connect(mapStateToProps, {
   deleteMachine,
   getCategories,
   getDepartments,
+  getManufacturers,
 })(MachineForm);

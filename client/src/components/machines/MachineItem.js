@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import nth from '../../utils/nth';
+import formatDate from '../../utils/formatDate';
 
 const MachineItem = ({
   machine: {
@@ -82,14 +83,17 @@ const MachineItem = ({
         <small className='machine-manuDate-label'>Manufactured </small>
       )}
       {manufacturingDate && (
-        <div className='machine-manuDate-value'> {manufacturingDate} </div>
+        <div className='machine-manuDate-value'>
+          {' '}
+          {formatDate(manufacturingDate)}{' '}
+        </div>
       )}
 
       {acquiredDate && (
         <small className='machine-acquDate-label'>acquiredDate </small>
       )}
       {acquiredDate && (
-        <div className='machine-acquDate-value'>{acquiredDate} </div>
+        <div className='machine-acquDate-value'>{formatDate(acquiredDate)}</div>
       )}
 
       {investmentNumber && (
