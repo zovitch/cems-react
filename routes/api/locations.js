@@ -15,7 +15,7 @@ router.post(
     max: 5,
   }),
   check('floor', 'A floor number is required').not().isEmpty(),
-
+  check('floor', 'A floor number is required').isNumeric(),
   check('name', 'A name is required for the Location').not().isEmpty(),
   check('locationLetter', 'Location Letter should be one letter').isLength({
     max: 1,

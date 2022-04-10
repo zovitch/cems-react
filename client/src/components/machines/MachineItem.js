@@ -90,14 +90,14 @@ const MachineItem = ({
       )}
 
       {acquiredDate && (
-        <small className='machine-acquDate-label'>acquiredDate </small>
+        <small className='machine-acquDate-label'>Acquired </small>
       )}
       {acquiredDate && (
         <div className='machine-acquDate-value'>{formatDate(acquiredDate)}</div>
       )}
 
       {investmentNumber && (
-        <small className='machine-investment-label'>investmentNumber </small>
+        <small className='machine-investment-label'>Investment No. </small>
       )}
       {investmentNumber && (
         <div className='machine-investment-value'>{investmentNumber} </div>

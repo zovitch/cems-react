@@ -44,7 +44,7 @@ const LocationSchema = new mongoose.Schema(
     toJSON: { virtuals: true },
   }
 );
-// Need to check in the routes if teh code is unique
+// Need to check in the routes if the code is unique
 LocationSchema.virtual('code').get(function () {
   return this.initials + this.floor + '-' + this.locationLetter;
 });
