@@ -10,24 +10,20 @@ const Afa = require('../../models/Afa');
 // @access  Private
 router.post(
   '/',
-  [
-    auth,
-    [
-      // check('afaNumber', 'AFA Number is required').not().isEmpty(),
-      check('designation', 'A Designation for the machine is necessary')
-        .not()
-        .isEmpty(),
-      check(
-        'designationCN',
-        'A Designation in Chinese for the machine is necessary'
-      )
-        .not()
-        .isEmpty(),
-      check('applicantName', 'An Applicant Name is necessary').not().isEmpty(),
-      check('department', 'An Department is necessary').not().isEmpty(),
-      // check('applicantDate', 'Application Date is required').not().isEmpty(),
-    ],
-  ],
+  auth,
+  // check('afaNumber', 'AFA Number is required').not().isEmpty(),
+  check('designation', 'A Designation for the machine is necessary')
+    .not()
+    .isEmpty(),
+  check(
+    'designationCN',
+    'A Designation in Chinese for the machine is necessary'
+  )
+    .not()
+    .isEmpty(),
+  check('applicantName', 'An Applicant Name is necessary').not().isEmpty(),
+  check('department', 'An Department is necessary').not().isEmpty(),
+  // check('applicantDate', 'Application Date is required').not().isEmpty(),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,7 +35,7 @@ router.post(
       afaNumber,
       designation,
       designationCN,
-      investmentNumber,
+      investment,
       applicantName,
       department,
       applicantSignature,
@@ -49,7 +45,7 @@ router.post(
       technicalRequirement,
       reasonOfApplication,
       remark,
-      manufacturer,
+      manufacturers,
       validationENG,
       validationGM,
       validationPUR,
@@ -59,7 +55,7 @@ router.post(
     if (afaNumber) afaFields.afaNumber = afaNumber;
     if (designation) afaFields.designation = designation;
     if (designationCN) afaFields.designationCN = designationCN;
-    if (investmentNumber) afaFields.investmentNumber = investmentNumber;
+    if (investment) afaFields.investment = investment;
     if (applicantName) afaFields.applicantName = applicantName;
     if (department) afaFields.department = department;
     if (applicantSignature) afaFields.applicantSignature = applicantSignature;
@@ -70,7 +66,7 @@ router.post(
     if (reasonOfApplication)
       afaFields.reasonOfApplication = reasonOfApplication;
     if (remark) afaFields.remark = remark;
-    if (manufacturer) afaFields.manufacturer = manufacturer;
+    if (manufacturers) afaFields.manufacturers = manufacturers;
     if (validationENG) afaFields.validationENG = validationENG;
     if (validationPUR) afaFields.validationPUR = validationPUR;
     if (validationGM) afaFields.validationGM = validationGM;
@@ -107,14 +103,14 @@ router.post(
           { $set: afaFields },
           { new: true }
         ).populate({
-          path: 'department parentMachine manufacturer',
+          path: 'department parentMachine manufacturers investment',
           populate: {
-            path: 'owners location department manufacturer',
+            path: 'owners location department manufacturers',
             select:
               'name nameCN initials floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
             populate: {
-              path: 'owners location department manufacturer',
+              path: 'owners location department manufacturers',
               select:
                 'name nameCN initials floor locationLetter code trigram description descriptionCN',
               strictPopulate: false,
@@ -128,14 +124,14 @@ router.post(
       afa = new Afa(afaFields);
       await afa.save();
       await afa.populate({
-        path: 'department parentMachine manufacturer',
+        path: 'department parentMachine manufacturers investment',
         populate: {
-          path: 'owners location department manufacturer',
+          path: 'owners location department manufacturers',
           select:
             'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
           populate: {
-            path: 'owners location department manufacturer',
+            path: 'owners location department manufacturers',
             select:
               'name nameCN initials floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
@@ -162,14 +158,14 @@ router.get('/', async (req, res) => {
     const afas = await Afa.find()
       .sort({ afaNumber: -1 })
       .populate({
-        path: 'department parentMachine manufacturer',
+        path: 'department parentMachine manufacturers investment',
         populate: {
-          path: 'owners location department manufacturer',
+          path: 'owners location department manufacturers',
           select:
             'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
           populate: {
-            path: 'owners location department manufacturer',
+            path: 'owners location department manufacturers',
             select:
               'name nameCN initials floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,
@@ -194,14 +190,14 @@ router.get('/:afaNumber', async (req, res) => {
   try {
     const afa = await Afa.findOne({ afaNumber: req.params.afaNumber }).populate(
       {
-        path: 'department parentMachine manufacturer',
+        path: 'department parentMachine manufacturers investment',
         populate: {
-          path: 'owners location department manufacturer',
+          path: 'owners location department manufacturers',
           select:
             'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
           populate: {
-            path: 'owners location department manufacturer',
+            path: 'owners location department manufacturers',
             select:
               'name nameCN initials floor locationLetter code trigram description descriptionCN',
             strictPopulate: false,

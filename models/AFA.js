@@ -33,7 +33,7 @@ const AfaSchema = new mongoose.Schema({
   technicalRequirement: {
     type: String,
   },
-  investmentNumber: {
+  investment: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'investment',
   },
@@ -59,7 +59,7 @@ const AfaSchema = new mongoose.Schema({
     type: String,
   },
   // When creating an AFA it might be a new supplier so we don't need to have it from our current list of manufacturers
-  manufacturer: [
+  manufacturers: [
     {
       name: {
         type: String,

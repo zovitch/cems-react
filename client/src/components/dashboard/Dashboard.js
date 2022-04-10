@@ -27,11 +27,11 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
       faLogo: 'fas fa-clipboard-list',
     },
     {
-      name: 'machines',
-      nameCN: '机器',
-      route: 'machines2',
-      key: 'machines2',
-      faLogo: 'fas fa-screwdriver',
+      name: 'A.F.A.',
+      nameCN: '',
+      route: 'afa',
+      key: 'afa',
+      faLogo: 'fas fa-pencil',
     },
     {
       name: 'machines',
@@ -42,7 +42,7 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
     },
     {
       name: 'investments',
-      // nameCN: '机器',
+      nameCN: '',
       route: 'investments',
       key: 'investments',
       faLogo: 'fas fa-sack-dollar',
