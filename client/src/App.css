@@ -735,7 +735,54 @@ justify-self: end;
   grid-area: manufacturer-nameCN;
 }
 
-/********** Categories **********/
+/********** Investment **********/
+.investment-card {
+  display: grid;
+  grid-template-areas:
+    'investment-investmentnumber investment-investmentnumber'
+    'investment-name             investment-name'
+    'investment-price-label      investment-price'
+    'investment-quantity-label   investment-quantity'
+    'investment-approved-label   investment-approved'
+    'investment-completed-label  investment-completed'
+    ;
+  max-width: fit-content;
+}
+
+.investment-investmentnumber {
+  grid-area: investment-investmentnumber;
+}
+.investment-name{
+  grid-area: investment-name;
+}
+.investment-price-label{
+  grid-area: investment-price-label;
+}
+.investment-quantity-label{
+  grid-area: investment-quantity-label;
+}
+.investment-approved-label{
+  grid-area: investment-approved-label;
+}
+.investment-completed-label{
+  grid-area: investment-completed-label;
+}
+.investment-price{
+  grid-area: investment-price;
+}
+.investment-quantity{
+  grid-area: investment-quantity;
+}
+.investment-approved{
+  grid-area: investment-approved;
+}
+.investment-completed{
+  grid-area: investment-completed;
+}
+
+
+
+/********** Category **********/
 .category-card {
   display: grid;
   grid-template-columns: 1fr 1fr ;
@@ -834,6 +881,10 @@ justify-self: end;
 
   .item-container-8 {
     grid-template-columns: 2rem 2rem 10rem 4fr 2fr 3fr 6fr 2fr;
+  }
+
+  .item-container-8b {
+    grid-template-columns: 2rem 2rem 2fr 4fr 2fr 2fr 7rem 7rem;
   }
 
   .attribute-container {

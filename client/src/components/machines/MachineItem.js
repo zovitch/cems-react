@@ -17,7 +17,7 @@ const MachineItem = ({
     serialNumber,
     manufacturingDate,
     acquiredDate,
-    investmentNumber,
+    investment,
     costCenter,
     purchasedPrice,
     comment,
@@ -96,11 +96,13 @@ const MachineItem = ({
         <div className='machine-acquDate-value'>{formatDate(acquiredDate)}</div>
       )}
 
-      {investmentNumber && (
+      {investment && investment.investmentNumber && (
         <small className='machine-investment-label'>Investment No. </small>
       )}
-      {investmentNumber && (
-        <div className='machine-investment-value'>{investmentNumber} </div>
+      {investment && investment.investmentNumber && (
+        <div className='machine-investment-value'>
+          {investment.investmentNumber}
+        </div>
       )}
 
       {costCenter && (

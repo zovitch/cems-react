@@ -46,7 +46,7 @@ const MachineSchema = new mongoose.Schema(
     acquiredDate: {
       type: Date,
     },
-    investmentNumber: {
+    investment: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'investment',
     },

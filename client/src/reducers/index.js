@@ -8,9 +8,10 @@ import category from './category';
 // import failureCode from './code';
 // import repairCode from './code';
 // import analysisCode from './code';
-import code from './code';
+import code from './code'; // we can use only this for all failure, repair and analysis
 import manufacturer from './manufacturer';
 import machine from './machine';
+import investment from './investment';
 
 export default combineReducers({
   alert,
@@ -25,4 +26,5 @@ export default combineReducers({
   code,
   manufacturer,
   machine,
+  investment,
 });

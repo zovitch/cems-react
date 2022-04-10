@@ -133,8 +133,8 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                   </div>
                   <div className='attribute-container investment-date'>
                     <div className='attribute' data-name='Invest. No.'>
-                      {machine.investmentNumber &&
-                        machine.investmentNumber.investmentNumber}
+                      {machine.investment &&
+                        machine.investment.investmentNumber}
                     </div>
                     {machine.acquiredDate && (
                       <div className='attribute' data-name='Acquired date'>

@@ -27,6 +27,9 @@ import ManufacturerForm from './components/manufacturer-form/ManufacturerForm';
 import Machines from './components/machines/Machines';
 import MachineForm from './components/machine-form/MachineForm';
 import Machine from './components/machine/Machine';
+import Investments from './components/investments/Investments';
+import InvestmentForm from './components/investment-form/InvestmentForm';
+import Investment from './components/investment/Investment';
 
 import { LOGOUT } from './actions/types';
 
@@ -116,6 +119,12 @@ const App = () => {
             path='/analysiscodes/:codeId'
             element={<Code codetype='analysis' />}
           />
+          <Route exact path='/investments' element={<Investments />} />
+          <Route
+            exact
+            path='/investments/:investmentId'
+            element={<Investment />}
+          />
           <Route
             exact
             path='/dashboard'
@@ -160,6 +169,11 @@ const App = () => {
             exact
             path='/create-repaircode'
             element={<PrivateRoute component={CodeForm} codetype='repair' />}
+          />
+          <Route
+            exact
+            path='/create-investment'
+            element={<PrivateRoute component={InvestmentForm} />}
           />
           <Route
             exact
@@ -215,6 +229,11 @@ const App = () => {
             exact
             path='/analysiscodes/edit/:codeId'
             element={<PrivateRoute component={CodeForm} codetype='analysis' />}
+          />
+          <Route
+            exact
+            path='/investments/edit/:investmentId'
+            element={<PrivateRoute component={InvestmentForm} />}
           />
         </Routes>
       </Router>

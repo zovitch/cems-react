@@ -41,11 +41,11 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
       faLogo: 'fas fa-screwdriver-wrench',
     },
     {
-      name: 'machines',
-      nameCN: '机器',
-      route: 'machines4',
-      key: 'machines4',
-      faLogo: 'fas fa-toolbox',
+      name: 'investments',
+      // nameCN: '机器',
+      route: 'investments',
+      key: 'investments',
+      faLogo: 'fas fa-sack-dollar',
     },
     {
       name: 'manufacturers',

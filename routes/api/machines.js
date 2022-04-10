@@ -82,7 +82,7 @@ router.post(
       serialNumber,
       manufacturingDate,
       acquiredDate,
-      investmentNumber,
+      investment,
       retiredDate,
       purchasedPrice,
       comment,
@@ -104,7 +104,7 @@ router.post(
     if (serialNumber) machineFields.serialNumber = serialNumber;
     if (manufacturingDate) machineFields.manufacturingDate = manufacturingDate;
     if (acquiredDate) machineFields.acquiredDate = acquiredDate;
-    if (investmentNumber) machineFields.investmentNumber = investmentNumber;
+    if (investment) machineFields.investment = investment;
     if (retiredDate) machineFields.retiredDate = retiredDate;
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
@@ -199,7 +199,7 @@ router.post(
 
       machine = new Machine(machineFields);
       await machine.populate({
-        path: 'department afa parentMachine manufacturer category',
+        path: 'department afa parentMachine manufacturer category investment',
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
@@ -232,7 +232,7 @@ router.post(
 router.get('/', async (req, res) => {
   try {
     const machines = await Machine.find().populate({
-      path: 'department afa parentMachine manufacturer category',
+      path: 'department afa parentMachine manufacturer category investment',
       populate: {
         path: 'owners location department afa manufacturer category',
         select:
@@ -260,7 +260,7 @@ router.get('/', async (req, res) => {
 router.get('/:machineId', async (req, res) => {
   try {
     const machine = await Machine.findById(req.params.machineId).populate({
-      path: 'department afa parentMachine manufacturer category',
+      path: 'department afa parentMachine manufacturer category investment',
       populate: {
         path: 'owners location department afa manufacturer category',
         select:
@@ -332,7 +332,7 @@ router.patch(
       serialNumber,
       manufacturingDate,
       acquiredDate,
-      investmentNumber,
+      investment,
       retiredDate,
       purchasedPrice,
       comment,
@@ -350,7 +350,7 @@ router.patch(
     if (serialNumber) machineFields.serialNumber = serialNumber;
     if (manufacturingDate) machineFields.manufacturingDate = manufacturingDate;
     if (acquiredDate) machineFields.acquiredDate = acquiredDate;
-    if (investmentNumber) machineFields.investmentNumber = investmentNumber;
+    if (investment) machineFields.investment = investment;
     if (retiredDate) machineFields.retiredDate = retiredDate;
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
@@ -414,7 +414,7 @@ router.patch(
         { $set: machineFields },
         { new: true }
       ).populate({
-        path: 'department afa parentMachine manufacturer category',
+        path: 'department afa parentMachine manufacturer category investment',
         populate: {
           path: 'owners location department afa manufacturer category',
           select:

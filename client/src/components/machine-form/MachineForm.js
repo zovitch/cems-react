@@ -11,6 +11,7 @@ import {
 import { getCategories } from '../../actions/category';
 import { getDepartments } from '../../actions/department';
 import { getManufacturers } from '../../actions/manufacturer';
+import { getInvestments } from '../../actions/investment';
 import Select from 'react-select';
 import nth from '../../utils/nth';
 import formatDate from '../../utils/formatDate';
@@ -28,7 +29,7 @@ const initialState = {
   serialNumber: '',
   manufacturingDate: '',
   acquiredDate: '',
-  investmentNumber: '',
+  investment: '',
   costCenter: '',
   retiredDate: '',
   purchasedPrice: '',
@@ -62,12 +63,14 @@ const MachineForm = ({
   category: { categories },
   department: { departments },
   manufacturer: { manufacturers },
+  investment: { investments },
   createMachine,
   getMachine,
   getCategories,
   getNewMachineNumber,
   getDepartments,
   getManufacturers,
+  getInvestments,
   deleteMachine,
 }) => {
   const [formData, setFormData] = useState(initialState);
@@ -80,6 +83,7 @@ const MachineForm = ({
     !machine && machineId && getMachine(machineId);
     !categories.length > 0 && getCategories();
     !manufacturers.length > 0 && getManufacturers();
+    !investments.length > 0 && getInvestments();
     !departments.length > 0 && getDepartments();
     if (machine && !machine.loading) {
       const machineData = { ...initialState };
@@ -99,6 +103,8 @@ const MachineForm = ({
     machineId,
     manufacturers.length,
     getManufacturers,
+    investments.length,
+    getInvestments,
   ]);
 
   // if we create a Machine (creatingMachine: true) then the toogle should be OFF (false)
@@ -106,7 +112,7 @@ const MachineForm = ({
   const [toggleCheckboxOn, setToggleCheckboxOn] = useState(!creatingMachine);
 
   const defaultCategory = !formData.category
-    ? null
+    ? ''
     : {
         value: formData.category._id,
         label:
@@ -118,11 +124,21 @@ const MachineForm = ({
       };
 
   const defaultManufacturer = !formData.manufacturer
-    ? null
+    ? ''
     : {
         value: formData.manufacturer._id,
         label:
           formData.manufacturer.name + ' - ' + formData.manufacturer.nameCN,
+      };
+
+  const defaultInvestment = !formData.investment
+    ? ''
+    : {
+        value: formData.investment._id,
+        label:
+          formData.investment.investmentNumber +
+          ' - ' +
+          formData.investment.name,
       };
 
   const defaultDepartment =
@@ -137,7 +153,7 @@ const MachineForm = ({
             nth(formData.department.location.floor) +
             ' floor',
         }
-      : null;
+      : '';
 
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggle = (e) => {
@@ -170,6 +186,16 @@ const MachineForm = ({
       _id: e.value,
       name: e.label.split(' - ', 2)[0],
       nameCN: e.label.split(' - ', 2)[1],
+    };
+    setFormData(newValues);
+  };
+
+  const onChangeInvestment = (e) => {
+    const newValues = { ...formData };
+    newValues.investment = {
+      _id: e.value,
+      investmentNumber: e.label.split(' - ', 2)[0],
+      name: e.label.split(' - ', 2)[1],
     };
     setFormData(newValues);
   };
@@ -401,7 +427,24 @@ const MachineForm = ({
             // onBlur={onBlur}
           />
         </div>
-        {/* Investment Number */}
+
+        <div className='form-group'>
+          <small className='form-text'>Investment No.</small>
+          {investments.length > 0 && (
+            <Select
+              name='investment'
+              placeholder='Select an Investment No.'
+              defaultValue={defaultInvestment}
+              key={formData.investment && formData.investment._id}
+              onChange={onChangeInvestment}
+              options={investments.map((e) => ({
+                value: e._id,
+                label: e.investmentNumber + ' - ' + e.name,
+              }))}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+            />
+          )}
+        </div>
 
         <div className='form-group'>
           <small className='form-text'>Cost Center</small>
@@ -474,6 +517,7 @@ MachineForm.propTypes = {
   category: PropTypes.object.isRequired,
   department: PropTypes.object.isRequired,
   manufacturer: PropTypes.object.isRequired,
+  investment: PropTypes.object.isRequired,
   createMachine: PropTypes.func.isRequired,
   getMachine: PropTypes.func.isRequired,
   getNewMachineNumber: PropTypes.func.isRequired,
@@ -481,6 +525,7 @@ MachineForm.propTypes = {
   getCategories: PropTypes.func.isRequired,
   getDepartments: PropTypes.func.isRequired,
   getManufacturers: PropTypes.func.isRequired,
+  getInvestments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -488,6 +533,7 @@ const mapStateToProps = (state) => ({
   category: state.category,
   department: state.department,
   manufacturer: state.manufacturer,
+  investment: state.investment,
 });
 
 export default connect(mapStateToProps, {
@@ -498,4 +544,5 @@ export default connect(mapStateToProps, {
   getCategories,
   getDepartments,
   getManufacturers,
+  getInvestments,
 })(MachineForm);
