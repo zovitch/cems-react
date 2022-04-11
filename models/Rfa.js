@@ -51,6 +51,10 @@ const RfaSchema = new mongoose.Schema({
       type: Date,
     },
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = Rfa = mongoose.model('rfa', RfaSchema);

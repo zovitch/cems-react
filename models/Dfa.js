@@ -52,6 +52,10 @@ const DfaSchema = new mongoose.Schema({
   remark: {
     type: String,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = Dfa = mongoose.model('dfa', DfaSchema);

@@ -114,6 +114,10 @@ const AfaSchema = new mongoose.Schema({
   remark: {
     type: String,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = Afa = mongoose.model('afa', AfaSchema);

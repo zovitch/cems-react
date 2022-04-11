@@ -25,6 +25,10 @@ const CodeSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // module.exports = { FailureCode, RepairCode, AnalysisCode } = mongoose.model(

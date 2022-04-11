@@ -85,6 +85,10 @@ const R3Schema = new mongoose.Schema({
   remark: {
     type: String,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = R3 = mongoose.model('r3', R3Schema);

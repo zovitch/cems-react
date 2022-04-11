@@ -80,6 +80,10 @@ const MachineSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'afa',
     },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     toJSON: { virtuals: true },

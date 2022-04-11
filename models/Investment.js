@@ -41,6 +41,10 @@ const InvestmentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
     // @todo assign a department
   },
   {
