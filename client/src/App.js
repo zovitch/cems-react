@@ -30,6 +30,9 @@ import Machine from './components/machine/Machine';
 import Investments from './components/investments/Investments';
 import InvestmentForm from './components/investment-form/InvestmentForm';
 import Investment from './components/investment/Investment';
+import R3s from './components/r3s/R3s';
+import R3Form from './components/r3-form/R3Form';
+import R3 from './components/r3/R3';
 
 import { LOGOUT } from './actions/types';
 
@@ -75,6 +78,8 @@ const App = () => {
           <Route exact path='/locations/:locationId' element={<Location />} />
           <Route exact path='/machines' element={<Machines />} />
           <Route exact path='/machines/:machineId' element={<Machine />} />
+          <Route exact path='/r3s' element={<R3s />} />
+          <Route exact path='/r3s/:r3Id' element={<R3 />} />
           <Route exact path='/manufacturers' element={<Manufacturers />} />
           <Route
             exact
@@ -142,6 +147,11 @@ const App = () => {
           />
           <Route
             exact
+            path='/create-r3'
+            element={<PrivateRoute component={R3Form} />}
+          />
+          <Route
+            exact
             path='/create-location'
             element={<PrivateRoute component={LocationForm} />}
           />
@@ -194,6 +204,11 @@ const App = () => {
             exact
             path='/machines/edit/:machineId'
             element={<PrivateRoute component={MachineForm} />}
+          />
+          <Route
+            exact
+            path='/r3s/edit/:r3Id'
+            element={<PrivateRoute component={R3Form} />}
           />
           <Route
             exact

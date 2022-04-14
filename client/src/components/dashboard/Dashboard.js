@@ -29,15 +29,15 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
     {
       name: 'A.F.A.',
       nameCN: '',
-      route: 'afa',
-      key: 'afa',
+      route: 'afas',
+      key: 'afas',
       faLogo: 'fas fa-pencil',
     },
     {
-      name: 'machines',
-      nameCN: '机器',
-      route: 'machines3',
-      key: 'machines3',
+      name: 'R3 Repair Application',
+      nameCN: '报修单',
+      route: 'r3s',
+      key: 'r3s',
       faLogo: 'fas fa-screwdriver-wrench',
     },
     {

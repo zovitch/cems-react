@@ -56,7 +56,7 @@ router.post(
 );
 
 // @route   POST api/machines
-// @desc    Create or Update a machine from AFA
+// @desc    Create a machine from AFA
 // @access  Private
 router.post(
   '/',

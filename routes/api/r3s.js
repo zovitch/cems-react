@@ -8,20 +8,17 @@ const Machine = require('../../models/Machine');
 const { FailureCode, RepairCode, AnalysisCode } = require('../../models/Code');
 
 // @route   POST api/r3s
-// @desc    Create only a Repair Record
+// @desc    Create a Repair Record
 // @access  Private
 router.post(
   '/',
-  [
-    auth,
-    [
-      check('machine', 'A machine required').not().isEmpty(),
-      check('failureCode', 'A Failure Code is required').not().isEmpty(),
-      check('applicant', 'An Applicant for the Failure is required')
-        .not()
-        .isEmpty(),
-    ],
-  ],
+  auth,
+  check('machine', 'A machine required').not().isEmpty(),
+  check('failureCode', 'A Failure Code is required').not().isEmpty(),
+  check('applicant', 'An Applicant for the Failure is required')
+    .not()
+    .isEmpty(),
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -155,21 +152,20 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const r3s = await R3.find()
-      .select('r3Number')
-      .populate({
-        path: 'machine failureCode repairCode analysisCode repairEngineer',
-        select: 'name nameCN codeNumber description descriptionCN',
+    const r3s = await R3.find().populate({
+      path: 'machine failureCode repairCode analysisCode repairEngineer',
+      select:
+        'machineNumber designation designationCN name nameCN codeNumber description descriptionCN',
+      populate: {
+        path: 'category department',
+        strictPopulate: false,
         populate: {
-          path: 'category department',
+          path: 'owners location',
           strictPopulate: false,
-          populate: {
-            path: 'owners location',
-            strictPopulate: false,
-            select: 'name initials nameCN locationLetter',
-          },
+          select: 'name initials nameCN locationLetter',
         },
-      });
+      },
+    });
 
     res.json(r3s);
   } catch (err) {
@@ -177,6 +173,7 @@ router.get('/', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 // @route   GET api/r3s/short // debug short route
 // @desc    GET the list of all repairs
 // @access  Public
@@ -191,14 +188,15 @@ router.get('/short', async (req, res) => {
   }
 });
 
-// @route   GET api/r3s/:r3_id
+// @route   GET api/r3s/:r3Id
 // @desc    GET the detail of one repair
 // @access  Public
-router.get('/:r3_id', async (req, res) => {
+router.get('/:r3Id', async (req, res) => {
   try {
-    const r3 = await R3.findById(req.params.r3_id).populate({
+    const r3 = await R3.findById(req.params.r3Id).populate({
       path: 'machine failureCode repairCode analysisCode repairEngineer',
-      select: 'name nameCN codeNumber description descriptionCN',
+      select:
+        'machineNumber designation designationCN name nameCN codeNumber description descriptionCN',
       populate: {
         path: 'category department',
         strictPopulate: false,
@@ -219,12 +217,12 @@ router.get('/:r3_id', async (req, res) => {
   }
 });
 
-// @route   DELETE api/r3s/:r3_id
+// @route   DELETE api/r3s/:r3Id
 // @desc    Delete a Repair record
 // @access  Private
-router.delete('/:r3_id', auth, async (req, res) => {
+router.delete('/:r3Id', auth, async (req, res) => {
   try {
-    const r3 = await R3.findById(req.params.r3_id);
+    const r3 = await R3.findById(req.params.r3Id);
     if (!r3) {
       return res.status(404).json({ msg: 'Repair record not found' });
     }
@@ -239,27 +237,23 @@ router.delete('/:r3_id', auth, async (req, res) => {
   }
 });
 
-// @route   PATCH api/r3s/:r3_id
+// @route   PATCH api/r3s/:r3Id
 // @desc    Update a R3 Number and other infos
 // @access  Private
 router.patch(
-  '/:r3_id',
-  [
-    auth,
-    [
-      check(
-        'r3NumberPartial',
-        'R3 Number (###) length should be maximum 3, ex: AYY###'
-      )
-        .isLength({
-          min: 1,
-          max: 3,
-        }) // this is just a partial ### because A and YY are changed through machine of date
-        .not()
-        .isEmpty()
-        .optional(), // allows not to raise the error if r3Number is not passed
-    ],
-  ],
+  '/:r3Id',
+  auth,
+  check(
+    'r3NumberPartial',
+    'R3 Number (###) length should be maximum 3, ex: AYY###'
+  )
+    .isLength({
+      min: 1,
+      max: 3,
+    }) // this is just a partial ### because A and YY are changed through machine of date
+    .not()
+    .isEmpty()
+    .optional(), // allows not to raise the error if r3Number is not passed
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -318,7 +312,7 @@ router.patch(
 
     try {
       // retrieve the R3 info
-      let r3 = await R3.findById(req.params.r3_id).populate({
+      let r3 = await R3.findById(req.params.r3Id).populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
         select: 'name nameCN codeNumber description descriptionCN',
         populate: {
@@ -526,7 +520,7 @@ router.patch(
       console.log('date' + r3.r3Date);
 
       r3 = await R3.findByIdAndUpdate(
-        req.params.r3_id,
+        req.params.r3Id,
         { $set: r3Fields },
         { new: true }
       );

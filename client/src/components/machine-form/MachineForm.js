@@ -241,7 +241,7 @@ const MachineForm = ({
           </div>
         ) : (
           <div>
-            <i className='fas fa-edit'></i> Edit an Equipment{' '}
+            <i className='fas fa-edit'></i> Edit an Equipment
           </div>
         )}
       </h1>

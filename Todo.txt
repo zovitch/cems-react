@@ -31,6 +31,7 @@ BUGS
 - store in lower case in database and display capitalize, this would be to avoid dupplicated with case-sensitive
 - bug not login auth error
 - MachineForm: warning: react_devtools_backend.js:3973 Warning: `value` prop on `input` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.
+- it seems the date in each models is triggering a lot of useEffect, maybe we can improve that
 
 - after deleting, there is a useEffect trigger, so we have a routing error for the _id just deleted
 - after deleting, there is sometimes the objects not reloading properly (manufacturers are empty)

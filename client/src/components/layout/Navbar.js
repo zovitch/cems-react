@@ -10,6 +10,18 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
   const authLinks = (
     <ul>
       <li>
+        <Link to='/create-r3'>
+          <i className='fas fa-screwdriver'></i>{' '}
+          <span className='hide-sm'>New R3</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/r3s'>
+          <i className='fas fa-screwdriver-wrench'></i>{' '}
+          <span className='hide-sm'>Pending R3</span>
+        </Link>
+      </li>
+      <li>
         <Link to='/machines'>
           <i className='fas fa-clipboard-list'></i>{' '}
           <span className='hide-sm'>LFA</span>
@@ -45,6 +57,12 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
 
   const guestLinks = (
     <ul>
+      <li>
+        <Link to='/create-r3'>
+          <i className='fas fa-screwdriver'></i>{' '}
+          <span className='hide-sm'>New R3</span>
+        </Link>
+      </li>
       <li>
         <Link to='/machines'>
           <i className='fas fa-clipboard-list'></i>{' '}

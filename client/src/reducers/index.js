@@ -12,6 +12,7 @@ import code from './code'; // we can use only this for all failure, repair and a
 import manufacturer from './manufacturer';
 import machine from './machine';
 import investment from './investment';
+import r3 from './r3';
 
 export default combineReducers({
   alert,
@@ -27,4 +28,5 @@ export default combineReducers({
   manufacturer,
   machine,
   investment,
+  r3,
 });
