@@ -28,7 +28,7 @@ const initialState = {
   model: '',
   serialNumber: '',
   manufacturingDate: '',
-  acquiredDate: '',
+  acquiredDate: formatDate(new Date()),
   investment: '',
   costCenter: '',
   retiredDate: '',
@@ -79,34 +79,6 @@ const MachineForm = ({
   let creatingMachine = true;
   if (machineId) creatingMachine = false;
 
-  useEffect(() => {
-    !machine && machineId && getMachine(machineId);
-    !categories.length > 0 && getCategories();
-    !manufacturers.length > 0 && getManufacturers();
-    !investments.length > 0 && getInvestments();
-    !departments.length > 0 && getDepartments();
-    if (machine && !machine.loading) {
-      const machineData = { ...initialState };
-      for (const key in machine) {
-        if (key in machineData) machineData[key] = machine[key];
-      }
-      setFormData(machineData);
-    }
-  }, [
-    categories,
-    departments.length,
-    getCategories,
-    getDepartments,
-    getNewMachineNumber,
-    getMachine,
-    machine,
-    machineId,
-    manufacturers.length,
-    getManufacturers,
-    investments.length,
-    getInvestments,
-  ]);
-
   // if we create a Machine (creatingMachine: true) then the toogle should be OFF (false)
   // if we edit a Machine (creatingMachine: false) then toggle should be ON (true)
   const [toggleCheckboxOn, setToggleCheckboxOn] = useState(!creatingMachine);
@@ -154,6 +126,35 @@ const MachineForm = ({
             ' floor',
         }
       : '';
+
+  useEffect(() => {
+    !machine && machineId && getMachine(machineId);
+    !categories.length > 0 && getCategories();
+    !manufacturers.length > 0 && getManufacturers();
+    !investments.length > 0 && getInvestments();
+    !departments.length > 0 && getDepartments();
+
+    if (machine && !machine.loading) {
+      const machineData = { ...initialState };
+      for (const key in machine) {
+        if (key in machineData) machineData[key] = machine[key];
+      }
+      setFormData(machineData);
+    }
+  }, [
+    categories,
+    departments.length,
+    getCategories,
+    getDepartments,
+    // getNewMachineNumber,
+    getMachine,
+    machine,
+    machineId,
+    manufacturers.length,
+    getManufacturers,
+    investments.length,
+    getInvestments,
+  ]);
 
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggle = (e) => {
@@ -232,6 +233,7 @@ const MachineForm = ({
       ? createMachine(formData, navigate, creatingMachine, machineId)
       : createMachine(newValues, navigate, creatingMachine, machineId);
   };
+
   return (
     <section className='container'>
       <h1 className='large text-primary'>
@@ -255,7 +257,7 @@ const MachineForm = ({
             <small className='form-text'>
               {document.querySelector('#machineNumberToggle') &&
               document.querySelector('#machineNumberToggle').checked
-                ? ' EQU No.'
+                ? 'EQU No.'
                 : 'Automatically generated EQU No.'}
             </small>
           </div>
@@ -277,6 +279,7 @@ const MachineForm = ({
                   : 'Select a Department to generate an EQU No.'
               }
               name='machineNumber'
+              id='machineNumber'
               value={
                 document.querySelector('#machineNumberToggle') &&
                 document.querySelector('#machineNumberToggle').checked
@@ -287,7 +290,6 @@ const MachineForm = ({
               }
               onChange={onChange}
               readOnly={!toggleCheckboxOn}
-              // autoFocus
             />
           </div>
         </div>
@@ -298,6 +300,7 @@ const MachineForm = ({
             type='text'
             placeholder='Quality Number'
             name='qualityNumber'
+            id='qualityNumber'
             value={formData.qualityNumber}
             onChange={onChange}
           />
@@ -309,6 +312,7 @@ const MachineForm = ({
             type='text'
             placeholder='设备名称'
             name='designationCN'
+            id='designationCN'
             value={formData.designationCN}
             onChange={onChange}
           />
@@ -320,6 +324,7 @@ const MachineForm = ({
             type='text'
             placeholder='Designation'
             name='designation'
+            id='designation'
             value={formData.designation}
             onChange={onChange}
           />
@@ -331,6 +336,7 @@ const MachineForm = ({
             <Select
               // styles={customStyles}
               name='category'
+              id='category'
               placeholder='Select a Category'
               defaultValue={defaultCategory}
               key={formData.category && formData.category._id}
@@ -349,6 +355,7 @@ const MachineForm = ({
           {departments.length > 0 && (
             <Select
               name='department'
+              id='department'
               placeholder='Select a Department'
               defaultValue={defaultDepartment}
               key={formData.department && formData.department._id}
@@ -367,6 +374,7 @@ const MachineForm = ({
           {manufacturers.length > 0 && (
             <Select
               name='manufacturer'
+              id='manufacturer'
               placeholder='Select a Manufacturer'
               defaultValue={defaultManufacturer}
               key={formData.manufacturer && formData.manufacturer._id}
@@ -386,6 +394,7 @@ const MachineForm = ({
             type='text'
             placeholder='Model'
             name='model'
+            id='model'
             value={formData.model}
             onChange={onChange}
           />
@@ -397,6 +406,7 @@ const MachineForm = ({
             type='text'
             placeholder='Serial Number'
             name='serialNumber'
+            id='serialNumber'
             value={formData.serialNumber}
             onChange={onChange}
           />
@@ -408,6 +418,7 @@ const MachineForm = ({
             type='date'
             placeholder='Manufacturing Date'
             name='manufacturingDate'
+            id='manufacturingDate'
             value={
               formData.manufacturingDate &&
               formatDate(formData.manufacturingDate)
@@ -422,6 +433,7 @@ const MachineForm = ({
             type='date'
             placeholder='Acquired Date'
             name='acquiredDate'
+            id='acquiredDate'
             value={formData.acquiredDate && formatDate(formData.acquiredDate)}
             onChange={onChangeAcquiredDate}
             // onBlur={onBlur}
@@ -433,6 +445,7 @@ const MachineForm = ({
           {investments.length > 0 && (
             <Select
               name='investment'
+              id='investment'
               placeholder='Select an Investment No.'
               defaultValue={defaultInvestment}
               key={formData.investment && formData.investment._id}
@@ -452,6 +465,7 @@ const MachineForm = ({
             type='text'
             placeholder='Cost Center'
             name='costCenter'
+            id='costCenter'
             value={formData.costCenter}
             onChange={onChange}
           />
@@ -465,6 +479,7 @@ const MachineForm = ({
             type='text'
             placeholder='Purchased Price'
             name='purchasedPrice'
+            id='purchasedPrice'
             value={formData.purchasedPrice}
             onChange={onChange}
           />
@@ -476,6 +491,7 @@ const MachineForm = ({
             type='text'
             placeholder='Comment'
             name='comment'
+            id='comment'
             value={formData.comment}
             onChange={onChange}
           />
@@ -485,6 +501,7 @@ const MachineForm = ({
 
         <input
           type='submit'
+          id='submit'
           value={` ${machine && machine.loading ? 'Wait' : 'Save'}`}
           className={`btn ${
             machine && machine.loading ? 'btn-light' : 'btn-primary'

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+
 const Machine = require('../../models/Machine');
 const Afa = require('../../models/Afa');
 const Department = require('../../models/Department');
@@ -13,6 +14,7 @@ router.post(
   '/newMachineNumber',
   auth,
   check('department', 'A Department is required').not().isEmpty(),
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -127,6 +129,7 @@ router.post(
       // Check the unicity of the data in the form
       const otherMachines = await Machine.find({
         $or: [
+          { machineNumber: machineNumber },
           { qualityNumber: qualityNumber },
           { designation: designation },
           { designationCN: designationCN },
@@ -137,6 +140,10 @@ router.post(
       let duplicateValue = null;
 
       if (otherMachines.length > 0) {
+        if (otherMachines[0].machineNumber == machineNumber) {
+          duplicateField = 'EQU No.';
+          duplicateValue = machineNumber;
+        }
         if (otherMachines[0].qualityNumber == qualityNumber) {
           duplicateField = 'QUA No.';
           duplicateValue = qualityNumber;
@@ -159,6 +166,9 @@ router.post(
         });
       }
 
+      //@nico @todo
+      // do we need to check if the objects are valid?
+
       // Create a new Machine
       let date = new Date(); //today's date
       if (acquiredDate) {
@@ -176,9 +186,10 @@ router.post(
           .status(400)
           .json({ msg: 'Error: Department information are incorrect' });
       }
+
       let newMachineNumber =
         '8' + foundDepartment.location.floor + year2digits + '001';
-      // This return an array of size 1 with the latest mmachine number
+      // This return an array of size 1 with the latest machine number
       const latestMachine = await Machine.find({
         machineNumber: {
           $regex: '8' + foundDepartment.location.floor + year2digits,
@@ -197,7 +208,7 @@ router.post(
         machineFields.machineNumber = newMachineNumber;
       }
 
-      machine = new Machine(machineFields);
+      let machine = new Machine(machineFields);
       await machine.populate({
         path: 'department afa parentMachine manufacturer category investment',
         populate: {
@@ -285,12 +296,12 @@ router.get('/:machineId', async (req, res) => {
   }
 });
 
-// @route   DELETE api/machines/:machine_id
+// @route   DELETE api/machines/:machineId
 // @desc    Delete a Machine
 // @access  Private
-router.delete('/:machine_id', auth, async (req, res) => {
+router.delete('/:machineId', auth, async (req, res) => {
   try {
-    const machine = await Machine.findById(req.params.machine_id);
+    const machine = await Machine.findById(req.params.machineId);
     if (!machine) {
       return res.status(404).json({ msg: 'Machine not found' });
     }
@@ -305,7 +316,7 @@ router.delete('/:machine_id', auth, async (req, res) => {
   }
 });
 
-// @route   PATCH api/machines/:machine_id
+// @route   PATCH api/machines/:machineId
 // @desc    Update a Machine Number and other infos
 // @access  Private
 router.patch(
@@ -408,6 +419,9 @@ router.patch(
           ],
         });
       }
+
+      //@nico @todo
+      // do we need to check if the objects are valid?
 
       const machine = await Machine.findByIdAndUpdate(
         { _id: req.params.machineId },
