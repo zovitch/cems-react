@@ -13,7 +13,7 @@ const ToggleSwitch = (props) => {
         id={props.name}
         defaultChecked={props.defaultChecked}
       />
-      <label className='toggle-switch-label' htmlFor={props.name}>
+      <label className={props.color} htmlFor={props.name}>
         <span className='toggle-switch-inner' />
         <span className='toggle-switch-switch' />
       </label>

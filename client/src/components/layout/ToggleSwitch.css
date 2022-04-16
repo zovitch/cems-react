@@ -48,6 +48,10 @@
   input:checked + label {
     background-color: var(--success-color)
   }
+  
+  input:checked + .danger {
+    background-color: var(--danger-color)
+  }
 
   
   label:active:after {
