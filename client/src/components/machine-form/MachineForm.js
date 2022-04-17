@@ -159,6 +159,7 @@ const MachineForm = ({
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggle = (e) => {
     setToggleCheckboxOn(!toggleCheckboxOn);
+    getNewMachineNumber(formData);
   };
 
   // On Change handlers
@@ -167,7 +168,6 @@ const MachineForm = ({
       ...formData,
       [e.target.name]: e.target.value,
     });
-    formData.department && getNewMachineNumber(formData);
   };
 
   const onChangeCategory = (e) => {
@@ -267,7 +267,6 @@ const MachineForm = ({
               id='machineNumberToggle'
               defaultChecked={toggleCheckboxOn}
               onClick={onToggle}
-              onChange={onChange}
             />
 
             <input
