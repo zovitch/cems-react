@@ -62,7 +62,6 @@ export const getNewR3Number = (formData) => async (dispatch) => {
 export const createR3 =
   (formData, navigate, creating = false, r3Id) =>
   async (dispatch) => {
-    console.log(formData);
     try {
       let res = null;
       if (r3Id) {
@@ -76,10 +75,7 @@ export const createR3 =
         payload: res.data,
       });
       dispatch(
-        setAlert(
-          creating ? 'R3 added to the LFA' : 'R3 information updated',
-          'success'
-        )
+        setAlert(creating ? 'R3 added ' : 'R3 information updated', 'success')
       );
       navigate('/r3s');
     } catch (err) {

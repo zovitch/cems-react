@@ -96,10 +96,8 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     {r3.failureExplanationCN}
                   </div>
                   <div className='attribute' data-name='Machine Status'>
-                    {r3.machineStopped ? (
-                      <i className='fa-solid fa-circle-xmark text-danger'></i>
-                    ) : (
-                      <i className='fa-solid fa-circle-check text-success'></i>
+                    {r3.machineStopped && (
+                      <i className='fa-solid fa-stop-circle'></i>
                     )}
                   </div>
                   <div className='attribute' data-name='Repair Engineer'>

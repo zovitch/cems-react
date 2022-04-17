@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getR3, createR3, deleteR3 } from '../../actions/r3';
+import { getR3, createR3, deleteR3, getNewR3Number } from '../../actions/r3';
 import { getMachines } from '../../actions/machine';
 import { getCodes } from '../../actions/code';
 
@@ -13,7 +13,7 @@ import ToggleSwitch from '../layout/ToggleSwitch';
 const initialState = {
   r3Number: '',
   machine: '',
-  r3Date: '',
+  r3Date: formatDate(new Date()),
   applicant: '',
   failureCode: '',
   failureExplanation: '',
@@ -35,20 +35,21 @@ const initialState = {
   remark: '',
 };
 
-let optionFailureCodes = [];
-let optionsRepairCodes = [];
-let optionsAnalysisCodes = [];
-
 const R3Form = ({
-  r3: { r3 },
+  r3: { r3, newR3Number },
   machine: { machines },
-  code: { codes },
+  failureCode,
+  repairCode,
+  analysisCode,
   createR3,
   getR3,
+  getNewR3Number,
   getMachines,
   getCodes,
+  deleteR3,
 }) => {
   const [formData, setFormData] = useState(initialState);
+  const [setToggleMachineStoppedOn, setTogglemachineStoppedOn] = useState();
   const navigate = useNavigate();
   const { r3Id } = useParams();
   let creatingR3 = true;
@@ -57,83 +58,6 @@ const R3Form = ({
   // if we create a R3 (creatingR3: true) then the toogle should be OFF (false)
   // if we edit a R3 (creatingR3: false) then toggle should be ON (true)
   const [toggleR3NumberOn, setToggleR3NumberOn] = useState(!creatingR3);
-  const [toggleMachineStoppedOn, setToggleMachineStoppedOn] = useState();
-  const [toggleOilWasteOn, setToggleOilWasteOn] = useState();
-  const [togglePlasticAndMetalWasteOn, setTogglePlasticAndMetalWasteOn] =
-    useState();
-  const [toggleSpareParts, setToggleSpareParts] = useState();
-
-  useEffect(() => {
-    !r3 && r3Id && getR3(r3Id);
-
-    !machines.length > 0 && getMachines();
-
-    if (!optionFailureCodes.length > 0) {
-      getCodes('failure');
-      optionFailureCodes = codes.map((e) => ({
-        value: e._id,
-        label:
-          e.codeNumber +
-          ' - ' +
-          e.name +
-          ' - ' +
-          e.descriptionCN +
-          ' - ' +
-          e.description,
-      }));
-    }
-
-    if (!optionsRepairCodes.length > 0) {
-      getCodes('repair');
-      optionsRepairCodes = codes.map((e) => ({
-        value: e._id,
-        label:
-          e.codeNumber +
-          ' - ' +
-          e.name +
-          ' - ' +
-          e.descriptionCN +
-          ' - ' +
-          e.description,
-      }));
-    }
-
-    if (!optionsAnalysisCodes.length > 0) {
-      getCodes('analysis');
-      optionsAnalysisCodes = codes.map((e) => ({
-        value: e._id,
-        label:
-          e.codeNumber +
-          ' - ' +
-          e.name +
-          ' - ' +
-          e.descriptionCN +
-          ' - ' +
-          e.description,
-      }));
-    }
-
-    if (r3 && !r3.loading) {
-      const r3Data = { ...initialState };
-      for (const key in r3) {
-        if (key in r3Data) r3Data[key] = r3[key];
-      }
-      setFormData(r3Data);
-      setToggleMachineStoppedOn(!r3Data.machineStopped);
-      setToggleOilWasteOn(r3Data.maintenanceOilWaste);
-      setTogglePlasticAndMetalWasteOn(r3Data.maintenancePlasticAndMetalWaste);
-      setToggleSpareParts(r3Data.maintenanceSpareParts);
-    }
-  }, [
-    codes,
-    codes.length,
-    getCodes,
-    getMachines,
-    getR3,
-    machines.length,
-    r3,
-    r3Id,
-  ]);
 
   const defaultMachine = !formData.machine
     ? ''
@@ -161,6 +85,58 @@ const R3Form = ({
           formData.failureCode.description,
       };
 
+  const optionFailureCodes = failureCode.codes.map((e) => ({
+    value: e._id,
+    label:
+      e.codeNumber +
+      ' - ' +
+      e.name +
+      ' - ' +
+      e.descriptionCN +
+      ' - ' +
+      e.description,
+  }));
+
+  useEffect(() => {
+    !r3 && r3Id && getR3(r3Id);
+    !machines.length > 0 && getMachines();
+    !failureCode.codes.length > 0 && getCodes('failure');
+    !repairCode.codes.length > 0 && getCodes('repair');
+    !analysisCode.codes.length > 0 && getCodes('analysis');
+
+    if (r3 && !r3.loading) {
+      const r3Data = { ...initialState };
+      for (const key in r3) {
+        if (key in r3Data) r3Data[key] = r3[key];
+      }
+      setFormData(r3Data);
+      setTogglemachineStoppedOn(r3Data.machineStopped);
+    }
+  }, [
+    analysisCode.codes.length,
+    failureCode.codes.length,
+    getCodes,
+    getMachines,
+    getR3,
+    machines.length,
+    r3,
+    r3Id,
+    repairCode.codes.length,
+  ]);
+
+  // Hangle toggle for the checkbox ToggleSwitch Component
+  const onToggleR3Number = (e) => {
+    setToggleR3NumberOn(!toggleR3NumberOn);
+    getNewR3Number(formData);
+  };
+
+  // On Change handlers
+  const onChange = (e) => {
+    e.target.type === 'checkbox' &&
+      (e.target.value = Boolean(e.target.checked));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const onChangeMachine = (e) => {
     const newValues = { ...formData };
     newValues.machine = {
@@ -170,6 +146,7 @@ const R3Form = ({
       designation: e.label.split(' - ', 3)[2],
     };
     setFormData(newValues);
+    getNewR3Number(newValues);
   };
 
   const onChangeFailureCode = (e) => {
@@ -184,23 +161,23 @@ const R3Form = ({
     setFormData(newValues);
   };
 
-  // Hangle toggle for the checkbox ToggleSwitch Component
-  const onToggleR3Number = (e) => {
-    setToggleR3NumberOn(!toggleR3NumberOn);
-  };
-
-  const onChange = (e) => {
-    e.target.type === 'checkbox' &&
-      (e.target.value = Boolean(e.target.checked));
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const onChangeR3Date = (e) => {
+    const newValues = { ...formData };
+    newValues.r3Date = e.target.value;
+    setFormData(newValues);
+    newValues.machine && getNewR3Number(newValues);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createR3(formData, navigate, creatingR3, r3Id);
+
+    const newValues = { ...formData };
+    newValues.r3Number = newR3Number;
+    setFormData(newValues);
+    document.querySelector('#r3NumberToggle') &&
+    document.querySelector('#r3NumberToggle').checked
+      ? createR3(formData, navigate, creatingR3, r3Id)
+      : createR3(newValues, navigate, creatingR3, r3Id);
   };
 
   return (
@@ -218,8 +195,6 @@ const R3Form = ({
       </h1>
 
       <form className='form py' onSubmit={onSubmit}>
-        {/* Import from AFA */}
-
         <div className='form-group'>
           <div className='lockField'>
             <span></span>
@@ -236,9 +211,7 @@ const R3Form = ({
               id='r3NumberToggle'
               defaultChecked={toggleR3NumberOn}
               onClick={onToggleR3Number}
-              // onChange={onChange}
             />
-
             <input
               type='text'
               placeholder={
@@ -247,9 +220,16 @@ const R3Form = ({
                   ? 'Enter a R3 Number'
                   : 'Select an EQU No. to generate an R3 No.'
               }
-              name='r3Numbers'
-              id='r3Numbers'
-              value={formData.r3Number}
+              name='r3Number'
+              id='r3Number'
+              value={
+                document.querySelector('#r3NumberToggle') &&
+                document.querySelector('#r3NumberToggle').checked
+                  ? formData.r3Number
+                  : newR3Number
+                  ? newR3Number
+                  : ''
+              }
               onChange={onChange}
               readOnly={!toggleR3NumberOn}
             />
@@ -264,18 +244,18 @@ const R3Form = ({
             name='r3Date'
             id='r3Date'
             value={formData.r3Date && formatDate(formData.r3Date)}
-            onChange={onChange}
+            onChange={onChangeR3Date}
           />
         </div>
 
         <div className='form-group'>
-          <small className='form-text'>Comment</small>
+          <small className='form-text'>Remark</small>
           <input
             type='text'
             placeholder='GD...'
-            name='comment'
-            id='comment'
-            value={formData.comment}
+            name='remark'
+            id='remark'
+            value={formData.remark}
             onChange={onChange}
           />
         </div>
@@ -286,7 +266,7 @@ const R3Form = ({
             <Select
               name='machines'
               id='machines'
-              placeholder='Select a Machine'
+              placeholder='Select or type in an EQU No.'
               defaultValue={defaultMachine}
               key={formData.machine && formData.machine._id}
               onChange={onChangeMachine}
@@ -318,7 +298,7 @@ const R3Form = ({
 
         <div className='form-group'>
           <small className='form-text'>Failure Code</small>
-          {codes.length > 0 && (
+          {failureCode.codes.length > 0 && (
             <Select
               name='failureCode'
               id='failureCode'
@@ -354,16 +334,17 @@ const R3Form = ({
         </div>
         <div className='form-group'>
           <small className='form-text'>
-            {document.querySelector('#stoppedToggle') &&
-            !document.querySelector('#stoppedToggle').checked
+            {document.querySelector('#machineStopped') &&
+            document.querySelector('#machineStopped').checked
               ? 'Machine is stopped'
               : 'Machine is still running'}
           </small>
           <ToggleSwitch
-            name='stoppedToggle'
-            id='stoppedToggle'
-            defaultChecked={toggleMachineStoppedOn}
+            name='machineStopped'
+            id='machineStopped'
+            defaultChecked={setToggleMachineStoppedOn}
             onClick={onChange}
+            color='danger'
           />
         </div>
         <input
@@ -386,7 +367,7 @@ const R3Form = ({
           <div className='my-2 text-center'>
             <button
               className='btn btn-danger'
-              onClick={() => deleteR3(r3, navigate)}
+              onClick={() => deleteR3(r3Id, navigate)}
             >
               <i className='fas fa-trash' /> Delete the R3
             </button>
@@ -400,9 +381,12 @@ const R3Form = ({
 R3Form.propTypes = {
   r3: PropTypes.object.isRequired,
   machine: PropTypes.object.isRequired,
-  code: PropTypes.object.isRequired,
+  failureCode: PropTypes.object.isRequired,
+  repairCode: PropTypes.object.isRequired,
+  analysisCode: PropTypes.object.isRequired,
   createR3: PropTypes.func.isRequired,
   getR3: PropTypes.func.isRequired,
+  getNewR3Number: PropTypes.func.isRequired,
   getMachines: PropTypes.func.isRequired,
   getCodes: PropTypes.func.isRequired,
 };
@@ -410,13 +394,16 @@ R3Form.propTypes = {
 const mapStateToProps = (state) => ({
   r3: state.r3,
   machine: state.machine,
-  code: state.code,
+  failureCode: state.failureCode,
+  repairCode: state.repairCode,
+  analysisCode: state.analysisCode,
 });
 
 export default connect(mapStateToProps, {
   createR3,
   getR3,
   deleteR3,
+  getNewR3Number,
   getMachines,
   getCodes,
 })(R3Form);

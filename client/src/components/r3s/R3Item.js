@@ -46,11 +46,7 @@ const R3Item = ({
       <div className='r3-designation'>{failureExplanation}</div>
       <div className='r3-designation'>{failureExplanationCN}</div>
       <div className='r3-designation'>
-        {machineStopped ? (
-          <i className='fa-solid fa-circle-xmark text-danger'></i>
-        ) : (
-          <i className='fa-solid fa-circle-check text-success'></i>
-        )}
+        {machineStopped && <i className='fa-solid fa-stop-circle'></i>}
       </div>
       <div className='r3-designation'>
         {repairEngineer && repairEngineer.name}
