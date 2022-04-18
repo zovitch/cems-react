@@ -36,8 +36,6 @@ function codeReducer(state = initialState, action) {
         ...state,
         code: null,
         failureCodes: payload,
-        repairCodes: [],
-        analysisCodes: [],
         loading: false,
       };
     }
@@ -45,9 +43,7 @@ function codeReducer(state = initialState, action) {
       return {
         ...state,
         code: null,
-        failureCodes: [],
         repairCodes: payload,
-        analysisCodes: [],
         loading: false,
       };
     }
@@ -55,8 +51,6 @@ function codeReducer(state = initialState, action) {
       return {
         ...state,
         code: null,
-        failureCodes: [],
-        repairCodes: [],
         analysisCodes: payload,
         loading: false,
       };

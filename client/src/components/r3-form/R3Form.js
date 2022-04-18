@@ -32,7 +32,7 @@ const initialState = {
   maintenancePlasticAndMetalWaste: false,
   maintenanceSpareParts: false,
   repairDate: '',
-  applicantValidation: '',
+  applicantValidation: false,
   remark: '',
 };
 
@@ -40,9 +40,7 @@ const R3Form = ({
   r3: { r3, newR3Number },
   machine: { machines },
   user: { users },
-  failureCode,
-  repairCode,
-  analysisCode,
+  code: { failureCodes, repairCodes, analysisCodes },
   createR3,
   getR3,
   getNewR3Number,
@@ -52,7 +50,14 @@ const R3Form = ({
   deleteR3,
 }) => {
   const [formData, setFormData] = useState(initialState);
-  const [setToggleMachineStoppedOn, setTogglemachineStoppedOn] = useState();
+  const [toggleMachineStoppedOn, setTogglemachineStoppedOn] = useState();
+  const [toggleMaintenanceOilOn, setToggleMaintenanceOilOn] = useState();
+  const [toggleMaintenancePlasticOn, setToggleMaintenancePlasticOn] =
+    useState();
+  const [toggleMaintenanceSparePartsOn, setToggleMaintenanceSparePartsOn] =
+    useState();
+  const [toggleApplicantValidationOn, setToggleApplicantValidationOn] =
+    useState();
   const navigate = useNavigate();
   const { r3Id } = useParams();
   let creatingR3 = true;
@@ -87,6 +92,7 @@ const R3Form = ({
           ' - ' +
           formData.failureCode.description,
       };
+
   const defaultRepairCode = !formData.repairCode
     ? ''
     : {
@@ -100,6 +106,7 @@ const R3Form = ({
           ' - ' +
           formData.repairCode.description,
       };
+
   const defaultAnalysisCode = !formData.analysisCode
     ? ''
     : {
@@ -121,7 +128,7 @@ const R3Form = ({
         label: formData.repairEngineer.name,
       };
 
-  const optionFailureCodes = failureCode.codes.map((e) => ({
+  const optionFailureCodes = failureCodes.map((e) => ({
     value: e._id,
     label:
       e.codeNumber +
@@ -132,7 +139,7 @@ const R3Form = ({
       ' - ' +
       e.description,
   }));
-  const optionRepairCodes = repairCode.codes.map((e) => ({
+  const optionRepairCodes = repairCodes.map((e) => ({
     value: e._id,
     label:
       e.codeNumber +
@@ -143,7 +150,7 @@ const R3Form = ({
       ' - ' +
       e.description,
   }));
-  const optionAnalysisCodes = analysisCode.codes.map((e) => ({
+  const optionAnalysisCodes = analysisCodes.map((e) => ({
     value: e._id,
     label:
       e.codeNumber +
@@ -163,9 +170,9 @@ const R3Form = ({
   useEffect(() => {
     !r3 && r3Id && getR3(r3Id);
     !machines.length > 0 && getMachines();
-    !failureCode.codes.length > 0 && getCodes('failure');
-    !repairCode.codes.length > 0 && getCodes('repair');
-    !analysisCode.codes.length > 0 && getCodes('analysis');
+    !failureCodes.length > 0 && getCodes('failure');
+    !repairCodes.length > 0 && getCodes('repair');
+    !analysisCodes.length > 0 && getCodes('analysis');
     !users.length > 0 && getUsers();
 
     if (r3 && !r3.loading) {
@@ -175,11 +182,14 @@ const R3Form = ({
       }
       setFormData(r3Data);
       setTogglemachineStoppedOn(r3Data.machineStopped);
+      setToggleMaintenanceOilOn(r3Data.maintenanceOilWaste);
+      setToggleMaintenancePlasticOn(r3Data.maintenancePlasticAndMetalWaste);
+      setToggleMaintenanceSparePartsOn(r3Data.maintenanceSpareParts);
+      setToggleApplicantValidationOn(r3Data.applicantValidation);
     }
   }, [
-    failureCode.codes.length,
-    repairCode.codes.length,
-    analysisCode.codes.length,
+    analysisCodes.length,
+    failureCodes.length,
     getCodes,
     getMachines,
     getR3,
@@ -187,6 +197,7 @@ const R3Form = ({
     machines.length,
     r3,
     r3Id,
+    repairCodes.length,
     users.length,
   ]);
 
@@ -332,7 +343,6 @@ const R3Form = ({
             />
           </div>
         </div>
-
         <div className='form-group'>
           <small className='form-text'>Date</small>
           <input
@@ -344,7 +354,6 @@ const R3Form = ({
             onChange={onChangeR3Date}
           />
         </div>
-
         <div className='form-group'>
           <small className='form-text'>Remark</small>
           <input
@@ -356,7 +365,6 @@ const R3Form = ({
             onChange={onChange}
           />
         </div>
-
         <div className='form-group'>
           <small className='form-text'>EQU No.</small>
           {machines.length > 0 && (
@@ -380,7 +388,6 @@ const R3Form = ({
             />
           )}
         </div>
-
         <div className='form-group'>
           <small className='form-text'>Applicant</small>
           <input
@@ -392,10 +399,9 @@ const R3Form = ({
             onChange={onChange}
           />
         </div>
-
         <div className='form-group'>
           <small className='form-text'>Failure Code</small>
-          {failureCode.codes.length > 0 && (
+          {failureCodes.length > 0 && (
             <Select
               name='failureCode'
               id='failureCode'
@@ -439,12 +445,11 @@ const R3Form = ({
           <ToggleSwitch
             name='machineStopped'
             id='machineStopped'
-            defaultChecked={setToggleMachineStoppedOn}
+            defaultChecked={toggleMachineStoppedOn}
             onClick={onChange}
             color='danger'
           />
         </div>
-
         <div className='form-group'>
           <small className='form-text'>Repair Engineer</small>
           {users.length > 0 && (
@@ -459,11 +464,20 @@ const R3Form = ({
               menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
             />
           )}
+          <small className='form-text'>Engineer Comment</small>
+          <textarea
+            type='textarea'
+            rows='2'
+            placeholder='...'
+            name='engineeringRemark'
+            id='engineeringRemark'
+            value={formData.engineeringRemark}
+            onChange={onChange}
+          />
         </div>
-
         <div className='form-group'>
           <small className='form-text'>Repair Code</small>
-          {repairCode.codes.length > 0 && (
+          {repairCodes.length > 0 && (
             <Select
               name='repairCode'
               id='repairCode'
@@ -497,10 +511,9 @@ const R3Form = ({
             onChange={onChange}
           />
         </div>
-
         <div className='form-group'>
           <small className='form-text'>Analysis Code</small>
-          {analysisCode.codes.length > 0 && (
+          {analysisCodes.length > 0 && (
             <Select
               name='analysisCode'
               id='analysisCode'
@@ -535,6 +548,47 @@ const R3Form = ({
           />
         </div>
 
+        <div className='form-group'>
+          <small className='form-text'>Maintenance Oil & Solvant Waste</small>
+          <ToggleSwitch
+            name='maintenanceOilWaste'
+            id='maintenanceOilWaste'
+            defaultChecked={toggleMaintenanceOilOn}
+            onClick={onChange}
+          />
+          <small className='form-text'>Maintenance Plastic & Metal Waste</small>
+          <ToggleSwitch
+            name='maintenancePlasticAndMetalWaste'
+            id='maintenancePlasticAndMetalWaste'
+            defaultChecked={toggleMaintenancePlasticOn}
+            onClick={onChange}
+          />
+          <small className='form-text'>Maintenance Spare Parts</small>
+          <ToggleSwitch
+            name='maintenanceSpareParts'
+            id='maintenanceSpareParts'
+            defaultChecked={toggleMaintenanceSparePartsOn}
+            onClick={onChange}
+          />
+        </div>
+        <div className='form-group'>
+          <small className='form-text'>Repair Date</small>
+          <input
+            type='date'
+            placeholder='Repair Date'
+            name='repairDate'
+            id='repairDate'
+            value={formData.repairDate && formatDate(formData.repairDate)}
+            onChange={onChange}
+          />{' '}
+          <small className='form-text'>Applicant Validation</small>
+          <ToggleSwitch
+            name='applicantValidation'
+            id='applicantValidation'
+            defaultChecked={toggleApplicantValidationOn}
+            onClick={onChange}
+          />
+        </div>
         <input
           type='submit'
           id='submit'
@@ -544,7 +598,6 @@ const R3Form = ({
           } my-1`}
           disabled={r3 && r3.loading ? true : false}
         />
-
         <Link className='btn btn-light my-1' to='/r3s'>
           Go Back
         </Link>
@@ -569,9 +622,7 @@ const R3Form = ({
 R3Form.propTypes = {
   r3: PropTypes.object.isRequired,
   machine: PropTypes.object.isRequired,
-  failureCode: PropTypes.object.isRequired,
-  repairCode: PropTypes.object.isRequired,
-  analysisCode: PropTypes.object.isRequired,
+  code: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   createR3: PropTypes.func.isRequired,
   getR3: PropTypes.func.isRequired,
@@ -585,9 +636,7 @@ const mapStateToProps = (state) => ({
   r3: state.r3,
   machine: state.machine,
   user: state.user,
-  failureCode: state.failureCode,
-  repairCode: state.repairCode,
-  analysisCode: state.analysisCode,
+  code: state.code,
 });
 
 export default connect(mapStateToProps, {

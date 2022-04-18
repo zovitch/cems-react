@@ -131,7 +131,7 @@ router.post(
     if (repairExplanationCN) r3Fields.repairExplanationCN = repairExplanationCN;
     if (engineeringRemark) r3Fields.engineeringRemark = engineeringRemark;
     if (analysisCode) r3Fields.analysisCode = analysisCode;
-    if (analysisExplanation) r3Fields.analysisExplanationanalysisExplanation;
+    if (analysisExplanation) r3Fields.analysisExplanation = analysisExplanation;
     if (analysisExplanationCN)
       r3Fields.analysisExplanationCN = analysisExplanationCN;
     if (maintenanceOilWaste) r3Fields.maintenanceOilWaste = maintenanceOilWaste;
@@ -428,7 +428,7 @@ router.patch(
     if (repairExplanationCN) r3Fields.repairExplanationCN = repairExplanationCN;
     if (engineeringRemark) r3Fields.engineeringRemark = engineeringRemark;
     if (analysisCode) r3Fields.analysisCode = analysisCode;
-    if (analysisExplanation) r3Fields.analysisExplanationanalysisExplanation;
+    if (analysisExplanation) r3Fields.analysisExplanation = analysisExplanation;
     if (analysisExplanationCN)
       r3Fields.analysisExplanationCN = analysisExplanationCN;
     if (maintenanceOilWaste) r3Fields.maintenanceOilWaste = maintenanceOilWaste;

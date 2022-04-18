@@ -97,7 +97,7 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                   </div>
                   <div className='attribute' data-name='Machine Status'>
                     {r3.machineStopped && (
-                      <i className='fa-solid fa-stop-circle'></i>
+                      <i className='fas fa-stop-circle'></i>
                     )}
                   </div>
                   <div className='attribute' data-name='Repair Engineer'>
@@ -105,7 +105,9 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                   </div>
                   <div className='attribute' data-name='Repair Code'>
                     {r3.repairCode &&
-                      String(r3.repairCode.codeNumber).padStart(2, '0')}
+                      String(r3.repairCode.codeNumber).padStart(2, '0') +
+                        ' - ' +
+                        r3.repairCode.name}
                   </div>
                   <div className='attribute' data-name='Repair Record'>
                     {r3.repairExplanation}
@@ -117,7 +119,9 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     {r3.repairDate && formatDate(r3.repairDate)}
                   </div>
                   <div className='attribute' data-name='Applicant Validation'>
-                    {r3.applicantValidation}
+                    {r3.applicantValidation === true && (
+                      <i className='fas fa-check'></i>
+                    )}
                   </div>
                 </li>
               ))}
