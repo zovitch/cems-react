@@ -884,22 +884,19 @@ justify-self: end;
   }
 
   .item-container-7 {
-    grid-template-columns: 2rem 2rem 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2rem 2rem 2fr 2fr 1fr 1fr 3fr 1fr;
   }
 
-  .item-container-8 {
-    grid-template-columns: 2rem 2rem 10rem 4fr 2fr 3fr 6fr 2fr;
-  }
+
 
   .item-container-8b {
     grid-template-columns: 2rem 2rem 2fr 4fr 2fr 2fr 7rem 7rem;
   }
-  
+  .item-container-15 {
+    grid-template-columns: 2rem 2rem repeat(13, 1fr);
+  } 
+
    .item-container-18 {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(var(--column-width-min), var(--column-width-max))
-    );
     grid-template-columns: 2rem 2rem repeat(16, 1fr);
   } 
 
@@ -907,15 +904,15 @@ justify-self: end;
     display: grid;
     grid-template-columns: repeat(
       auto-fit, 
-      minmax(2rem, 4rem)
+      minmax(var(--column-width-min), var(--column-width-max))
     );
   }
 
   /* Definition of wrapping column width for attribute groups. */
 
-  .equ-qua {
+  /* .equ-qua {
     --column-width-min: 5rem;
-    --column-width-max: 5rem;
+    --column-width-max: 1fr;
   }
 
   .designation-designationCN {
@@ -924,32 +921,27 @@ justify-self: end;
   }
 
   .afa-rfa {
-    --column-width-min: 4rem;
+    --column-width-min: 2rem;
     --column-width-max: 1fr;
   }
 
   .manufacturer {
     --column-width-min: 6rem;
-    --column-width-max: 1fr;
-  }
-
-  .category-department-location {
-    --column-width-min: 6rem;
-    --column-width-max: 1fr;
-  }
-  .department {
-    --column-width-min: 7rem;
-    --column-width-max: 1fr;
+    --column-width-max: 2fr;
   }
   .category {
-    --column-width-min: 1rem;
+    --column-width-min: 5rem;
+    --column-width-max: 1fr;
+  }
+   .department {
+    --column-width-min: 5rem;
     --column-width-max: 1fr;
   }
 
   .investment-date {
     --column-width-min: 5rem;
     --column-width-max: 1fr;
-  }
+  }  */
 
   /* In order to maximize row lines, only display one line for a cell */
   .attribute {

@@ -24,6 +24,7 @@ FEATURES
 - Add a not found page
 - [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" placeholder=​"Password" name=​"password" value>​
 - Add Currency
+- Large table should be more responsive
 
 
 BUGS
