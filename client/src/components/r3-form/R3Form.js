@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getR3, createR3, deleteR3, getNewR3Number } from '../../actions/r3';
 import { getMachines } from '../../actions/machine';
 import { getCodes } from '../../actions/code';
+import { getUsers } from '../../actions/user';
 
 import Select from 'react-select';
 import formatDate from '../../utils/formatDate';
@@ -38,6 +39,7 @@ const initialState = {
 const R3Form = ({
   r3: { r3, newR3Number },
   machine: { machines },
+  user: { users },
   failureCode,
   repairCode,
   analysisCode,
@@ -45,6 +47,7 @@ const R3Form = ({
   getR3,
   getNewR3Number,
   getMachines,
+  getUsers,
   getCodes,
   deleteR3,
 }) => {
@@ -84,6 +87,39 @@ const R3Form = ({
           ' - ' +
           formData.failureCode.description,
       };
+  const defaultRepairCode = !formData.repairCode
+    ? ''
+    : {
+        value: formData.repairCode._id,
+        label:
+          formData.repairCode.codeNumber +
+          ' - ' +
+          formData.repairCode.name +
+          ' - ' +
+          formData.repairCode.descriptionCN +
+          ' - ' +
+          formData.repairCode.description,
+      };
+  const defaultAnalysisCode = !formData.analysisCode
+    ? ''
+    : {
+        value: formData.analysisCode._id,
+        label:
+          formData.analysisCode.codeNumber +
+          ' - ' +
+          formData.analysisCode.name +
+          ' - ' +
+          formData.analysisCode.descriptionCN +
+          ' - ' +
+          formData.analysisCode.description,
+      };
+
+  const defaultRepairEngineer = !formData.repairEngineer
+    ? ''
+    : {
+        value: formData.repairEngineer._id,
+        label: formData.repairEngineer.name,
+      };
 
   const optionFailureCodes = failureCode.codes.map((e) => ({
     value: e._id,
@@ -96,6 +132,33 @@ const R3Form = ({
       ' - ' +
       e.description,
   }));
+  const optionRepairCodes = repairCode.codes.map((e) => ({
+    value: e._id,
+    label:
+      e.codeNumber +
+      ' - ' +
+      e.name +
+      ' - ' +
+      e.descriptionCN +
+      ' - ' +
+      e.description,
+  }));
+  const optionAnalysisCodes = analysisCode.codes.map((e) => ({
+    value: e._id,
+    label:
+      e.codeNumber +
+      ' - ' +
+      e.name +
+      ' - ' +
+      e.descriptionCN +
+      ' - ' +
+      e.description,
+  }));
+
+  const optionRepairEngineer = users.map((e) => ({
+    value: e._id,
+    label: e.name,
+  }));
 
   useEffect(() => {
     !r3 && r3Id && getR3(r3Id);
@@ -103,6 +166,7 @@ const R3Form = ({
     !failureCode.codes.length > 0 && getCodes('failure');
     !repairCode.codes.length > 0 && getCodes('repair');
     !analysisCode.codes.length > 0 && getCodes('analysis');
+    !users.length > 0 && getUsers();
 
     if (r3 && !r3.loading) {
       const r3Data = { ...initialState };
@@ -113,15 +177,17 @@ const R3Form = ({
       setTogglemachineStoppedOn(r3Data.machineStopped);
     }
   }, [
-    analysisCode.codes.length,
     failureCode.codes.length,
+    repairCode.codes.length,
+    analysisCode.codes.length,
     getCodes,
     getMachines,
     getR3,
+    getUsers,
     machines.length,
     r3,
     r3Id,
-    repairCode.codes.length,
+    users.length,
   ]);
 
   // Hangle toggle for the checkbox ToggleSwitch Component
@@ -160,12 +226,43 @@ const R3Form = ({
     };
     setFormData(newValues);
   };
+  const onChangeRepairCode = (e) => {
+    const newValues = { ...formData };
+    newValues.repairCode = {
+      _id: e.value,
+      codeNumber: e.label.split(' - ', 4)[0],
+      name: e.label.split(' - ', 4)[1],
+      descriptionCN: e.label.split(' - ', 4)[2],
+      description: e.label.split(' - ', 4)[3],
+    };
+    setFormData(newValues);
+  };
+  const onChangeAnalysisCode = (e) => {
+    const newValues = { ...formData };
+    newValues.analysisCode = {
+      _id: e.value,
+      codeNumber: e.label.split(' - ', 4)[0],
+      name: e.label.split(' - ', 4)[1],
+      descriptionCN: e.label.split(' - ', 4)[2],
+      description: e.label.split(' - ', 4)[3],
+    };
+    setFormData(newValues);
+  };
 
   const onChangeR3Date = (e) => {
     const newValues = { ...formData };
     newValues.r3Date = e.target.value;
     setFormData(newValues);
     newValues.machine && getNewR3Number(newValues);
+  };
+
+  const onChangeRepairEngineer = (e) => {
+    const newValues = { ...formData };
+    newValues.repairEngineer = {
+      _id: e.value,
+      name: e.label,
+    };
+    setFormData(newValues);
   };
 
   const onSubmit = (e) => {
@@ -347,6 +444,97 @@ const R3Form = ({
             color='danger'
           />
         </div>
+
+        <div className='form-group'>
+          <small className='form-text'>Repair Engineer</small>
+          {users.length > 0 && (
+            <Select
+              name='repairEngineer'
+              id='repairEngineer'
+              placeholder='Select the person in charge of the repair'
+              defaultValue={defaultRepairEngineer}
+              key={formData.repairEngineer && formData.repairEngineer._id}
+              onChange={onChangeRepairEngineer}
+              options={optionRepairEngineer}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+            />
+          )}
+        </div>
+
+        <div className='form-group'>
+          <small className='form-text'>Repair Code</small>
+          {repairCode.codes.length > 0 && (
+            <Select
+              name='repairCode'
+              id='repairCode'
+              placeholder='Select a Repair Code'
+              defaultValue={defaultRepairCode}
+              key={formData.repairCode && formData.repairCode._id}
+              onChange={onChangeRepairCode}
+              options={optionRepairCodes}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+            />
+          )}
+        </div>
+        <div className='form-group'>
+          <textarea
+            type='textarea'
+            rows='4'
+            placeholder='Record of the repair'
+            name='repairExplanation'
+            id='repairExplanation'
+            value={formData.repairExplanation}
+            onChange={onChange}
+          />
+        </div>
+        <div className='form-group'>
+          <textarea
+            rows='4'
+            placeholder='修理情况'
+            name='repairExplanationCN'
+            id='repairExplanationCN'
+            value={formData.repairExplanationCN}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className='form-group'>
+          <small className='form-text'>Analysis Code</small>
+          {analysisCode.codes.length > 0 && (
+            <Select
+              name='analysisCode'
+              id='analysisCode'
+              placeholder='Select an Analysis Code'
+              defaultValue={defaultAnalysisCode}
+              key={formData.analysisCode && formData.analysisCode._id}
+              onChange={onChangeAnalysisCode}
+              options={optionAnalysisCodes}
+              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+            />
+          )}
+        </div>
+        <div className='form-group'>
+          <textarea
+            type='textarea'
+            rows='4'
+            placeholder='Root Cause Analysis'
+            name='analysisExplanation'
+            id='analysisExplanation'
+            value={formData.analysisExplanation}
+            onChange={onChange}
+          />
+        </div>
+        <div className='form-group'>
+          <textarea
+            rows='4'
+            placeholder='根本原因分析'
+            name='analysisExplanationCN'
+            id='analysisExplanationCN'
+            value={formData.analysisExplanationCN}
+            onChange={onChange}
+          />
+        </div>
+
         <input
           type='submit'
           id='submit'
@@ -384,16 +572,19 @@ R3Form.propTypes = {
   failureCode: PropTypes.object.isRequired,
   repairCode: PropTypes.object.isRequired,
   analysisCode: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   createR3: PropTypes.func.isRequired,
   getR3: PropTypes.func.isRequired,
   getNewR3Number: PropTypes.func.isRequired,
   getMachines: PropTypes.func.isRequired,
   getCodes: PropTypes.func.isRequired,
+  getUsers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   r3: state.r3,
   machine: state.machine,
+  user: state.user,
   failureCode: state.failureCode,
   repairCode: state.repairCode,
   analysisCode: state.analysisCode,
@@ -406,4 +597,5 @@ export default connect(mapStateToProps, {
   getNewR3Number,
   getMachines,
   getCodes,
+  getUsers,
 })(R3Form);
