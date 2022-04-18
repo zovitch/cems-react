@@ -6,14 +6,7 @@ import Spinner from '../layout/Spinner';
 import PageTitleBar from '../layout/PageTitleBar';
 import { getCodes } from '../../actions/code';
 
-const Codes = ({
-  getCodes,
-  auth,
-  failureCode,
-  repairCode,
-  analysisCode,
-  codetype,
-}) => {
+const Codes = ({ getCodes, auth, code, codetype }) => {
   useEffect(() => {
     getCodes(codetype);
   }, [codetype, getCodes]);
@@ -21,22 +14,22 @@ const Codes = ({
   let codeFunction;
   switch (codetype) {
     case 'failure':
-      codeFunction = failureCode;
+      codeFunction = code.failureCodes;
       break;
     case 'repair':
-      codeFunction = repairCode;
+      codeFunction = code.repairCodes;
       break;
     case 'analysis':
-      codeFunction = analysisCode;
+      codeFunction = code.analysisCodes;
       break;
     default:
-      codeFunction = repairCode;
+      codeFunction = code.repairCodes;
       break;
   }
 
   return (
     <section className='container'>
-      {codeFunction.loading ? (
+      {code.loading ? (
         <Spinner />
       ) : (
         <Fragment>
@@ -56,9 +49,9 @@ const Codes = ({
 
             {/* The rest of the items in the list are the actual data */}
 
-            {codeFunction.codes &&
-              codeFunction.codes.length > 0 &&
-              codeFunction.codes.map((code) => (
+            {codeFunction &&
+              codeFunction.length > 0 &&
+              codeFunction.map((code) => (
                 <li
                   key={code._id}
                   className='item item-container item-container-6'
@@ -97,18 +90,14 @@ const Codes = ({
 };
 
 Codes.propTypes = {
-  failureCode: PropTypes.object.isRequired,
-  repairCode: PropTypes.object.isRequired,
-  analysisCode: PropTypes.object.isRequired,
+  code: PropTypes.object.isRequired,
   getCodes: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   codetype: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  failureCode: state.failureCode,
-  repairCode: state.repairCode,
-  analysisCode: state.analysisCode,
+  code: state.code,
   auth: state.auth,
 });
 

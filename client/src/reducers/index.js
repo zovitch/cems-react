@@ -5,10 +5,7 @@ import user from './user';
 import department from './department';
 import location from './location';
 import category from './category';
-import failureCode from './code';
-import repairCode from './code';
-import analysisCode from './code';
-// import code from './code'; // we cannot use only one state, because in R3 we need all 3 at once
+import code from './code'; // we cannot use only one state, because in R3 we need all 3 at once
 import manufacturer from './manufacturer';
 import machine from './machine';
 import investment from './investment';
@@ -21,10 +18,7 @@ export default combineReducers({
   department,
   location,
   category,
-  failureCode,
-  repairCode,
-  analysisCode,
-  // code,
+  code,
   manufacturer,
   machine,
   investment,

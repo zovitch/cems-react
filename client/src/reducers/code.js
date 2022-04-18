@@ -1,5 +1,7 @@
 import {
-  GET_CODES,
+  GET_FAILURECODES,
+  GET_REPAIRCODES,
+  GET_ANALYSISCODES,
   GET_CODE,
   CODE_ERROR,
   CLEAR_CODE,
@@ -8,7 +10,9 @@ import {
 
 const initialState = {
   code: null,
-  codes: [],
+  failureCodes: [],
+  repairCodes: [],
+  analysisCodes: [],
   loading: true,
   error: {},
 };
@@ -21,15 +25,39 @@ function codeReducer(state = initialState, action) {
       return {
         ...state,
         code: payload,
-        codes: [],
+        failureCodes: [],
+        repairCodes: [],
+        analysisCodes: [],
         loading: false,
       };
     }
-    case GET_CODES: {
+    case GET_FAILURECODES: {
       return {
         ...state,
         code: null,
-        codes: payload,
+        failureCodes: payload,
+        repairCodes: [],
+        analysisCodes: [],
+        loading: false,
+      };
+    }
+    case GET_REPAIRCODES: {
+      return {
+        ...state,
+        code: null,
+        failureCodes: [],
+        repairCodes: payload,
+        analysisCodes: [],
+        loading: false,
+      };
+    }
+    case GET_ANALYSISCODES: {
+      return {
+        ...state,
+        code: null,
+        failureCodes: [],
+        repairCodes: [],
+        analysisCodes: payload,
         loading: false,
       };
     }
@@ -39,7 +67,9 @@ function codeReducer(state = initialState, action) {
         error: payload,
         loading: false,
         code: null,
-        codes: [],
+        failureCodes: [],
+        repairCodes: [],
+        analysisCodes: [],
       };
     }
     case CLEAR_CODE:
@@ -47,7 +77,9 @@ function codeReducer(state = initialState, action) {
       return {
         ...state,
         code: null,
-        codes: [],
+        failureCodes: [],
+        repairCodes: [],
+        analysisCodes: [],
       };
     }
     default:

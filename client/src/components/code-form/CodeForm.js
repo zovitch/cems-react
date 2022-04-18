@@ -15,11 +15,8 @@ const CodeForm = ({
   createCode,
   getCode,
   deleteCode,
-  auth,
   codetype,
-  failureCode,
-  repairCode,
-  analysisCode,
+  code: { code },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -29,34 +26,18 @@ const CodeForm = ({
     creatingCode = false;
   }
 
-  let codeFunction;
-  switch (codetype) {
-    case 'failure':
-      codeFunction = failureCode;
-      break;
-    case 'repair':
-      codeFunction = repairCode;
-      break;
-    case 'analysis':
-      codeFunction = analysisCode;
-      break;
-    default:
-      codeFunction = repairCode;
-      break;
-  }
-
   useEffect(() => {
-    if (!creatingCode && !codeFunction.code) {
+    if (!creatingCode && !code) {
       getCode(codeId, codetype);
     }
-    if (codeFunction.code && !codeFunction.code.loading) {
+    if (code && !code.loading) {
       const codeData = { ...initialState };
-      for (const key in codeFunction.code) {
-        if (key in codeData) codeData[key] = codeFunction.code[key];
+      for (const key in code) {
+        if (key in codeData) codeData[key] = code[key];
       }
       setFormData(codeData);
     }
-  }, [codeId, codetype, getCode, creatingCode, codeFunction.code]);
+  }, [code, codeId, codetype, creatingCode, getCode]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -145,16 +126,12 @@ CodeForm.propTypes = {
   createCode: PropTypes.func.isRequired,
   getCode: PropTypes.func.isRequired,
   deleteCode: PropTypes.func.isRequired,
-  failureCode: PropTypes.object.isRequired,
-  repairCode: PropTypes.object.isRequired,
-  analysisCode: PropTypes.object.isRequired,
+  code: PropTypes.object.isRequired,
   codetype: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  failureCode: state.analysisCode,
-  repairCode: state.repairCode,
-  analysisCode: state.analysisCode,
+  code: state.code,
 });
 
 export default connect(mapStateToProps, {

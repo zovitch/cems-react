@@ -7,31 +7,15 @@ import { useParams } from 'react-router-dom';
 import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
 import { connect } from 'react-redux';
 
-const Code = ({ getCode, failureCode, repairCode, analysisCode, codetype }) => {
+const Code = ({ getCode, code, codetype }) => {
   const { codeId } = useParams();
-
-  let codeFunction;
-  switch (codetype) {
-    case 'failure':
-      codeFunction = failureCode;
-      break;
-    case 'repair':
-      codeFunction = repairCode;
-      break;
-    case 'analysis':
-      codeFunction = analysisCode;
-      break;
-    default:
-      codeFunction = repairCode;
-      break;
-  }
 
   useEffect(() => {
     getCode(codeId, codetype);
   }, [getCode, codeId, codetype]);
   return (
     <section className='container'>
-      {codeFunction.code === null ? (
+      {code.code === null ? (
         <Spinner />
       ) : (
         <Fragment>
@@ -42,7 +26,7 @@ const Code = ({ getCode, failureCode, repairCode, analysisCode, codetype }) => {
               <div className='lead'>
                 <i className='fas fa-tag'></i> Code
               </div>
-              <CodeItem code={codeFunction.code} />
+              <CodeItem code={code.code} />
             </div>
             <div className='view-75'>
               <div className='lead'>
@@ -59,16 +43,12 @@ const Code = ({ getCode, failureCode, repairCode, analysisCode, codetype }) => {
 
 Code.propTypes = {
   getCode: PropTypes.func.isRequired,
-  failureCode: PropTypes.object.isRequired,
-  repairCode: PropTypes.object.isRequired,
-  analysisCode: PropTypes.object.isRequired,
+  code: PropTypes.object.isRequired,
   codetype: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  failureCode: state.failureCode,
-  repairCode: state.repairCode,
-  analysisCode: state.analysisCode,
+  code: state.code,
 });
 
 export default connect(mapStateToProps, { getCode })(Code);

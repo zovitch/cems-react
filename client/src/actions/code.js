@@ -2,7 +2,9 @@ import api from '../utils/api';
 import { setAlert } from './alert';
 import {
   GET_CODE,
-  GET_CODES,
+  GET_FAILURECODES,
+  GET_REPAIRCODES,
+  GET_ANALYSISCODES,
   CODE_ERROR,
   CLEAR_CODE,
   CODE_DELETED,
@@ -12,6 +14,22 @@ import {
 export const getCodes = (codetype) => async (dispatch) => {
   try {
     const res = await api.get(`/${codetype}codes`);
+
+    let GET_CODES;
+    switch (codetype) {
+      case 'failure':
+        GET_CODES = GET_FAILURECODES;
+        break;
+      case 'repair':
+        GET_CODES = GET_REPAIRCODES;
+        break;
+      case 'analysis':
+        GET_CODES = GET_ANALYSISCODES;
+        break;
+      default:
+        GET_CODES = GET_FAILURECODES;
+        break;
+    }
 
     dispatch({
       type: GET_CODES,
