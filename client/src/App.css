@@ -859,10 +859,6 @@ justify-self: end;
 }
 
 
-
-
-
-
 /*****************************************/
 /**********  Tabular Layout **********/
 /*****************************************/
@@ -944,6 +940,8 @@ justify-self: end;
   }  */
 
   /* In order to maximize row lines, only display one line for a cell */
+
+
   .attribute {
     border-bottom: 1px solid var(--grey-color);
     border-left: 1px solid var(--grey-color);
@@ -977,6 +975,12 @@ justify-self: end;
     overflow: auto;
     white-space: normal;
     border-bottom: 1px var(--grey-color) solid;
+  }
+
+  .table-grid-container .item-container .attribute .fas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -1020,6 +1024,12 @@ justify-self: end;
   .attribute {
     display: grid;
     grid-template-columns: minmax(9em, 30%) 1fr;
+  }
+
+  .table-grid-container .item-container .attribute .fas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Hide on small screen */

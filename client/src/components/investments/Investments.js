@@ -71,12 +71,12 @@ const Investments = ({
                   </div>
                   <div className='attribute' data-name='Approved'>
                     {investment.approved === true && (
-                      <i className='fa-solid fa-check'></i>
+                      <i className='fas fa-check'></i>
                     )}
                   </div>
                   <div className='attribute' data-name='Completed'>
                     {investment.completed === true && (
-                      <i className='fa-solid fa-check'></i>
+                      <i className='fas fa-check'></i>
                     )}
                   </div>
                 </li>

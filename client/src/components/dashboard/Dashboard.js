@@ -107,7 +107,7 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
   return (
     <section className='container'>
       <h1 className='large text-primary'>
-        <i className='fa-solid fa-gears'></i> Citel Equipment & Machinery System
+        <i className='fas fa-gears'></i> Citel Equipment & Machinery System
       </h1>
       <div className='cards py-2'>
         {listOfItemsOnDashboard.length > 1 &&

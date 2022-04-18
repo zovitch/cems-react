@@ -30,14 +30,14 @@ const InvestmentItem = ({
       <small className='investment-approved-label'>Approved</small>
       {approved && (
         <div className='investment-approved'>
-          {approved === true && <i className='fa-solid fa-check'></i>}
+          {approved === true && <i className='fas fa-check'></i>}
         </div>
       )}
 
       <small className='investment-completed-label'>Completed</small>
       {completed && (
         <div className='investment-completed'>
-          {completed === true && <i className='fa-solid fa-check'></i>}
+          {completed === true && <i className='fas fa-check'></i>}
         </div>
       )}
     </div>
