@@ -129,11 +129,25 @@ const MachineForm = ({
 
   useEffect(() => {
     !machine && machineId && getMachine(machineId);
-    !categories.length > 0 && getCategories();
-    !manufacturers.length > 0 && getManufacturers();
-    !investments.length > 0 && getInvestments();
-    !departments.length > 0 && getDepartments();
+  }, [getMachine, machine, machineId]);
 
+  useEffect(() => {
+    !categories.length > 0 && getCategories();
+  }, [categories.length, getCategories]);
+
+  useEffect(() => {
+    !manufacturers.length > 0 && getManufacturers();
+  }, [getManufacturers, manufacturers.length]);
+
+  useEffect(() => {
+    !investments.length > 0 && getInvestments();
+  }, [getInvestments, investments.length]);
+
+  useEffect(() => {
+    !departments.length > 0 && getDepartments();
+  }, [departments.length, getDepartments]);
+
+  useEffect(() => {
     if (machine && !machine.loading) {
       const machineData = { ...initialState };
       for (const key in machine) {
@@ -141,20 +155,7 @@ const MachineForm = ({
       }
       setFormData(machineData);
     }
-  }, [
-    categories,
-    departments.length,
-    getCategories,
-    getDepartments,
-    // getNewMachineNumber,
-    getMachine,
-    machine,
-    machineId,
-    manufacturers.length,
-    getManufacturers,
-    investments.length,
-    getInvestments,
-  ]);
+  }, [machine]);
 
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggle = (e) => {

@@ -169,12 +169,29 @@ const R3Form = ({
 
   useEffect(() => {
     !r3 && r3Id && getR3(r3Id);
-    !machines.length > 0 && getMachines();
-    !failureCodes.length > 0 && getCodes('failure');
-    !repairCodes.length > 0 && getCodes('repair');
-    !analysisCodes.length > 0 && getCodes('analysis');
-    !users.length > 0 && getUsers();
+  }, [getR3, r3, r3Id]);
 
+  useEffect(() => {
+    !machines.length > 0 && getMachines();
+  }, [getMachines, machines.length]);
+
+  useEffect(() => {
+    !failureCodes.length > 0 && getCodes('failure');
+  }, [failureCodes.length, getCodes]);
+
+  useEffect(() => {
+    !repairCodes.length > 0 && getCodes('repair');
+  }, [getCodes, repairCodes.length]);
+
+  useEffect(() => {
+    !analysisCodes.length > 0 && getCodes('analysis');
+  }, [analysisCodes.length, getCodes]);
+
+  useEffect(() => {
+    !users.length > 0 && getUsers();
+  }, [getUsers, users.length]);
+
+  useEffect(() => {
     if (r3 && !r3.loading) {
       const r3Data = { ...initialState };
       for (const key in r3) {
@@ -187,19 +204,7 @@ const R3Form = ({
       setToggleMaintenanceSparePartsOn(r3Data.maintenanceSpareParts);
       setToggleApplicantValidationOn(r3Data.applicantValidation);
     }
-  }, [
-    analysisCodes.length,
-    failureCodes.length,
-    getCodes,
-    getMachines,
-    getR3,
-    getUsers,
-    machines.length,
-    r3,
-    r3Id,
-    repairCodes.length,
-    users.length,
-  ]);
+  }, [r3]);
 
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggleR3Number = (e) => {

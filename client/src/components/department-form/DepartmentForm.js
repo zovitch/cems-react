@@ -43,9 +43,17 @@ const DepartmentForm = ({
 
   useEffect(() => {
     !locations.length > 0 && getLocations();
-    !users.length > 0 && getUsers();
-    !department && departmentId && getDepartment(departmentId);
+  }, [getLocations, locations.length]);
 
+  useEffect(() => {
+    !users.length > 0 && getUsers();
+  }, [getUsers, users.length]);
+
+  useEffect(() => {
+    !department && departmentId && getDepartment(departmentId);
+  }, [department, departmentId, getDepartment]);
+
+  useEffect(() => {
     if (department && !department.loading) {
       const departmentData = { ...initialState };
       for (const key in department) {
@@ -53,15 +61,7 @@ const DepartmentForm = ({
       }
       setFormData(departmentData);
     }
-  }, [
-    department,
-    departmentId,
-    getDepartment,
-    getLocations,
-    getUsers,
-    users.length,
-    locations.length,
-  ]);
+  }, [department]);
 
   const defaultOwners = !formData.owners
     ? null

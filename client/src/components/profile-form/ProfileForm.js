@@ -35,7 +35,7 @@ const ProfileForm = ({
       }
       setFormData(userData);
     }
-  }, [loading, editUser, getCurrentUser, deleteAccount, user]);
+  }, [getCurrentUser, loading, user]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
