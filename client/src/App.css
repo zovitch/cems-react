@@ -977,7 +977,7 @@ justify-self: end;
     border-bottom: 1px var(--grey-color) solid;
   }
 
-  .table-grid-container .item-container .attribute .fas {
+  .table-grid-container .item-container .attribute .fa-center {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1024,12 +1024,13 @@ justify-self: end;
   .attribute {
     display: grid;
     grid-template-columns: minmax(9em, 30%) 1fr;
+    grid-gap:1rem
   }
 
-  .table-grid-container .item-container .attribute .fas {
+  .table-grid-container .item-container .attribute .fa-center {
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
   }
 
   /* Hide on small screen */
