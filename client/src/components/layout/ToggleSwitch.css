@@ -8,55 +8,54 @@
   /* display: inline-block; */
   display: block;
 }
-  input[type="checkbox"] {
-    width: 0;
-    height: 0;
-    visibility: hidden;
-  }
-  label {
-    width: 48px;
-    height: 25px;
-    /* display:block; */
-    background-color:    rgb(210  , 210, 210);
-    /* border: 2px solid #477a85; */
-    border-radius: 20px;
-    position: absolute;
-    cursor: pointer;
-    transition: 0.25s;
-    /* box-shadow: 0 0 20px rgb(239, 239, 239); */
-  }
-  label::after {
-    content: "";
-    width: 21px;
-    height: 21px;
-    background-color: #fff;
-    position: absolute;
-    border-radius: 20px;
-    /* border: 2px solid #477a85; */
-    box-shadow: 1px 1px 3px rgb(180,180,180);
-    top: 2px;
-    left: 2px;
-    transition: 0.25s;
-  }
-  input:checked + label:after {
-    left: calc(100% - 2px);
-    transform: translateX(-100%);
-    box-shadow: none;
-    
-  }
+.toggle-switch input[type="checkbox"] {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+.toggle-switch label {
+  width: 48px;
+  height: 25px;
+  /* display:block; */
+  background-color:    rgb(210  , 210, 210);
+  /* border: 2px solid #477a85; */
+  border-radius: 20px;
+  position: absolute;
+  cursor: pointer;
+  transition: 0.25s;
+  /* box-shadow: 0 0 20px rgb(239, 239, 239); */
+}
+.toggle-switch label::after {
+  content: "";
+  width: 21px;
+  height: 21px;
+  background-color: #fff;
+  position: absolute;
+  border-radius: 20px;
+  /* border: 2px solid #477a85; */
+  box-shadow: 1px 1px 3px rgb(180,180,180);
+  top: 2px;
+  left: 2px;
+  transition: 0.25s;
+}
+.toggle-switch input:checked + label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+  box-shadow: none;
   
-  input:checked + label {
-    background-color: var(--success-color)
-  }
-  
-  input:checked + .danger {
-    background-color: var(--danger-color)
-  }
+}
 
-  
-  label:active:after {
-    width: 20px;
-  }
+.toggle-switch input:checked + label {
+  background-color: var(--success-color)
+}
 
-   /* code adapted from
-  https://dev.to/karankumarjs/how-to-create-a-custom-toggle-switch-using-css-4pmi */
+.toggle-switch input:checked + .danger {
+  background-color: var(--danger-color)
+}
+
+.toggle-switch label:active:after {
+  width: 20px;
+}
+
+  /* code adapted from
+https://dev.to/karankumarjs/how-to-create-a-custom-toggle-switch-using-css-4pmi */
