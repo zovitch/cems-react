@@ -58,3 +58,5 @@ export const R3_ERROR = 'R3_ERROR';
 export const CLEAR_R3 = 'CLEAR_R3';
 export const R3_DELETED = 'R3_DELETED';
 export const GET_NEWR3NUMBER = 'GET_NEWR3NUMBER';
+export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+export const UPLOAD_FAIL = 'UPLOAD_FAIL';

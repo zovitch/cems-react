@@ -9,6 +9,17 @@
 - MSA
 
 TODO
+- UPLOAD PICTURE TO MACHINE
+- Upload Files to R3
+- Print AFA, and save
+- Managed Roles: logged in or not, ENG or not, Manager or not
+- Import Excel CSV JSON Files
+- Improve UI UX of Form
+- Display Pendinga AFA
+- Display Pending R3
+- Display all R3 from one Machine or Category
+- Create Machine from AFA
+- Create DFA from Machine or from R3
 - complete machineForm
 - Machine Card will all info 
 - use Chinese where written Chinese
@@ -25,7 +36,7 @@ FEATURES
 - [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" placeholder=​"Password" name=​"password" value>​
 - Add Currency
 - Large table should be more responsive
-
+- Spare Parts Inventory
 
 BUGS
 - what happen if delete account but there are dept still there

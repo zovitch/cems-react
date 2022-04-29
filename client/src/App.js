@@ -34,6 +34,8 @@ import R3s from './components/r3s/R3s';
 import R3Form from './components/r3-form/R3Form';
 import R3 from './components/r3/R3';
 
+import FileUpload from './components/layout/FileUpload';
+
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -68,6 +70,7 @@ const App = () => {
         <Navbar />
         <Alert />
         <Routes>
+          <Route exact path='/upload' element={<FileUpload />} />
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/create-user' element={<Register />} />
