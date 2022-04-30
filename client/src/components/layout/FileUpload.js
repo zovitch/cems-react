@@ -20,7 +20,7 @@ const FileUpload = ({ postUpload, upload }) => {
   };
 
   return (
-    <section className='container'>
+    <section>
       <p className='lead'>FileUpload Test Section</p>
 
       <form onSubmit={onSubmit}>
