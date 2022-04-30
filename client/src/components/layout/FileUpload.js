@@ -35,7 +35,7 @@ const FileUpload = ({ postUpload, upload }) => {
         upload.uploadfile.fileName &&
         upload.uploadfile.filePath && (
           <img
-            style={{ width: '100%' }}
+            style={{ width: '200px' }}
             src={upload.uploadfile.filePath}
             alt=''
           />

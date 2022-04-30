@@ -30,12 +30,16 @@ app.use('/api/repaircodes', require('./routes/api/repaircodes'));
 app.use('/api/analysiscodes', require('./routes/api/analysiscodes'));
 
 // File Upload
-app.use(fileUpload());
-
+app.use(
+  fileUpload({
+    createParentPath: true,
+    safeFileNames: true,
+    preserveExtension: true,
+  })
+);
 // Upload Endpoint
 app.post('/upload', (req, res) => {
   if (req.files === null) {
-    console.log('1');
     return res.status(400).json({ msg: 'No file uploaded' });
   }
 
