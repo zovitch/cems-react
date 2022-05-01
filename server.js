@@ -9,6 +9,13 @@ connectDB();
 
 // Init Middleware
 app.use(express.json({ extended: false }));
+app.use(
+  fileUpload({
+    createParentPath: true,
+    safeFileNames: true,
+    preserveExtension: true,
+  })
+);
 
 app.get('/', (req, res) => res.send('API running'));
 
@@ -29,34 +36,8 @@ app.use('/api/failurecodes', require('./routes/api/failurecodes'));
 app.use('/api/repaircodes', require('./routes/api/repaircodes'));
 app.use('/api/analysiscodes', require('./routes/api/analysiscodes'));
 
-// File Upload
-app.use(
-  fileUpload({
-    createParentPath: true,
-    safeFileNames: true,
-    preserveExtension: true,
-  })
-);
 // Upload Endpoint
-app.post('/upload', (req, res) => {
-  if (req.files === null) {
-    return res.status(400).json({ msg: 'No file uploaded' });
-  }
-
-  const file = req.files.file;
-
-  file.mv(`${__dirname}/client/public/uploads/machines/${file.name}`, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send(err);
-    }
-
-    res.json({
-      fileName: file.name,
-      filePath: `/uploads/machines/${file.name}`,
-    });
-  });
-});
+app.use('/api/upload', require('./routes/api/upload'));
 
 const PORT = process.env.PORT || 4000;
 

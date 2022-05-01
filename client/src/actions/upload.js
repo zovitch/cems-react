@@ -1,10 +1,11 @@
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../utils/api';
 import { setAlert } from './alert';
 import { UPLOAD_SUCCESS, UPLOAD_FAIL } from './types';
 
 export const postUpload = (formData) => async (dispatch) => {
   try {
-    const res = await axios.post('/upload', formData, {
+    const res = await api.post('/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
