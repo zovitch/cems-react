@@ -89,6 +89,7 @@ router.post(
       purchasedPrice,
       comment,
       costCenter,
+      imgPath,
       afa,
       parentMachine,
     } = req.body;
@@ -111,6 +112,7 @@ router.post(
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
     if (costCenter) machineFields.costCenter = costCenter;
+    if (imgPath) machineFields.imgPath = imgPath;
 
     // if (foundAfa) machineFields.afa = foundAfa;
     // if (foundAfa.designation) machineFields.designation = foundAfa.designation;
@@ -348,6 +350,7 @@ router.patch(
       purchasedPrice,
       comment,
       costCenter,
+      imgPath,
       afa,
       parentMachine,
     } = req.body;
@@ -366,6 +369,8 @@ router.patch(
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
     if (costCenter) machineFields.costCenter = costCenter;
+    machineFields.imgPath = null; // to force update to null in case we remove the picture
+    if (imgPath) machineFields.imgPath = imgPath;
 
     if (designation) machineFields.designation = designation;
     if (designationCN) machineFields.designationCN = designationCN;

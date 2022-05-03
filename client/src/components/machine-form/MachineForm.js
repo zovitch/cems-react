@@ -16,6 +16,7 @@ import Select from 'react-select';
 import nth from '../../utils/nth';
 import formatDate from '../../utils/formatDate';
 import ToggleSwitch from '../layout/ToggleSwitch';
+import { addFile } from '../../actions/upload';
 
 const initialState = {
   machineNumber: '',
@@ -36,6 +37,7 @@ const initialState = {
   comment: '',
   parentMachine: '',
   afa: '',
+  imgPath: '',
 };
 
 // Styling for <Select />
@@ -64,6 +66,7 @@ const MachineForm = ({
   department: { departments },
   manufacturer: { manufacturers },
   investment: { investments },
+  upload: { uploadedFile },
   createMachine,
   getMachine,
   getCategories,
@@ -72,6 +75,7 @@ const MachineForm = ({
   getManufacturers,
   getInvestments,
   deleteMachine,
+  addFile,
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -82,6 +86,10 @@ const MachineForm = ({
   // if we create a Machine (creatingMachine: true) then the toogle should be OFF (false)
   // if we edit a Machine (creatingMachine: false) then toggle should be ON (true)
   const [toggleCheckboxOn, setToggleCheckboxOn] = useState(!creatingMachine);
+
+  // for the Image of the Machine
+  const imgData = new FormData();
+  const [file, setFile] = useState('');
 
   const defaultCategory = !formData.category
     ? ''
@@ -157,6 +165,11 @@ const MachineForm = ({
     }
   }, [machine]);
 
+  useEffect(() => {
+    uploadedFile &&
+      setFormData({ ...formData, imgPath: uploadedFile.filePath });
+  }, [uploadedFile]);
+
   // Hangle toggle for the checkbox ToggleSwitch Component
   const onToggle = (e) => {
     setToggleCheckboxOn(!toggleCheckboxOn);
@@ -169,6 +182,27 @@ const MachineForm = ({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const onChangeImage = (e) => {
+    setFile(e.target.files[0]);
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.files[0].name,
+    });
+  };
+
+  const onRemoveImage = (e) => {
+    setFile(null);
+    setFormData({
+      ...formData,
+      imgPath: null,
+    });
+  };
+
+  const onUploadImage = () => {
+    imgData.append('file', file);
+    addFile(imgData);
   };
 
   const onChangeCategory = (e) => {
@@ -329,6 +363,40 @@ const MachineForm = ({
             onChange={onChange}
           />
         </div>
+
+        {machine && machine.imgPath ? (
+          <div className='form-group'>
+            <small className='form-text'>Machine Picture</small>
+            <img style={{ width: '100%' }} src={formData.imgPath} alt='' />
+            <button
+              className='btn btn-dark'
+              type='button'
+              onClick={onRemoveImage}
+            >
+              <i className='fas fa-xmark' />
+            </button>
+          </div>
+        ) : (
+          <div className='form-group'>
+            <small className='form-text'>Upload a Picture</small>
+            <input
+              type='file'
+              name='imgPath'
+              id='imgPath'
+              accept='image/*'
+              onInput={onChangeImage} // this will trigger first, to set the data for the form in DB
+              onChange={onUploadImage} // this will handle the upload on the server
+              // problem is the picture is uploaded onto server before submitting, so we might end up with many many pictures
+            />
+            {uploadedFile && uploadedFile.filePath && (
+              <img
+                style={{ width: '150px' }}
+                src={uploadedFile.filePath}
+                alt=''
+              />
+            )}
+          </div>
+        )}
 
         <div className='form-group'>
           <small className='form-text'>Category</small>
@@ -517,6 +585,7 @@ const MachineForm = ({
           <div className='line' />
           <div className='my-2 text-center'>
             <button
+              type='submit'
               className='btn btn-danger'
               onClick={() => deleteMachine(machineId, navigate)}
             >
@@ -535,6 +604,7 @@ MachineForm.propTypes = {
   department: PropTypes.object.isRequired,
   manufacturer: PropTypes.object.isRequired,
   investment: PropTypes.object.isRequired,
+  upload: PropTypes.object.isRequired,
   createMachine: PropTypes.func.isRequired,
   getMachine: PropTypes.func.isRequired,
   getNewMachineNumber: PropTypes.func.isRequired,
@@ -543,6 +613,7 @@ MachineForm.propTypes = {
   getDepartments: PropTypes.func.isRequired,
   getManufacturers: PropTypes.func.isRequired,
   getInvestments: PropTypes.func.isRequired,
+  addFile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -551,6 +622,7 @@ const mapStateToProps = (state) => ({
   department: state.department,
   manufacturer: state.manufacturer,
   investment: state.investment,
+  upload: state.upload,
 });
 
 export default connect(mapStateToProps, {
@@ -562,4 +634,5 @@ export default connect(mapStateToProps, {
   getDepartments,
   getManufacturers,
   getInvestments,
+  addFile,
 })(MachineForm);

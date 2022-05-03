@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { postUpload } from '../../actions/upload';
+import { addFile } from '../../actions/upload';
 
-const FileUpload = ({ postUpload, upload }) => {
+const FileUpload = ({ addFile, upload }) => {
   const [file, setFile] = useState('');
   const [filename, setFilename] = useState('Choose File'); // This is for the label
 
@@ -16,7 +16,7 @@ const FileUpload = ({ postUpload, upload }) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', file); //this file comes from the backend const file = req.files.file
-    postUpload(formData);
+    addFile(formData);
   };
 
   return (
@@ -31,12 +31,12 @@ const FileUpload = ({ postUpload, upload }) => {
 
         <input type='submit' value='Upload' className='btn btn-dark' />
       </form>
-      {upload.uploadfile &&
-        upload.uploadfile.fileName &&
-        upload.uploadfile.filePath && (
+      {upload.uploadedFile &&
+        upload.uploadedFile.fileName &&
+        upload.uploadedFile.filePath && (
           <img
             style={{ width: '200px' }}
-            src={upload.uploadfile.filePath}
+            src={upload.uploadedFile.filePath}
             alt=''
           />
         )}
@@ -45,7 +45,7 @@ const FileUpload = ({ postUpload, upload }) => {
 };
 
 FileUpload.propTypes = {
-  postUpload: PropTypes.func.isRequired,
+  addFile: PropTypes.func.isRequired,
   upload: PropTypes.object.isRequired,
 };
 
@@ -53,4 +53,4 @@ const mapStateToProps = (state) => ({
   upload: state.upload,
 });
 
-export default connect(mapStateToProps, { postUpload })(FileUpload);
+export default connect(mapStateToProps, { addFile })(FileUpload);

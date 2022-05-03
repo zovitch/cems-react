@@ -66,11 +66,8 @@ const MachineSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'machine',
     },
-
-    // machine images @todo
-    img: {
-      data: Buffer,
-      contentType: String,
+    imgPath: {
+      type: String,
     },
     date: {
       type: Date,

@@ -3,7 +3,7 @@ import api from '../utils/api';
 import { setAlert } from './alert';
 import { UPLOAD_SUCCESS, UPLOAD_FAIL } from './types';
 
-export const postUpload = (formData) => async (dispatch) => {
+export const addFile = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/upload', formData, {
       headers: {
