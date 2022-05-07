@@ -4,6 +4,7 @@ exports.upload_file = (req, res) => {
   }
 
   const file = req.files.file;
+  //here need to pass the title description path with append
 
   file.mv(
     `${__dirname}/../client/public/uploads/machines/${file.name}`,

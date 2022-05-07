@@ -1,13 +1,27 @@
 // import axios from 'axios';
 import api from '../utils/api';
+import { useState } from 'react';
 import { setAlert } from './alert';
 import { UPLOAD_SUCCESS, UPLOAD_FAIL } from './types';
 
 export const addFile = (formData) => async (dispatch) => {
+  const [uploadPercentage, setUploadPercentage] = useState(0);
   try {
     const res = await api.post('/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progressEvent) => {
+        setUploadPercentage(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+
+        //Clear percentage
+        setTimeout(() => {
+          setUploadPercentage(0);
+        }, 10000);
       },
     });
 
