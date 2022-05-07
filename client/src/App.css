@@ -12,8 +12,8 @@
   --analysis-color: rgb(48, 70, 196);
   --hover-color: rgb(200, 227, 252);
 
-  --border-radius: 10px;
-  --border-small-radius: 4px;
+  --border-radius: 0.25rem;
+  --border-small-radius: 0.25rem;
 }
 
 * {
