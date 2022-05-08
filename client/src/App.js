@@ -35,6 +35,7 @@ import R3Form from './components/r3-form/R3Form';
 import R3 from './components/r3/R3';
 
 import FileUpload from './components/layout/FileUpload';
+import Dropzone from './components/layout/Dropzone';
 
 import { LOGOUT } from './actions/types';
 
@@ -70,7 +71,11 @@ const App = () => {
         <Navbar />
         <Alert />
         <Routes>
-          <Route exact path='/upload' element={<FileUpload />} />
+          <Route
+            exact
+            path='/upload'
+            element={<Dropzone normalText='Drag and drop an image or click' />}
+          />
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/create-user' element={<Register />} />
