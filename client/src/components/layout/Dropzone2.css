@@ -1,14 +1,13 @@
 .upload-wrapper {
+    /* height: 25vh; */
     margin: 1rem;
-    padding: 1rem;
     border: 5px dashed lightgray;
-    background-color: aliceblue; 
+    background-color: aliceblue;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
     z-index: 20;
   }
   
@@ -18,27 +17,43 @@
     left: 0;
     top: 0;
   }
+  
+  .upload-wrapper label {
+    z-index: 10;
+  }
+  .upload-wrapper label > p {
+    z-index: 10;
+    margin: 0;
+  }
+  
 
   .uploaded-wrapper > .img-wrp {
+    /* height: 4rem; */
     display: inline-block;
     width: 15%;
-    margin: 1% ;
+    /* margin: 2% 2%; */
   }
+
   
   .img-wrp {
     position: relative;
   }
+
   .img-wrp > p {
     position: absolute;
     top: 0;
-    right:0;
     opacity: 0;
-    margin: 2%;
-    color: var(--danger-color);
+    right: -20%;
+    margin: 0;
+    background-color: white;
+    padding: 5px 16px;
     cursor: pointer;
   }
   
   .img-wrp:hover > p {
     opacity: 1;
+    right: 0;
   }
   
+ /* https://medium.com/@castlevania_jorge/how-to-make-dropzone-with-only-javascript-react-and-css-cb36f05e3c0c */
+ /* https://codesandbox.io/s/admiring-engelbart-3i0hu?fontsize=14&hidenavigation=1&theme=dark&file=/src/App.js:178-249 */
