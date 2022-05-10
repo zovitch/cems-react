@@ -51,7 +51,7 @@ const FileUpload = ({ addFile, upload }) => {
           <div className='upload-box'>
             <input
               type='file'
-              accept='image/*'
+              accept='image/png, image/jpg, image/jpeg'
               id='customFile'
               className='inputfile'
               onChange={onChange}
@@ -75,7 +75,7 @@ const FileUpload = ({ addFile, upload }) => {
               <div className='img-wrp'>
                 <img type='image' src={filePreview} alt='uploaded' />
                 <p onClick={() => DeleteImage()}>
-                  <i class='fas fa-square-xmark fa-2x'></i>
+                  <i className='fas fa-square-xmark fa-2x'></i>
                 </p>
               </div>
             )}
