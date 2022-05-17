@@ -22,6 +22,7 @@ const MachineItem = ({
     purchasedPrice,
     comment,
     afa,
+    imgPath,
     parentMachine,
   },
 }) => {
@@ -120,6 +121,12 @@ const MachineItem = ({
       )}
 
       {comment && <div className='machine-comment'>{comment}</div>}
+
+      {imgPath && (
+        <div className='machine-img'>
+          <img type='image' src={imgPath} alt={imgPath} />
+        </div>
+      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ import {
   MACHINE_ERROR,
   CLEAR_MACHINE,
   MACHINE_DELETED,
-  CLEAR_UPLOAD,
+  // CLEAR_UPLOAD,
 } from './types';
 
 // Get all machines
@@ -71,7 +71,7 @@ export const createMachine =
         res = await api.post('/machines', formData);
       }
 
-      dispatch({ type: CLEAR_UPLOAD });
+      // dispatch({ type: CLEAR_UPLOAD });
 
       dispatch({
         type: GET_MACHINE,

@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addFile } from '../../actions/upload';
 
-import './FileUpload.css';
-
 const FileUpload = ({ addFile, upload }) => {
   const [file, setFile] = useState('');
   const [filePreview, setFilePreview] = useState('');
@@ -83,15 +81,6 @@ const FileUpload = ({ addFile, upload }) => {
         </div>
         <input type='submit' value='Upload' className='btn btn-dark' />
       </form>
-      {upload.uploadedFile &&
-        upload.uploadedFile.fileName &&
-        upload.uploadedFile.filePath && (
-          <img
-            style={{ width: '200px' }}
-            src={upload.uploadedFile.filePath}
-            alt=''
-          />
-        )}
     </section>
   );
 };

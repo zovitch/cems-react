@@ -22,7 +22,3 @@ const ToggleSwitch = (props) => {
 };
 
 export default ToggleSwitch;
-
-// code adapated from
-// https://www.geeksforgeeks.org/how-to-create-a-toggle-switch-in-react-as-a-reusable-component/
-// https://upmostly.com/tutorials/build-a-react-switch-toggle-component

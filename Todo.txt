@@ -61,3 +61,17 @@ DONE
 - Machine table, fine tune the details
 - sort codes by code
 - Machine Card layout grid
+
+
+RESOURCES
+- FileUpload
+    https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+    https://medium.com/@castlevania_jorge/how-to-make-dropzone-with-only-javascript-react-and-css-cb36f05e3c0c
+    https://codesandbox.io/s/admiring-engelbart-3i0hu?fontsize=14&hidenavigation=1&theme=dark&file=/src/Dropzone.js:2078-2133
+    https://morioh.com/p/ffd9b4fb610a
+    https://stackoverflow.com/questions/67232312/uploading-file-that-already-exists-is-causing-page-to-refresh
+
+- Toggle
+    https://dev.to/karankumarjs/how-to-create-a-custom-toggle-switch-using-css-4pmi 
+    https://www.geeksforgeeks.org/how-to-create-a-toggle-switch-in-react-as-a-reusable-component/
+    https://upmostly.com/tutorials/build-a-react-switch-toggle-component

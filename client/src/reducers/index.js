@@ -10,7 +10,7 @@ import manufacturer from './manufacturer';
 import machine from './machine';
 import investment from './investment';
 import r3 from './r3';
-import upload from './upload';
+// import upload from './upload';
 
 export default combineReducers({
   alert,
@@ -24,5 +24,5 @@ export default combineReducers({
   machine,
   investment,
   r3,
-  upload,
+  // upload,
 });

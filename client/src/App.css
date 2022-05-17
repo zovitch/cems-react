@@ -174,6 +174,7 @@ img {
   top: 4rem;
   right: 2rem;
   display: inline-block;
+  z-index: 2;
 }
 
 /********** Buttons **********/
@@ -351,7 +352,7 @@ button {
   align-items: center;
   padding: 1rem 1rem;
   position:sticky;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
   top: 0;
   border-bottom: solid 3px var(--secondary-color);
@@ -473,6 +474,7 @@ justify-self: end;
   'machine-costCenter-label   machine-costCenter-value'
   'machine-price-label        machine-price-value'
   'machine-comment            machine-comment'
+  'machine-img                machine-img'
   ;
 }
 
@@ -618,6 +620,10 @@ justify-self: end;
 
 .machine-comment {
   grid-area: machine-comment;
+}
+
+.machine-img {
+  grid-area: machine-img;
 }
 
 .machine-spacer1 {
@@ -839,6 +845,111 @@ justify-self: end;
 .code-descriptionCN {
   grid-area: code-descriptionCN;
 }
+
+/*********************************/
+/**********  Upload Box **********/
+/*********************************/
+
+.upload-wrapper {
+  display:flex;
+  border: 1px solid var(--grey-color);
+  border-radius: var(--border-small-radius);
+}
+
+.upload-box {
+  padding: 1rem ;
+  margin: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+
+.img-wrp {
+  position: relative;
+}
+
+.img-wrp img {
+  object-fit: scale-down;
+  max-height: 10rem;
+}
+
+.img-wrp p {
+  color: gray;
+  cursor: pointer; 
+}
+
+.img-wrp:hover  p {
+  color: var(--danger-color);
+  opacity: 1;
+}
+
+.inputfile {
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  max-width: 80%;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.625rem 1.25rem;
+  color: gray;
+}
+
+.inputfile + label svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
+  margin-top: -0.25em;
+  /* 4px */
+  margin-right: 0.25em;
+  /* 4px */
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label,
+.inputfile + label:hover {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+  color: var(--primary-color);
+}
+
+.inputfile + label figure {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: gray;
+  display: block;
+  padding: 20px;
+  margin: 0 auto 10px;
+}
+
+.inputfile:focus + label figure,
+.inputfile.has-focus + label figure,
+.inputfile + label:hover figure {
+  background-color: var(--primary-color);
+}
+
+.inputfile + label svg {
+  width: 100%;
+  height: 100%;
+  fill: white;
+}
+
+/* https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/ */
+/* https://medium.com/@castlevania_jorge/how-to-make-dropzone-with-only-javascript-react-and-css-cb36f05e3c0c */
+/* https://codesandbox.io/s/admiring-engelbart-3i0hu?fontsize=14&hidenavigation=1&theme=dark&file=/src/Dropzone.js:2078-2133 */
+
+
+
 
 /*****************************************/
 /**********  Single View Layout **********/

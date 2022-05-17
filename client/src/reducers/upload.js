@@ -1,7 +1,7 @@
 import { UPLOAD_SUCCESS, UPLOAD_FAIL, CLEAR_UPLOAD } from '../actions/types';
 
 const initialState = {
-  uploadedFile: null,
+  // uploadedFile: null,
   loading: true,
   error: {},
 };
@@ -13,14 +13,14 @@ function uploadReducer(state = initialState, action) {
     case UPLOAD_SUCCESS: {
       return {
         ...state,
-        uploadedFile: payload,
+        // uploadedFile: payload,
         loading: false,
       };
     }
     case UPLOAD_FAIL: {
       return {
         ...state,
-        uploadedFile: null,
+        // uploadedFile: null,
         error: payload,
         loading: false,
       };
@@ -28,7 +28,7 @@ function uploadReducer(state = initialState, action) {
     case CLEAR_UPLOAD: {
       return {
         ...state,
-        uploadedFile: null,
+        // uploadedFile: null,
         loading: false,
       };
     }
