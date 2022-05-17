@@ -9,14 +9,14 @@
 - MSA
 
 TODO
-- UPLOAD PICTURE TO MACHINE
-- Upload Files to R3
-- Print AFA, and save
-- Managed Roles: logged in or not, ENG or not, Manager or not
-- Import Excel CSV JSON Files
 - Improve UI UX of Form
 - Display Pendinga AFA
 - Display Pending R3
+- Upload Files to R3
+
+- Print AFA, and save
+- Managed Roles: logged in or not, ENG or not, Manager or not
+- Import Excel CSV JSON Files
 - Display all R3 from one Machine or Category
 - Create Machine from AFA
 - Create DFA from Machine or from R3
@@ -37,6 +37,7 @@ FEATURES
 - Add Currency
 - Large table should be more responsive
 - Spare Parts Inventory
+- Improve Picture upload for machine and management
 
 BUGS
 - what happen if delete account but there are dept still there
@@ -61,15 +62,19 @@ DONE
 - Machine table, fine tune the details
 - sort codes by code
 - Machine Card layout grid
+- UPLOAD PICTURE TO MACHINE
 
 
 RESOURCES
 - FileUpload
+    Youtube from Brad Traversy File Upload
     https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
     https://medium.com/@castlevania_jorge/how-to-make-dropzone-with-only-javascript-react-and-css-cb36f05e3c0c
     https://codesandbox.io/s/admiring-engelbart-3i0hu?fontsize=14&hidenavigation=1&theme=dark&file=/src/Dropzone.js:2078-2133
     https://morioh.com/p/ffd9b4fb610a
     https://stackoverflow.com/questions/67232312/uploading-file-that-already-exists-is-causing-page-to-refresh
+    https://www.bezkoder.com/react-file-upload-axios/
+
 
 - Toggle
     https://dev.to/karankumarjs/how-to-create-a-custom-toggle-switch-using-css-4pmi 
