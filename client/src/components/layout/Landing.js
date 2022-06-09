@@ -12,20 +12,18 @@ const Landing = ({ isAuthenticated }) => {
 
   const listOfItemsOnLanding = [
     {
-      name: 'R3 Repair Application',
+      name: 'R3 Repair',
       nameCN: '报修单',
-      route: 'machines',
-      key: 'machines',
-      faLogo: 'fas fa-screwdriver',
-      color: 'text-failure',
+      route: 'r3s',
+      key: 'r3s',
+      faLogo: 'fas fa-screwdriver-wrench',
     },
     {
-      name: 'List of Pending R3',
-      nameCN: '报修单',
+      name: 'L.F.A.',
+      nameCN: '固定资产一览表',
       route: 'machines',
-      key: 'machines2',
-      faLogo: 'fas fa-screwdriver-wrench',
-      color: 'text-failure',
+      key: 'machines',
+      faLogo: 'fas fa-clipboard-list',
     },
   ];
 
