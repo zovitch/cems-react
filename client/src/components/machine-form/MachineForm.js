@@ -189,8 +189,7 @@ const MachineForm = ({
       setFilePreview(archive);
       setFormData({
         ...formData,
-        [e.target.name]:
-          `/uploads/${formData.machineNumber}/` + e.target.files[0].name,
+        [e.target.name]: `/uploads/machines/` + e.target.files[0].name,
       });
     }
   };
