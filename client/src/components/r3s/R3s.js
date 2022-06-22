@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -8,9 +8,11 @@ import { getR3s } from '../../actions/r3';
 import formatDate from '../../utils/formatDate';
 
 const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
+  const r3Query = useLocation();
+
   useEffect(() => {
-    getR3s();
-  }, [getR3s]);
+    getR3s(r3Query.search);
+  }, [getR3s, r3Query.search]);
 
   return (
     <section className='container-large'>
@@ -19,6 +21,18 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
       ) : (
         <Fragment>
           <PageTitleBar item='r3' faIcon='fas fa-screwdriver-wrench' />
+
+          <div>
+            <Link to={`/r3s/?applicantValidation=false`}>
+              <i className='btn btn-dark fas fa-filter'> </i>Show only Pending
+              R3
+            </Link>
+          </div>
+          <div>
+            <Link to={`/r3s/`}>
+              <i className='btn  fas fa-filter-circle-xmark'> </i>Show All
+            </Link>
+          </div>
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}

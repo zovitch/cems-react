@@ -10,9 +10,9 @@ import {
 } from './types';
 
 // Get all r3s
-export const getR3s = () => async (dispatch) => {
+export const getR3s = (searchQuery) => async (dispatch) => {
   try {
-    const res = await api.get('/r3s');
+    const res = await api.get('/r3s' + searchQuery);
     dispatch({
       type: GET_R3S,
       payload: res.data,

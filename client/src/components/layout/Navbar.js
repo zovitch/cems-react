@@ -16,7 +16,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
         </Link>
       </li>
       <li>
-        <Link to='/r3s'>
+        <Link to='/r3s/?applicantValidation=false'>
           <i className='fas fa-screwdriver-wrench'></i>{' '}
           <span className='hide-sm'>Pending R3</span>
         </Link>
