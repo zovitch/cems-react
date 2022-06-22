@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import PageTitleBar from '../layout/PageTitleBar';
+import PageTitleBarAdmin from '../layout/PageTitleBarAdmin';
 import { getInvestments } from '../../actions/investment';
 import { Link } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const Investments = ({
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBar item='investment' faIcon='fas fa-sack-dollar' />
+          <PageTitleBarAdmin item='investment' faIcon='fas fa-sack-dollar' />
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-8b'>
@@ -50,7 +50,7 @@ const Investments = ({
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && (
+                    {auth && auth.isAuthenticated && auth.isAdmin && (
                       <Link to={`/investments/edit/${investment._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>

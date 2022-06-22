@@ -20,11 +20,11 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
 
   const listOfItemsOnDashboard = [
     {
-      name: 'L.F.A.',
-      nameCN: '固定资产一览表',
-      route: 'machines',
-      key: 'machines',
-      faLogo: 'fas fa-clipboard-list',
+      name: 'R3 Repair Application',
+      nameCN: '报修单',
+      route: 'r3s',
+      key: 'r3s',
+      faLogo: 'fas fa-screwdriver-wrench',
     },
     {
       name: 'A.F.A.',
@@ -34,11 +34,11 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
       faLogo: 'fas fa-pencil',
     },
     {
-      name: 'R3 Repair Application',
-      nameCN: '报修单',
-      route: 'r3s',
-      key: 'r3s',
-      faLogo: 'fas fa-screwdriver-wrench',
+      name: 'L.F.A.',
+      nameCN: '固定资产一览表',
+      route: 'machines',
+      key: 'machines',
+      faLogo: 'fas fa-clipboard-list',
     },
     {
       name: 'investments',

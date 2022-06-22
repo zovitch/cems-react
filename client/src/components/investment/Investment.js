@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getInvestment } from '../../actions/investment';
-import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
+import PageTitleBarSingleViewAdmin from '../layout/PageTitleBarSingleViewAdmin';
 import InvestmentItem from '../investments/InvestmentItem';
 
 const Investment = ({ getInvestment, investment: { investment }, auth }) => {
@@ -20,7 +20,7 @@ const Investment = ({ getInvestment, investment: { investment }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBarSingleView item='investment' />
+          <PageTitleBarSingleViewAdmin item='investment' />
 
           <div className='viewPageSplit2 py-2'>
             <div className='view-left'>
