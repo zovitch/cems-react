@@ -77,6 +77,9 @@ const MachineSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'afa',
     },
+    rfa: {
+      type: String,
+    },
     date: {
       type: Date,
       default: Date.now,

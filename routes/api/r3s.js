@@ -276,6 +276,7 @@ router.post(
 router.get('/', async (req, res) => {
   try {
     const r3s = await R3.find()
+      .sort({ date: 'desc' })
       .populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
         select:

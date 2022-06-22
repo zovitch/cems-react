@@ -197,7 +197,7 @@ router.put(
 router.get('/', async (req, res) => {
   try {
     const analysisCodes = await AnalysisCode.find().populate().sort({
-      codeNumber: 1,
+      codeNumber: 'asc',
     });
     res.json(analysisCodes);
   } catch (err) {

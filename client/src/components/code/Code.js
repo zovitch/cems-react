@@ -4,7 +4,7 @@ import Spinner from '../layout/Spinner';
 import { getCode } from '../../actions/code';
 import CodeItem from '../codes/CodeItem';
 import { useParams } from 'react-router-dom';
-import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
+import PageTitleBarSingleViewAdmin from '../layout/PageTitleBarSingleViewAdmin';
 import { connect } from 'react-redux';
 
 const Code = ({ getCode, code, codetype }) => {
@@ -19,21 +19,21 @@ const Code = ({ getCode, code, codetype }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBarSingleView item={codetype + `code`} />
+          <PageTitleBarSingleViewAdmin item={codetype + `code`} />
 
-          <div className='viewPage-25-75 py-2'>
-            <div className='view-25'>
+          <div className='viewPageSplit2 py-2'>
+            <div className='view-left'>
               <div className='lead'>
                 <i className='fas fa-tag'></i> Code
               </div>
               <CodeItem code={code.code} />
             </div>
-            <div className='view-75'>
+            {/* <div className='view-right'>
               <div className='lead'>
                 <i className='fas fa-question'></i> Some Other stuff @NICO
               </div>
               <div className='cards'>some stuff</div>
-            </div>
+            </div> */}
           </div>
         </Fragment>
       )}

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getLocation } from '../../actions/location';
-import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
+import PageTitleBarSingleViewAdmin from '../layout/PageTitleBarSingleViewAdmin';
 import LocationItem from '../locations/LocationItem';
 
 const Location = ({ getLocation, location: { location }, auth }) => {
@@ -20,21 +20,21 @@ const Location = ({ getLocation, location: { location }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBarSingleView item='location' />
+          <PageTitleBarSingleViewAdmin item='location' />
 
-          <div className='viewPage-25-75 py-2'>
-            <div className='view-25'>
+          <div className='viewPageSplit2 py-2'>
+            <div className='view-left'>
               <div className='lead'>
                 <i className='fas fa-location'></i> Location
               </div>
               <LocationItem location={location} />
             </div>
-            <div className='view-75'>
+            {/* <div className='view-right'>
               <div className='lead'>
                 <i className='fas fa-question'></i> Some Other stuff @NICO
               </div>
               <div className='cards'>some stuff</div>
-            </div>
+            </div> */}
           </div>
         </Fragment>
       )}

@@ -159,7 +159,9 @@ router.put(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const locations = await Location.find();
+    const locations = await Location.find().sort({
+      locationLetter: 'asc',
+    });
     res.json(locations);
   } catch (err) {
     console.error(err.message);

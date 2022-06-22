@@ -22,20 +22,20 @@ const Machine = ({ getMachine, machine: { machine }, auth }) => {
         <Fragment>
           <PageTitleBarSingleView item='machine' />
 
-          <div className='viewPage-25-75 py-2'>
-            <div className='view-25'>
+          <div className='viewPageSplit2 py-2'>
+            <div className='view-left'>
               <div className='lead'>
                 <i className='fas fa-clipboard'></i> Machine
               </div>
               <MachineItem machine={machine} />
             </div>
-            <div className='view-75'>
+            {/* <div className='view-right'>
               <div className='lead'>
                 <i className='fas fa-clipboard-list'></i> Show some stuff here
                 @NICO
               </div>
               <div className='cards'>some stuff</div>
-            </div>
+            </div> */}
           </div>
         </Fragment>
       )}

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import PageTitleBar from '../layout/PageTitleBar';
+import PageTitleBarAdmin from '../layout/PageTitleBarAdmin';
 import { getLocations } from '../../actions/location';
 import { Link } from 'react-router-dom';
 import nth from '../../utils/nth';
@@ -22,7 +22,7 @@ const Locations = ({
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBar item='location' faIcon='fas fa-location' />
+          <PageTitleBarAdmin item='location' faIcon='fas fa-location' />
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
             <li className='item item-container item-container-6'>
@@ -49,7 +49,7 @@ const Locations = ({
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && (
+                    {auth && auth.isAuthenticated && auth.isAdmin && (
                       <Link to={`/locations/edit/${location._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>

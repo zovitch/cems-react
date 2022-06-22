@@ -13,6 +13,10 @@ TODO
 - Display Pendinga AFA
 - Display Pending R3
 - Upload Files to R3
+- add auth.isAdmin to Model for users 
+- add auth.isENG to Model for users
+- add department user ± department owner
+
 
 - Print AFA, and save
 - Managed Roles: logged in or not, ENG or not, Manager or not
@@ -23,11 +27,11 @@ TODO
 - complete machineForm
 - Machine Card will all info 
 - use Chinese where written Chinese
-- sort by date or others for big tables
 - pagination for tables
 - search bar
 - Avatars dont display nice in department mobile view
 - adust back button and edit button to look similar
+- Some Other stuff @NICO
 
 FEATURES
 - user shoudl be able to change the initials of the avatar or add a profile picture
@@ -63,6 +67,7 @@ DONE
 - sort codes by code
 - Machine Card layout grid
 - UPLOAD PICTURE TO MACHINE
+- sort by date or others for big tables
 
 
 RESOURCES

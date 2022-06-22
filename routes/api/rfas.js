@@ -196,7 +196,7 @@ router.get('/:rfaNumber', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const rfas = await Rfa.find()
-      .sort({ rfaNumber: -1 })
+      .sort({ rfaNumber: 'desc' })
       .populate({
         path: 'machines',
         populate: {

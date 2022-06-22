@@ -22,20 +22,20 @@ const R3 = ({ getR3, r3: { r3 }, auth }) => {
         <Fragment>
           <PageTitleBarSingleView item='r3' />
 
-          <div className='viewPage-25-75 py-2'>
-            <div className='view-25'>
+          <div className='viewPageSplit2 py-2'>
+            <div className='view-left'>
               <div className='lead'>
                 <i className='fas fa-screwdriver'></i> R3
               </div>
               <R3Item r3={r3} />
             </div>
-            <div className='view-75'>
+            {/* <div className='view-right'>
               <div className='lead'>
                 <i className='fas fa-clipboard-list'></i> Show some stuff here
                 @NICO
               </div>
               <div className='cards'>some stuff</div>
-            </div>
+            </div> */}
           </div>
         </Fragment>
       )}

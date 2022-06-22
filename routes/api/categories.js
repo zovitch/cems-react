@@ -170,7 +170,9 @@ router.put(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.find().sort({
+      code: 'asc',
+    });
     if (!categories) {
       return res.status(404).json({ msg: 'Categories not found' });
     }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import PageTitleBar from '../layout/PageTitleBar';
+import PageTitleBarAdmin from '../layout/PageTitleBarAdmin';
 import { getCodes } from '../../actions/code';
 
 const Codes = ({ getCodes, auth, code, codetype }) => {
@@ -33,7 +33,7 @@ const Codes = ({ getCodes, auth, code, codetype }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBar item={`${codetype}code`} faIcon='fas fa-code' />
+          <PageTitleBarAdmin item={`${codetype}code`} faIcon='fas fa-code' />
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
@@ -62,7 +62,7 @@ const Codes = ({ getCodes, auth, code, codetype }) => {
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && (
+                    {auth && auth.isAuthenticated && auth.isAdmin && (
                       <Link to={`/${codetype}codes/edit/${code._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getDepartments } from '../../actions/department';
 import Avatar from 'react-avatar';
 import { Link } from 'react-router-dom';
-import PageTitleBar from '../layout/PageTitleBar';
+import PageTitleBarAdmin from '../layout/PageTitleBarAdmin';
 import nth from '../../utils/nth';
 
 const Departments = ({
@@ -23,7 +23,7 @@ const Departments = ({
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBar item='department' faIcon='fas fa-briefcase' />
+          <PageTitleBarAdmin item='department' faIcon='fas fa-briefcase' />
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
@@ -53,7 +53,7 @@ const Departments = ({
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && (
+                    {auth && auth.isAuthenticated && auth.isAdmin && (
                       <Link to={`/departments/edit/${department._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>

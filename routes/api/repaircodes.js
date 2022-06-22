@@ -197,7 +197,7 @@ router.put(
 router.get('/', async (req, res) => {
   try {
     const repairCodes = await RepairCode.find().populate().sort({
-      codeNumber: 1,
+      codeNumber: 'asc',
     });
     res.json(repairCodes);
   } catch (err) {

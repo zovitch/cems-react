@@ -4,7 +4,7 @@ import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
 import { getCategories } from '../../actions/category';
 import { Link } from 'react-router-dom';
-import PageTitleBar from '../layout/PageTitleBar';
+import PageTitleBarAdmin from '../layout/PageTitleBarAdmin';
 
 const Categories = ({
   getCategories,
@@ -21,7 +21,7 @@ const Categories = ({
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBar item='category' faIcon='fas fa-tags' />
+          <PageTitleBarAdmin item='category' faIcon='fas fa-tags' />
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
@@ -50,7 +50,7 @@ const Categories = ({
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && (
+                    {auth && auth.isAuthenticated && auth.isAdmin && (
                       <Link to={`/categories/edit/${category._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>

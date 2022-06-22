@@ -954,19 +954,19 @@ justify-self: end;
 /*****************************************/
 /**********  Single View Layout **********/
 /*****************************************/
-.viewPage-25-75 {
+.viewPageSplit2 {
   display: grid;
   grid-template-columns: 1fr 3fr;
-  grid-template-areas: 'view-25 view-75';
+  grid-template-areas: 'view-left view-right';
   grid-gap: 4rem;
 }
 
-.view-25 {
-  grid-area: view-25;
+.view-left {
+  grid-area: view-left;
 }
 
-.view-75 {
-  grid-area: view-75;
+.view-right {
+  grid-area: view-right;
 }
 
 
@@ -1179,11 +1179,11 @@ justify-self: end;
     margin-top: 1rem;
   }
 
-  .viewPage-25-75 {
+  .viewPageSplit2 {
   grid-template-columns: 1fr ;
     grid-template-areas:
-      'view-25'
-      'view-75';
+      'view-left'
+      'view-right';
   grid-gap: 4rem;
   } 
 

@@ -148,6 +148,7 @@ router.put(
 router.get('/', async (req, res) => {
   try {
     const departments = await Department.find()
+      .sort({ trigram: 'asc' })
       .populate('owners', ['name'])
       .populate('location');
     res.json(departments);

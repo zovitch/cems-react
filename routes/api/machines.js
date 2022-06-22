@@ -244,21 +244,25 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const machines = await Machine.find().populate({
-      path: 'department afa parentMachine manufacturer category investment',
-      populate: {
-        path: 'owners location department afa manufacturer category',
-        select:
-          'name nameCN initials floor locationLetter code trigram description descriptionCN',
-        strictPopulate: false,
+    const machines = await Machine.find()
+      .sort({
+        machineNumber: 'asc',
+      })
+      .populate({
+        path: 'department afa parentMachine manufacturer category investment',
         populate: {
           path: 'owners location department afa manufacturer category',
           select:
             'name nameCN initials floor locationLetter code trigram description descriptionCN',
           strictPopulate: false,
+          populate: {
+            path: 'owners location department afa manufacturer category',
+            select:
+              'name nameCN initials floor locationLetter code trigram description descriptionCN',
+            strictPopulate: false,
+          },
         },
-      },
-    });
+      });
 
     res.json(machines);
   } catch (err) {

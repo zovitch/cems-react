@@ -4,7 +4,7 @@ import Spinner from '../layout/Spinner';
 import { getCategory } from '../../actions/category';
 import CategoryItem from '../categories/CategoryItem';
 import { useParams } from 'react-router-dom';
-import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
+import PageTitleBarSingleViewAdmin from '../layout/PageTitleBarSingleViewAdmin';
 import { connect } from 'react-redux';
 
 const Category = ({ getCategory, category: { category }, auth }) => {
@@ -20,21 +20,21 @@ const Category = ({ getCategory, category: { category }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBarSingleView item='category' />
+          <PageTitleBarSingleViewAdmin item='category' />
 
-          <div className='viewPage-25-75 py-2'>
-            <div className='view-25'>
+          <div className='viewPageSplit2 py-2'>
+            <div className='view-left'>
               <div className='lead'>
                 <i className='fas fa-tag'></i> Category
               </div>
               <CategoryItem category={category} />
             </div>
-            <div className='view-75'>
+            {/* <div className='view-right'>
               <div className='lead'>
                 <i className='fas fa-question'></i> Some Other stuff @NICO
               </div>
               <div className='cards'>some stuff</div>
-            </div>
+            </div> */}
           </div>
         </Fragment>
       )}

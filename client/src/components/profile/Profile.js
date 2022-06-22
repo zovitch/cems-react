@@ -29,14 +29,14 @@ const Profile = ({
         <Fragment>
           <PageTitleBarSingleView item='user' />
 
-          <div className='viewPage-25-75 py-2'>
-            <div className='view-25'>
+          <div className='viewPageSplit2 py-2'>
+            <div className='view-left'>
               <div className='lead'>
                 <i className='fas fa-user'></i> Profile
               </div>
               <ProfileItem user={user} />
             </div>
-            <div className='view-75'>
+            <div className='view-right'>
               <div className='lead'>
                 <i className='fas fa-briefcase'></i> Departments
               </div>

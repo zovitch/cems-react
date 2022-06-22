@@ -147,7 +147,7 @@ router.put(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const manufacturers = await Manufacturer.find();
+    const manufacturers = await Manufacturer.find().sort({ nameCN: 'asc' });
     if (!manufacturers) {
       return res.status(404).json({ msg: 'Manufacturers not found' });
     }
