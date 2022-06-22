@@ -1,6 +1,7 @@
 # default JSON
 config/default.json
 .DS_Store
+client/public/uploads/machines/
 
 # Logs
 logs
