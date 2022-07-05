@@ -23,14 +23,14 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
           <PageTitleBar item='r3' faIcon='fas fa-screwdriver-wrench' />
 
           <div>
-            <Link to={`/r3s/?applicantValidation=false`}>
-              <i className='btn btn-dark fas fa-filter'> </i>Show only Pending
-              R3
-            </Link>
-          </div>
-          <div>
+            {' '}
             <Link to={`/r3s/`}>
-              <i className='btn  fas fa-filter-circle-xmark'> </i>Show All
+              <i className='btn btn-dark fas fa-filter-circle-xmark'> </i>
+              <span className='p-1-2'>Show All</span>
+            </Link>
+            <Link to={`/r3s/?applicantValidation=false`}>
+              <i className='btn btn-dark fas fa-filter'> </i>
+              <span className='p-1-2'>Show only Pending R3</span>
             </Link>
           </div>
 
@@ -130,7 +130,8 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     {r3.repairExplanationCN}
                   </div>
                   <div className='attribute' data-name='Repair Date'>
-                    {r3.repairDate && formatDate(r3.repairDate)}
+                    {r3.engineeringRepairDate &&
+                      formatDate(r3.engineeringRepairDate)}
                   </div>
                   <div className='attribute' data-name='Applicant Validation'>
                     {r3.applicantValidation === true && (

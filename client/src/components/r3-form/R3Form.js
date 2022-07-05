@@ -31,7 +31,7 @@ const initialState = {
   maintenanceOilWaste: false,
   maintenancePlasticAndMetalWaste: false,
   maintenanceSpareParts: false,
-  repairDate: '',
+  engineeringRepairDate: '',
   applicantValidation: false,
   remark: '',
 };
@@ -581,9 +581,12 @@ const R3Form = ({
           <input
             type='date'
             placeholder='Repair Date'
-            name='repairDate'
-            id='repairDate'
-            value={formData.repairDate && formatDate(formData.repairDate)}
+            name='engineeringRepairDate'
+            id='engineeringRepairDate'
+            value={
+              formData.engineeringRepairDate &&
+              formatDate(formData.engineeringRepairDate)
+            }
             onChange={onChange}
           />{' '}
           <small className='form-text'>Applicant Validation</small>

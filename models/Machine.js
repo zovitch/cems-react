@@ -14,11 +14,11 @@ const MachineSchema = new mongoose.Schema(
     designation: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     designationCN: {
       type: String,
-      index: { unique: true, sparse: true },
+      // index: { unique: true, sparse: true },
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
@@ -56,6 +56,9 @@ const MachineSchema = new mongoose.Schema(
     retiredDate: {
       type: Date,
     },
+    dfa: {
+      type: String,
+    },
     purchasedPrice: {
       type: String,
     },
@@ -69,13 +72,12 @@ const MachineSchema = new mongoose.Schema(
     imgPath: {
       type: String,
     },
-    date: {
-      type: Date,
-      default: Date.now,
-    },
     afa: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'afa',
+    },
+    afaNumbertmp: {
+      type: String,
     },
     rfa: {
       type: String,

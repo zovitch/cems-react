@@ -104,7 +104,7 @@ router.post(
       maintenanceOilWaste,
       maintenancePlasticAndMetalWaste,
       maintenanceSpareParts,
-      repairDate,
+      engineeringRepairDate,
       applicantValidation,
       remark,
     } = req.body;
@@ -140,7 +140,8 @@ router.post(
         maintenancePlasticAndMetalWaste;
     if (maintenanceSpareParts)
       r3Fields.maintenanceSpareParts = maintenanceSpareParts;
-    if (repairDate) r3Fields.repairDate = repairDate;
+    if (engineeringRepairDate)
+      r3Fields.engineeringRepairDate = engineeringRepairDate;
 
     try {
       // Check the unicity of the data in the form
@@ -402,7 +403,7 @@ router.patch(
       maintenanceOilWaste,
       maintenancePlasticAndMetalWaste,
       maintenanceSpareParts,
-      repairDate,
+      engineeringRepairDate,
       applicantValidation,
       remark,
     } = req.body;
@@ -438,7 +439,8 @@ router.patch(
         maintenancePlasticAndMetalWaste;
     if (maintenanceSpareParts)
       r3Fields.maintenanceSpareParts = maintenanceSpareParts;
-    if (repairDate) r3Fields.repairDate = repairDate;
+    if (engineeringRepairDate)
+      r3Fields.engineeringRepairDate = engineeringRepairDate;
     console.log(machineStopped);
     try {
       // Check the unicity of the data in the form

@@ -38,6 +38,9 @@ const initialState = {
   parentMachine: '',
   afa: '',
   imgPath: '',
+  dfa: '',
+  rfa: '',
+  afaNumbertmp: '',
 };
 
 // Styling for <Select />
@@ -557,8 +560,6 @@ const MachineForm = ({
           />
         </div>
 
-        {/* Retired Date */}
-
         <div className='form-group'>
           <small className='form-text'>Purchased Price</small>
           <input
@@ -582,8 +583,32 @@ const MachineForm = ({
             onChange={onChange}
           />
         </div>
+
+        <div className='form-group'>
+          <small className='form-text'>DFA Number</small>
+          <input
+            type='text'
+            placeholder='DFA Number'
+            name='dfa'
+            id='dfa'
+            value={formData.dfa}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className='form-group'>
+          <small className='form-text'>Retired Date</small>
+          <input
+            type='date'
+            placeholder='Retired Date'
+            name='retiredDate'
+            id='retiredDate'
+            value={formData.retiredDate && formatDate(formData.retiredDate)}
+            onChange={onChange}
+          />
+        </div>
+
         {/* Parent Machine */}
-        {/* Machine Picture  */}
 
         <input
           type='submit'

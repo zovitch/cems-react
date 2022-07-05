@@ -18,17 +18,22 @@ const MachineItem = ({
     manufacturingDate,
     acquiredDate,
     investment,
-    costCenter,
+    retiredDate,
     purchasedPrice,
     comment,
-    afa,
+    costCenter,
     imgPath,
+    afa,
+    dfa,
+    rfa,
+    afaNumbertmp,
     parentMachine,
   },
 }) => {
   return (
     <div className='machine-card card-nohover bg-white'>
       <h2 className='machine-machineNumber'>{machineNumber}</h2>
+      <h2 className='machine-dfa'>{dfa}</h2>
       <h3 className='machine-qualityNumber'>{qualityNumber}</h3>
       <div className='machine-spacer1'></div>
       <div className='machine-designationCN'>{designationCN}</div>
@@ -95,6 +100,14 @@ const MachineItem = ({
       )}
       {acquiredDate && (
         <div className='machine-acquDate-value'>{formatDate(acquiredDate)}</div>
+      )}
+      {retiredDate && (
+        <small className='machine-retiredDate-label'>Retired </small>
+      )}
+      {retiredDate && (
+        <div className='machine-retiredDate-value'>
+          {formatDate(retiredDate)}
+        </div>
       )}
 
       {investment && investment.investmentNumber && (

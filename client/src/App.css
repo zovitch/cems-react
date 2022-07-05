@@ -133,6 +133,10 @@ img {
 .py-3 {
   padding: 3rem 0;
 }
+.p-1-2 {
+  padding-left: 0.5rem;
+  padding-right: 2rem;
+}
 
 /********** Margin **********/
 .m {
@@ -455,6 +459,7 @@ justify-self: end;
   /* grid-template-columns: 1fr 1fr ; */
   grid-template-areas: 
   'machine-machineNumber      machine-machineNumber'
+  'machine-dfa                machine-dfa'
   'machine-qualityNumber      machine-qualityNumber'
   'machine-spacer1            machine-spacer1'
   'machine-designationCN      machine-designationCN'
@@ -470,6 +475,7 @@ justify-self: end;
   'machine-sn-label           machine-sn-value'
   'machine-manuDate-label     machine-manuDate-value'
   'machine-acquDate-label     machine-acquDate-value'
+  'machine-retiredDate-label     machine-retiredDate-value'
   'machine-investment-label   machine-investment-value'
   'machine-costCenter-label   machine-costCenter-value'
   'machine-price-label        machine-price-value'
@@ -480,6 +486,10 @@ justify-self: end;
 
 .machine-machineNumber  {
   grid-area: machine-machineNumber;
+}
+
+.machine-dfa  {
+  grid-area: machine-dfa;
 }
 
 .machine-qualityNumber {
@@ -578,6 +588,18 @@ justify-self: end;
 
 .machine-acquDate-value {
   grid-area: machine-acquDate-value;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
+}
+
+.machine-retiredDate-label {
+  grid-area: machine-retiredDate-label;
+  text-align: start;
+  border-bottom: var(--grey-color) 1px dotted;
+}
+
+.machine-retiredDate-value {
+  grid-area: machine-retiredDate-value;
   text-align: start;
   border-bottom: var(--grey-color) 1px dotted;
 }

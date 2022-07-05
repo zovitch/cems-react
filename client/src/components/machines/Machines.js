@@ -94,11 +94,16 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                   </div>
                   {/* </div> */}
                   {/* <div className='attribute-container afa-rfa'> */}
-                  <div className='attribute' data-name='AFA'>
+                  {/* <div className='attribute' data-name='AFA'>
                     {machine.afa &&
                       'AFA ' + String(machine.afa.afaNumber).padStart(4, '0')}
+                  </div> */}
+                  <div className='attribute' data-name='AFA'>
+                    {machine.afaNumbertmp}
                   </div>
-                  <div className='attribute' data-name='RFA'></div>
+                  <div className='attribute' data-name='RFA'>
+                    {machine.rfa}
+                  </div>
                   {/* </div> */}
                   {/* <div className='attribute-container manufacturer'> */}
                   <div className='attribute' data-name='制造商'>

@@ -24,7 +24,7 @@ const R3Item = ({
     maintenanceOilWaste,
     maintenancePlasticAndMetalWaste,
     maintenanceSpareParts,
-    repairDate,
+    engineeringRepairDate,
     applicantValidation,
     remark,
   },
@@ -66,7 +66,7 @@ const R3Item = ({
       <div className='r3-designation'>{maintenancePlasticAndMetalWaste}</div>
       <div className='r3-designation'>{maintenanceSpareParts}</div>
       <div className='r3-designation'>
-        {repairDate && formatDate(repairDate)}
+        {engineeringRepairDate && formatDate(engineeringRepairDate)}
       </div>
       <div className='r3-designation'>{applicantValidation}</div>
       <div className='r3-designation'>{remark}</div>

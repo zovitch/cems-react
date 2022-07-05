@@ -91,6 +91,9 @@ router.post(
       costCenter,
       imgPath,
       afa,
+      dfa,
+      rfa,
+      afaNumbertmp,
       parentMachine,
     } = req.body;
 
@@ -113,6 +116,10 @@ router.post(
     if (comment) machineFields.comment = comment;
     if (costCenter) machineFields.costCenter = costCenter;
     if (imgPath) machineFields.imgPath = imgPath;
+    if (afa) machineFields.afa = afa;
+    if (afaNumbertmp) machineFields.afaNumbertmp = afaNumbertmp;
+    if (rfa) machineFields.rfa = rfa;
+    if (dfa) machineFields.dfa = dfa;
 
     // if (foundAfa) machineFields.afa = foundAfa;
     // if (foundAfa.designation) machineFields.designation = foundAfa.designation;
@@ -133,8 +140,8 @@ router.post(
         $or: [
           { machineNumber: machineNumber },
           { qualityNumber: qualityNumber },
-          { designation: designation },
-          { designationCN: designationCN },
+          // { designation: designation },
+          // { designationCN: designationCN },
         ],
       });
 
@@ -150,14 +157,14 @@ router.post(
           duplicateField = 'QUA No.';
           duplicateValue = qualityNumber;
         }
-        if (otherMachines[0].designation == designation) {
-          duplicateField = 'Designation';
-          duplicateValue = designation;
-        }
-        if (otherMachines[0].designationCN == designationCN) {
-          duplicateField = '设备名称';
-          duplicateValue = designationCN;
-        }
+        // if (otherMachines[0].designation == designation) {
+        //   duplicateField = 'Designation';
+        //   duplicateValue = designation;
+        // }
+        // if (otherMachines[0].designationCN == designationCN) {
+        //   duplicateField = '设备名称';
+        //   duplicateValue = designationCN;
+        // }
 
         return res.status(400).json({
           errors: [
@@ -246,7 +253,7 @@ router.get('/', async (req, res) => {
   try {
     const machines = await Machine.find()
       .sort({
-        machineNumber: 'asc',
+        acquiredDate: 'desc',
       })
       .populate({
         path: 'department afa parentMachine manufacturer category investment',
@@ -356,6 +363,9 @@ router.patch(
       costCenter,
       imgPath,
       afa,
+      dfa,
+      rfa,
+      afaNumbertmp,
       parentMachine,
     } = req.body;
 
@@ -373,14 +383,16 @@ router.patch(
     if (purchasedPrice) machineFields.purchasedPrice = purchasedPrice;
     if (comment) machineFields.comment = comment;
     if (costCenter) machineFields.costCenter = costCenter;
-    machineFields.imgPath = null; // to force update to null in case we remove the picture
     if (imgPath) machineFields.imgPath = imgPath;
+    if (afa) machineFields.afa = afa;
+    if (afaNumbertmp) machineFields.afaNumbertmp = afaNumbertmp;
+    if (rfa) machineFields.rfa = rfa;
+    if (dfa) machineFields.dfa = dfa;
 
     if (designation) machineFields.designation = designation;
     if (designationCN) machineFields.designationCN = designationCN;
     if (parentMachine) machineFields.parentMachine = parentMachine;
     if (department) machineFields.department = department;
-    // if (afa) machineFields.afa = afa;
 
     try {
       // Check the unicity of the data in the form
@@ -388,8 +400,8 @@ router.patch(
         $or: [
           { machineNumber: machineNumber },
           { qualityNumber: qualityNumber },
-          { designation: designation },
-          { designationCN: designationCN },
+          // { designation: designation },
+          // { designationCN: designationCN },
         ],
       });
       let arrayOfMachinesId = otherMachines.map((o) => o._id.toString());
@@ -411,14 +423,14 @@ router.patch(
           duplicateField = 'QUA No.';
           duplicateValue = qualityNumber;
         }
-        if (otherMachines[k].designationCN === designationCN) {
-          duplicateField = '设备名称';
-          duplicateValue = designationCN;
-        }
-        if (otherMachines[k].designation === designation) {
-          duplicateField = 'Designation';
-          duplicateValue = designation;
-        }
+        // if (otherMachines[k].designationCN === designationCN) {
+        //   duplicateField = '设备名称';
+        //   duplicateValue = designationCN;
+        // }
+        // if (otherMachines[k].designation === designation) {
+        //   duplicateField = 'Designation';
+        //   duplicateValue = designation;
+        // }
 
         return res.status(400).json({
           errors: [
