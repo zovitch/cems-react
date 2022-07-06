@@ -105,14 +105,15 @@ router.post(
       maintenancePlasticAndMetalWaste,
       maintenanceSpareParts,
       engineeringRepairDate,
-      applicantValidation,
+      applicantValidationDate,
       remark,
     } = req.body;
 
     const r3Fields = {};
     if (r3Number) r3Fields.r3Number = r3Number;
     if (remark) r3Fields.remark = remark;
-    if (applicantValidation) r3Fields.applicantValidation = applicantValidation;
+    if (applicantValidationDate)
+      r3Fields.applicantValidationDate = applicantValidationDate;
     if (machine) r3Fields.machine = machine;
     if (!r3Date) {
       r3Fields.r3Date = new Date();
@@ -404,14 +405,15 @@ router.patch(
       maintenancePlasticAndMetalWaste,
       maintenanceSpareParts,
       engineeringRepairDate,
-      applicantValidation,
+      applicantValidationDate,
       remark,
     } = req.body;
 
     const r3Fields = {};
     if (r3Number) r3Fields.r3Number = r3Number;
     if (remark) r3Fields.remark = remark;
-    if (applicantValidation) r3Fields.applicantValidation = applicantValidation;
+    if (applicantValidationDate)
+      r3Fields.applicantValidationDate = applicantValidationDate;
     if (machine) r3Fields.machine = machine;
     if (!r3Date) {
       r3Fields.r3Date = new Date();

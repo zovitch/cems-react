@@ -78,9 +78,8 @@ const R3Schema = new mongoose.Schema({
   engineeringRepairDate: {
     type: Date,
   },
-  applicantValidation: {
-    type: Boolean,
-    default: false,
+  applicantValidationDate: {
+    type: Date,
   },
   remark: {
     type: String,

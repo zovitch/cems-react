@@ -28,7 +28,7 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
               <i className='btn btn-dark fas fa-filter-circle-xmark'> </i>
               <span className='p-1-2'>Show All</span>
             </Link>
-            <Link to={`/r3s/?applicantValidation=false`}>
+            <Link to={`/r3s/?applicantValidationDate=false`}>
               <i className='btn btn-dark fas fa-filter'> </i>
               <span className='p-1-2'>Show only Pending R3</span>
             </Link>
@@ -133,10 +133,12 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     {r3.engineeringRepairDate &&
                       formatDate(r3.engineeringRepairDate)}
                   </div>
-                  <div className='attribute' data-name='Applicant Validation'>
-                    {r3.applicantValidation === true && (
-                      <i className='fas fa-check fa-center'></i>
-                    )}
+                  <div
+                    className='attribute'
+                    data-name='Applicant Validation Date'
+                  >
+                    {r3.applicantValidationDate &&
+                      formatDate(r3.applicantValidationDate)}
                   </div>
                 </li>
               ))}

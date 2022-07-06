@@ -25,7 +25,7 @@ const R3Item = ({
     maintenancePlasticAndMetalWaste,
     maintenanceSpareParts,
     engineeringRepairDate,
-    applicantValidation,
+    applicantValidationDate,
     remark,
   },
 }) => {
@@ -68,7 +68,7 @@ const R3Item = ({
       <div className='r3-designation'>
         {engineeringRepairDate && formatDate(engineeringRepairDate)}
       </div>
-      <div className='r3-designation'>{applicantValidation}</div>
+      <div className='r3-designation'>{applicantValidationDate}</div>
       <div className='r3-designation'>{remark}</div>
     </div>
   );

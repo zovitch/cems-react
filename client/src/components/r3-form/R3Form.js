@@ -32,7 +32,7 @@ const initialState = {
   maintenancePlasticAndMetalWaste: false,
   maintenanceSpareParts: false,
   engineeringRepairDate: '',
-  applicantValidation: false,
+  applicantValidationDate: false,
   remark: '',
 };
 
@@ -202,7 +202,7 @@ const R3Form = ({
       setToggleMaintenanceOilOn(r3Data.maintenanceOilWaste);
       setToggleMaintenancePlasticOn(r3Data.maintenancePlasticAndMetalWaste);
       setToggleMaintenanceSparePartsOn(r3Data.maintenanceSpareParts);
-      setToggleApplicantValidationOn(r3Data.applicantValidation);
+      setToggleApplicantValidationOn(r3Data.applicantValidationDate);
     }
   }, [r3]);
 
@@ -588,13 +588,18 @@ const R3Form = ({
               formatDate(formData.engineeringRepairDate)
             }
             onChange={onChange}
-          />{' '}
+          />
           <small className='form-text'>Applicant Validation</small>
-          <ToggleSwitch
-            name='applicantValidation'
-            id='applicantValidation'
-            defaultChecked={toggleApplicantValidationOn}
-            onClick={onChange}
+          <input
+            type='date'
+            placeholder='Applicant Validation Date'
+            name='applicantValidationDate'
+            id='applicantValidationDate'
+            value={
+              formData.applicantValidationDate &&
+              formatDate(formData.applicantValidationDate)
+            }
+            onChange={onChange}
           />
         </div>
         <input
