@@ -20,19 +20,13 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
 
   const listOfItemsOnDashboard = [
     {
-      name: 'R3 Repair Application',
+      name: 'R3 Repair',
       nameCN: '报修单',
       route: 'r3s',
       key: 'r3s',
       faLogo: 'fas fa-screwdriver-wrench',
     },
-    {
-      name: 'A.F.A.',
-      nameCN: '',
-      route: 'afas',
-      key: 'afas',
-      faLogo: 'fas fa-pencil',
-    },
+
     {
       name: 'L.F.A.',
       nameCN: '固定资产一览表',
@@ -42,18 +36,44 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
     },
     {
       name: 'investments',
-      nameCN: '',
+      nameCN: '预算',
       route: 'investments',
       key: 'investments',
       faLogo: 'fas fa-sack-dollar',
     },
     {
-      name: 'manufacturers',
-      nameCN: '制造商',
-      route: 'manufacturers',
-      key: 'manufacturers',
-      faLogo: 'fas fa-industry',
+      name: 'Categories',
+      nameCN: '类别',
+      route: 'categories',
+      key: 'categories',
+      faLogo: 'fas fa-tags',
     },
+
+    {
+      name: 'departments',
+      nameCN: '申请部门',
+      route: 'departments',
+      key: 'departments',
+      faLogo: 'fas fa-briefcase',
+    },
+    {
+      name: 'Users',
+      nameCN: '所有者',
+      route: 'users',
+      key: 'users',
+      faLogo: 'fas fa-users',
+    },
+  ];
+
+  const listOfItemsOnDashboardForEngineering = [
+    {
+      name: 'A.F.A.',
+      nameCN: '',
+      route: 'afas',
+      key: 'afas',
+      faLogo: 'fas fa-pencil',
+    },
+
     {
       name: 'Failure Codes',
       route: 'failurecodes',
@@ -76,13 +96,6 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
       color: 'text-analysis',
     },
     {
-      name: 'Categories',
-      nameCN: '类别',
-      route: 'categories',
-      key: 'categories',
-      faLogo: 'fas fa-tags',
-    },
-    {
       name: 'Locations',
       nameCN: '位置',
       route: 'locations',
@@ -90,20 +103,14 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
       faLogo: 'fas fa-location',
     },
     {
-      name: 'departments',
-      nameCN: '申请部门',
-      route: 'departments',
-      key: 'departments',
-      faLogo: 'fas fa-briefcase',
-    },
-    {
-      name: 'Users',
-      nameCN: '所有者',
-      route: 'users',
-      key: 'users',
-      faLogo: 'fas fa-users',
+      name: 'manufacturers',
+      nameCN: '制造商',
+      route: 'manufacturers',
+      key: 'manufacturers',
+      faLogo: 'fas fa-industry',
     },
   ];
+
   return (
     <section className='container'>
       <h1 className='large text-primary'>
@@ -115,6 +122,19 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
             <DashBoardCard key={i.key} item={i} />
           ))}
       </div>
+      {user && user.isEngineer && (
+        <span>
+          <hr />
+          <br />
+          <h1>Engineering Section</h1>
+          <div className='cards py-2'>
+            {listOfItemsOnDashboardForEngineering.length > 1 &&
+              listOfItemsOnDashboardForEngineering.map((i) => (
+                <DashBoardCard key={i.key} item={i} />
+              ))}
+          </div>
+        </span>
+      )}
     </section>
   );
 };

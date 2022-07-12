@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -29,17 +29,20 @@ const Landing = ({ isAuthenticated }) => {
 
   return (
     <section className='landing'>
-      <div className='dark-overlay'>
-        {/* <div className=' py-3'> */}
-        {/* <h1 className='x-large'>Citel Equipment & Machinery System</h1> */}
-        <div className='cards p-3'>
+      <div className='dark-overlay '>
+        <div className='container'>
+          <h1 className='large text-light text-center py-3'>
+            Citel Equipment & Machinery System
+          </h1>
+
+          {/* <div className='cards p-3'>
           {listOfItemsOnLanding.length > 1 &&
             listOfItemsOnLanding.map((i) => (
               <DashBoardCard key={i.key} item={i} />
             ))}
-        </div>
-        {/* <p className='lead'>Add some element for Machines</p>
-          <div className='buttons'>
+        </div> */}
+
+          <div className='button text-center p-3'>
             <Link to='/register' className='btn btn-primary'>
               <i className='fas fa-user-plus' />{' '}
               <span className='hide-sm'>Sign Up</span>
@@ -48,9 +51,9 @@ const Landing = ({ isAuthenticated }) => {
               <i className='fas fa-right-to-bracket' />{' '}
               <span className='hide-sm'>Login</span>
             </Link>
-          </div> */}
+          </div>
+        </div>
       </div>
-      {/* </div> */}
     </section>
   );
 };

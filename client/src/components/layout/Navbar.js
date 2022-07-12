@@ -58,9 +58,9 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
-        <Link to='/create-r3'>
-          <i className='fas fa-screwdriver'></i>{' '}
-          <span className='hide-sm'>New R3</span>
+        <Link to='/r3s/?applicantValidation=false'>
+          <i className='fas fa-screwdriver-wrench'></i>{' '}
+          <span className='hide-sm'>Pending R3</span>
         </Link>
       </li>
       <li>

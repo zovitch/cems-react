@@ -108,6 +108,10 @@ img {
   color: var(--dark-color);
 }
 
+.text-light {
+  color: var(--light-color);
+}
+
 /********** Padding **********/
 .p {
   padding: 0.5rem;
@@ -1004,6 +1008,10 @@ justify-self: end;
     color: var(--dark-color);
   }
   
+  .item-container-3 {
+    grid-template-columns: 2rem 2rem 1fr ;
+  }
+
   .item-container-4 {
     grid-template-columns: 2rem 2rem 1fr 1fr;
   }
@@ -1013,7 +1021,7 @@ justify-self: end;
   }
 
   .item-container-7 {
-    grid-template-columns: 2rem 2rem 2fr 2fr 1fr 1fr 3fr 1fr;
+    grid-template-columns: 2rem 2rem 1fr 2fr 2fr 1fr 2fr ;
   }
 
 
