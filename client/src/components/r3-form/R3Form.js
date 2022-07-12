@@ -39,6 +39,7 @@ const initialState = {
 const R3Form = ({
   r3: { r3, newR3Number },
   machine: { machines },
+  auth: { user },
   user: { users },
   code: { failureCodes, repairCodes, analysisCodes },
   createR3,
@@ -309,68 +310,6 @@ const R3Form = ({
 
       <form className='form py' onSubmit={onSubmit}>
         <div className='form-group'>
-          <div className='lockField'>
-            <span></span>
-            <small className='form-text'>
-              {document.querySelector('#r3NumberToggle') &&
-              document.querySelector('#r3NumberToggle').checked
-                ? 'R3 No.'
-                : 'Automatically generated R3 No.'}
-            </small>
-          </div>
-          <div className='lockField'>
-            <ToggleSwitch
-              name='r3NumberToggle'
-              id='r3NumberToggle'
-              defaultChecked={toggleR3NumberOn}
-              onClick={onToggleR3Number}
-            />
-            <input
-              type='text'
-              placeholder={
-                document.querySelector('#r3NumberToggle') &&
-                document.querySelector('#r3NumberToggle').checked
-                  ? 'Enter a R3 Number'
-                  : 'Select an EQU No. to generate an R3 No.'
-              }
-              name='r3Number'
-              id='r3Number'
-              value={
-                document.querySelector('#r3NumberToggle') &&
-                document.querySelector('#r3NumberToggle').checked
-                  ? formData.r3Number
-                  : newR3Number
-                  ? newR3Number
-                  : ''
-              }
-              onChange={onChange}
-              readOnly={!toggleR3NumberOn}
-            />
-          </div>
-        </div>
-        <div className='form-group'>
-          <small className='form-text'>Date</small>
-          <input
-            type='date'
-            placeholder='R3 Date'
-            name='r3Date'
-            id='r3Date'
-            value={formData.r3Date && formatDate(formData.r3Date)}
-            onChange={onChangeR3Date}
-          />
-        </div>
-        <div className='form-group'>
-          <small className='form-text'>Remark</small>
-          <input
-            type='text'
-            placeholder='GD...'
-            name='remark'
-            id='remark'
-            value={formData.remark}
-            onChange={onChange}
-          />
-        </div>
-        <div className='form-group'>
           <small className='form-text'>EQU No.</small>
           {machines.length > 0 && (
             <Select
@@ -393,6 +332,46 @@ const R3Form = ({
             />
           )}
         </div>
+
+        <div className='form-group'>
+          {user && user.isEngineer && (
+            <div className='form-group'>
+              <small className='form-text'>
+                Toggle to change the R3 Number
+              </small>
+              <ToggleSwitch
+                name='r3NumberToggle'
+                id='r3NumberToggle'
+                defaultChecked={toggleR3NumberOn}
+                onClick={onToggleR3Number}
+              />
+            </div>
+          )}
+          {user && user.isEngineer && (
+            <input
+              type='text'
+              placeholder={
+                document.querySelector('#r3NumberToggle') &&
+                document.querySelector('#r3NumberToggle').checked
+                  ? 'Enter a R3 Number'
+                  : 'Select an EQU No. to generate an R3 No.'
+              }
+              name='r3Number'
+              id='r3Number'
+              value={
+                document.querySelector('#r3NumberToggle') &&
+                document.querySelector('#r3NumberToggle').checked
+                  ? formData.r3Number
+                  : newR3Number
+                  ? newR3Number
+                  : ''
+              }
+              onChange={onChange}
+              readOnly={!toggleR3NumberOn}
+            />
+          )}
+        </div>
+
         <div className='form-group'>
           <small className='form-text'>Applicant</small>
           <input
@@ -455,148 +434,203 @@ const R3Form = ({
             color='danger'
           />
         </div>
+
         <div className='form-group'>
-          <small className='form-text'>Repair Engineer</small>
-          {users.length > 0 && (
-            <Select
-              name='repairEngineer'
-              id='repairEngineer'
-              placeholder='Select the person in charge of the repair'
-              defaultValue={defaultRepairEngineer}
-              key={formData.repairEngineer && formData.repairEngineer._id}
-              onChange={onChangeRepairEngineer}
-              options={optionRepairEngineer}
-              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-            />
-          )}
-          <small className='form-text'>Engineer Comment</small>
-          <textarea
-            type='textarea'
-            rows='2'
-            placeholder='...'
-            name='engineeringRemark'
-            id='engineeringRemark'
-            value={formData.engineeringRemark}
-            onChange={onChange}
-          />
-        </div>
-        <div className='form-group'>
-          <small className='form-text'>Repair Code</small>
-          {repairCodes.length > 0 && (
-            <Select
-              name='repairCode'
-              id='repairCode'
-              placeholder='Select a Repair Code'
-              defaultValue={defaultRepairCode}
-              key={formData.repairCode && formData.repairCode._id}
-              onChange={onChangeRepairCode}
-              options={optionRepairCodes}
-              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-            />
-          )}
-        </div>
-        <div className='form-group'>
-          <textarea
-            type='textarea'
-            rows='4'
-            placeholder='Record of the repair'
-            name='repairExplanation'
-            id='repairExplanation'
-            value={formData.repairExplanation}
-            onChange={onChange}
-          />
-        </div>
-        <div className='form-group'>
-          <textarea
-            rows='4'
-            placeholder='修理情况'
-            name='repairExplanationCN'
-            id='repairExplanationCN'
-            value={formData.repairExplanationCN}
-            onChange={onChange}
-          />
-        </div>
-        <div className='form-group'>
-          <small className='form-text'>Analysis Code</small>
-          {analysisCodes.length > 0 && (
-            <Select
-              name='analysisCode'
-              id='analysisCode'
-              placeholder='Select an Analysis Code'
-              defaultValue={defaultAnalysisCode}
-              key={formData.analysisCode && formData.analysisCode._id}
-              onChange={onChangeAnalysisCode}
-              options={optionAnalysisCodes}
-              menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-            />
-          )}
-        </div>
-        <div className='form-group'>
-          <textarea
-            type='textarea'
-            rows='4'
-            placeholder='Root Cause Analysis'
-            name='analysisExplanation'
-            id='analysisExplanation'
-            value={formData.analysisExplanation}
-            onChange={onChange}
-          />
-        </div>
-        <div className='form-group'>
-          <textarea
-            rows='4'
-            placeholder='根本原因分析'
-            name='analysisExplanationCN'
-            id='analysisExplanationCN'
-            value={formData.analysisExplanationCN}
+          <small className='form-text'>Remark</small>
+          <input
+            type='text'
+            placeholder='GD...'
+            name='remark'
+            id='remark'
+            value={formData.remark}
             onChange={onChange}
           />
         </div>
 
+        {newR3Number && (
+          <div className='form-group'>
+            <small className='form-text'>
+              The R3 will be save with the number
+            </small>
+            {newR3Number}
+          </div>
+        )}
         <div className='form-group'>
-          <small className='form-text'>Maintenance Oil & Solvant Waste</small>
-          <ToggleSwitch
-            name='maintenanceOilWaste'
-            id='maintenanceOilWaste'
-            defaultChecked={toggleMaintenanceOilOn}
-            onClick={onChange}
-          />
-          <small className='form-text'>Maintenance Plastic & Metal Waste</small>
-          <ToggleSwitch
-            name='maintenancePlasticAndMetalWaste'
-            id='maintenancePlasticAndMetalWaste'
-            defaultChecked={toggleMaintenancePlasticOn}
-            onClick={onChange}
-          />
-          <small className='form-text'>Maintenance Spare Parts</small>
-          <ToggleSwitch
-            name='maintenanceSpareParts'
-            id='maintenanceSpareParts'
-            defaultChecked={toggleMaintenanceSparePartsOn}
-            onClick={onChange}
-          />
-        </div>
-        <div className='form-group'>
-          <small className='form-text'>Repair Date</small>
+          <small className='form-text'>R3 Application Date</small>
           <input
             type='date'
-            placeholder='Repair Date'
-            name='engineeringRepairDate'
-            id='engineeringRepairDate'
-            value={
-              formData.engineeringRepairDate &&
-              formatDate(formData.engineeringRepairDate)
-            }
-            onChange={onChange}
-          />{' '}
-          <small className='form-text'>Applicant Validation</small>
-          <ToggleSwitch
-            name='applicantValidation'
-            id='applicantValidation'
-            defaultChecked={toggleApplicantValidationOn}
-            onClick={onChange}
+            placeholder='R3 Date'
+            name='r3Date'
+            id='r3Date'
+            value={formData.r3Date && formatDate(formData.r3Date)}
+            onChange={onChangeR3Date}
           />
         </div>
+
+        {!creatingR3 && (
+          <div className='form-group'>
+            <small className='form-text text-success'>
+              Application Repair Completed Validation
+            </small>
+            <ToggleSwitch
+              name='applicantValidation'
+              id='applicantValidation'
+              defaultChecked={toggleApplicantValidationOn}
+              onClick={onChange}
+            />
+          </div>
+        )}
+
+        {/* Below is to be shown only for Engineering Team */}
+
+        {user && user.isEngineer && (
+          <span>
+            <br />
+            <br />
+            <h1 className='text-center'>Engineering Section</h1>
+            <div className='form-group'>
+              <small className='form-text'>Repair Engineer</small>
+              {users.length > 0 && (
+                <Select
+                  name='repairEngineer'
+                  id='repairEngineer'
+                  placeholder='Select the person in charge of the repair'
+                  defaultValue={defaultRepairEngineer}
+                  key={formData.repairEngineer && formData.repairEngineer._id}
+                  onChange={onChangeRepairEngineer}
+                  options={optionRepairEngineer}
+                  menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                />
+              )}
+              <small className='form-text'>Engineer Comment</small>
+              <textarea
+                type='textarea'
+                rows='2'
+                placeholder='...'
+                name='engineeringRemark'
+                id='engineeringRemark'
+                value={formData.engineeringRemark}
+                onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <small className='form-text'>Repair Code</small>
+              {repairCodes.length > 0 && (
+                <Select
+                  name='repairCode'
+                  id='repairCode'
+                  placeholder='Select a Repair Code'
+                  defaultValue={defaultRepairCode}
+                  key={formData.repairCode && formData.repairCode._id}
+                  onChange={onChangeRepairCode}
+                  options={optionRepairCodes}
+                  menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                />
+              )}
+            </div>
+            <div className='form-group'>
+              <textarea
+                type='textarea'
+                rows='4'
+                placeholder='Record of the repair'
+                name='repairExplanation'
+                id='repairExplanation'
+                value={formData.repairExplanation}
+                onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <textarea
+                rows='4'
+                placeholder='修理情况'
+                name='repairExplanationCN'
+                id='repairExplanationCN'
+                value={formData.repairExplanationCN}
+                onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <small className='form-text'>Analysis Code</small>
+              {analysisCodes.length > 0 && (
+                <Select
+                  name='analysisCode'
+                  id='analysisCode'
+                  placeholder='Select an Analysis Code'
+                  defaultValue={defaultAnalysisCode}
+                  key={formData.analysisCode && formData.analysisCode._id}
+                  onChange={onChangeAnalysisCode}
+                  options={optionAnalysisCodes}
+                  menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                />
+              )}
+            </div>
+            <div className='form-group'>
+              <textarea
+                type='textarea'
+                rows='4'
+                placeholder='Root Cause Analysis'
+                name='analysisExplanation'
+                id='analysisExplanation'
+                value={formData.analysisExplanation}
+                onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <textarea
+                rows='4'
+                placeholder='根本原因分析'
+                name='analysisExplanationCN'
+                id='analysisExplanationCN'
+                value={formData.analysisExplanationCN}
+                onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <small className='form-text'>
+                Maintenance Oil & Solvant Waste
+              </small>
+              <ToggleSwitch
+                name='maintenanceOilWaste'
+                id='maintenanceOilWaste'
+                defaultChecked={toggleMaintenanceOilOn}
+                onClick={onChange}
+              />
+              <small className='form-text'>
+                Maintenance Plastic & Metal Waste
+              </small>
+              <ToggleSwitch
+                name='maintenancePlasticAndMetalWaste'
+                id='maintenancePlasticAndMetalWaste'
+                defaultChecked={toggleMaintenancePlasticOn}
+                onClick={onChange}
+              />
+              <small className='form-text'>Maintenance Spare Parts</small>
+              <ToggleSwitch
+                name='maintenanceSpareParts'
+                id='maintenanceSpareParts'
+                defaultChecked={toggleMaintenanceSparePartsOn}
+                onClick={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <small className='form-text'>Repair Date</small>
+              <input
+                type='date'
+                placeholder='Repair Date'
+                name='engineeringRepairDate'
+                id='engineeringRepairDate'
+                value={
+                  formData.engineeringRepairDate &&
+                  formatDate(formData.engineeringRepairDate)
+                }
+                onChange={onChange}
+              />
+            </div>
+          </span>
+        )}
+
+        {/* Above is to be shown only for Engineering Team */}
+
         <input
           type='submit'
           id='submit'
@@ -632,6 +666,7 @@ R3Form.propTypes = {
   machine: PropTypes.object.isRequired,
   code: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   createR3: PropTypes.func.isRequired,
   getR3: PropTypes.func.isRequired,
   getNewR3Number: PropTypes.func.isRequired,
@@ -645,6 +680,7 @@ const mapStateToProps = (state) => ({
   machine: state.machine,
   user: state.user,
   code: state.code,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
