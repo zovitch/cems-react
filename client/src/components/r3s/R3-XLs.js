@@ -7,7 +7,7 @@ import PageTitleBar from '../layout/PageTitleBar';
 import { getR3s } from '../../actions/r3';
 import formatDate from '../../utils/formatDate';
 
-const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
+const R3XLs = ({ getR3s, auth, r3: { r3s, loading } }) => {
   const r3Query = useLocation();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
               <i className='btn btn-dark fas fa-filter-circle-xmark'> </i>
               <span className='p-1-2'>Show All</span>
             </Link>
-            <Link to={`/r3s/?applicantValidationDate=false`}>
+            <Link to={`/r3s/?applicantValidation=false`}>
               <i className='btn btn-dark fas fa-filter'> </i>
               <span className='p-1-2'>Show only Pending R3</span>
             </Link>
@@ -36,15 +36,26 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-left-7 '>
+            <li className='item item-container item-container-18 '>
+              <div className='attribute'></div>
+              <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
+              <div className='attribute'>R3 No.</div>
               <div className='attribute'>EQU No.</div>
               <div className='attribute'>EQU Name</div>
               <div className='attribute'></div>
               <div className='attribute'>Date</div>
+              <div className='attribute'>Applicant</div>
               <div className='attribute'>Failure</div>
+              <div className='attribute'>Explanation</div>
+              <div className='attribute'>报修说明</div>
               <div className='attribute'>Status</div>
               <div className='attribute'>Engineer</div>
+              <div className='attribute'>Repair</div>
+              <div className='attribute'>Record</div>
+              <div className='attribute'>修理情况</div>
+              <div className='attribute'>Repair Date</div>
+              <div className='attribute'>Validation</div>
             </li>
 
             {/* The rest of the items in the list are the actual data */}
@@ -53,8 +64,24 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
               r3s.map((r3) => (
                 <li
                   key={r3._id}
-                  className='item item-container item-container-left-7'
+                  className='item item-container item-container-18'
                 >
+                  <div className='attribute' data-name='Open'>
+                    <Link to={`/r3s/${r3._id}`}>
+                      <i className='fas fa-eye'></i>
+                    </Link>
+                  </div>
+                  <div className='attribute' data-name='Edit'>
+                    {auth && auth.isAuthenticated && (
+                      <Link to={`/r3s/edit/${r3._id}`}>
+                        <i className='fas fa-edit'></i>
+                      </Link>
+                    )}
+                  </div>
+
+                  <div className='attribute' data-name='R3 No.'>
+                    {r3.r3Number}
+                  </div>
                   <div className='attribute' data-name='EQU No.'>
                     {r3.machine && r3.machine.machineNumber}
                   </div>
@@ -67,21 +94,49 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                   <div className='attribute' data-name='R3 Date'>
                     {r3.r3Date && formatDate(r3.r3Date)}
                   </div>
+                  <div className='attribute' data-name='Applicant'>
+                    {r3.applicant}
+                  </div>
                   <div className='attribute' data-name='Failure Code'>
                     {r3.failureCode &&
                       String(r3.failureCode.codeNumber).padStart(2, '0') +
                         ' - ' +
                         r3.failureCode.name}
                   </div>
-                  <div className='attribute' data-name='Machine Stopped?'>
-                    {r3.machineStopped ? (
-                      <i className='fas fa-plug-circle-exclamation fa-center text-danger'></i>
-                    ) : (
-                      <i className='fa-solid fa-center fa-plug-circle-check text-success'></i>
+                  <div className='attribute' data-name='Explanation'>
+                    {r3.failureExplanation}
+                  </div>
+                  <div className='attribute' data-name='报修说明'>
+                    {r3.failureExplanationCN}
+                  </div>
+                  <div className='attribute' data-name='Machine Status'>
+                    {r3.machineStopped && (
+                      <i className='fas fa-stop-circle fa-center'></i>
                     )}
                   </div>
                   <div className='attribute' data-name='Repair Engineer'>
                     {r3.repairEngineer && r3.repairEngineer.name}
+                  </div>
+                  <div className='attribute' data-name='Repair Code'>
+                    {r3.repairCode &&
+                      String(r3.repairCode.codeNumber).padStart(2, '0') +
+                        ' - ' +
+                        r3.repairCode.name}
+                  </div>
+                  <div className='attribute' data-name='Repair Record'>
+                    {r3.repairExplanation}
+                  </div>
+                  <div className='attribute' data-name='修理情况'>
+                    {r3.repairExplanationCN}
+                  </div>
+                  <div className='attribute' data-name='Repair Date'>
+                    {r3.engineeringRepairDate &&
+                      formatDate(r3.engineeringRepairDate)}
+                  </div>
+                  <div className='attribute' data-name='Applicant Validation'>
+                    {r3.applicantValidation === true && (
+                      <i className='fas fa-check fa-center'></i>
+                    )}
                   </div>
                 </li>
               ))}
@@ -92,7 +147,7 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
   );
 };
 
-R3s.propTypes = {
+R3XLs.propTypes = {
   getR3s: PropTypes.func.isRequired,
   r3: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
@@ -103,4 +158,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getR3s })(R3s);
+export default connect(mapStateToProps, { getR3s })(R3XLs);
