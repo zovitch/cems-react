@@ -26,7 +26,7 @@ const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
               <div className='attribute'>Name</div>
-              <div className='attribute'>Departments</div>
+              <div className='attribute'>Email</div>
             </li>
 
             {/* The rest of the items in the list are the actual data */}
@@ -55,7 +55,9 @@ const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
                   <div className='attribute' data-name='Name'>
                     {user.name}
                   </div>
-                  <div className='attribute' data-name='Departments'></div>
+                  <div className='attribute' data-name='Email'>
+                    {user.email}
+                  </div>
                 </li>
               ))}
           </ul>

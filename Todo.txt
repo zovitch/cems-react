@@ -9,16 +9,14 @@
 - MSA
 
 TODO
-- Improve UI UX of Form
+- Improve UI UX of Form / split view
+- Print AFA, and save
+
 - Display Pendinga AFA
-- Display Pending R3
 - Upload Files to R3
 - add auth.isAdmin to Model for users 
-- add auth.isENG to Model for users
+- add auth.isEngineer to Model for users
 - add department user ± department owner
-
-
-- Print AFA, and save
 - Managed Roles: logged in or not, ENG or not, Manager or not
 - Import Excel CSV JSON Files
 - Display all R3 from one Machine or Category
@@ -68,6 +66,7 @@ DONE
 - Machine Card layout grid
 - UPLOAD PICTURE TO MACHINE
 - sort by date or others for big tables
+- Display Pending R3
 
 
 RESOURCES

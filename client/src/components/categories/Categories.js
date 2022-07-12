@@ -50,7 +50,7 @@ const Categories = ({
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && auth.isAdmin && (
+                    {auth && auth.isAuthenticated && auth.user.isAdmin && (
                       <Link to={`/categories/edit/${category._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>
