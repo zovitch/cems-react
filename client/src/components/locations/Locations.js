@@ -49,7 +49,7 @@ const Locations = ({
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && auth.isAdmin && (
+                    {auth && auth.isAuthenticated && auth.user.isAdmin && (
                       <Link to={`/locations/edit/${location._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>

@@ -29,7 +29,7 @@ const PageTitleBarAdmin = ({ auth, item, faIcon }) => {
           auth &&
           auth.isAuthenticated &&
           auth.loading === false &&
-          auth.isAdmin && <AddNew item={item} />}
+          auth.user.isAdmin && <AddNew item={item} />}
       </div>
     </div>
   );

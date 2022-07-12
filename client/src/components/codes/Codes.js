@@ -62,7 +62,7 @@ const Codes = ({ getCodes, auth, code, codetype }) => {
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && auth.isAdmin && (
+                    {auth && auth.isAuthenticated && auth.user.isAdmin && (
                       <Link to={`/${codetype}codes/edit/${code._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>
