@@ -30,6 +30,7 @@ const InvestmentForm = ({
   createInvestment,
   deleteInvestment,
   investment: { investment },
+  auth: { user },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const [toggleApprovedOn, setToggleApprovedOn] = useState();
@@ -144,7 +145,7 @@ const InvestmentForm = ({
           Go Back
         </Link>
       </form>
-      {creatingInvestment === false && (
+      {creatingInvestment === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
@@ -166,10 +167,12 @@ InvestmentForm.propTypes = {
   createInvestment: PropTypes.func.isRequired,
   getInvestment: PropTypes.func.isRequired,
   deleteInvestment: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   investment: state.investment,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {

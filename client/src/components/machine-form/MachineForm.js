@@ -69,6 +69,7 @@ const MachineForm = ({
   department: { departments },
   manufacturer: { manufacturers },
   investment: { investments },
+  auth: { user },
   // upload: { uploadedFile },
   createMachine,
   getMachine,
@@ -623,7 +624,7 @@ const MachineForm = ({
           Go Back
         </Link>
       </form>
-      {creatingMachine === false && (
+      {creatingMachine === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
@@ -657,6 +658,7 @@ MachineForm.propTypes = {
   getManufacturers: PropTypes.func.isRequired,
   getInvestments: PropTypes.func.isRequired,
   addFile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -665,6 +667,7 @@ const mapStateToProps = (state) => ({
   department: state.department,
   manufacturer: state.manufacturer,
   investment: state.investment,
+  auth: state.auth,
   // upload: state.upload,
 });
 

@@ -34,6 +34,7 @@ const DepartmentForm = ({
   user: { users },
   location: { locations },
   department: { department },
+  auth: { user },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -184,7 +185,7 @@ const DepartmentForm = ({
           Go Back
         </Link>
       </form>
-      {creatingDepartment === false && (
+      {creatingDepartment === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
@@ -210,12 +211,14 @@ DepartmentForm.propTypes = {
   department: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   department: state.department,
   location: state.location,
   user: state.user,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, {
   getDepartment,

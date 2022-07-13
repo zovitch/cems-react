@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AddNew from './AddNew';
 
-const PageTitleBarAdmin = ({ auth, item, faIcon }) => {
+const PageTitleBarEngineer = ({ auth, item, faIcon }) => {
   const lastChar = item.charAt(item.length - 1);
 
   let items = item[0].toUpperCase() + item.substring(1) + 's';
@@ -35,7 +35,7 @@ const PageTitleBarAdmin = ({ auth, item, faIcon }) => {
   );
 };
 
-PageTitleBarAdmin.propTypes = {
+PageTitleBarEngineer.propTypes = {
   auth: PropTypes.object.isRequired,
   item: PropTypes.string.isRequired,
   faIcon: PropTypes.string.isRequired,
@@ -45,4 +45,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(PageTitleBarAdmin);
+export default connect(mapStateToProps)(PageTitleBarEngineer);

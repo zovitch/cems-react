@@ -24,6 +24,7 @@ const ManufacturerForm = ({
   getManufacturer,
   deleteManufacturer,
   manufacturer: { manufacturer },
+  auth: { user },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ const ManufacturerForm = ({
           Go Back
         </Link>
       </form>
-      {creatingManufacturer === false && (
+      {creatingManufacturer === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
@@ -113,10 +114,12 @@ ManufacturerForm.propTypes = {
   createManufacturer: PropTypes.func.isRequired,
   getManufacturer: PropTypes.func.isRequired,
   deleteManufacturer: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   manufacturer: state.manufacturer,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {

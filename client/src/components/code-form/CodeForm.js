@@ -17,6 +17,7 @@ const CodeForm = ({
   deleteCode,
   codetype,
   code: { code },
+  auth: { user },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -103,7 +104,7 @@ const CodeForm = ({
           Go Back
         </Link>
       </form>
-      {creatingCode === false && (
+      {creatingCode === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
@@ -128,10 +129,12 @@ CodeForm.propTypes = {
   deleteCode: PropTypes.func.isRequired,
   code: PropTypes.object.isRequired,
   codetype: PropTypes.string.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   code: state.code,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {

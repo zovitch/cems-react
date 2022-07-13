@@ -78,12 +78,13 @@ const ProfileForm = ({
           Go Back
         </Link>
       </form>
-      <div className='line' />
+      {/* for now we cannot delete a user account from the front end */}
+      {/* <div className='line' />
       <div className='my-2 text-center'>
         <button className='btn btn-danger' onClick={() => deleteAccount()}>
           <i className='fas fa-trash' /> Delete My Account
         </button>
-      </div>
+      </div> */}
     </section>
   );
 };

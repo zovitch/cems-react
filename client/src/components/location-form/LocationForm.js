@@ -28,6 +28,7 @@ const LocationForm = ({
   createLocation,
   deleteLocation,
   location: { location },
+  auth: { user },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -118,7 +119,7 @@ const LocationForm = ({
           Go Back
         </Link>
       </form>
-      {creatingLocation === false && (
+      {creatingLocation === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
@@ -140,10 +141,12 @@ LocationForm.propTypes = {
   createLocation: PropTypes.func.isRequired,
   getLocation: PropTypes.func.isRequired,
   deleteLocation: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   location: state.location,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {

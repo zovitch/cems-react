@@ -20,6 +20,7 @@ const CategoryForm = ({
   getCategory,
   deleteCategory,
   category: { category },
+  auth: { user },
 }) => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ const CategoryForm = ({
           Go Back
         </Link>
       </form>
-      {creatingCategory === false && (
+      {creatingCategory === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
@@ -122,10 +123,12 @@ CategoryForm.propTypes = {
   createCategory: PropTypes.func.isRequired,
   getCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   category: state.category,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, {
   createCategory,

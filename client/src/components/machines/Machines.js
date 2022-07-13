@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import PageTitleBar from '../layout/PageTitleBar';
+import PageTitleBarEngineer from '../layout/PageTitleBarEngineer';
 import { getMachines } from '../../actions/machine';
 import nth from '../../utils/nth';
 import formatDate from '../../utils/formatDate';
@@ -19,7 +19,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBar item='machine' faIcon='fas fa-clipboard-list' />
+          <PageTitleBarEngineer item='machine' faIcon='fas fa-clipboard-list' />
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
@@ -70,7 +70,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                     </Link>
                   </div>
                   <div className='attribute' data-name='Edit'>
-                    {auth && auth.isAuthenticated && (
+                    {auth && auth.isAuthenticated && auth.user.isEngineer && (
                       <Link to={`/machines/edit/${machine._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>

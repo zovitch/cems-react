@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import EditCurrent from './EditCurrent';
 
-const PageTitleBarSingleViewAdmin = ({ auth, item }) => {
+const PageTitleBarSingleViewEngineer = ({ auth, item }) => {
   const lastChar = item.charAt(item.length - 1);
 
   let items = item + 's';
@@ -28,13 +28,13 @@ const PageTitleBarSingleViewAdmin = ({ auth, item }) => {
         {auth &&
           auth.isAuthenticated &&
           auth.loading === false &&
-          auth.user.isAdmin && <EditCurrent item={items} />}
+          auth.user.isEngineer && <EditCurrent item={items} />}
       </div>
     </div>
   );
 };
 
-PageTitleBarSingleViewAdmin.propTypes = {
+PageTitleBarSingleViewEngineer.propTypes = {
   auth: PropTypes.object.isRequired,
   item: PropTypes.string.isRequired,
 };
@@ -42,4 +42,4 @@ PageTitleBarSingleViewAdmin.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-export default connect(mapStateToProps)(PageTitleBarSingleViewAdmin);
+export default connect(mapStateToProps)(PageTitleBarSingleViewEngineer);

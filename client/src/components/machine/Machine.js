@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getMachine } from '../../actions/machine';
 import Spinner from '../layout/Spinner';
 import MachineItem from '../machines/MachineItem';
-import PageTitleBarSingleView from '../layout/PageTitleBarSingleView';
+import PageTitleBarSingleViewEngineer from '../layout/PageTitleBarSingleViewEngineer';
 
 const Machine = ({ getMachine, machine: { machine }, auth }) => {
   const { machineId } = useParams();
@@ -20,7 +20,7 @@ const Machine = ({ getMachine, machine: { machine }, auth }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBarSingleView item='machine' />
+          <PageTitleBarSingleViewEngineer item='machine' />
 
           <div className='viewPageSplit2 py-2'>
             <div className='view-left'>
