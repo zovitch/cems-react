@@ -32,7 +32,7 @@ const initialState = {
   maintenancePlasticAndMetalWaste: false,
   maintenanceSpareParts: false,
   engineeringRepairDate: '',
-  applicantValidationDate: false,
+  applicantValidationDate: '',
   remark: '',
 };
 
@@ -56,8 +56,6 @@ const R3Form = ({
   const [toggleMaintenancePlasticOn, setToggleMaintenancePlasticOn] =
     useState();
   const [toggleMaintenanceSparePartsOn, setToggleMaintenanceSparePartsOn] =
-    useState();
-  const [toggleApplicantValidationOn, setToggleApplicantValidationOn] =
     useState();
   const navigate = useNavigate();
   const { r3Id } = useParams();
@@ -203,7 +201,6 @@ const R3Form = ({
       setToggleMaintenanceOilOn(r3Data.maintenanceOilWaste);
       setToggleMaintenancePlasticOn(r3Data.maintenancePlasticAndMetalWaste);
       setToggleMaintenanceSparePartsOn(r3Data.maintenanceSpareParts);
-      setToggleApplicantValidationOn(r3Data.applicantValidationDate);
     }
   }, [r3]);
 
@@ -447,52 +444,42 @@ const R3Form = ({
           />
         </div>
 
+        <div className='form-group'>
+          <small className='form-text'>R3 Application Date</small>
+          <input
+            type='date'
+            placeholder='R3 Application Date'
+            name='r3Date'
+            id='r3Date'
+            value={formData.r3Date && formatDate(formData.r3Date)}
+            onChange={onChangeR3Date}
+          />
+        </div>
+
+        {!creatingR3 && (
+          <div className='form-group'>
+            <small className='form-text'>Applicant Validation Date</small>
+
+            <input
+              type='date'
+              placeholder='Applicant Validation Date'
+              name='applicantValidationDate'
+              id='applicantValidationDate'
+              value={
+                formData.applicantValidationDate &&
+                formatDate(formData.applicantValidationDate)
+              }
+              onChange={onChange}
+            />
+          </div>
+        )}
+
         {newR3Number && (
           <div className='form-group'>
             <small className='form-text'>
               The R3 will be save with the number
             </small>
             {newR3Number}
-          </div>
-        )}
-        <div className='form-group'>
-          <small className='form-text'>R3 Application Date</small>
-          <input
-            type='date'
-            placeholder='Repair Date'
-            name='engineeringRepairDate'
-            id='engineeringRepairDate'
-            value={
-              formData.engineeringRepairDate &&
-              formatDate(formData.engineeringRepairDate)
-            }
-            onChange={onChange}
-          />
-          <small className='form-text'>Applicant Validation</small>
-          <input
-            type='date'
-            placeholder='Applicant Validation Date'
-            name='applicantValidationDate'
-            id='applicantValidationDate'
-            value={
-              formData.applicantValidationDate &&
-              formatDate(formData.applicantValidationDate)
-            }
-            onChange={onChange}
-          />
-        </div>
-
-        {!creatingR3 && (
-          <div className='form-group'>
-            <small className='form-text text-success'>
-              Application Repair Completed Validation
-            </small>
-            <ToggleSwitch
-              name='applicantValidation'
-              id='applicantValidation'
-              defaultChecked={toggleApplicantValidationOn}
-              onClick={onChange}
-            />
           </div>
         )}
 
@@ -628,10 +615,10 @@ const R3Form = ({
               />
             </div>
             <div className='form-group'>
-              <small className='form-text'>Repair Date</small>
+              <small className='form-text'>Engineering Repair Date</small>
               <input
                 type='date'
-                placeholder='Repair Date'
+                placeholder='Engineering Repair Date'
                 name='engineeringRepairDate'
                 id='engineeringRepairDate'
                 value={
@@ -643,8 +630,6 @@ const R3Form = ({
             </div>
           </span>
         )}
-
-        {/* Above is to be shown only for Engineering Team */}
 
         <input
           type='submit'
@@ -659,7 +644,7 @@ const R3Form = ({
           Go Back
         </Link>
       </form>
-      {creatingR3 === false && (
+      {creatingR3 === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>
