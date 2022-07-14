@@ -8,6 +8,7 @@
   --danger-color: #dc3545;
   --success-color: #28a745;
   --failure-color: rgb(196, 48, 196);
+  --r3-background: rgb(196, 48, 196, 0.1);
   --repair-color: rgb(48, 196, 68);
   --analysis-color: rgb(48, 70, 196);
   --hover-color: rgb(200, 227, 252);
@@ -140,6 +141,10 @@ img {
 .p-1-2 {
   padding-left: 0.5rem;
   padding-right: 2rem;
+}
+
+.p-top {
+  padding-top: 1rem;
 }
 
 /********** Margin **********/
@@ -315,6 +320,19 @@ img {
   height: 100%;
 }
 
+.r3Form {
+background-color: var(--r3-background);
+
+border-radius: var(--border-radius);
+
+}
+
+.r3Engineer {
+  /* background-color: var(--r3-background); */
+  border: 2px solid var(--failure-color);
+  
+  border-radius: var(--border-radius); 
+}
 
 /**************** Forms *****************/
 .form .form-group {
@@ -344,6 +362,20 @@ img {
 .form input[type='submit'],
 button {
   font: inherit;
+}
+
+.compactView-1 {
+  display: grid;
+  grid-template-columns:  3fr 7rem 6rem 3rem ; 
+  gap: 1rem;
+  align-items: center;
+}
+
+.compactView-2 {
+  display: grid;
+  grid-template-columns:   1fr 2fr; 
+  gap: 1rem;
+  align-items: top;
 }
 
 .lockField {
