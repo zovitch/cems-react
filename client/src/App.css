@@ -359,6 +359,7 @@ button {
   grid-template-columns: 75px 1fr 2fr;
   align-items: center;
   padding: 1rem 1rem;
+  position: -webkit-sticky;
   position:sticky;
   z-index: 3;
   width: 100%;
@@ -712,7 +713,10 @@ justify-self: end;
     'profile-avatar'
     'profile-name'
     'profile-cta';
-  max-width: fit-content;
+    max-width: -moz-fit-content;
+      max-width: -moz-fit-content;
+    max-width: fit-content;
+
 }
 
 .profile-avatar {
@@ -738,7 +742,8 @@ justify-self: end;
     'location-name'
     'location-letter'
     'location-floor';
-  max-width: fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
 }
 
 .location-letter {
@@ -764,7 +769,8 @@ justify-self: end;
   grid-template-areas:
    'manufacturer-name'
    'manufacturer-nameCN ';
-  max-width: fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
 }
 
 .manufacturer-name {
@@ -786,7 +792,8 @@ justify-self: end;
     'investment-approved-label   investment-approved'
     'investment-completed-label  investment-completed'
     ;
-  max-width: fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
 }
 
 .investment-investmentnumber {
@@ -830,7 +837,8 @@ justify-self: end;
     'category-code category-trigram'
     'category-description category-description'
     'category-descriptionCN category-descriptionCN';
-  max-width: fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
 }
 
 .category-code {
@@ -855,7 +863,8 @@ justify-self: end;
   'code-codeNumber code-name '
   'code-description  code-description'
   'code-descriptionCN code-descriptionCN ';
-  max-width: fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
 }
 
 .code-codeNumber {
