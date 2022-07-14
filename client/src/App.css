@@ -321,23 +321,24 @@ img {
 }
 
 .r3Form {
-background-color: var(--r3-background);
-
-border-radius: var(--border-radius);
-
+  background-color: var(--r3-background);
+  border-radius: var(--border-radius);
 }
 
 .r3Engineer {
-  /* background-color: var(--r3-background); */
-  border: 2px solid var(--failure-color);
-  
+  border: 2px solid var(--failure-color);  
   border-radius: var(--border-radius); 
 }
 
 /**************** Forms *****************/
 .form .form-group {
-  margin: 1.2rem 0;
+  margin: 1rem 0;
 }
+
+.form .form-group:first-child {
+  margin: 0 0;
+}
+
 
 .form .form-text {
   display: block;
@@ -1025,7 +1026,7 @@ justify-self: end;
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-areas: 'view-left view-right';
-  grid-gap: 4rem;
+  /* grid-gap: 0rem; */
 }
 
 .view-left {

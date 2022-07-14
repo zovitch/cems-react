@@ -84,7 +84,9 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
               {r3Display ? (
                 <R3Edit r3Display={r3Display} />
               ) : (
-                <h2>Please select an R3 on the left side</h2>
+                <h2 className='text-center py-3'>
+                  Please select an R3 on the left side
+                </h2>
               )}
             </div>
           </div>

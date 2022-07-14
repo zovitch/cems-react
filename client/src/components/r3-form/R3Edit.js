@@ -296,9 +296,9 @@ const R3Edit = ({
   };
 
   return (
-    <section className='container r3Form'>
+    <section className='container-large'>
       <form className='form' onSubmit={onSubmit}>
-        <div className='form-group'>
+        <div className='form-group r3Form p'>
           <div className='compactView-1'>
             <small className='form-text'>EQU No.</small>
             <small className='form-text'>Applicant</small>
@@ -381,87 +381,90 @@ const R3Edit = ({
           </div>
         </div>
 
-        <div className='form-group '>
+        <div className='form-group r3Form p'>
           <div className='compactView-2'>
             <small className='form-text'>Failure Code</small>
           </div>
 
           <div className='compactView-2'>
             {failureCodes.length > 0 && (
-              <Select
-                name='failureCode'
-                id='failureCode'
-                placeholder='Failure Code'
-                defaultValue={defaultFailureCode}
-                key={formData.failureCode && formData.failureCode._id}
-                onChange={onChangeFailureCode}
-                options={optionFailureCodes}
-                menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-              />
+              <span>
+                <Select
+                  name='failureCode'
+                  id='failureCode'
+                  placeholder='Failure Code'
+                  defaultValue={defaultFailureCode}
+                  key={formData.failureCode && formData.failureCode._id}
+                  onChange={onChangeFailureCode}
+                  options={optionFailureCodes}
+                  menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                />
+                <br />
+                <small className='form-text'>
+                  {document.querySelector('#machineStopped') &&
+                  document.querySelector('#machineStopped').checked
+                    ? 'Machine is stopped'
+                    : 'Machine is still running'}
+                </small>
+                <ToggleSwitch
+                  name='machineStopped'
+                  id='machineStopped'
+                  defaultChecked={toggleMachineStoppedOn}
+                  onClick={onChange}
+                  color='danger'
+                />
+              </span>
             )}
-
-            <textarea
-              type='textarea'
-              rows='4'
-              placeholder='Describe the problem'
-              name='failureExplanation'
-              id='failureExplanation'
-              value={formData.failureExplanation}
-              onChange={onChange}
-            />
-
-            <textarea
-              rows='4'
-              placeholder='报修说明'
-              name='failureExplanationCN'
-              id='failureExplanationCN'
-              value={formData.failureExplanationCN}
-              onChange={onChange}
-            />
+            <span>
+              <textarea
+                rows='4'
+                placeholder='报修说明'
+                name='failureExplanationCN'
+                id='failureExplanationCN'
+                value={formData.failureExplanationCN}
+                onChange={onChange}
+              />
+              <textarea
+                type='textarea'
+                rows='4'
+                placeholder='Describe the problem'
+                name='failureExplanation'
+                id='failureExplanation'
+                value={formData.failureExplanation}
+                onChange={onChange}
+              />
+            </span>
           </div>
         </div>
-        <div className='form-group'>
+        <div className='form-group r3Form p'>
           <div className='compactView-2'>
-            <small className='form-text'>
-              {document.querySelector('#machineStopped') &&
-              document.querySelector('#machineStopped').checked
-                ? 'Machine is stopped'
-                : 'Machine is still running'}
-            </small>
-            <small className='form-text'>Remark</small>
-            <small className='form-text'>R3 Application Date</small>
-          </div>
+            <span>
+              <small className='form-text'>R3 Application Date</small>
+              <input
+                type='date'
+                placeholder='R3 Application Date'
+                name='r3Date'
+                id='r3Date'
+                value={formData.r3Date && formatDate(formData.r3Date)}
+                onChange={onChangeR3Date}
+              />
+            </span>
 
-          <div className='compactView-2'>
-            <ToggleSwitch
-              name='machineStopped'
-              id='machineStopped'
-              defaultChecked={toggleMachineStoppedOn}
-              onClick={onChange}
-              color='danger'
-            />
-
-            <input
-              type='text'
-              placeholder='GD...'
-              name='remark'
-              id='remark'
-              value={formData.remark}
-              onChange={onChange}
-            />
-
-            <input
-              type='date'
-              placeholder='R3 Application Date'
-              name='r3Date'
-              id='r3Date'
-              value={formData.r3Date && formatDate(formData.r3Date)}
-              onChange={onChangeR3Date}
-            />
+            <span>
+              <small className='form-text'>Remark</small>
+              <input
+                type='text'
+                placeholder='GD...'
+                name='remark'
+                id='remark'
+                value={formData.remark}
+                onChange={onChange}
+              />
+            </span>
           </div>
         </div>
         {!creatingR3 && (
-          <div className='form-group'>
+          <div className='form-group r3Form p'>
             <small className='form-text'>Applicant Validation Date</small>
 
             <input
@@ -482,7 +485,7 @@ const R3Edit = ({
 
         {user && user.isEngineer && (
           <span>
-            <div className='form-group'>
+            <div className='form-group r3Form p'>
               <div className='compactView-2'>
                 <span>
                   <small className='form-text'>Repair Engineer</small>
@@ -515,141 +518,139 @@ const R3Edit = ({
                 </span>
               </div>
             </div>
-            <div className='form-group'>
+            <div className='form-group r3Engineer p'>
               <div className='compactView-2'>
                 <small className='form-text'>Repair Code</small>
               </div>
 
               <div className='compactView-2'>
                 {repairCodes.length > 0 && (
-                  <Select
-                    name='repairCode'
-                    id='repairCode'
-                    placeholder='Repair Code'
-                    defaultValue={defaultRepairCode}
-                    key={formData.repairCode && formData.repairCode._id}
-                    onChange={onChangeRepairCode}
-                    options={optionRepairCodes}
-                    menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-                  />
+                  <span>
+                    <Select
+                      name='repairCode'
+                      id='repairCode'
+                      placeholder='Repair Code'
+                      defaultValue={defaultRepairCode}
+                      key={formData.repairCode && formData.repairCode._id}
+                      onChange={onChangeRepairCode}
+                      options={optionRepairCodes}
+                      menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                    />
+                  </span>
                 )}
-
-                <textarea
-                  type='textarea'
-                  rows='4'
-                  placeholder='Record of the repair'
-                  name='repairExplanation'
-                  id='repairExplanation'
-                  value={formData.repairExplanation}
-                  onChange={onChange}
-                />
-
-                <textarea
-                  rows='4'
-                  placeholder='修理情况'
-                  name='repairExplanationCN'
-                  id='repairExplanationCN'
-                  value={formData.repairExplanationCN}
-                  onChange={onChange}
-                />
+                <span>
+                  <textarea
+                    rows='4'
+                    placeholder='修理情况'
+                    name='repairExplanationCN'
+                    id='repairExplanationCN'
+                    value={formData.repairExplanationCN}
+                    onChange={onChange}
+                  />
+                  <textarea
+                    type='textarea'
+                    rows='4'
+                    placeholder='Record of the repair'
+                    name='repairExplanation'
+                    id='repairExplanation'
+                    value={formData.repairExplanation}
+                    onChange={onChange}
+                  />
+                </span>
               </div>
             </div>
-            <div className='form-group'>
+            <div className='form-group r3Engineer p'>
               <div className='compactView-2'>
                 <small className='form-text'>Analysis Code</small>
               </div>
               <div className='compactView-2'>
                 {analysisCodes.length > 0 && (
-                  <Select
-                    name='analysisCode'
-                    id='analysisCode'
-                    placeholder='Analysis Code'
-                    defaultValue={defaultAnalysisCode}
-                    key={formData.analysisCode && formData.analysisCode._id}
-                    onChange={onChangeAnalysisCode}
-                    options={optionAnalysisCodes}
-                    menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-                  />
+                  <span>
+                    <Select
+                      name='analysisCode'
+                      id='analysisCode'
+                      placeholder='Analysis Code'
+                      defaultValue={defaultAnalysisCode}
+                      key={formData.analysisCode && formData.analysisCode._id}
+                      onChange={onChangeAnalysisCode}
+                      options={optionAnalysisCodes}
+                      menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                    />
+                  </span>
                 )}
-                <textarea
-                  type='textarea'
-                  rows='4'
-                  placeholder='Root Cause Analysis'
-                  name='analysisExplanation'
-                  id='analysisExplanation'
-                  value={formData.analysisExplanation}
-                  onChange={onChange}
-                />
-
-                <textarea
-                  rows='4'
-                  placeholder='根本原因分析'
-                  name='analysisExplanationCN'
-                  id='analysisExplanationCN'
-                  value={formData.analysisExplanationCN}
-                  onChange={onChange}
-                />
+                <span>
+                  <textarea
+                    rows='4'
+                    placeholder='根本原因分析'
+                    name='analysisExplanationCN'
+                    id='analysisExplanationCN'
+                    value={formData.analysisExplanationCN}
+                    onChange={onChange}
+                  />
+                  <textarea
+                    type='textarea'
+                    rows='4'
+                    placeholder='Root Cause Analysis'
+                    name='analysisExplanation'
+                    id='analysisExplanation'
+                    value={formData.analysisExplanation}
+                    onChange={onChange}
+                  />
+                </span>
               </div>
             </div>
-            <div className='form-group'></div>
-            <div className='compactView-2'>
-              <span>
-                <small className='form-text'>
-                  Maintenance Oil & Solvant Waste
-                </small>
-                <ToggleSwitch
-                  name='maintenanceOilWaste'
-                  id='maintenanceOilWaste'
-                  defaultChecked={toggleMaintenanceOilOn}
-                  onClick={onChange}
-                />
-              </span>
-
-              <span>
-                <small className='form-text'>
-                  Maintenance Plastic & Metal Waste
-                </small>
-                <ToggleSwitch
-                  name='maintenancePlasticAndMetalWaste'
-                  id='maintenancePlasticAndMetalWaste'
-                  defaultChecked={toggleMaintenancePlasticOn}
-                  onClick={onChange}
-                />
-              </span>
-
-              <span>
-                <small className='form-text'>Maintenance Spare Parts</small>
-                <ToggleSwitch
-                  name='maintenanceSpareParts'
-                  id='maintenanceSpareParts'
-                  defaultChecked={toggleMaintenanceSparePartsOn}
-                  onClick={onChange}
-                />
-              </span>
-            </div>
-            <div className='form-group'>
+            <div className='form-group r3Engineer p'>
               <div className='compactView-2'>
                 <span>
+                  <small className='form-text'>
+                    Maintenance Oil & Solvant Waste
+                  </small>
+                  <ToggleSwitch
+                    name='maintenanceOilWaste'
+                    id='maintenanceOilWaste'
+                    defaultChecked={toggleMaintenanceOilOn}
+                    onClick={onChange}
+                  />
+                  <small className='form-text'>
+                    Maintenance Plastic & Metal Waste
+                  </small>
+                  <ToggleSwitch
+                    name='maintenancePlasticAndMetalWaste'
+                    id='maintenancePlasticAndMetalWaste'
+                    defaultChecked={toggleMaintenancePlasticOn}
+                    onClick={onChange}
+                  />
+                  <small className='form-text'>Maintenance Spare Parts</small>
+                  <ToggleSwitch
+                    name='maintenanceSpareParts'
+                    id='maintenanceSpareParts'
+                    defaultChecked={toggleMaintenanceSparePartsOn}
+                    onClick={onChange}
+                  />
+                </span>
+
+                <span>
+                  <span>
+                    <small className='form-text'>Engineering Repair Date</small>
+                    <input
+                      type='date'
+                      placeholder='Engineering Repair Date'
+                      name='engineeringRepairDate'
+                      id='engineeringRepairDate'
+                      value={
+                        formData.engineeringRepairDate &&
+                        formatDate(formData.engineeringRepairDate)
+                      }
+                      onChange={onChange}
+                    />
+                  </span>
+                  <br />
                   <small className='form-text'>R3 Completed?</small>
                   <ToggleSwitch
                     name='r3Completed'
                     id='r3Completed'
                     defaultChecked={toggleR3Completed}
                     onClick={onChange}
-                  />
-                </span>
-                <span>
-                  <small className='form-text'>Engineering Repair Date</small>
-                  <input
-                    type='date'
-                    placeholder='Engineering Repair Date'
-                    name='engineeringRepairDate'
-                    id='engineeringRepairDate'
-                    value={
-                      formData.engineeringRepairDate &&
-                      formatDate(formData.engineeringRepairDate)
-                    }
-                    onChange={onChange}
                   />
                 </span>
               </div>
@@ -670,7 +671,7 @@ const R3Edit = ({
           Go Back
         </Link>
       </form>
-      {user.isAdmin && (
+      {creatingR3 === false && user.isAdmin && (
         <>
           <div className='line' />
           <div className='my-2 text-center'>

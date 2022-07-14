@@ -591,21 +591,20 @@ const R3Form = ({
                 )}
                 <span>
                   <textarea
+                    rows='4'
+                    placeholder='根本原因分析'
+                    name='analysisExplanationCN'
+                    id='analysisExplanationCN'
+                    value={formData.analysisExplanationCN}
+                    onChange={onChange}
+                  />
+                  <textarea
                     type='textarea'
                     rows='4'
                     placeholder='Root Cause Analysis'
                     name='analysisExplanation'
                     id='analysisExplanation'
                     value={formData.analysisExplanation}
-                    onChange={onChange}
-                  />
-
-                  <textarea
-                    rows='4'
-                    placeholder='根本原因分析'
-                    name='analysisExplanationCN'
-                    id='analysisExplanationCN'
-                    value={formData.analysisExplanationCN}
                     onChange={onChange}
                   />
                 </span>
