@@ -1024,8 +1024,8 @@ justify-self: end;
     grid-template-columns: 2rem 2rem 1fr 2fr 2fr 1fr 2fr ;
   }
 
-  .item-container-left-7 {
-    grid-template-columns: 1fr 2fr 2fr 1fr 1fr 1fr 1fr ;
+  .item-container-left-4 {
+    grid-template-columns: 1fr 2fr 2fr 1fr ;
   }
 
 
@@ -1108,6 +1108,10 @@ justify-self: end;
   .item-container:hover {
     background-color: var(--hover-color);
   }
+
+  .pointerHover:hover {
+    cursor: pointer;
+  } 
 
   /* Center header labels */
   .table-grid-container > .item-container:first-child .attribute {

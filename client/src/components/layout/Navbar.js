@@ -57,12 +57,12 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
 
   const guestLinks = (
     <ul>
-      <li>
+      {/* <li>
         <Link to='/r3s/?applicantValidation=false'>
           <i className='fas fa-screwdriver-wrench'></i>{' '}
           <span className='hide-sm'>Pending R3</span>
         </Link>
-      </li>
+      </li> */}
       <li>
         <Link to='/machines'>
           <i className='fas fa-clipboard-list'></i>{' '}

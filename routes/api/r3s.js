@@ -274,8 +274,8 @@ router.post(
 
 // @route   GET api/r3s
 // @desc    GET the list of all repairs
-// @access  Public
-router.get('/', async (req, res) => {
+// @access  Private
+router.get('/', auth, async (req, res) => {
   try {
     const r3s = await R3.find(req.query)
       .sort({ date: 'desc' })

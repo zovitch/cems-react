@@ -23,7 +23,6 @@ const R3XLs = ({ getR3s, auth, r3: { r3s, loading } }) => {
           <PageTitleBar item='r3' faIcon='fas fa-screwdriver-wrench' />
 
           <div>
-            {' '}
             <Link to={`/r3s/`}>
               <i className='btn btn-dark fas fa-filter-circle-xmark'> </i>
               <span className='p-1-2'>Show All</span>
