@@ -81,6 +81,9 @@ const R3Schema = new mongoose.Schema({
   applicantValidationDate: {
     type: Date,
   },
+  r3Completed: {
+    type: Boolean,
+  },
   remark: {
     type: String,
   },

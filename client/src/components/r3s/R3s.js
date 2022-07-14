@@ -31,23 +31,24 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
           <div>
             <Link to={`/r3s/`}>
               <i className='btn btn-dark fas fa-filter-circle-xmark'> </i>
-              <span className='p-1-2'>Show All</span>
+              <span className='p-1-2'>All</span>
             </Link>
-            <Link to={`/r3s/?applicantValidationDate=false`}>
+            <Link to={`/r3s/?r3Completed=false`}>
               <i className='btn btn-dark fas fa-filter'> </i>
-              <span className='p-1-2'>Show only Pending R3</span>
+              <span className='p-1-2'>Hide Completed</span>
             </Link>
           </div>
 
           <div className='viewPageSplit2'>
             <ul className='table-grid-container my-2 view-left'>
               {/* The first list item is the header of the table  */}
-              <li className='item item-container item-container-left-4 '>
+              <li className='item item-container item-container-left-5 '>
                 {/* Enclose semantically similar attributes as a div hierarchy */}
                 <div className='attribute'>R3 No.</div>
                 <div className='attribute'>EQU</div>
                 <div className='attribute'>设备名称</div>
                 <div className='attribute'>Resp.</div>
+                <div className='attribute'></div>
               </li>
 
               {/* The rest of the items in the list are the actual data */}
@@ -56,7 +57,7 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                 r3s.map((r3) => (
                   <li
                     key={r3._id}
-                    className='item item-container item-container-left-4 pointerHover'
+                    className='item item-container item-container-left-5 pointerHover'
                     onClick={() => handleOnclick(r3)}
                   >
                     <div className='attribute ' data-name='R3 No.'>
@@ -70,6 +71,11 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     </div>
                     <div className='attribute' data-name='Repair Engineer'>
                       {r3.repairEngineer && r3.repairEngineer.name}
+                    </div>
+                    <div className='attribute' data-name='R3 Completed'>
+                      {r3.r3Completed && (
+                        <i className='fa-solid fa-circle-check text-success'></i>
+                      )}
                     </div>
                   </li>
                 ))}

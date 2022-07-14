@@ -33,6 +33,7 @@ const initialState = {
   maintenanceSpareParts: false,
   engineeringRepairDate: '',
   applicantValidationDate: '',
+  r3Completed: false,
   remark: '',
 };
 
@@ -53,6 +54,7 @@ const R3Form = ({
   const [formData, setFormData] = useState(initialState);
   const [toggleMachineStoppedOn, setTogglemachineStoppedOn] = useState();
   const [toggleMaintenanceOilOn, setToggleMaintenanceOilOn] = useState();
+  const [toggleR3Completed, setToggleR3Completed] = useState(false);
   const [toggleMaintenancePlasticOn, setToggleMaintenancePlasticOn] =
     useState();
   const [toggleMaintenanceSparePartsOn, setToggleMaintenanceSparePartsOn] =
@@ -201,6 +203,7 @@ const R3Form = ({
       setToggleMaintenanceOilOn(r3Data.maintenanceOilWaste);
       setToggleMaintenancePlasticOn(r3Data.maintenancePlasticAndMetalWaste);
       setToggleMaintenanceSparePartsOn(r3Data.maintenanceSpareParts);
+      setToggleR3Completed(r3Data.r3Completed);
     }
   }, [r3]);
 
@@ -626,6 +629,15 @@ const R3Form = ({
                   formatDate(formData.engineeringRepairDate)
                 }
                 onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <small className='form-text'>R3 Completed?</small>
+              <ToggleSwitch
+                name='r3Completed'
+                id='r3Completed'
+                defaultChecked={toggleR3Completed}
+                onClick={onChange}
               />
             </div>
           </span>

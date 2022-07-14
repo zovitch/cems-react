@@ -106,12 +106,14 @@ router.post(
       maintenanceSpareParts,
       engineeringRepairDate,
       applicantValidationDate,
+      r3Completed,
       remark,
     } = req.body;
 
     const r3Fields = {};
     if (r3Number) r3Fields.r3Number = r3Number;
     if (remark) r3Fields.remark = remark;
+    if (r3Completed) r3Fields.r3Completed = r3Completed;
     if (applicantValidationDate)
       r3Fields.applicantValidationDate = applicantValidationDate;
     if (machine) r3Fields.machine = machine;
@@ -406,12 +408,14 @@ router.patch(
       maintenanceSpareParts,
       engineeringRepairDate,
       applicantValidationDate,
+      r3Completed,
       remark,
     } = req.body;
 
     const r3Fields = {};
     if (r3Number) r3Fields.r3Number = r3Number;
     if (remark) r3Fields.remark = remark;
+    if (r3Completed) r3Fields.r3Completed = r3Completed;
     if (applicantValidationDate)
       r3Fields.applicantValidationDate = applicantValidationDate;
     if (machine) r3Fields.machine = machine;

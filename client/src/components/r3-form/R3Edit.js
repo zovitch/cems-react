@@ -26,6 +26,7 @@ const r3Edit = ({
     maintenanceSpareParts,
     engineeringRepairDate,
     applicantValidationDate,
+    r3Completed,
     remark,
   },
 }) => {
@@ -68,8 +69,13 @@ const r3Edit = ({
       <div className='r3-designation'>
         {engineeringRepairDate && formatDate(engineeringRepairDate)}
       </div>
-      <div className='r3-designation'>{applicantValidationDate}</div>
+      <div className='r3-designation'>
+        Applicant Validation {applicantValidationDate}
+      </div>
       <div className='r3-designation'>{remark}</div>
+      <div className='r3-designation'>
+        Repair Completed? {r3Completed ? 'DONE' : 'NO'}
+      </div>
     </div>
   );
 };

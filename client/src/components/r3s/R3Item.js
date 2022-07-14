@@ -26,6 +26,7 @@ const R3Item = ({
     maintenanceSpareParts,
     engineeringRepairDate,
     applicantValidationDate,
+    r3Completed,
     remark,
   },
 }) => {
@@ -70,6 +71,12 @@ const R3Item = ({
       </div>
       <div className='r3-designation'>{applicantValidationDate}</div>
       <div className='r3-designation'>{remark}</div>
+      <div className='r3-designation'>
+        Repair Completed?
+        {r3Completed && (
+          <i className='fa-solid fa-circle-check text-success'></i>
+        )}
+      </div>
     </div>
   );
 };
