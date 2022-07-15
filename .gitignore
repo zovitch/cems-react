@@ -2,6 +2,7 @@
 config/default.json
 .DS_Store
 client/public/uploads/machines/
+cems.code-workspace
 
 # Logs
 logs
