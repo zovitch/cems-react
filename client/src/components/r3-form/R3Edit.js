@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getR3, createR3, deleteR3, getNewR3Number } from '../../actions/r3';
@@ -63,7 +63,7 @@ const R3Edit = ({
   const navigate = useNavigate();
   // const { r3Id } = useParams();
   let creatingR3 = false;
-  const r3Id = r3Display.id;
+  const r3Id = r3Display._id;
 
   // if we create a R3 (creatingR3: true) then the toogle should be OFF (false)
   // if we edit a R3 (creatingR3: false) then toggle should be ON (true)
