@@ -163,10 +163,12 @@ const R3Form = ({
       e.description,
   }));
 
-  const optionRepairEngineer = users.map((e) => ({
-    value: e._id,
-    label: e.name,
-  }));
+  const optionRepairEngineer = users
+    .filter((e) => e.isEngineer)
+    .map((e) => ({
+      value: e._id,
+      label: e.name,
+    }));
 
   useEffect(() => {
     !r3 && r3Id && getR3(r3Id);

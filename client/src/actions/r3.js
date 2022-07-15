@@ -101,7 +101,7 @@ export const deleteR3 = (r3Id, navigate) => async (dispatch) => {
       dispatch({ type: CLEAR_R3 });
       dispatch({ type: R3_DELETED });
       dispatch(setAlert('R3 has been deleted', 'dark'));
-      navigate('/r3s');
+      navigate('/');
     } catch (err) {
       const errors = err.response.data.errors;
 
