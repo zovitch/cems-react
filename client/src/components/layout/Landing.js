@@ -43,10 +43,11 @@ const Landing = ({ isAuthenticated }) => {
         </div> */}
 
           <div className='button text-center p-3'>
-            <Link to='/register' className='btn btn-primary'>
+            {/* No sign up for now */}
+            {/* <Link to='/register' className='btn btn-primary'>
               <i className='fas fa-user-plus' />{' '}
               <span className='hide-sm'>Sign Up</span>
-            </Link>
+            </Link> */}
             <Link to='/login' className='btn btn-light'>
               <i className='fas fa-right-to-bracket' />{' '}
               <span className='hide-sm'>Login</span>
