@@ -80,7 +80,7 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find().select('name email').sort({
+    const users = await User.find().select('name email isEngineer').sort({
       name: 1,
     });
 

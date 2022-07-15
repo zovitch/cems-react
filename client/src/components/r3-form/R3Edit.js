@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getR3, createR3, deleteR3, getNewR3Number } from '../../actions/r3';
@@ -164,10 +164,12 @@ const R3Edit = ({
       e.description,
   }));
 
-  const optionRepairEngineer = users.map((e) => ({
-    value: e._id,
-    label: e.name,
-  }));
+  const optionRepairEngineer = users
+    .filter((e) => e.isEngineer)
+    .map((e) => ({
+      value: e._id,
+      label: e.name,
+    }));
 
   useEffect(() => {
     !r3Display && r3Id && getR3(r3Id);
@@ -293,6 +295,7 @@ const R3Edit = ({
     document.querySelector('#r3NumberToggle').checked
       ? createR3(formData, navigate, false, r3Id)
       : createR3(newValues, navigate, false, r3Id);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -667,9 +670,9 @@ const R3Edit = ({
           } my-1`}
           disabled={r3Display && r3Display.loading ? true : false}
         />
-        <Link className='btn btn-light my-1' to='/r3s'>
+        {/* <Link className='btn btn-light my-1' to='/r3s'>
           Go Back
-        </Link>
+        </Link> */}
       </form>
       {creatingR3 === false && user.isAdmin && (
         <>
