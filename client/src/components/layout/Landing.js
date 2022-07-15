@@ -3,29 +3,29 @@ import { Navigate, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import DashBoardCard from '../layout/DashBoardCard';
+// import DashBoardCard from '../layout/DashBoardCard';
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     return <Navigate to='/dashboard' />;
   }
 
-  const listOfItemsOnLanding = [
-    {
-      name: 'R3 Repair',
-      nameCN: '报修单',
-      route: 'r3s',
-      key: 'r3s',
-      faLogo: 'fas fa-screwdriver-wrench',
-    },
-    {
-      name: 'L.F.A.',
-      nameCN: '固定资产一览表',
-      route: 'machines',
-      key: 'machines',
-      faLogo: 'fas fa-clipboard-list',
-    },
-  ];
+  // const listOfItemsOnLanding = [
+  //   {
+  //     name: 'R3 Repair',
+  //     nameCN: '报修单',
+  //     route: 'r3s',
+  //     key: 'r3s',
+  //     faLogo: 'fas fa-screwdriver-wrench',
+  //   },
+  //   {
+  //     name: 'L.F.A.',
+  //     nameCN: '固定资产一览表',
+  //     route: 'machines',
+  //     key: 'machines',
+  //     faLogo: 'fas fa-clipboard-list',
+  //   },
+  // ];
 
   return (
     <section className='landing'>
