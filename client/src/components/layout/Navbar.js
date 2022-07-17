@@ -27,7 +27,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
           <span className='hide-sm'>LFA</span>
         </Link>
       </li>
-      <li>
+      {/* <li>
         <Link to='/departments'>
           <i className='fas fa-briefcase'></i>
           <span className='hide-sm'> Departments</span>
@@ -38,7 +38,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
           <i className='fas fa-users ' />{' '}
           <span className='hide-sm'> Users</span>
         </Link>
-      </li>
+      </li> */}
       <li>
         {user && (
           <Link to={`/users/${user._id}`}>

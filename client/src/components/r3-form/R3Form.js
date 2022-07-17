@@ -80,26 +80,26 @@ const R3Form = ({
           formData.machine.designation,
       };
 
-  const defaultFailureCode = !formData.failureCode
-    ? ''
-    : {
-        value: formData.failureCode._id,
-        label:
-          formData.failureCode.codeNumber +
-          ' - ' +
-          formData.failureCode.name +
-          ' - ' +
-          formData.failureCode.descriptionCN +
-          ' - ' +
-          formData.failureCode.description,
-      };
+  // const defaultFailureCode = !formData.failureCode
+  //   ? ''
+  //   : {
+  //       value: formData.failureCode._id,
+  //       label:
+  //         formData.failureCode.codeNumber +
+  //         ' - ' +
+  //         formData.failureCode.name +
+  //         ' - ' +
+  //         formData.failureCode.descriptionCN +
+  //         ' - ' +
+  //         formData.failureCode.description,
+  //     };
 
   const defaultRepairCode = !formData.repairCode
     ? ''
     : {
         value: formData.repairCode._id,
         label:
-          formData.repairCode.codeNumber +
+          String(formData.repairCode.codeNumber).padStart(2, '0') +
           ' - ' +
           formData.repairCode.name +
           ' - ' +
@@ -129,21 +129,22 @@ const R3Form = ({
         label: formData.repairEngineer.name,
       };
 
-  const optionFailureCodes = failureCodes.map((e) => ({
-    value: e._id,
-    label:
-      e.codeNumber +
-      ' - ' +
-      e.name +
-      ' - ' +
-      e.descriptionCN +
-      ' - ' +
-      e.description,
-  }));
+  // const optionFailureCodes = failureCodes.map((e) => ({
+  //   value: e._id,
+  //   label:
+  //     e.codeNumber +
+  //     ' - ' +
+  //     e.name +
+  //     ' - ' +
+  //     e.descriptionCN +
+  //     ' - ' +
+  //     e.description,
+  // }));
+
   const optionRepairCodes = repairCodes.map((e) => ({
     value: e._id,
     label:
-      e.codeNumber +
+      String(e.codeNumber).padStart(2, '0') +
       ' - ' +
       e.name +
       ' - ' +
@@ -234,17 +235,18 @@ const R3Form = ({
     getNewR3Number(newValues);
   };
 
-  const onChangeFailureCode = (e) => {
-    const newValues = { ...formData };
-    newValues.failureCode = {
-      _id: e.value,
-      codeNumber: e.label.split(' - ', 4)[0],
-      name: e.label.split(' - ', 4)[1],
-      descriptionCN: e.label.split(' - ', 4)[2],
-      description: e.label.split(' - ', 4)[3],
-    };
-    setFormData(newValues);
-  };
+  // const onChangeFailureCode = (e) => {
+  //   const newValues = { ...formData };
+  //   newValues.failureCode = {
+  //     _id: e.value,
+  //     codeNumber: e.label.split(' - ', 4)[0],
+  //     name: e.label.split(' - ', 4)[1],
+  //     descriptionCN: e.label.split(' - ', 4)[2],
+  //     description: e.label.split(' - ', 4)[3],
+  //   };
+  //   setFormData(newValues);
+  // };
+
   const onChangeRepairCode = (e) => {
     const newValues = { ...formData };
     newValues.repairCode = {
@@ -297,7 +299,7 @@ const R3Form = ({
   };
 
   return (
-    <section className='container'>
+    <section className='container-large'>
       <h1 className='large text-primary'>
         {creatingR3 ? (
           <div className='p-top'>
@@ -398,11 +400,53 @@ const R3Form = ({
           <div className='compactView-2'>
             <small className='form-text'>Failure Code</small>
           </div>
-
+          <div className='compactView-2'>
+            <ul onChange={onChange}>
+              {failureCodes.length > 0 &&
+                failureCodes.map((e) => (
+                  <li>
+                    <input
+                      type='radio'
+                      value={e._id}
+                      name='failureCode'
+                      key={e._id}
+                    />{' '}
+                    <small htmlFor={e._id}>
+                      {String(e.codeNumber).padStart(2, '0') +
+                        ' ' +
+                        e.name +
+                        ' - ' +
+                        e.description +
+                        ' ' +
+                        e.descriptionCN}
+                    </small>
+                  </li>
+                ))}
+            </ul>
+            <span>
+              <textarea
+                rows='8'
+                placeholder='报修说明'
+                name='failureExplanationCN'
+                id='failureExplanationCN'
+                value={formData.failureExplanationCN}
+                onChange={onChange}
+              />
+              <textarea
+                type='textarea'
+                rows='8'
+                placeholder='Describe the problem'
+                name='failureExplanation'
+                id='failureExplanation'
+                value={formData.failureExplanation}
+                onChange={onChange}
+              />
+            </span>
+          </div>
           <div className='compactView-2'>
             {failureCodes.length > 0 && (
               <span>
-                <Select
+                {/* <Select
                   name='failureCode'
                   id='failureCode'
                   placeholder='Failure Code'
@@ -411,7 +455,7 @@ const R3Form = ({
                   onChange={onChangeFailureCode}
                   options={optionFailureCodes}
                   menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-                />
+                /> */}
                 <br />
                 <small className='form-text'>
                   {document.querySelector('#machineStopped') &&
@@ -428,25 +472,6 @@ const R3Form = ({
                 />
               </span>
             )}
-            <span>
-              <textarea
-                rows='4'
-                placeholder='报修说明'
-                name='failureExplanationCN'
-                id='failureExplanationCN'
-                value={formData.failureExplanationCN}
-                onChange={onChange}
-              />
-              <textarea
-                type='textarea'
-                rows='4'
-                placeholder='Describe the problem'
-                name='failureExplanation'
-                id='failureExplanation'
-                value={formData.failureExplanation}
-                onChange={onChange}
-              />
-            </span>
           </div>
         </div>
         <div className='form-group r3Form p'>
