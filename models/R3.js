@@ -83,6 +83,7 @@ const R3Schema = new mongoose.Schema({
   },
   r3Completed: {
     type: Boolean,
+    default: false,
   },
   remark: {
     type: String,
