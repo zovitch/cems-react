@@ -1067,7 +1067,7 @@ justify-self: end;
   }
 
   .item-container-left-5 {
-    grid-template-columns: 1fr 2fr 2fr 1fr 2rem ;
+    grid-template-columns: 5rem 2fr 2fr 1fr 2rem ;
   }
 
 
