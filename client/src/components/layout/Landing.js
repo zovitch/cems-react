@@ -49,8 +49,7 @@ const Landing = ({ isAuthenticated }) => {
               <span className='hide-sm'>Sign Up</span>
             </Link> */}
             <Link to='/login' className='btn btn-light'>
-              <i className='fas fa-right-to-bracket' />{' '}
-              <span className='hide-sm'>Login</span>
+              <i className='fas fa-right-to-bracket' /> Login
             </Link>
           </div>
         </div>

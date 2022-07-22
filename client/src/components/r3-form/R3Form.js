@@ -303,32 +303,17 @@ const R3Form = ({
       <h1 className='large text-primary'>
         {creatingR3 ? (
           <div className='p-top'>
-            <i className='fas fa-screwdriver'> </i> Create a new R3 Application
+            <i className='fas fa-screwdriver'> </i> Create a new R3
           </div>
         ) : (
           <div>
-            <i className='fas fa-edit'></i> Edit a R3 Application
+            <i className='fas fa-edit'></i> Edit a R3
           </div>
         )}
       </h1>
 
       <form className='form' onSubmit={onSubmit}>
         <div className='form-group r3Form p'>
-          <div className='compactView-1'>
-            <small className='form-text'>EQU No.</small>
-            <small className='form-text'>Applicant</small>
-
-            {user && user.isEngineer ? (
-              <small className='form-text'>
-                {document.querySelector('#r3NumberToggle') &&
-                document.querySelector('#r3NumberToggle').checked
-                  ? 'Manu. R3 No.'
-                  : 'Auto R3 No.'}
-              </small>
-            ) : (
-              <small className='form-text'>R3 No.</small>
-            )}
-          </div>
           <div className='compactView-1'>
             {machines.length > 0 && (
               <Select
@@ -350,14 +335,29 @@ const R3Form = ({
                 menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
               />
             )}
+            <small className='form-text'>
+              {document.querySelector('#machineStopped') &&
+              document.querySelector('#machineStopped').checked
+                ? 'Machine is stopped'
+                : 'Machine is still running'}
+            </small>
+            <ToggleSwitch
+              name='machineStopped'
+              id='machineStopped'
+              defaultChecked={toggleMachineStoppedOn}
+              onClick={onChange}
+              color='danger'
+            />
+
             <input
               type='text'
-              placeholder='Name'
+              placeholder='报修人员 Applicant'
               name='applicant'
               id='applicant'
               value={formData.applicant}
               onChange={onChange}
             />
+
             {user && user.isEngineer ? (
               <input
                 type='text'
@@ -365,7 +365,7 @@ const R3Form = ({
                   document.querySelector('#r3NumberToggle') &&
                   document.querySelector('#r3NumberToggle').checked
                     ? 'Enter a R3 Number'
-                    : 'Select an EQU No. to generate an R3 No.'
+                    : 'Automatic R3 No.'
                 }
                 name='r3Number'
                 id='r3Number'
@@ -383,23 +383,21 @@ const R3Form = ({
             ) : (
               <h2>{newR3Number}</h2>
             )}
-            {user && user.isEngineer ? (
+
+            {user && user.isEngineer && (
               <ToggleSwitch
                 name='r3NumberToggle'
                 id='r3NumberToggle'
                 defaultChecked={toggleR3NumberOn}
                 onClick={onToggleR3Number}
               />
-            ) : (
-              <span></span>
             )}
           </div>
         </div>
 
         <div className='form-group r3Form p'>
-          <div className='compactView-2'>
-            <small className='form-text'>Failure Code</small>
-          </div>
+          <small className='form-text'>Failure Code</small>
+          <span></span>
           <div className='compactView-2'>
             <ul onChange={onChange}>
               {failureCodes.length > 0 &&
@@ -414,11 +412,9 @@ const R3Form = ({
                     <small htmlFor={e._id}>
                       {String(e.codeNumber).padStart(2, '0') +
                         ' ' +
-                        e.name +
-                        ' - ' +
-                        e.description +
+                        e.descriptionCN +
                         ' ' +
-                        e.descriptionCN}
+                        e.description}
                     </small>
                   </li>
                 ))}
@@ -442,36 +438,6 @@ const R3Form = ({
                 onChange={onChange}
               />
             </span>
-          </div>
-          <div className='compactView-2'>
-            {failureCodes.length > 0 && (
-              <span>
-                {/* <Select
-                  name='failureCode'
-                  id='failureCode'
-                  placeholder='Failure Code'
-                  defaultValue={defaultFailureCode}
-                  key={formData.failureCode && formData.failureCode._id}
-                  onChange={onChangeFailureCode}
-                  options={optionFailureCodes}
-                  menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-                /> */}
-                <br />
-                <small className='form-text'>
-                  {document.querySelector('#machineStopped') &&
-                  document.querySelector('#machineStopped').checked
-                    ? 'Machine is stopped'
-                    : 'Machine is still running'}
-                </small>
-                <ToggleSwitch
-                  name='machineStopped'
-                  id='machineStopped'
-                  defaultChecked={toggleMachineStoppedOn}
-                  onClick={onChange}
-                  color='danger'
-                />
-              </span>
-            )}
           </div>
         </div>
         <div className='form-group r3Form p'>
@@ -523,11 +489,11 @@ const R3Form = ({
 
         {user && user.isEngineer && (
           <span>
-            <div className='form-group r3Form p'>
+            <div className='form-group r3Engineer p'>
               <div className='compactView-2'>
                 <span>
                   <small className='form-text'>Repair Engineer</small>
-                  {users.length > 0 && (
+                  {users.length > 0 && user.isEngineer ? (
                     <Select
                       name='repairEngineer'
                       id='repairEngineer'
@@ -540,10 +506,16 @@ const R3Form = ({
                       options={optionRepairEngineer}
                       menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
                     />
+                  ) : (
+                    <h2>
+                      {formData.repairEngineer && formData.repairEngineer.name}
+                    </h2>
                   )}
                 </span>
                 <span>
-                  <small className='form-text'>Engineer Comment</small>
+                  <small className='form-text'>
+                    工程师反馈 Engineer Feedback
+                  </small>
                   <textarea
                     type='textarea'
                     rows='2'
@@ -552,6 +524,7 @@ const R3Form = ({
                     id='engineeringRemark'
                     value={formData.engineeringRemark}
                     onChange={onChange}
+                    readOnly={user && user.isEngineer === false}
                   />
                 </span>
               </div>
