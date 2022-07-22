@@ -77,7 +77,7 @@ export const createR3 =
       dispatch(
         setAlert(creating ? 'R3 added ' : 'R3 information updated', 'success')
       );
-      navigate('/r3s');
+      navigate('/');
     } catch (err) {
       const errors = err.response.data.errors;
 
