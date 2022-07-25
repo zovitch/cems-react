@@ -367,24 +367,32 @@ button {
 
 .compactView-1 {
   display: grid;
-  grid-template-columns:  2fr 5rem 5rem 1fr 1fr 3rem ; 
+  grid-template-columns: 2fr repeat(2, 5rem) repeat(2, 7rem) 3rem ; 
   gap: 1rem;
   align-items: center;
 }
 
-.compactView-2 {
+.grid-1fr2fr {
   display: grid;
   grid-template-columns:   1fr 2fr; 
   gap: 1rem;
   align-items: top;
 }
 
-.compactView-3 {
+.grid-1fr1fr1fr {
   display: grid;
   grid-template-columns:   1fr 1fr 1fr; 
   gap: 1rem;
   align-items: top;
 }
+
+
+.grid-1fr3fr {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items:baseline;
+}
+
 
 .lockField {
   display: grid;
@@ -481,6 +489,13 @@ justify-self: end;
 .card:hover {
   background-color: var(--hover-color);
 }
+
+.r3Card {
+  background-color: var(--r3-background);
+  border-radius: var(--border-radius);
+}
+
+
 
 
 /********** Landing **********/
@@ -1031,7 +1046,7 @@ justify-self: end;
 /*****************************************/
 .viewPageSplit2 {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 3fr 2fr;
   grid-template-areas: 'view-left view-right';
   /* grid-gap: 0rem; */
 }
@@ -1064,28 +1079,25 @@ justify-self: end;
   .item-container-4 {
     grid-template-columns: 2rem 2rem 1fr 1fr;
   }
-
-  .item-container-6 {
-    grid-template-columns: 2rem 2rem 5rem 5rem 1fr 1fr;
-  }
-
-  .item-container-7 {
-    grid-template-columns: 2rem 2rem 1fr 2fr 2fr 1fr 2fr ;
-  }
-
   .item-container-left-5 {
     grid-template-columns: 5rem 2fr 2fr 1fr 2rem ;
   }
-
-
+  .item-container-6 {
+    grid-template-columns: 2rem 2rem 5rem 5rem 1fr 1fr;
+  }
+  .item-container-7 {
+    grid-template-columns: 2rem 2rem 1fr 2fr 2fr 1fr 2fr ;
+  }
   .item-container-8b {
     grid-template-columns: 2rem 2rem 2fr 4fr 2fr 2fr 7rem 7rem;
+  }
+  .item-container-10 {
+    grid-template-columns: 2rem 2rem 5rem 6rem repeat(2, 3fr) repeat(3,1fr) 4rem;
   }
   .item-container-15 {
     grid-template-columns: 2rem 2rem repeat(13, 1fr);
   } 
-
-   .item-container-18 {
+  .item-container-18 {
     grid-template-columns: 2rem 2rem repeat(16, 1fr);
   } 
 
@@ -1286,11 +1298,11 @@ justify-self: end;
   grid-template-columns:  1fr ; 
 }
 
-.compactView-2 {
+.grid-1fr2fr {
   grid-template-columns:  1fr ; 
 }
 
-.compactView-3 {
+.grid-1fr1fr1fr {
   grid-template-columns:  1fr ; 
 }
 

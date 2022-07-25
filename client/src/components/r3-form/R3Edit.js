@@ -384,11 +384,11 @@ const R3Edit = ({
         </div>
 
         <div className='form-group r3Form p'>
-          <div className='compactView-2'>
+          <div className='grid-1fr2fr'>
             <small className='form-text'>Failure Code</small>
           </div>
 
-          <div className='compactView-2'>
+          <div className='grid-1fr2fr'>
             {failureCodes.length > 0 && (
               <Select
                 name='failureCode'
@@ -423,7 +423,7 @@ const R3Edit = ({
           </div>
         </div>
         <div className='form-group r3Form p'>
-          <div className='compactView-2'>
+          <div className='grid-1fr2fr'>
             <span>
               <small className='form-text'>R3 Application Date</small>
               <input
@@ -450,7 +450,7 @@ const R3Edit = ({
           </div>
         </div>
         <div className='form-group r3Engineer p'>
-          <div className='compactView-2'>
+          <div className='grid-1fr2fr'>
             <span>
               <small className='form-text'>Repair Engineer</small>
               {users.length > 0 && user.isEngineer ? (
@@ -508,11 +508,11 @@ const R3Edit = ({
         {user && user.isEngineer && (
           <span>
             <div className='form-group r3Engineer p'>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 <small className='form-text'>Repair Code</small>
               </div>
 
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 {repairCodes.length > 0 && (
                   <span>
                     <Select
@@ -549,10 +549,10 @@ const R3Edit = ({
               </div>
             </div>
             <div className='form-group r3Engineer p'>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 <small className='form-text'>Analysis Code</small>
               </div>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 {analysisCodes.length > 0 && (
                   <span>
                     <Select
@@ -589,7 +589,7 @@ const R3Edit = ({
               </div>
             </div>
             <div className='form-group r3Engineer p'>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 <span>
                   <small className='form-text'>
                     Maintenance Oil & Solvant Waste

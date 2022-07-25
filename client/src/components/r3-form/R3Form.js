@@ -142,6 +142,7 @@ const R3Form = ({
   // }));
 
   const optionRepairCodes = repairCodes.map((e) => ({
+    key: e._id,
     value: e._id,
     label:
       String(e.codeNumber).padStart(2, '0') +
@@ -153,6 +154,7 @@ const R3Form = ({
       e.description,
   }));
   const optionAnalysisCodes = analysisCodes.map((e) => ({
+    key: e._id,
     value: e._id,
     label:
       e.codeNumber +
@@ -167,6 +169,7 @@ const R3Form = ({
   const optionRepairEngineer = users
     .filter((e) => e.isEngineer)
     .map((e) => ({
+      key: e._id,
       value: e._id,
       label: e.name,
     }));
@@ -398,17 +401,12 @@ const R3Form = ({
         <div className='form-group r3Form p'>
           <small className='form-text'>Failure Code</small>
           <span></span>
-          <div className='compactView-2'>
+          <div className='grid-1fr2fr'>
             <ul onChange={onChange}>
               {failureCodes.length > 0 &&
                 failureCodes.map((e) => (
-                  <li>
-                    <input
-                      type='radio'
-                      value={e._id}
-                      name='failureCode'
-                      key={e._id}
-                    />{' '}
+                  <li key={e._id}>
+                    <input type='radio' value={e._id} name='failureCode' />{' '}
                     <small htmlFor={e._id}>
                       {String(e.codeNumber).padStart(2, '0') +
                         ' ' +
@@ -441,7 +439,7 @@ const R3Form = ({
           </div>
         </div>
         <div className='form-group r3Form p'>
-          <div className='compactView-2'>
+          <div className='grid-1fr2fr'>
             <span>
               <small className='form-text'>R3 Application Date</small>
               <input
@@ -467,30 +465,13 @@ const R3Form = ({
             </span>
           </div>
         </div>
-        {!creatingR3 && (
-          <div className='form-group r3Form p'>
-            <small className='form-text'>Applicant Validation Date</small>
-
-            <input
-              type='date'
-              placeholder='Applicant Validation Date'
-              name='applicantValidationDate'
-              id='applicantValidationDate'
-              value={
-                formData.applicantValidationDate &&
-                formatDate(formData.applicantValidationDate)
-              }
-              onChange={onChange}
-            />
-          </div>
-        )}
 
         {/* Below is to be shown only for Engineering Team */}
 
         {user && user.isEngineer && (
           <span>
             <div className='form-group r3Engineer p'>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 <span>
                   <small className='form-text'>Repair Engineer</small>
                   {users.length > 0 && user.isEngineer ? (
@@ -530,11 +511,11 @@ const R3Form = ({
               </div>
             </div>
             <div className='form-group r3Engineer p'>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 <small className='form-text'>Repair Code</small>
               </div>
 
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 {repairCodes.length > 0 && (
                   <span>
                     <Select
@@ -571,10 +552,10 @@ const R3Form = ({
               </div>
             </div>
             <div className='form-group r3Engineer p'>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 <small className='form-text'>Analysis Code</small>
               </div>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 {analysisCodes.length > 0 && (
                   <span>
                     <Select
@@ -611,7 +592,7 @@ const R3Form = ({
               </div>
             </div>
             <div className='form-group r3Engineer p'>
-              <div className='compactView-2'>
+              <div className='grid-1fr2fr'>
                 <span>
                   <small className='form-text'>
                     Maintenance Oil & Solvant Waste
@@ -669,6 +650,22 @@ const R3Form = ({
           </span>
         )}
 
+        {(!creatingR3 || user.isEngineer) && (
+          <div className='form-group r3Form p'>
+            <small className='form-text'>Applicant Validation Date</small>
+            <input
+              type='date'
+              placeholder='Applicant Validation Date'
+              name='applicantValidationDate'
+              id='applicantValidationDate'
+              value={
+                formData.applicantValidationDate &&
+                formatDate(formData.applicantValidationDate)
+              }
+              onChange={onChange}
+            />
+          </div>
+        )}
         <input
           type='submit'
           id='submit'
