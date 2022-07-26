@@ -447,7 +447,6 @@ router.patch(
       r3Fields.maintenanceSpareParts = maintenanceSpareParts;
     if (engineeringRepairDate)
       r3Fields.engineeringRepairDate = engineeringRepairDate;
-    console.log(machineStopped);
     try {
       // Check the unicity of the data in the form
       const otherR3s = await R3.find({ r3Number: r3Number });
