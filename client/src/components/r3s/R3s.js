@@ -25,11 +25,16 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
           <div>
             <Link to={`/r3s/`}>
               <i className='btn btn-dark fas fa-filter-circle-xmark'> </i>
-              <span className='p-1-2'>Show All</span>
+              <span className='p-1-2'>
+                <span className='hide-sm'>Show</span> All
+              </span>
             </Link>
             <Link to={`/r3s/?r3Completed=false`}>
               <i className='btn btn-dark fas fa-filter'> </i>
-              <span className='p-1-2'>Show only Pending R3</span>
+              <span className='p-1-2'>
+                <span className='hide-sm'>Show only</span> Pending
+                <span className='hide-sm'>R3</span>
+              </span>
             </Link>
           </div>
 

@@ -86,7 +86,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
       </li> */}
       <li>
         <Link to='/login'>
-          <i className='fas fa-user' /> <span className='hide-sm'>Login</span>
+          <i className='fas fa-user' /> Login
         </Link>
       </li>
     </ul>
@@ -94,9 +94,11 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
 
   return (
     <nav className='navbar bg-dark'>
-      <Link to='/'>
-        <Logo />
-      </Link>
+      <div className='logo'>
+        <Link to='/'>
+          <Logo />
+        </Link>
+      </div>
       <h4 className='hide-sm'>Citel Equipment & Machinery System</h4>
 
       <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
