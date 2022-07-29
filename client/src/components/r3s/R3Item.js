@@ -168,7 +168,6 @@ const R3Item = ({
       </div>
 
       <div className='grid-1fr1fr'>
-        {' '}
         <small>Applicant Validation Date</small>
         <h4>
           {applicantValidationDate ? formatDate(applicantValidationDate) : '/'}

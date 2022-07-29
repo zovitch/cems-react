@@ -304,20 +304,6 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   GET api/r3s/short // debug short route
-// @desc    GET the list of all repairs
-// @access  Public
-router.get('/short', async (req, res) => {
-  try {
-    const r3s = await R3.find().select('r3Number r3Date');
-
-    res.json(r3s);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 // @route   GET api/r3s/:r3Id
 // @desc    GET the detail of one repair
 // @access  Public
@@ -340,7 +326,17 @@ router.get('/:r3Id', async (req, res) => {
     if (!r3) {
       return res.status(400).json({ msg: 'Repair Record not found' });
     }
-    res.json(r3);
+
+    const machineId = r3.machine._id;
+
+    const relatedR3s = await R3.find({ machine: machineId })
+      .populate({
+        path: 'repairEngineer',
+        select: 'name',
+      })
+      .sort({ date: 'desc' });
+
+    res.json({ r3, relatedR3s });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

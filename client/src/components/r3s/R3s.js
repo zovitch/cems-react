@@ -6,6 +6,7 @@ import Spinner from '../layout/Spinner';
 import PageTitleBar from '../layout/PageTitleBar';
 import { getR3s } from '../../actions/r3';
 import formatDate from '../../utils/formatDate';
+import Avatar from 'react-avatar';
 
 const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
   const r3Query = useLocation();
@@ -94,7 +95,14 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     {r3.applicant}
                   </div>
                   <div className='attribute' data-name='Repair Engineer'>
-                    {r3.repairEngineer && r3.repairEngineer.name}
+                    {r3.repairEngineer && (
+                      <Avatar
+                        className='badge'
+                        name={r3.repairEngineer.name}
+                        round={true}
+                        size='25px'
+                      />
+                    )}
                   </div>
                   <div className='attribute' data-name='R3 Completed'>
                     {r3.r3Completed && (

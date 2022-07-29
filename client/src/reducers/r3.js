@@ -22,8 +22,8 @@ function r3Reducer(state = initialState, action) {
     case GET_R3:
       return {
         ...state,
-        r3: payload,
-        r3s: [],
+        r3: payload.r3,
+        r3s: payload.relatedR3s,
         loading: false,
       };
 
