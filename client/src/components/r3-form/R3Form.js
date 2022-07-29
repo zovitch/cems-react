@@ -9,6 +9,7 @@ import { getUsers } from '../../actions/user';
 
 import Select from 'react-select';
 import formatDate from '../../utils/formatDate';
+import formatDateTime from '../../utils/formatDateTime';
 import ToggleSwitch from '../layout/ToggleSwitch';
 
 const initialState = {
@@ -443,11 +444,11 @@ const R3Form = ({
             <span>
               <small className='form-text'>R3 Application Date</small>
               <input
-                type='date'
+                type='datetime-local'
                 placeholder='R3 Application Date'
                 name='r3Date'
                 id='r3Date'
-                value={formData.r3Date && formatDate(formData.r3Date)}
+                value={formData.r3Date && formatDateTime(formData.r3Date)}
                 onChange={onChangeR3Date}
               />
             </span>
@@ -625,13 +626,13 @@ const R3Form = ({
                   <span>
                     <small className='form-text'>Engineering Repair Date</small>
                     <input
-                      type='date'
+                      type='datetime-local'
                       placeholder='Engineering Repair Date'
                       name='engineeringRepairDate'
                       id='engineeringRepairDate'
                       value={
                         formData.engineeringRepairDate &&
-                        formatDate(formData.engineeringRepairDate)
+                        formatDateTime(formData.engineeringRepairDate)
                       }
                       onChange={onChange}
                     />
@@ -654,13 +655,13 @@ const R3Form = ({
           <div className='form-group r3Form p'>
             <small className='form-text'>Applicant Validation Date</small>
             <input
-              type='date'
+              type='datetime-local'
               placeholder='Applicant Validation Date'
               name='applicantValidationDate'
               id='applicantValidationDate'
               value={
                 formData.applicantValidationDate &&
-                formatDate(formData.applicantValidationDate)
+                formatDateTime(formData.applicantValidationDate)
               }
               onChange={onChange}
             />

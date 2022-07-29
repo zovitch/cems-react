@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import formatDate from '../../utils/formatDate';
+import formatDateTime from '../../utils/formatDateTime';
 
 const R3Item = ({
   r3: {
@@ -61,7 +62,7 @@ const R3Item = ({
       <div className='grid-1fr3fr'>
         <small>R3 Date</small>
         <span className='grid-1fr2fr'>
-          <h4>{r3Date && formatDate(r3Date)}</h4>
+          <h4>{r3Date && formatDateTime(r3Date)}</h4>
           <small>Machine Stopped?</small>
         </span>
       </div>

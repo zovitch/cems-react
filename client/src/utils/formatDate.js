@@ -1,5 +1,6 @@
 function formatDate(date) {
-  return new Date(date).toISOString().split('T')[0];
+  const formattedDate = new Date(date).toISOString().split('T')[0];
+  return formattedDate;
 }
 
 export default formatDate;
