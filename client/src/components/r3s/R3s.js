@@ -37,6 +37,10 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                 <span className='hide-sm'>R3</span>
               </span>
             </Link>
+            <Link to={`/r3s/myr3s`}>
+              <i className='btn btn-dark fas fa-user-check'> </i>
+              <span className='p-1-2'>My R3s</span>
+            </Link>
           </div>
 
           <ul className='table-grid-container my-2'>
