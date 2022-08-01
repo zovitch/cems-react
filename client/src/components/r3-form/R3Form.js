@@ -2,20 +2,21 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getR3, createR3, deleteR3, getNewR3Number } from '../../actions/r3';
+import { getR3, createR3, deleteR3 } from '../../actions/r3';
 import { getMachines } from '../../actions/machine';
 import { getCodes } from '../../actions/code';
 import { getUsers } from '../../actions/user';
 
 import Select from 'react-select';
-import formatDate from '../../utils/formatDate';
-// import formatDateTime from '../../utils/formatDateTime';
 import ToggleSwitch from '../layout/ToggleSwitch';
+
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const initialState = {
   r3Number: '',
   machine: '',
-  r3Date: formatDate(new Date()),
+  r3Date: new Date(),
   applicant: '',
   failureCode: '',
   failureExplanation: '',
@@ -39,14 +40,13 @@ const initialState = {
 };
 
 const R3Form = ({
-  r3: { r3, newR3Number },
+  r3: { r3 },
   machine: { machines },
   auth: { user },
   user: { users },
   code: { failureCodes, repairCodes, analysisCodes },
   createR3,
   getR3,
-  getNewR3Number,
   getMachines,
   getUsers,
   getCodes,
@@ -60,14 +60,16 @@ const R3Form = ({
   const [toggleMaintenanceSparePartsOn, setToggleMaintenanceSparePartsOn] =
     useState(false);
   const [toggleR3Completed, setToggleR3Completed] = useState(false);
+
+  const [selectedR3Date, setR3Date] = useState(new Date());
+  const [selectedEngineeringRepairDate, setEngineeringRepairDate] = useState();
+  const [selectedApplicantValidationDate, setApplicantValidationDate] =
+    useState();
+
   const navigate = useNavigate();
   const { r3Id } = useParams();
   let creatingR3 = true;
   if (r3Id) creatingR3 = false;
-
-  // if we create a R3 (creatingR3: true) then the toogle should be OFF (false)
-  // if we edit a R3 (creatingR3: false) then toggle should be ON (true)
-  const [toggleR3NumberOn, setToggleR3NumberOn] = useState(!creatingR3);
 
   const defaultMachine = !formData.machine
     ? ''
@@ -211,14 +213,13 @@ const R3Form = ({
       setToggleMaintenancePlasticOn(r3Data.maintenancePlasticAndMetalWaste);
       setToggleMaintenanceSparePartsOn(r3Data.maintenanceSpareParts);
       setToggleR3Completed(r3Data.r3Completed);
+      setR3Date(new Date(r3Data.r3Date));
+      r3Data.engineeringRepairDate &&
+        setEngineeringRepairDate(new Date(r3Data.engineeringRepairDate));
+      r3Data.applicantValidationDate &&
+        setApplicantValidationDate(new Date(r3Data.applicantValidationDate));
     }
   }, [r3]);
-
-  // Hangle toggle for the checkbox ToggleSwitch Component
-  const onToggleR3Number = (e) => {
-    setToggleR3NumberOn(!toggleR3NumberOn);
-    getNewR3Number(formData);
-  };
 
   // On Change handlers
   const onChange = (e) => {
@@ -236,7 +237,6 @@ const R3Form = ({
       designation: e.label.split(' - ', 3)[2],
     };
     setFormData(newValues);
-    getNewR3Number(newValues);
   };
 
   const onChangeFailureCode = (e) => {
@@ -275,10 +275,24 @@ const R3Form = ({
   };
 
   const onChangeR3Date = (e) => {
+    setR3Date(e);
     const newValues = { ...formData };
-    newValues.r3Date = e.target.value;
+    newValues.r3Date = e;
     setFormData(newValues);
-    newValues.machine && getNewR3Number(newValues);
+  };
+
+  const onChangeEngineeringRepairDate = (e) => {
+    setEngineeringRepairDate(e);
+    const newValues = { ...formData };
+    newValues.engineeringRepairDate = e;
+    setFormData(newValues);
+  };
+
+  const onChangeApplicantValidationDate = (e) => {
+    setApplicantValidationDate(e);
+    const newValues = { ...formData };
+    newValues.applicantValidationDate = e;
+    setFormData(newValues);
   };
 
   const onChangeRepairEngineer = (e) => {
@@ -292,14 +306,7 @@ const R3Form = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    const newValues = { ...formData };
-    newValues.r3Number = newR3Number;
-    setFormData(newValues);
-    document.querySelector('#r3NumberToggle') &&
-    document.querySelector('#r3NumberToggle').checked
-      ? createR3(formData, navigate, creatingR3, r3Id)
-      : createR3(newValues, navigate, creatingR3, r3Id);
+    createR3(formData, navigate, creatingR3, r3Id);
   };
 
   return (
@@ -362,40 +369,7 @@ const R3Form = ({
               onChange={onChange}
             />
 
-            {user && user.isAdmin ? (
-              <input
-                type='text'
-                placeholder={
-                  document.querySelector('#r3NumberToggle') &&
-                  document.querySelector('#r3NumberToggle').checked
-                    ? 'Enter a R3 Number'
-                    : 'Automatic R3 No.'
-                }
-                name='r3Number'
-                id='r3Number'
-                value={
-                  document.querySelector('#r3NumberToggle') &&
-                  document.querySelector('#r3NumberToggle').checked
-                    ? formData.r3Number
-                    : newR3Number
-                    ? newR3Number
-                    : ''
-                }
-                onChange={onChange}
-                readOnly={!toggleR3NumberOn}
-              />
-            ) : (
-              <h2>{newR3Number}</h2>
-            )}
-
-            {user && user.isAdmin && (
-              <ToggleSwitch
-                name='r3NumberToggle'
-                id='r3NumberToggle'
-                defaultChecked={toggleR3NumberOn}
-                onClick={onToggleR3Number}
-              />
-            )}
+            <h2>{formData.r3Number}</h2>
           </div>
         </div>
 
@@ -455,13 +429,16 @@ const R3Form = ({
           <div className='grid-1fr2fr'>
             <span>
               <small className='form-text'>R3 Application Date</small>
-              <input
-                type='date'
-                placeholder='R3 Application Date'
-                name='r3Date'
-                id='r3Date'
-                value={formData.r3Date && formatDate(formData.r3Date)}
+              <DatePicker
+                selected={selectedR3Date}
                 onChange={onChangeR3Date}
+                dateFormat='yyyy/MM/dd HH:mm'
+                maxDate={new Date()}
+                isClearable={false}
+                showTimeSelect
+                timeFormat='HH:mm'
+                timeIntervals={5}
+                todayButton='今天'
               />
             </span>
 
@@ -637,16 +614,18 @@ const R3Form = ({
                 <span>
                   <span>
                     <small className='form-text'>Engineering Repair Date</small>
-                    <input
-                      type='date'
-                      placeholder='Engineering Repair Date'
-                      name='engineeringRepairDate'
-                      id='engineeringRepairDate'
-                      value={
-                        formData.engineeringRepairDate &&
-                        formatDate(formData.engineeringRepairDate)
-                      }
-                      onChange={onChange}
+
+                    <DatePicker
+                      selected={selectedEngineeringRepairDate}
+                      onChange={onChangeEngineeringRepairDate}
+                      placeholderText='ENG Repair Finish Date'
+                      dateFormat='yyyy/MM/dd HH:mm'
+                      maxDate={new Date()}
+                      isClearable={true}
+                      showTimeSelect
+                      timeFormat='HH:mm'
+                      timeIntervals={5}
+                      todayButton='今天'
                     />
                   </span>
                   <br />
@@ -666,16 +645,18 @@ const R3Form = ({
         {(!creatingR3 || user.isEngineer) && (
           <div className='form-group r3Form p'>
             <small className='form-text'>Applicant Validation Date</small>
-            <input
-              type='date'
-              placeholder='Applicant Validation Date'
-              name='applicantValidationDate'
-              id='applicantValidationDate'
-              value={
-                formData.applicantValidationDate &&
-                formatDate(formData.applicantValidationDate)
-              }
-              onChange={onChange}
+
+            <DatePicker
+              selected={selectedApplicantValidationDate}
+              onChange={onChangeApplicantValidationDate}
+              placeholderText='Applicant Validation Date'
+              dateFormat='yyyy/MM/dd HH:mm'
+              maxDate={new Date()}
+              isClearable={true}
+              showTimeSelect
+              timeFormat='HH:mm'
+              timeIntervals={5}
+              todayButton='今天'
             />
           </div>
         )}
@@ -717,7 +698,6 @@ R3Form.propTypes = {
   auth: PropTypes.object.isRequired,
   createR3: PropTypes.func.isRequired,
   getR3: PropTypes.func.isRequired,
-  getNewR3Number: PropTypes.func.isRequired,
   getMachines: PropTypes.func.isRequired,
   getCodes: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
@@ -735,7 +715,6 @@ export default connect(mapStateToProps, {
   createR3,
   getR3,
   deleteR3,
-  getNewR3Number,
   getMachines,
   getCodes,
   getUsers,
