@@ -58,8 +58,23 @@ const R3 = ({ getR3, r3: { r3, r3s }, auth }) => {
                       <small className='attribute' data-name='R3 No.'>
                         {e.r3Number}
                       </small>
-                      <small className='attribute' data-name='Date'>
-                        {e.r3Date}
+                      <small className='attribute' data-name='Repair Time'>
+                        {e.r3Date && e.engineeringRepairDate && (
+                          <>
+                            {e.r3Date === e.engineeringRepairDate ? (
+                              <span> &lt; 1 天</span>
+                            ) : (
+                              <h4>
+                                {Math.abs(
+                                  new Date(e.r3Date) -
+                                    new Date(e.engineeringRepairDate)
+                                ) /
+                                  (1000 * 60 * 60)}{' '}
+                                <span>小时</span>
+                              </h4>
+                            )}
+                          </>
+                        )}
                       </small>
                       <small className='attribute' data-name='Engineer'>
                         {e.repairEngineer && (
