@@ -11,13 +11,20 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
     <ul>
       <li>
         <Link to='/create-r3'>
-          <i className='fas fa-screwdriver'></i> New R3
+          <i className='fas fa-screwdriver'></i> 新的 R3
         </Link>
       </li>
       <li>
         <Link className='hide-sm' to='/r3s/?r3Completed=false'>
-          <i className='fas fa-screwdriver-wrench'></i> Pending R3
+          <i className='fas fa-screwdriver-wrench'></i> 未完成 R3
         </Link>
+      </li>
+      <li>
+        {user && user.isEngineer && (
+          <Link to={`/r3s/?repairEngineer=${user._id}`}>
+            <i className='fas fa-user-check'></i> 我的R3
+          </Link>
+        )}
       </li>
       {/*<li>
         <Link className='hide-sm' to='/machines'>

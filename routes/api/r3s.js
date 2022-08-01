@@ -304,40 +304,6 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   GET api/r3s/myR3s
-// @desc    GET the list of all repairs for one Engineer
-// @access  Private
-router.get('/myR3s', auth, async (req, res) => {
-  const user = await User.findById(req.user.id);
-
-  if (!user) return res.status(400).json({ msg: 'User not found' });
-
-  try {
-    const r3s = await R3.find({ repairEngineer: user })
-      .sort({ date: 'desc' })
-      .populate({
-        path: 'machine failureCode repairCode analysisCode repairEngineer',
-        select:
-          'machineNumber designation designationCN name nameCN codeNumber description descriptionCN',
-        populate: {
-          path: 'category department',
-          strictPopulate: false,
-          populate: {
-            path: 'owners location',
-            strictPopulate: false,
-            select: 'name initials nameCN locationLetter',
-          },
-        },
-      })
-      .sort({ r3Date: -1 });
-
-    res.json(r3s);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 // @route   GET api/r3s/:r3Id
 // @desc    GET the detail of one repair
 // @access  Public

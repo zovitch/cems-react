@@ -25,22 +25,19 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
 
           <div>
             <Link to={`/r3s/`}>
-              <i className='btn btn-dark fas fa-filter-circle-xmark'> </i>
-              <span className='p-1-2'>
-                <span className='hide-sm'>Show</span> All
-              </span>
+              {/* Show all */}
+              <i className='btn btn-dark fas fa-filter-circle-xmark'> 所有</i>
             </Link>
             <Link to={`/r3s/?r3Completed=false`}>
-              <i className='btn btn-dark fas fa-filter'> </i>
-              <span className='p-1-2'>
-                <span className='hide-sm'>Show only</span> Pending
-                <span className='hide-sm'>R3</span>
-              </span>
+              {/* Show only pending R3 */}
+              <i className='btn btn-dark fas fa-filter'> 未完成</i>
             </Link>
-            <Link to={`/r3s/myr3s`}>
-              <i className='btn btn-dark fas fa-user-check'> </i>
-              <span className='p-1-2'>My R3s</span>
-            </Link>
+            {auth.user && auth.user.isEngineer && (
+              <Link to={`/r3s/?repairEngineer=${auth.user._id}`}>
+                {/* Only My R3 */}
+                <i className='btn btn-dark fas fa-user-check'> 我的R3</i>
+              </Link>
+            )}
           </div>
 
           <ul className='table-grid-container my-2'>
