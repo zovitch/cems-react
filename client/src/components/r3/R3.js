@@ -39,7 +39,7 @@ const R3 = ({ getR3, r3: { r3, r3s }, auth }) => {
                   <div className='attribute'></div>
                   {/* Enclose semantically similar attributes as a div hierarchy */}
                   <div className='attribute'>R3 No.</div>
-                  <div className='attribute'>Date</div>
+                  <div className='attribute'>Repair Time</div>
                   <div className='attribute'>Engineer</div>
                 </li>
 
@@ -65,11 +65,13 @@ const R3 = ({ getR3, r3: { r3, r3s }, auth }) => {
                               <span> &lt; 1 天</span>
                             ) : (
                               <h4>
-                                {Math.abs(
-                                  new Date(e.r3Date) -
-                                    new Date(e.engineeringRepairDate)
-                                ) /
-                                  (1000 * 60 * 60)}{' '}
+                                {Math.round(
+                                  Math.abs(
+                                    new Date(e.r3Date) -
+                                      new Date(e.engineeringRepairDate)
+                                  ) /
+                                    (1000 * 60 * 60)
+                                )}{' '}
                                 <span>小时</span>
                               </h4>
                             )}

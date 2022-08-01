@@ -620,6 +620,7 @@ const R3Form = ({
                       onChange={onChangeEngineeringRepairDate}
                       placeholderText='ENG Repair Finish Date'
                       dateFormat='yyyy/MM/dd HH:mm'
+                      minDate={formData.r3Date && new Date(formData.r3Date)}
                       maxDate={new Date()}
                       isClearable={true}
                       showTimeSelect
@@ -651,6 +652,10 @@ const R3Form = ({
               onChange={onChangeApplicantValidationDate}
               placeholderText='Applicant Validation Date'
               dateFormat='yyyy/MM/dd HH:mm'
+              minDate={
+                formData.engineeringRepairDate &&
+                new Date(formData.engineeringRepairDate)
+              }
               maxDate={new Date()}
               isClearable={true}
               showTimeSelect
