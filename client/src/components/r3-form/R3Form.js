@@ -81,19 +81,19 @@ const R3Form = ({
           formData.machine.designation,
       };
 
-  // const defaultFailureCode = !formData.failureCode
-  //   ? ''
-  //   : {
-  //       value: formData.failureCode._id,
-  //       label:
-  //         formData.failureCode.codeNumber +
-  //         ' - ' +
-  //         formData.failureCode.name +
-  //         ' - ' +
-  //         formData.failureCode.descriptionCN +
-  //         ' - ' +
-  //         formData.failureCode.description,
-  //     };
+  const defaultFailureCode = !formData.failureCode
+    ? ''
+    : {
+        value: formData.failureCode._id,
+        label:
+          formData.failureCode.codeNumber +
+          ' - ' +
+          formData.failureCode.name +
+          ' - ' +
+          formData.failureCode.descriptionCN +
+          ' - ' +
+          formData.failureCode.description,
+      };
 
   const defaultRepairCode = !formData.repairCode
     ? ''
@@ -130,17 +130,17 @@ const R3Form = ({
         label: formData.repairEngineer.name,
       };
 
-  // const optionFailureCodes = failureCodes.map((e) => ({
-  //   value: e._id,
-  //   label:
-  //     e.codeNumber +
-  //     ' - ' +
-  //     e.name +
-  //     ' - ' +
-  //     e.descriptionCN +
-  //     ' - ' +
-  //     e.description,
-  // }));
+  const optionFailureCodes = failureCodes.map((e) => ({
+    value: e._id,
+    label:
+      e.codeNumber +
+      ' - ' +
+      e.name +
+      ' - ' +
+      e.descriptionCN +
+      ' - ' +
+      e.description,
+  }));
 
   const optionRepairCodes = repairCodes.map((e) => ({
     key: e._id,
@@ -239,17 +239,17 @@ const R3Form = ({
     getNewR3Number(newValues);
   };
 
-  // const onChangeFailureCode = (e) => {
-  //   const newValues = { ...formData };
-  //   newValues.failureCode = {
-  //     _id: e.value,
-  //     codeNumber: e.label.split(' - ', 4)[0],
-  //     name: e.label.split(' - ', 4)[1],
-  //     descriptionCN: e.label.split(' - ', 4)[2],
-  //     description: e.label.split(' - ', 4)[3],
-  //   };
-  //   setFormData(newValues);
-  // };
+  const onChangeFailureCode = (e) => {
+    const newValues = { ...formData };
+    newValues.failureCode = {
+      _id: e.value,
+      codeNumber: e.label.split(' - ', 4)[0],
+      name: e.label.split(' - ', 4)[1],
+      descriptionCN: e.label.split(' - ', 4)[2],
+      description: e.label.split(' - ', 4)[3],
+    };
+    setFormData(newValues);
+  };
 
   const onChangeRepairCode = (e) => {
     const newValues = { ...formData };
@@ -362,7 +362,7 @@ const R3Form = ({
               onChange={onChange}
             />
 
-            {user && user.isEngineer ? (
+            {user && user.isAdmin ? (
               <input
                 type='text'
                 placeholder={
@@ -388,7 +388,7 @@ const R3Form = ({
               <h2>{newR3Number}</h2>
             )}
 
-            {user && user.isEngineer && (
+            {user && user.isAdmin && (
               <ToggleSwitch
                 name='r3NumberToggle'
                 id='r3NumberToggle'
@@ -404,7 +404,7 @@ const R3Form = ({
           <span></span>
           <div className='grid-1fr2fr'>
             <ul onChange={onChange}>
-              {failureCodes.length > 0 &&
+              {failureCodes.length > 0 && creatingR3 ? (
                 failureCodes.map((e) => (
                   <li key={e._id}>
                     <input type='radio' value={e._id} name='failureCode' />{' '}
@@ -416,7 +416,19 @@ const R3Form = ({
                         e.description}
                     </small>
                   </li>
-                ))}
+                ))
+              ) : (
+                <Select
+                  name='failureCode'
+                  id='failureCode'
+                  placeholder='Failure Code'
+                  defaultValue={defaultFailureCode}
+                  key={formData.failureCode && formData.failureCode._id}
+                  onChange={onChangeFailureCode}
+                  options={optionFailureCodes}
+                  menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                />
+              )}
             </ul>
             <span>
               <textarea
