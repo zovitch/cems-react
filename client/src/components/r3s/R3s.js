@@ -93,6 +93,14 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     {r3.r3Date && formatDate(r3.r3Date)}
                   </div>
                   <div className='attribute' data-name='Applicant'>
+                    {r3.requester && (
+                      <Avatar
+                        className='badge'
+                        name={r3.requester.name}
+                        round={true}
+                        size='25px'
+                      />
+                    )}
                     {r3.applicant}
                   </div>
                   <div className='attribute' data-name='Repair Engineer'>

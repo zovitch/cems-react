@@ -21,6 +21,10 @@ const R3Schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  requester: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  },
   failureCode: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'failureCode',

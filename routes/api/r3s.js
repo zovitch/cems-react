@@ -66,7 +66,7 @@ router.post(
 );
 
 // @route   POST api/r3s
-// @desc    Check a Repair Record
+// @desc    Create a Repair Record
 // @access  Private
 router.post(
   '/',
@@ -248,6 +248,7 @@ router.post(
       }
 
       let r3 = new R3(r3Fields);
+      r3.requester = req.user.id; // save the auth user info into the R3
       await r3.populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
         select: 'name nameCN codeNumber description descriptionCN',
@@ -282,7 +283,7 @@ router.get('/', auth, async (req, res) => {
     const r3s = await R3.find(req.query)
       .sort({ date: 'desc' })
       .populate({
-        path: 'machine failureCode repairCode analysisCode repairEngineer',
+        path: 'machine failureCode repairCode analysisCode repairEngineer requester',
         select:
           'machineNumber designation designationCN name nameCN codeNumber description descriptionCN',
         populate: {
@@ -310,7 +311,7 @@ router.get('/', auth, async (req, res) => {
 router.get('/:r3Id', async (req, res) => {
   try {
     const r3 = await R3.findById(req.params.r3Id).populate({
-      path: 'machine failureCode repairCode analysisCode repairEngineer',
+      path: 'machine failureCode repairCode analysisCode repairEngineer requester',
       select:
         'machineNumber designation designationCN name nameCN codeNumber description descriptionCN',
       populate: {

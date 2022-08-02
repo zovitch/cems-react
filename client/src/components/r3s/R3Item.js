@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import formatDate from '../../utils/formatDate';
+import Avatar from 'react-avatar';
 // import formatDateTime from '../../utils/formatDateTime';
 
 const R3Item = ({
@@ -10,6 +11,7 @@ const R3Item = ({
     machine,
     r3Date,
     applicant,
+    requester,
     failureCode,
     failureExplanation,
     failureExplanationCN,
@@ -70,6 +72,14 @@ const R3Item = ({
       <div className='grid-1fr3fr'>
         <small>报修人员 Applicant</small>
         <div className='grid-1fr2fr'>
+          {requester && (
+            <Avatar
+              className='badge'
+              name={requester.name}
+              round={true}
+              size='25px'
+            />
+          )}
           <h4>{applicant}</h4>
           <h4>{machineStopped ? 'Yes' : 'No'}</h4>
         </div>
