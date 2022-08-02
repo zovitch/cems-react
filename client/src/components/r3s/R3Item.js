@@ -72,15 +72,17 @@ const R3Item = ({
       <div className='grid-1fr3fr'>
         <small>报修人员 Applicant</small>
         <div className='grid-1fr2fr'>
-          {requester && (
-            <Avatar
-              className='badge'
-              name={requester.name}
-              round={true}
-              size='25px'
-            />
-          )}
-          <h4>{applicant}</h4>
+          <span>
+            {requester && (
+              <Avatar
+                className='badge'
+                name={requester.name}
+                round={true}
+                size='25px'
+              />
+            )}
+            <h4>{applicant}</h4>
+          </span>
           <h4>{machineStopped ? 'Yes' : 'No'}</h4>
         </div>
       </div>
