@@ -22,7 +22,7 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
     {
       name: 'R3 Repair',
       nameCN: '报修单',
-      route: 'r3s',
+      route: `r3s?from=${new Date().getFullYear()}-01-01`,
       key: 'r3s',
       faLogo: 'fas fa-screwdriver-wrench',
     },

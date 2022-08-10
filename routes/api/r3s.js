@@ -278,9 +278,26 @@ router.post(
 // @route   GET api/r3s
 // @desc    GET the list of all repairs
 // @access  Private
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const r3s = await R3.find(req.query)
+    let year;
+    let month;
+    let day;
+
+    let query = req.query;
+
+    if ('from' in req.query) {
+      year = req.query.from.split('-')[0];
+      month = req.query.from.split('-')[1] - 1;
+      day = req.query.from.split('-')[2];
+      query = {
+        r3Date: {
+          $gte: new Date(year, month, day),
+        },
+      };
+    }
+
+    const r3s = await R3.find(query)
       .sort({ date: 'desc' })
       .populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer requester',

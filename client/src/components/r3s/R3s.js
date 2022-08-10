@@ -42,7 +42,7 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-10 '>
+            <li className='item item-container item-container-r3 '>
               <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
@@ -52,8 +52,7 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
               <div className='attribute'>EQU Name</div>
               <div className='attribute'>Date</div>
               <div className='attribute'>Applicant</div>
-              <div className='attribute'>Engineer</div>
-              <div className='attribute'>Done</div>
+              <div className='attribute'>Eng</div>
             </li>
 
             {/* The rest of the items in the list are the actual data */}
@@ -62,9 +61,9 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
               r3s.map((r3) => (
                 <li
                   key={r3._id}
-                  className='item item-container item-container-10'
+                  className='item item-container item-container-r3'
                 >
-                  <div className='attribute' data-name='Open'>
+                  <div className='attribute ' data-name='Open'>
                     <Link to={`/r3s/${r3._id}`}>
                       <i className='fas fa-eye'></i>
                     </Link>
@@ -78,44 +77,44 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                   </div>
 
                   <div className='attribute' data-name='R3 No.'>
-                    {r3.r3Number}
+                    <small>
+                      {r3.r3Number}{' '}
+                      {r3.r3Completed ? (
+                        <i className='fa-solid fa-xs fa-circle-check text-success'></i>
+                      ) : (
+                        <i className='fa-solid fa-xs fa-circle-xmark text-danger'></i>
+                      )}
+                    </small>
                   </div>
-                  <div className='attribute' data-name='EQU No.'>
+                  <div className='attribute hide-sm' data-name='EQU No.'>
                     {r3.machine && r3.machine.machineNumber}
                   </div>
                   <div className='attribute' data-name='设备名称'>
                     {r3.machine && r3.machine.designationCN}
                   </div>
-                  <div className='attribute' data-name='EQU Name'>
+                  <div className='attribute hide-sm' data-name='EQU Name'>
                     {r3.machine && r3.machine.designation}
                   </div>
-                  <div className='attribute' data-name='R3 Date'>
+                  <div className='attribute hide-sm' data-name='R3 Date'>
                     {r3.r3Date && formatDate(r3.r3Date)}
                   </div>
-                  <div className='attribute' data-name='Applicant'>
+                  <div className='attribute hide-sm' data-name='Applicant'>
                     {r3.requester && (
                       <Avatar
-                        className='badge'
                         name={r3.requester.name}
                         round={true}
-                        size='25px'
+                        size='22px'
                       />
-                    )}
-                    {r3.applicant}
+                    )}{' '}
+                    <span className='hide-sm'>{r3.applicant}</span>
                   </div>
                   <div className='attribute' data-name='Repair Engineer'>
                     {r3.repairEngineer && (
                       <Avatar
-                        className='badge'
                         name={r3.repairEngineer.name}
                         round={true}
-                        size='25px'
+                        size='22px'
                       />
-                    )}
-                  </div>
-                  <div className='attribute' data-name='R3 Completed'>
-                    {r3.r3Completed && (
-                      <i className='text-center fa-solid fa-circle-check text-success'></i>
                     )}
                   </div>
                 </li>

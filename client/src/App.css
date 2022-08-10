@@ -383,7 +383,7 @@ button {
 
 .grid-1fr2fr {
   display: grid;
-  grid-template-columns:   1fr 2fr; 
+  grid-template-columns: 1fr 2fr; 
   gap: 1rem;
   align-items: top;
 }
@@ -508,6 +508,33 @@ justify-self: end;
 }
 
 
+/********** Spinner **********/
+.smt-spinner-circle {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  margin: auto auto;
+  border-radius: 50%;
+}
+.smt-spinner {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  border-right: 2px solid rgba(255,255,255,0.6);
+  border-top: 2px solid var(--primary-color);
+  border-left: 2px solid  var(--primary-color);
+  border-bottom: 2px solid  var(--primary-color);
+  animation: rotate--spinner 1.6s infinite;
+}
+
+@keyframes rotate--spinner {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 
 /********** Landing **********/
@@ -1075,7 +1102,7 @@ justify-self: end;
 /*****************************************/
 /**********  Tabular Layout **********/
 /*****************************************/
-@media screen and (min-width: 737px) {
+/* @media screen and (min-width: 737px) { */
   /* The maximum column width, that can wrap */
   .item-container {
     /* this class should be combined with a .item-container-x to grid-template-columns */
@@ -1108,8 +1135,8 @@ justify-self: end;
   .item-container-8b {
     grid-template-columns: 2rem 2rem 2fr 4fr 2fr 2fr 7rem 7rem;
   }
-  .item-container-10 {
-    grid-template-columns: 2rem 2rem 5rem 6rem repeat(2, 3fr) repeat(3,1fr) 4rem;
+  .item-container-r3 {
+    grid-template-columns: 2rem 2rem 5rem 6rem repeat(2, 3fr) repeat(2,6rem) 3rem;
   }
   .item-container-15 {
     grid-template-columns: 2rem 2rem repeat(13, 1fr);
@@ -1162,8 +1189,6 @@ justify-self: end;
   }  */
 
   /* In order to maximize row lines, only display one line for a cell */
-
-
   .attribute {
     border-bottom: 1px solid var(--grey-color);
     border-left: 1px solid var(--grey-color);
@@ -1174,6 +1199,7 @@ justify-self: end;
     padding-left: 0.5rem;
   }
 
+  /* First row is header */
   .table-grid-container > .item-container:first-child {
     background-color: var(--dark-color);
     /* border-right: 1px var(--dark-color) solid; */
@@ -1193,22 +1219,18 @@ justify-self: end;
 
   /* Center header labels */
   .table-grid-container > .item-container:first-child .attribute {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border: none;
-    text-overflow: initial;
-    overflow: auto;
-    white-space: normal;
     border-bottom: 1px var(--grey-color) solid;
   }
 
+  /* center items in their column with only an icon from fontawesome */
   .table-grid-container .item-container .attribute .fa-center {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-right: 0.5rem;
   }
-}
+
 
 
 /************************************/
@@ -1221,48 +1243,35 @@ justify-self: end;
     float:left!important;
   }
 
-  .table-grid-container {
+  .item-container {
+    /* this class should be combined with a .item-container-x to grid-template-columns */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    grid-gap: 2rem;
-    align-items: stretch;
-  }   
-
-  .table-grid-container > a {
-    color: var(--dark-color)
+    border-right: var(--grey-color) 1px solid;
+    color: var(--dark-color);
   }
 
-   .item-container:hover {
-    background-color: var(--hover-color);
-  }
-  
-  .item {
-    border: 1px solid gray;
-    border-radius: var(--border-radius);
-    padding: 1rem;
-    background-color: var(--r3-background);
+  .item-container-r3 {
+    grid-template-columns: 2rem 2rem 5rem 1fr 2rem ;
   }
 
   /* Don't display the first item, since it is used to display the header for tabular layouts*/
   .table-grid-container > li:first-child {
     display: none;
   }
+  .table-grid-container > li:nth-child(2) {
+    border-top: 1px solid var(--grey-color);
+  } 
  
-  .attribute::before {
-    content: attr(data-name);
-  }
-
   /* Attribute name for first column, and attribute value for second column. */
   .attribute {
-    display: grid;
-    grid-template-columns: minmax(9em, 30%) 1fr;
-    grid-gap:1rem
-  }
-
-  .table-grid-container .item-container .attribute .fa-center {
-    display: flex;
-    align-items: center;
-    /* justify-content: center; */
+    border-bottom: 1px solid var(--grey-color);
+    border-left: 1px solid var(--grey-color);
+    padding: 2px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 0.5rem;
+    /* font-size: 0.9rem; */
   }
 
   /* Hide on small screen */

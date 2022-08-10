@@ -12,6 +12,7 @@ import ToggleSwitch from '../layout/ToggleSwitch';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Spinner from '../layout/Spinner';
 
 const initialState = {
   r3Number: '',
@@ -41,7 +42,7 @@ const initialState = {
 
 const R3Form = ({
   r3: { r3 },
-  machine: { machines },
+  machine: { machines, loading },
   auth: { user },
   user: { users },
   code: { failureCodes, repairCodes, analysisCodes },
@@ -326,25 +327,31 @@ const R3Form = ({
       <form className='form' onSubmit={onSubmit}>
         <div className='form-group r3Form p'>
           <div className='compactView-1'>
-            {machines.length > 0 && (
-              <Select
-                name='machines'
-                id='machines'
-                placeholder='Select or type in an EQU No.'
-                defaultValue={defaultMachine}
-                key={formData.machine && formData.machine._id}
-                onChange={onChangeMachine}
-                options={machines.map((e) => ({
-                  value: e._id,
-                  label:
-                    e.machineNumber +
-                    ' - ' +
-                    e.designationCN +
-                    ' - ' +
-                    e.designation,
-                }))}
-                menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
-              />
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                {machines.length > 0 && (
+                  <Select
+                    name='machines'
+                    id='machines'
+                    placeholder='Select or type in an EQU No.'
+                    defaultValue={defaultMachine}
+                    key={formData.machine && formData.machine._id}
+                    onChange={onChangeMachine}
+                    options={machines.map((e) => ({
+                      value: e._id,
+                      label:
+                        e.machineNumber +
+                        ' - ' +
+                        e.designationCN +
+                        ' - ' +
+                        e.designation,
+                    }))}
+                    menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
+                  />
+                )}
+              </>
             )}
             <small className='form-text'>
               {document.querySelector('#machineStopped') &&

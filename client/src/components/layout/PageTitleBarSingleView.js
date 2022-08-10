@@ -16,6 +16,10 @@ const PageTitleBarSingleView = ({ auth, item }) => {
     items = item.substring(0, item.length - 1) + 'ies';
   }
 
+  if (items === 'r3s') {
+    items = `r3s?from=${new Date().getFullYear()}-01-01`;
+  }
+
   return (
     <div className='pageHeader'>
       <Link to={`/${items}`}>
@@ -36,7 +40,6 @@ const PageTitleBarSingleView = ({ auth, item }) => {
 PageTitleBarSingleView.propTypes = {
   auth: PropTypes.object.isRequired,
   item: PropTypes.string.isRequired,
-  // link: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

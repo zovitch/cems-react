@@ -65,26 +65,22 @@ const R3Item = ({
         <small>R3 Date</small>
         <span className='grid-1fr2fr'>
           <h4>{r3Date && formatDate(r3Date)}</h4>
-          <small>Machine Stopped?</small>
         </span>
       </div>
-      <div className='r3-designation'></div>
       <div className='grid-1fr3fr'>
         <small>报修人员 Applicant</small>
-        <div className='grid-1fr2fr'>
-          <span>
-            {requester && (
-              <Avatar
-                className='badge'
-                name={requester.name}
-                round={true}
-                size='25px'
-              />
-            )}
-            <h4>{applicant}</h4>
-          </span>
-          <h4>{machineStopped ? 'Yes' : 'No'}</h4>
+        <div className='grid-1fr3fr'>
+          {requester && (
+            <span className=''>
+              <Avatar name={requester.name} round={true} size='25px' />
+            </span>
+          )}
+          <h4>{applicant}</h4>
         </div>
+      </div>
+      <div className='grid-1fr3fr'>
+        <small>Machine Stopped?</small>
+        <h4>{machineStopped ? 'Yes' : 'No'}</h4>
       </div>
       <div className='grid-1fr3fr'>
         <small>Repair Engineer</small>
