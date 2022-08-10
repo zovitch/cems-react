@@ -24,7 +24,7 @@ const Investments = ({
           <PageTitleBarEngineer item='investment' faIcon='fas fa-sack-dollar' />
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-8b'>
+            <li className='item item-container item-container-investment'>
               <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
@@ -42,14 +42,14 @@ const Investments = ({
               investments.map((investment) => (
                 <li
                   key={investment._id}
-                  className='item item-container item-container-8b'
+                  className='item item-container item-container-investment'
                 >
                   <div className='attribute' data-name='Open'>
                     <Link to={`/investments/${investment._id}`}>
                       <i className='fas fa-eye'></i>
                     </Link>
                   </div>
-                  <div className='attribute' data-name='Edit'>
+                  <div className='attribute hide-sm' data-name='Edit'>
                     {auth && auth.isAuthenticated && auth.user.isEngineer && (
                       <Link to={`/investments/edit/${investment._id}`}>
                         <i className='fas fa-edit'></i>
@@ -63,13 +63,16 @@ const Investments = ({
                   <div className='attribute' data-name='Name'>
                     {investment.name}
                   </div>
-                  <div className='attribute' data-name='Est. Unit Price'>
+                  <div
+                    className='attribute hide-sm'
+                    data-name='Est. Unit Price'
+                  >
                     {investment.estimatedUnitPrice}
                   </div>
-                  <div className='attribute' data-name='Qty'>
+                  <div className='attribute hide-sm' data-name='Qty'>
                     {investment.quantity}
                   </div>
-                  <div className='attribute' data-name='Approved'>
+                  <div className='attribute hide-sm' data-name='Approved'>
                     {investment.approved === true && (
                       <i className='fas fa-check fa-center'></i>
                     )}

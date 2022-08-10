@@ -278,7 +278,7 @@ router.post(
 // @route   GET api/r3s
 // @desc    GET the list of all repairs
 // @access  Private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     let year;
     let month;

@@ -38,7 +38,7 @@ const Profile = ({
         <Fragment>
           <PageTitleBarSingleView item='user' />
 
-          <div className='grid-1fr3fr py-2'>
+          <div className='viewPageSplit1 py-2'>
             <span>
               <div className='lead'>
                 <i className='fas fa-user'></i> Profile
@@ -54,69 +54,95 @@ const Profile = ({
                   <Spinner />
                 ) : (
                   <ul className='table-grid-container '>
-                    <li className='item item-container item-container-6 '>
+                    <li className='item item-container item-container-r3 '>
+                      <div className='attribute'></div>
                       <div className='attribute'></div>
                       {/* Enclose semantically similar attributes as a div hierarchy */}
-                      <div className='attribute'></div>
                       <div className='attribute'>R3 No.</div>
+                      <div className='attribute'>EQU No.</div>
+                      <div className='attribute'>设备名称</div>
+                      <div className='attribute'>EQU Name</div>
                       <div className='attribute'>Date</div>
-                      <div className='attribute'>Repair Time</div>
-                      <div className='attribute'>Engineer</div>
+                      <div className='attribute'>Applicant</div>
+                      <div className='attribute'>Eng</div>
                     </li>
-
+                    {/* The rest of the items in the list are the actual data */}
                     {r3s &&
                       r3s.length > 0 &&
-                      r3s.map((e) => (
+                      r3s.map((r3) => (
                         <li
-                          className='item item-container item-container-6 '
-                          key={e._id}
+                          key={r3._id}
+                          className='item item-container item-container-r3'
                         >
-                          <small className='attribute' data-name='Open'>
-                            <Link to={`/r3s/${e._id}`}>
+                          <div className='attribute ' data-name='Open'>
+                            <Link to={`/r3s/${r3._id}`}>
                               <i className='fas fa-eye'></i>
                             </Link>
-                          </small>
-                          <small className='attribute' data-name=''>
-                            {e.r3Completed && (
-                              <i className='text-center fa-solid fa-circle-check text-success'></i>
+                          </div>
+                          <div className='attribute' data-name='Edit'>
+                            {auth && auth.isAuthenticated && (
+                              <Link to={`/r3s/edit/${r3._id}`}>
+                                <i className='fas fa-edit'></i>
+                              </Link>
                             )}
-                          </small>
-                          <small className='attribute' data-name='R3 No.'>
-                            {e.r3Number}
-                          </small>
-                          <small className='attribute' data-name='Date'>
-                            {e.r3Date && formatDate(e.r3Date)}
-                          </small>
-                          <small className='attribute' data-name='Repair Time'>
-                            {e.r3Date && e.engineeringRepairDate && (
-                              <>
-                                {e.r3Date === e.engineeringRepairDate ? (
-                                  <span> &lt; 1 天</span>
-                                ) : (
-                                  <h4>
-                                    {Math.round(
-                                      Math.abs(
-                                        new Date(e.r3Date) -
-                                          new Date(e.engineeringRepairDate)
-                                      ) /
-                                        (1000 * 60 * 60)
-                                    )}{' '}
-                                    <span>小时</span>
-                                  </h4>
-                                )}
-                              </>
-                            )}
-                          </small>
-                          <small className='attribute' data-name='Engineer'>
-                            {e.repairEngineer && (
+                          </div>
+
+                          <div className='attribute' data-name='R3 No.'>
+                            <small>
+                              {r3.r3Number}{' '}
+                              {r3.r3Completed ? (
+                                <i className='fa-solid fa-xs fa-circle-check text-success'></i>
+                              ) : (
+                                <i className='fa-solid fa-xs fa-circle-xmark text-danger'></i>
+                              )}
+                            </small>
+                          </div>
+                          <div
+                            className='attribute hide-sm'
+                            data-name='EQU No.'
+                          >
+                            {r3.machine && r3.machine.machineNumber}
+                          </div>
+                          <div className='attribute' data-name='设备名称'>
+                            {r3.machine && r3.machine.designationCN}
+                          </div>
+                          <div
+                            className='attribute hide-sm'
+                            data-name='EQU Name'
+                          >
+                            {r3.machine && r3.machine.designation}
+                          </div>
+                          <div
+                            className='attribute hide-sm'
+                            data-name='R3 Date'
+                          >
+                            {r3.r3Date && formatDate(r3.r3Date)}
+                          </div>
+                          <div
+                            className='attribute hide-sm'
+                            data-name='Applicant'
+                          >
+                            {r3.requester && (
                               <Avatar
-                                className='badge'
-                                name={e.repairEngineer && e.repairEngineer.name}
+                                name={r3.requester.name}
                                 round={true}
-                                size='25px'
+                                size='22px'
+                              />
+                            )}{' '}
+                            <span className='hide-sm'>{r3.applicant}</span>
+                          </div>
+                          <div
+                            className='attribute'
+                            data-name='Repair Engineer'
+                          >
+                            {r3.repairEngineer && (
+                              <Avatar
+                                name={r3.repairEngineer.name}
+                                round={true}
+                                size='22px'
                               />
                             )}
-                          </small>
+                          </div>
                         </li>
                       ))}
                   </ul>

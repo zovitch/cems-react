@@ -23,7 +23,7 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-15 '>
+            <li className='item item-container item-container-machines '>
               <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
@@ -62,14 +62,17 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
               machines.map((machine) => (
                 <li
                   key={machine._id}
-                  className='item item-container item-container-15'
+                  className='item item-container item-container-machines'
                 >
-                  <div className='attribute' data-name='Open'>
+                  <div
+                    className='attribute attribute-machine-open'
+                    data-name='Open'
+                  >
                     <Link to={`/machines/${machine._id}`}>
                       <i className='fas fa-eye'></i>
                     </Link>
                   </div>
-                  <div className='attribute' data-name='Edit'>
+                  <div className='attribute hide-sm' data-name='Edit'>
                     {auth && auth.isAuthenticated && auth.user.isEngineer && (
                       <Link to={`/machines/edit/${machine._id}`}>
                         <i className='fas fa-edit'></i>
@@ -78,18 +81,27 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                   </div>
 
                   {/* <div className='attribute-container equ-qua'> */}
-                  <div className='attribute' data-name='EQU No.'>
+                  <div
+                    className='attribute attribute-machine-equ'
+                    data-name='EQU No.'
+                  >
                     {machine.machineNumber}
                   </div>
-                  <div className='attribute' data-name='QUA No.'>
+                  <div className='attribute hide-sm' data-name='QUA No.'>
                     {machine.qualityNumber}
                   </div>
                   {/* </div> */}
                   {/* <div className='attribute-container designation-designationCN'> */}
-                  <div className='attribute' data-name='设备名称'>
+                  <div
+                    className='attribute attribute-machine-designationCN'
+                    data-name='设备名称'
+                  >
                     {machine.designationCN}
                   </div>
-                  <div className='attribute' data-name='Designation'>
+                  <div
+                    className='attribute attribute-machine-designation'
+                    data-name='Designation'
+                  >
                     {machine.designation}
                   </div>
                   {/* </div> */}
@@ -98,42 +110,42 @@ const Machines = ({ getMachines, auth, machine: { machines, loading } }) => {
                     {machine.afa &&
                       'AFA ' + String(machine.afa.afaNumber).padStart(4, '0')}
                   </div> */}
-                  <div className='attribute' data-name='AFA'>
+                  <div className='attribute hide-sm' data-name='AFA'>
                     {machine.afaNumbertmp}
                   </div>
-                  <div className='attribute' data-name='RFA'>
+                  <div className='attribute hide-sm' data-name='RFA'>
                     {machine.rfa}
                   </div>
                   {/* </div> */}
                   {/* <div className='attribute-container manufacturer'> */}
-                  <div className='attribute' data-name='制造商'>
+                  <div className='attribute hide-sm' data-name='制造商'>
                     {machine.manufacturer && machine.manufacturer.nameCN}
                   </div>
-                  <div className='attribute' data-name='Manufacturer'>
+                  <div className='attribute hide-sm' data-name='Manufacturer'>
                     {machine.manufacturer && machine.manufacturer.name}
                   </div>
                   {/* </div> */}
                   {/* <div className='attribute-container category'> */}
-                  <div className='attribute ' data-name='Category'>
+                  <div className='attribute hide-sm' data-name='Category'>
                     {machine.category &&
                       machine.category.code + ' - ' + machine.category.trigram}
                   </div>
                   {/* </div> */}
                   {/* <div className='attribute-container department'> */}
-                  <div className='attribute' data-name='Department'>
+                  <div className='attribute hide-sm' data-name='Department'>
                     {machine.department && machine.department.trigram}
                   </div>
-                  <div className='attribute' data-name='Location'>
+                  <div className='attribute hide-sm' data-name='Location'>
                     {machine.department &&
                       machine.department.location &&
                       nth(machine.department.location.floor) + ' floor'}
                   </div>
                   {/* </div> */}
                   {/* <div className='attribute-container investment-date'> */}
-                  <div className='attribute' data-name='Invest. No.'>
+                  <div className='attribute hide-sm' data-name='Invest. No.'>
                     {machine.investment && machine.investment.investmentNumber}
                   </div>
-                  <div className='attribute' data-name='Acquired date'>
+                  <div className='attribute hide-sm' data-name='Acquired date'>
                     {machine.acquiredDate && formatDate(machine.acquiredDate)}
                   </div>
                   {/* </div> */}

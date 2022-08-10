@@ -1081,8 +1081,17 @@ justify-self: end;
 
 
 /*****************************************/
-/**********  Single View Layout **********/
+/**********  Split View Layout **********/
 /*****************************************/
+
+.viewPageSplit1 {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas: 'view-left view-right';
+  grid-gap: 1rem;
+}
+
+
 .viewPageSplit2 {
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -1126,19 +1135,20 @@ justify-self: end;
   .item-container-left-5 {
     grid-template-columns: 5rem 2fr 2fr 1fr 2rem ;
   }
-  .item-container-6 {
+  .item-container-6,
+  .item-container-categories {
     grid-template-columns: 2rem 2rem 5rem 5rem 1fr 1fr;
   }
-  .item-container-7 {
+  .item-container-department {
     grid-template-columns: 2rem 2rem 1fr 2fr 2fr 1fr 2fr ;
   }
-  .item-container-8b {
+  .item-container-investment {
     grid-template-columns: 2rem 2rem 2fr 4fr 2fr 2fr 7rem 7rem;
   }
   .item-container-r3 {
     grid-template-columns: 2rem 2rem 5rem 6rem repeat(2, 3fr) repeat(2,6rem) 3rem;
   }
-  .item-container-15 {
+  .item-container-machines {
     grid-template-columns: 2rem 2rem repeat(13, 1fr);
   } 
   .item-container-18 {
@@ -1254,6 +1264,39 @@ justify-self: end;
     grid-template-columns: 2rem 2rem 5rem 1fr 2rem ;
   }
 
+  .item-container-department {
+    grid-template-columns: 2rem 2fr 1fr 2fr ;
+  }
+
+  .item-container-categories {
+    grid-template-columns: 2rem 3rem 3rem 1fr 1fr;
+  }
+
+  .item-container-investment {
+    grid-template-columns: 2rem 5rem  1fr 2rem;
+  }
+
+  .item-container-machines {
+    display: grid;
+    grid-template-columns: 2rem 1fr ;
+    grid-template-areas:
+    'attribute-machine-open attribute-machine-equ'
+    'attribute-machine-designationCN attribute-machine-designationCN'
+    'attribute-machine-designation attribute-machine-designation'
+    ;
+    margin-bottom: 1rem;
+    border-top: 1px solid var(--grey-color);
+  } 
+  .attribute-machine-equ {
+    grid-area: attribute-machine-equ;
+  }
+  .attribute-machine-designationCN {
+    grid-area: attribute-machine-designationCN;
+  }
+  .attribute-machine-designation {
+    grid-area: attribute-machine-designation;
+  }
+
   /* Don't display the first item, since it is used to display the header for tabular layouts*/
   .table-grid-container > li:first-child {
     display: none;
@@ -1273,6 +1316,31 @@ justify-self: end;
     padding-left: 0.5rem;
     /* font-size: 0.9rem; */
   }
+
+/********** Profile **********/
+.profile-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr ;
+
+  grid-template-areas:
+    'profile-avatar profile-name'
+    'profile-avatar profile-team'
+    'profile-avatar profile-admin'
+    ;
+}
+
+.profile-avatar  {
+  grid-area: profile-avatar;
+}
+.profile-name  {
+  grid-area: profile-name;
+}
+.profile-team  {
+  grid-area: profile-team;
+}
+.profile-admin  {
+  grid-area: profile-admin;
+}
 
   /* Hide on small screen */
   .hide-sm {
@@ -1307,6 +1375,7 @@ justify-self: end;
     margin-top: 1rem;
   } 
 
+  .viewPageSplit1,
   .viewPageSplit2 {
   grid-template-columns: 1fr ;
     grid-template-areas:

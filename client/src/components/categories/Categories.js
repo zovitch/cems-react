@@ -25,11 +25,11 @@ const Categories = ({
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-6'>
+            <li className='item item-container item-container-categories'>
               <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
-              <div className='attribute'>Code</div>
+              <div className='attribute hide-sm'>Code</div>
               <div className='attribute'>Trigram</div>
               <div className='attribute'>Designation</div>
               <div className='attribute'>设备名称</div>
@@ -42,14 +42,14 @@ const Categories = ({
               categories.map((category) => (
                 <li
                   key={category._id}
-                  className='item item-container item-container-6'
+                  className='item item-container item-container-categories'
                 >
                   <div className='attribute' data-name='Open'>
                     <Link to={`/categories/${category._id}`}>
                       <i className='fas fa-eye'></i>
                     </Link>
                   </div>
-                  <div className='attribute' data-name='Edit'>
+                  <div className='attribute hide-sm' data-name='Edit'>
                     {auth && auth.isAuthenticated && auth.user.isAdmin && (
                       <Link to={`/categories/edit/${category._id}`}>
                         <i className='fas fa-edit'></i>

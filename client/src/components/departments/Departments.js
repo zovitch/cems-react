@@ -27,7 +27,7 @@ const Departments = ({
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-7'>
+            <li className='item item-container item-container-department'>
               <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
@@ -45,27 +45,27 @@ const Departments = ({
               departments.map((department) => (
                 <li
                   key={department._id}
-                  className='item item-container item-container-7'
+                  className='item item-container item-container-department'
                 >
                   <div className='attribute' data-name='Open'>
                     <Link to={`/departments/${department._id}`}>
                       <i className='fas fa-eye'></i>
                     </Link>
                   </div>
-                  <div className='attribute' data-name='Edit'>
+                  <div className='attribute hide-sm' data-name='Edit'>
                     {auth && auth.isAuthenticated && auth.user.isAdmin && (
                       <Link to={`/departments/edit/${department._id}`}>
                         <i className='fas fa-edit'></i>
                       </Link>
                     )}
                   </div>
-                  <div className='attribute' data-name='Trigram'>
+                  <div className='attribute hide-sm' data-name='Trigram'>
                     {department.trigram}
                   </div>
                   <div className='attribute' data-name='Name'>
                     {department.name}
                   </div>
-                  <div className='attribute' data-name='NameCN'>
+                  <div className='attribute hide-sm' data-name='NameCN'>
                     {department.nameCN}
                   </div>
                   <div className='attribute' data-name='Owners'>
@@ -76,7 +76,7 @@ const Departments = ({
                             className='badge'
                             name={owner.name}
                             round={true}
-                            size='30px'
+                            size='25px'
                           />
                         </Link>
                       ))}
