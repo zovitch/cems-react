@@ -402,6 +402,12 @@ button {
   align-items:baseline;
 }
 
+.grid-2fr1fr {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items:baseline;
+}
+
 
 .lockField {
   display: grid;

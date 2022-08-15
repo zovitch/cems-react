@@ -430,8 +430,18 @@ const R3Form = ({
                 onChange={onChange}
               />
             </span>
+            <input
+              type='submit'
+              id='submit'
+              value={` ${r3 && r3.loading ? 'Wait' : 'Save'}`}
+              className={`btn ${
+                r3 && r3.loading ? 'btn-light' : 'btn-primary'
+              } my-1`}
+              disabled={r3 && r3.loading ? true : false}
+            />
           </div>
         </div>
+
         <div className='form-group r3Form p'>
           <div className='grid-1fr2fr'>
             <span>
@@ -508,13 +518,10 @@ const R3Form = ({
               </div>
             </div>
             <div className='form-group r3Engineer p'>
-              <div className='grid-1fr2fr'>
-                <small className='form-text'>Repair Code</small>
-              </div>
-
-              <div className='grid-1fr2fr'>
-                {repairCodes.length > 0 && (
-                  <span>
+              <div className='grid-1fr1fr'>
+                <span>
+                  <small className='form-text'>Repair Code</small>
+                  {repairCodes.length > 0 && (
                     <Select
                       name='repairCode'
                       id='repairCode'
@@ -525,9 +532,7 @@ const R3Form = ({
                       options={optionRepairCodes}
                       menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
                     />
-                  </span>
-                )}
-                <span>
+                  )}
                   <textarea
                     rows='4'
                     placeholder='修理情况'
@@ -546,15 +551,10 @@ const R3Form = ({
                     onChange={onChange}
                   />
                 </span>
-              </div>
-            </div>
-            <div className='form-group r3Engineer p'>
-              <div className='grid-1fr2fr'>
-                <small className='form-text'>Analysis Code</small>
-              </div>
-              <div className='grid-1fr2fr'>
-                {analysisCodes.length > 0 && (
-                  <span>
+                <span>
+                  <small className='form-text'>Analysis Code</small>
+
+                  {analysisCodes.length > 0 && (
                     <Select
                       name='analysisCode'
                       id='analysisCode'
@@ -565,9 +565,8 @@ const R3Form = ({
                       options={optionAnalysisCodes}
                       menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
                     />
-                  </span>
-                )}
-                <span>
+                  )}
+
                   <textarea
                     rows='4'
                     placeholder='根本原因分析'
@@ -587,37 +586,53 @@ const R3Form = ({
                   />
                 </span>
               </div>
+              <div className='grid-2fr1fr'>
+                <div className='grid-1fr1fr1fr'>
+                  <span>
+                    <small className='form-text'>
+                      维修过程中废弃的机油/溶剂/活性
+                      <br />
+                      Maintenance Oil & Solvant Waste
+                    </small>
+                    <ToggleSwitch
+                      name='maintenanceOilWaste'
+                      id='maintenanceOilWaste'
+                      defaultChecked={toggleMaintenanceOilOn}
+                      onClick={onChange}
+                    />
+                  </span>{' '}
+                  <span>
+                    <small className='form-text'>
+                      维修中换下的废弃塑料及金属零 部件统一放入废品回收垃圾箱
+                      <br />
+                      Maintenance Plastic & Metal Waste
+                    </small>
+                    <ToggleSwitch
+                      name='maintenancePlasticAndMetalWaste'
+                      id='maintenancePlasticAndMetalWaste'
+                      defaultChecked={toggleMaintenancePlasticOn}
+                      onClick={onChange}
+                    />
+                  </span>
+                  <span>
+                    <small className='form-text'>
+                      维修过程中拆下的仍可利用零件, 归入工程部备件仓库
+                      <br />
+                      Maintenance Spare Parts
+                    </small>
+
+                    <ToggleSwitch
+                      name='maintenanceSpareParts'
+                      id='maintenanceSpareParts'
+                      defaultChecked={toggleMaintenanceSparePartsOn}
+                      onClick={onChange}
+                    />
+                  </span>
+                </div>
+              </div>
             </div>
             <div className='form-group r3Engineer p'>
               <div className='grid-1fr2fr'>
-                <span>
-                  <small className='form-text'>
-                    Maintenance Oil & Solvant Waste
-                  </small>
-                  <ToggleSwitch
-                    name='maintenanceOilWaste'
-                    id='maintenanceOilWaste'
-                    defaultChecked={toggleMaintenanceOilOn}
-                    onClick={onChange}
-                  />
-                  <small className='form-text'>
-                    Maintenance Plastic & Metal Waste
-                  </small>
-                  <ToggleSwitch
-                    name='maintenancePlasticAndMetalWaste'
-                    id='maintenancePlasticAndMetalWaste'
-                    defaultChecked={toggleMaintenancePlasticOn}
-                    onClick={onChange}
-                  />
-                  <small className='form-text'>Maintenance Spare Parts</small>
-                  <ToggleSwitch
-                    name='maintenanceSpareParts'
-                    id='maintenanceSpareParts'
-                    defaultChecked={toggleMaintenanceSparePartsOn}
-                    onClick={onChange}
-                  />
-                </span>
-
                 <span>
                   <span>
                     <small className='form-text'>Engineering Repair Date</small>
@@ -681,7 +696,7 @@ const R3Form = ({
           } my-1`}
           disabled={r3 && r3.loading ? true : false}
         />
-        <Link className='btn btn-light my-1' to='/r3s'>
+        <Link className='btn btn-light my-1' to='/r3s/?r3Completed=false'>
           Go Back
         </Link>
       </form>

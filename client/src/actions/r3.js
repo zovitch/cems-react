@@ -78,7 +78,9 @@ export const createR3 =
         setAlert(creating ? 'R3 added ' : 'R3 information updated', 'success')
       );
 
-      creating === true ? navigate(`/r3s/${res.data._id}`) : navigate(`/r3s/`);
+      creating === true
+        ? navigate(`/r3s/${res.data._id}`)
+        : navigate(`/r3s/?r3Completed=false`);
     } catch (err) {
       const errors = err.response.data.errors;
 

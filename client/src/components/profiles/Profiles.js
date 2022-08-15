@@ -5,6 +5,7 @@ import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
 import { getUsers } from '../../actions/user';
 import PageTitleBar from '../layout/PageTitleBar';
+import Avatar from 'react-avatar';
 
 const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
   useEffect(() => {
@@ -21,10 +22,11 @@ const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
 
           <ul className='table-grid-container my-2'>
             {/* The first list item is the header of the table  */}
-            <li className='item item-container item-container-4'>
+            <li className='item item-container item-container-5'>
               <div className='attribute'></div>
               <div className='attribute'></div>
               {/* Enclose semantically similar attributes as a div hierarchy */}
+              <div className='attribute'>Badge</div>
               <div className='attribute'>Name</div>
               <div className='attribute'>Email</div>
             </li>
@@ -36,7 +38,7 @@ const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
               users.map((user) => (
                 <li
                   key={user._id}
-                  className='item item-container item-container-4'
+                  className='item item-container item-container-5'
                 >
                   <div className='attribute' data-name='Open'>
                     <Link to={`/users/${user._id}`}>
@@ -51,6 +53,9 @@ const Profiles = ({ getUsers, auth, user: { users, loading } }) => {
                           <i className='fas fa-edit'></i>
                         </Link>
                       )}
+                  </div>
+                  <div className='attribute' data-name='Badge'>
+                    <Avatar name={user.name} round={true} className size='30' />
                   </div>
                   <div className='attribute' data-name='Name'>
                     {user.name}
