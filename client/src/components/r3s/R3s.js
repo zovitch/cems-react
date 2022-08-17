@@ -24,9 +24,9 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
           <PageTitleBar item='r3' faIcon='fas fa-screwdriver-wrench' />
 
           <div>
-            <Link to={`/r3s/`}>
-              {/* Show all */}
-              <i className='btn btn-dark fas fa-filter-circle-xmark'> 所有</i>
+            {/* Show this year */}
+            <Link to={`?from=${new Date().getFullYear()}-01-01`}>
+              <i className='btn btn-dark fas fa-filter-circle-xmark'> 今年</i>
             </Link>
             <Link to={`/r3s/?r3Completed=false`}>
               {/* Show only pending R3 */}

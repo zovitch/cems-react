@@ -16,13 +16,15 @@ const PageTitleBarSingleView = ({ auth, item }) => {
     items = item.substring(0, item.length - 1) + 'ies';
   }
 
+  let itemsBack = items;
+
   if (items === 'r3s') {
-    items = `r3s?from=${new Date().getFullYear()}-01-01`;
+    itemsBack = `r3s?from=${new Date().getFullYear()}-01-01`;
   }
 
   return (
     <div className='pageHeader'>
-      <Link to={`/${items}`}>
+      <Link to={`/${itemsBack}`}>
         <i className='fas fa-circle-arrow-left fa-2xl '> </i>
       </Link>
       <h1 className='large text-primary pageTitle'>

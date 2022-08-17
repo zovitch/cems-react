@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 const Spinner = () => (
   <Fragment>
-    <div class='smt-spinner-circle'>
-      <div class='smt-spinner'></div>
+    <div className='smt-spinner-circle'>
+      <div className='smt-spinner'></div>
     </div>
   </Fragment>
 );
