@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
@@ -20,7 +19,7 @@ router.post(
     check('email', 'A valid email is required').isEmail(),
     check(
       'password',
-      'Please enter a password with 6 or more character'
+      'Please enter a password with 6 or more character',
     ).isLength({ min: 6 }),
   ],
   async (req, res) => {
@@ -61,18 +60,18 @@ router.post(
       };
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.JWT_SECRET,
         { expiresIn: '365d' },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
-        }
+        },
       );
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
     }
-  }
+  },
 );
 
 // @route   GET api/users
@@ -132,7 +131,7 @@ router.put(
       const user = await User.findByIdAndUpdate(
         { _id: req.user.id },
         { $set: nameField },
-        { new: true }
+        { new: true },
       );
       if (!user) {
         return res.status(404).json({ msg: 'User not found' });
@@ -142,7 +141,7 @@ router.put(
       console.error(err.message);
       res.status(500).send('Server Error');
     }
-  }
+  },
 );
 
 // @route   GET api/users/:user_id
