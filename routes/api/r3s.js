@@ -62,7 +62,7 @@ router.post(
         newR3Number.toString().padStart(3, '0');
     }
     return res.json(newR3Number);
-  }
+  },
 );
 
 // @route   POST api/r3s
@@ -272,13 +272,13 @@ router.post(
       }
       res.status(500).send('Server Error');
     }
-  }
+  },
 );
 
 // @route   GET api/r3s
 // @desc    GET the list of all repairs
 // @access  Private
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     let year;
     let month;
@@ -572,7 +572,7 @@ router.patch(
       let r3 = await R3.findByIdAndUpdate(
         { _id: req.params.r3Id },
         { $set: r3Fields },
-        { new: true }
+        { new: true },
       ).populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
         select: 'name nameCN codeNumber description descriptionCN',
@@ -599,7 +599,7 @@ router.patch(
       }
       res.status(500).send('Server Error');
     }
-  }
+  },
 );
 
 module.exports = router;

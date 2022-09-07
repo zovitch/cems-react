@@ -21,7 +21,7 @@ app.use(
 );
 
 // for dev only, comment out in production
-app.get('/', (req, res) => res.send('API running'));
+// app.get('/', (req, res) => res.send('API running'));
 
 // Define routes
 app.use('/api/users', require('./routes/api/users'));
@@ -44,15 +44,15 @@ app.use('/api/analysiscodes', require('./routes/api/analysiscodes'));
 app.use('/api/upload', require('./routes/api/upload'));
 
 // Serve static assets in production
-// if (process.env.NODE_ENV === 'production') {
-//   // Set static folder
-//   app.use(express.static(path.join(__dirname, './client/build')));
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static(path.join(__dirname, './client/build')));
 
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-//   });
-// } else {
-//   app.get('/', (req, res) => res.send('Please set to production'));
-// }
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => res.send('Please set to production'));
+}
 
 app.listen(port, () => console.log('Server started on port ' + port));
