@@ -21,7 +21,7 @@ app.use(
 );
 
 // for dev only, comment out in production
-// app.get('/', (req, res) => res.send('API running'));
+app.get('/', (req, res) => res.send('API running'));
 
 // Define routes
 app.use('/api/users', require('./routes/api/users'));
@@ -39,6 +39,7 @@ app.use('/api/r3s', require('./routes/api/r3s'));
 app.use('/api/failurecodes', require('./routes/api/failurecodes'));
 app.use('/api/repaircodes', require('./routes/api/repaircodes'));
 app.use('/api/analysiscodes', require('./routes/api/analysiscodes'));
+app.use('/api/technicalsupports', require('./routes/api/technicalsupports'));
 
 // Upload Endpoint
 app.use('/api/upload', require('./routes/api/upload'));

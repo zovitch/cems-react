@@ -26,7 +26,13 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
       key: 'r3s',
       faLogo: 'fas fa-screwdriver-wrench',
     },
-
+    {
+      name: 'Technical Support',
+      nameCN: '技术协助需求',
+      route: `techSupport`,
+      key: 'techsupport',
+      faLogo: 'fas fa-handshake-angle',
+    },
     {
       name: 'L.F.A.',
       nameCN: '固定资产一览表',
@@ -119,7 +125,10 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
       <div className='cards py-2'>
         {listOfItemsOnDashboard.length > 1 &&
           listOfItemsOnDashboard.map((i) => (
-            <DashBoardCard key={i.key} item={i} />
+            <DashBoardCard
+              key={i.key}
+              item={i}
+            />
           ))}
       </div>
       {user && user.isEngineer && (
@@ -130,7 +139,10 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
           <div className='cards py-2'>
             {listOfItemsOnDashboardForEngineering.length > 1 &&
               listOfItemsOnDashboardForEngineering.map((i) => (
-                <DashBoardCard key={i.key} item={i} />
+                <DashBoardCard
+                  key={i.key}
+                  item={i}
+                />
               ))}
           </div>
         </span>
