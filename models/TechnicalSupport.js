@@ -47,8 +47,8 @@ const TechnicalSupportSchema = new mongoose.Schema({
     type: Date,
   },
   applicantValidation: {
-    type: Boolean,
-    default: false,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
   },
   date: {
     type: Date,
