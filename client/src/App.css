@@ -37,7 +37,7 @@ a {
 }
 
 a:hover {
-  color:var(--secondary-color)
+  color: var(--secondary-color);
 }
 
 ul {
@@ -248,11 +248,11 @@ img {
 }
 
 .text-danger {
-  color:var(--danger-color)
+  color: var(--danger-color);
 }
 
 .text-success {
-  color: var(--success-color)
+  color: var(--success-color);
 }
 
 .btn-success,
@@ -326,8 +326,18 @@ img {
 }
 
 .r3Engineer {
-  border: 2px solid var(--failure-color);  
-  border-radius: var(--border-radius); 
+  border: 2px solid var(--failure-color);
+  border-radius: var(--border-radius);
+}
+
+.technicalSupportForm {
+  background-color: var(--hover-color);
+  border-radius: var(--border-radius);
+}
+
+.technicalSupportEngineer {
+  border: 2px solid var(--analysis-color);
+  border-radius: var(--border-radius);
 }
 
 /**************** Forms *****************/
@@ -338,7 +348,6 @@ img {
 .form .form-group:first-child {
   margin: 0 0;
 }
-
 
 .form .form-text {
   display: block;
@@ -369,49 +378,47 @@ button {
 
 .compactView-1 {
   display: grid;
-  grid-template-columns: 2fr repeat(2, 5rem) repeat(2, 7rem) 3rem ; 
+  grid-template-columns: 2fr repeat(2, 5rem) repeat(2, 7rem) 3rem;
   gap: 1rem;
   align-items: center;
 }
 
 .grid-1fr1fr {
   display: grid;
-  grid-template-columns:   1fr 1fr; 
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
   align-items: top;
 }
 
 .grid-1fr2fr {
   display: grid;
-  grid-template-columns: 1fr 2fr; 
+  grid-template-columns: 1fr 2fr;
   gap: 1rem;
   align-items: top;
 }
 
 .grid-1fr1fr1fr {
   display: grid;
-  grid-template-columns:   1fr 1fr 1fr; 
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
   align-items: top;
 }
 
-
 .grid-1fr3fr {
   display: grid;
   grid-template-columns: 1fr 3fr;
-  align-items:baseline;
+  align-items: baseline;
 }
 
 .grid-2fr1fr {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  align-items:baseline;
+  align-items: baseline;
 }
-
 
 .lockField {
   display: grid;
-  grid-template-columns: 3rem 1fr ; 
+  grid-template-columns: 3rem 1fr;
   gap: 1rem;
   align-items: center;
 }
@@ -423,7 +430,7 @@ button {
   align-items: center;
   padding: 1rem 1rem;
   position: -webkit-sticky;
-  position:sticky;
+  position: sticky;
   z-index: 3;
   width: 100%;
   top: 0;
@@ -431,9 +438,9 @@ button {
   opacity: 0.9;
 }
 
-.navbar h4  {
-color: var(--light-color);
-padding-left: 1rem;
+.navbar h4 {
+  color: var(--light-color);
+  padding-left: 1rem;
 }
 
 .navbar ul li {
@@ -442,8 +449,8 @@ padding-left: 1rem;
 }
 
 .navbar ul {
-padding-right: 1rem;
-justify-self: end;
+  padding-right: 1rem;
+  justify-self: end;
 }
 
 .navbar a {
@@ -454,8 +461,8 @@ justify-self: end;
   color: var(--secondary-color);
 }
 
-.logo{
-  float:left!important;
+.logo {
+  float: left !important;
 }
 
 /********** Page Title and Actions **********/
@@ -494,8 +501,8 @@ justify-self: end;
   grid-gap: 2rem;
 }
 
-.card ,
-.card-nohover{
+.card,
+.card-nohover {
   color: var(--dark-color);
   text-align: center;
   /* align-self: center; */
@@ -513,7 +520,6 @@ justify-self: end;
   border-radius: var(--border-radius);
 }
 
-
 /********** Spinner **********/
 .smt-spinner-circle {
   width: 50px;
@@ -526,10 +532,10 @@ justify-self: end;
   height: 100%;
   width: 100%;
   border-radius: 50%;
-  border-right: 2px solid rgba(255,255,255,0.6);
+  border-right: 2px solid rgba(255, 255, 255, 0.6);
   border-top: 2px solid var(--primary-color);
-  border-left: 2px solid  var(--primary-color);
-  border-bottom: 2px solid  var(--primary-color);
+  border-left: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
   animation: rotate--spinner 1.6s infinite;
 }
 
@@ -541,7 +547,6 @@ justify-self: end;
     transform: rotate(360deg);
   }
 }
-
 
 /********** Landing **********/
 .landing {
@@ -557,71 +562,68 @@ justify-self: end;
   margin: auto;
 }
 
-
 /********** Machine **********/
 .machine-card {
   display: grid;
   /* grid-template-columns: 1fr 1fr ; */
-  grid-template-areas: 
-  'machine-machineNumber      machine-machineNumber'
-  'machine-dfa                machine-dfa'
-  'machine-qualityNumber      machine-qualityNumber'
-  'machine-spacer1            machine-spacer1'
-  'machine-designationCN      machine-designationCN'
-  'machine-designation        machine-designation'
-  'machine-afa                machine-afa'
-  'machine-category           machine-category'
-  'machine-department         machine-department'
-  'machine-location           machine-location'
-  'machine-manufacturer-label machine-manufacturer-value'
-  'machine-manufacturerCN-label machine-manufacturerCN-value'
-  'machine-spacer2             machine-spacer2'
-  'machine-model-label        machine-model-value'
-  'machine-sn-label           machine-sn-value'
-  'machine-manuDate-label     machine-manuDate-value'
-  'machine-acquDate-label     machine-acquDate-value'
-  'machine-retiredDate-label     machine-retiredDate-value'
-  'machine-investment-label   machine-investment-value'
-  'machine-costCenter-label   machine-costCenter-value'
-  'machine-price-label        machine-price-value'
-  'machine-comment            machine-comment'
-  'machine-img                machine-img'
-  ;
+  grid-template-areas:
+    'machine-machineNumber      machine-machineNumber'
+    'machine-dfa                machine-dfa'
+    'machine-qualityNumber      machine-qualityNumber'
+    'machine-spacer1            machine-spacer1'
+    'machine-designationCN      machine-designationCN'
+    'machine-designation        machine-designation'
+    'machine-afa                machine-afa'
+    'machine-category           machine-category'
+    'machine-department         machine-department'
+    'machine-location           machine-location'
+    'machine-manufacturer-label machine-manufacturer-value'
+    'machine-manufacturerCN-label machine-manufacturerCN-value'
+    'machine-spacer2             machine-spacer2'
+    'machine-model-label        machine-model-value'
+    'machine-sn-label           machine-sn-value'
+    'machine-manuDate-label     machine-manuDate-value'
+    'machine-acquDate-label     machine-acquDate-value'
+    'machine-retiredDate-label     machine-retiredDate-value'
+    'machine-investment-label   machine-investment-value'
+    'machine-costCenter-label   machine-costCenter-value'
+    'machine-price-label        machine-price-value'
+    'machine-comment            machine-comment'
+    'machine-img                machine-img';
 }
 
-.machine-machineNumber  {
+.machine-machineNumber {
   grid-area: machine-machineNumber;
 }
 
-.machine-dfa  {
+.machine-dfa {
   grid-area: machine-dfa;
 }
 
 .machine-qualityNumber {
   grid-area: machine-qualityNumber;
 }
- 
-.machine-designationCN{
+
+.machine-designationCN {
   grid-area: machine-designationCN;
-} 
+}
 
-.machine-designation{
+.machine-designation {
   grid-area: machine-designation;
-
-}    
+}
 .machine-afa {
   grid-area: machine-afa;
-}            
-  
-.machine-category{
+}
+
+.machine-category {
   grid-area: machine-category;
 }
 
-.machine-department{
+.machine-department {
   grid-area: machine-department;
 }
 
-.machine-location{
+.machine-location {
   grid-area: machine-location;
 }
 
@@ -650,25 +652,25 @@ justify-self: end;
 }
 
 .machine-model-label {
-  grid-area:  machine-model-label;
+  grid-area: machine-model-label;
   text-align: start;
   border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-model-value {
-  grid-area:  machine-model-value;
+  grid-area: machine-model-value;
   text-align: start;
   border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-sn-label {
-  grid-area:  machine-sn-label;
+  grid-area: machine-sn-label;
   text-align: start;
   border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-sn-value {
-  grid-area:  machine-sn-value;
+  grid-area: machine-sn-value;
   text-align: start;
   border-bottom: var(--grey-color) 1px dotted;
 }
@@ -734,13 +736,13 @@ justify-self: end;
 }
 
 .machine-price-label {
-  grid-area:machine-price-label;
+  grid-area: machine-price-label;
   text-align: start;
   border-bottom: var(--grey-color) 1px dotted;
 }
 
 .machine-price-value {
-  grid-area:machine-price-value;
+  grid-area: machine-price-value;
   text-align: start;
   border-bottom: var(--grey-color) 1px dotted;
 }
@@ -755,21 +757,20 @@ justify-self: end;
 
 .machine-spacer1 {
   grid-area: machine-spacer1;
-  margin: 1rem ;
+  margin: 1rem;
   border-top: var(--grey-color) 1px solid;
 }
 
 .machine-spacer2 {
   grid-area: machine-spacer2;
-  margin: 1rem ;
+  margin: 1rem;
   border-top: var(--grey-color) 1px solid;
 }
-
 
 /********** Department **********/
 .department-card {
   display: grid;
-  grid-template-columns: 1fr 2fr ;
+  grid-template-columns: 1fr 2fr;
   grid-template-areas:
     'department-trigram    department-trigram'
     'department-name       department-name'
@@ -813,10 +814,9 @@ justify-self: end;
     'profile-avatar'
     'profile-name'
     'profile-cta';
-    max-width: -moz-fit-content;
-      max-width: -moz-fit-content;
-    max-width: fit-content;
-
+  max-width: -moz-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .profile-avatar {
@@ -838,12 +838,12 @@ justify-self: end;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas:
-    'location-initials' 
+    'location-initials'
     'location-name'
     'location-letter'
     'location-floor';
-    max-width: -moz-fit-content;
-    max-width: fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .location-letter {
@@ -865,12 +865,12 @@ justify-self: end;
 /********** Manufacturer **********/
 .manufacturer-card {
   display: grid;
-  grid-template-columns: 1fr  ;
+  grid-template-columns: 1fr;
   grid-template-areas:
-   'manufacturer-name'
-   'manufacturer-nameCN ';
-    max-width: -moz-fit-content;
-    max-width: fit-content;
+    'manufacturer-name'
+    'manufacturer-nameCN ';
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .manufacturer-name {
@@ -890,55 +890,52 @@ justify-self: end;
     'investment-price-label      investment-price'
     'investment-quantity-label   investment-quantity'
     'investment-approved-label   investment-approved'
-    'investment-completed-label  investment-completed'
-    ;
-    max-width: -moz-fit-content;
-    max-width: fit-content;
+    'investment-completed-label  investment-completed';
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .investment-investmentnumber {
   grid-area: investment-investmentnumber;
 }
-.investment-name{
+.investment-name {
   grid-area: investment-name;
 }
-.investment-price-label{
+.investment-price-label {
   grid-area: investment-price-label;
 }
-.investment-quantity-label{
+.investment-quantity-label {
   grid-area: investment-quantity-label;
 }
-.investment-approved-label{
+.investment-approved-label {
   grid-area: investment-approved-label;
 }
-.investment-completed-label{
+.investment-completed-label {
   grid-area: investment-completed-label;
 }
-.investment-price{
+.investment-price {
   grid-area: investment-price;
 }
-.investment-quantity{
+.investment-quantity {
   grid-area: investment-quantity;
 }
-.investment-approved{
+.investment-approved {
   grid-area: investment-approved;
 }
-.investment-completed{
+.investment-completed {
   grid-area: investment-completed;
 }
-
-
 
 /********** Category **********/
 .category-card {
   display: grid;
-  grid-template-columns: 1fr 1fr ;
+  grid-template-columns: 1fr 1fr;
   grid-template-areas:
     'category-code category-trigram'
     'category-description category-description'
     'category-descriptionCN category-descriptionCN';
-    max-width: -moz-fit-content;
-    max-width: fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .category-code {
@@ -959,12 +956,12 @@ justify-self: end;
 .code-card {
   display: grid;
   /* grid-template-columns: 1fr 1fr 3fr 2fr ; */
-  grid-template-areas: 
-  'code-codeNumber code-name '
-  'code-description  code-description'
-  'code-descriptionCN code-descriptionCN ';
-    max-width: -moz-fit-content;
-    max-width: fit-content;
+  grid-template-areas:
+    'code-codeNumber code-name '
+    'code-description  code-description'
+    'code-descriptionCN code-descriptionCN ';
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .code-codeNumber {
@@ -986,18 +983,17 @@ justify-self: end;
 /*********************************/
 
 .upload-wrapper {
-  display:flex;
+  display: flex;
   border: 1px solid var(--grey-color);
   border-radius: var(--border-small-radius);
 }
 
 .upload-box {
-  padding: 1rem ;
+  padding: 1rem;
   margin: 1rem;
   text-align: center;
   width: 100%;
 }
-
 
 .img-wrp {
   position: relative;
@@ -1010,10 +1006,10 @@ justify-self: end;
 
 .img-wrp p {
   color: gray;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
-.img-wrp:hover  p {
+.img-wrp:hover p {
   color: var(--danger-color);
   opacity: 1;
 }
@@ -1083,9 +1079,6 @@ justify-self: end;
 /* https://medium.com/@castlevania_jorge/how-to-make-dropzone-with-only-javascript-react-and-css-cb36f05e3c0c */
 /* https://codesandbox.io/s/admiring-engelbart-3i0hu?fontsize=14&hidenavigation=1&theme=dark&file=/src/Dropzone.js:2078-2133 */
 
-
-
-
 /*****************************************/
 /**********  Split View Layout **********/
 /*****************************************/
@@ -1096,7 +1089,6 @@ justify-self: end;
   grid-template-areas: 'view-left view-right';
   grid-gap: 1rem;
 }
-
 
 .viewPageSplit2 {
   display: grid;
@@ -1113,65 +1105,67 @@ justify-self: end;
   grid-area: view-right;
 }
 
-
 /*****************************************/
 /**********  Tabular Layout **********/
 /*****************************************/
 /* @media screen and (min-width: 737px) { */
-  /* The maximum column width, that can wrap */
-  .item-container {
-    /* this class should be combined with a .item-container-x to grid-template-columns */
-    display: grid;
-    border-right: var(--grey-color) 1px solid;
-    color: var(--dark-color);
-  }
-  
-  .item-container-3 {
-    grid-template-columns: 2rem 2rem 1fr ;
-  }
-  .item-container-4 {
-    grid-template-columns: 2rem 2rem 1fr 1fr;
-  }
-  .item-container-4b {
-    grid-template-columns: 2rem 1fr 1fr 1fr;
-  }
-  .item-container-5 {
-    grid-template-columns: 2rem 5rem 1fr 1fr 1fr;
-  }
-  .item-container-left-5 {
-    grid-template-columns: 5rem 2fr 2fr 1fr 2rem ;
-  }
-  .item-container-6,
-  .item-container-categories {
-    grid-template-columns: 2rem 2rem 5rem 5rem 1fr 1fr;
-  }
-  .item-container-department {
-    grid-template-columns: 2rem 2rem 1fr 2fr 2fr 1fr 2fr ;
-  }
-  .item-container-investment {
-    grid-template-columns: 2rem 2rem 2fr 4fr 2fr 2fr 7rem 7rem;
-  }
-  .item-container-r3 {
-    grid-template-columns: 2rem 2rem 5rem 6rem repeat(2, 3fr) repeat(2,6rem) 3rem;
-  }
-  .item-container-machines {
-    grid-template-columns: 2rem 2rem repeat(13, 1fr);
-  } 
-  .item-container-18 {
-    grid-template-columns: 2rem 2rem repeat(16, 1fr);
-  } 
+/* The maximum column width, that can wrap */
+.item-container {
+  /* this class should be combined with a .item-container-x to grid-template-columns */
+  display: grid;
+  border-right: var(--grey-color) 1px solid;
+  color: var(--dark-color);
+}
 
-  .attribute-container {
-    display: grid;
-    grid-template-columns: repeat(
-      auto-fit, 
-      minmax(var(--column-width-min), var(--column-width-max))
-    );
-  }
+.item-container-3 {
+  grid-template-columns: 2rem 2rem 1fr;
+}
+.item-container-4 {
+  grid-template-columns: 2rem 2rem 1fr 1fr;
+}
+.item-container-4b {
+  grid-template-columns: 2rem 1fr 1fr 1fr;
+}
+.item-container-5 {
+  grid-template-columns: 2rem 5rem 1fr 1fr 1fr;
+}
+.item-container-left-5 {
+  grid-template-columns: 5rem 2fr 2fr 1fr 2rem;
+}
+.item-container-6,
+.item-container-categories {
+  grid-template-columns: 2rem 2rem 5rem 5rem 1fr 1fr;
+}
+.item-container-department {
+  grid-template-columns: 2rem 2rem 1fr 2fr 2fr 1fr 2fr;
+}
+.item-container-investment {
+  grid-template-columns: 2rem 2rem 2fr 4fr 2fr 2fr 7rem 7rem;
+}
+.item-container-technicalsupport {
+  grid-template-columns: 2rem 2rem 6rem 4rem 1fr 6rem 4rem 6rem;
+}
+.item-container-r3 {
+  grid-template-columns: 2rem 2rem 5rem 6rem repeat(2, 3fr) repeat(2, 6rem) 3rem;
+}
+.item-container-machines {
+  grid-template-columns: 2rem 2rem repeat(13, 1fr);
+}
+.item-container-18 {
+  grid-template-columns: 2rem 2rem repeat(16, 1fr);
+}
 
-  /* Definition of wrapping column width for attribute groups. */
+.attribute-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--column-width-min), var(--column-width-max))
+  );
+}
 
-  /* .equ-qua {
+/* Definition of wrapping column width for attribute groups. */
+
+/* .equ-qua {
     --column-width-min: 5rem;
     --column-width-max: 1fr;
   }
@@ -1204,59 +1198,56 @@ justify-self: end;
     --column-width-max: 1fr;
   }  */
 
-  /* In order to maximize row lines, only display one line for a cell */
-  .attribute {
-    border-bottom: 1px solid var(--grey-color);
-    border-left: 1px solid var(--grey-color);
-    padding: 2px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-left: 0.5rem;
-  }
+/* In order to maximize row lines, only display one line for a cell */
+.attribute {
+  border-bottom: 1px solid var(--grey-color);
+  border-left: 1px solid var(--grey-color);
+  padding: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-left: 0.5rem;
+}
 
-  /* First row is header */
-  .table-grid-container > .item-container:first-child {
-    background-color: var(--dark-color);
-    /* border-right: 1px var(--dark-color) solid; */
-    border-bottom: 2px var(--secondary-color) solid;
-    color: var(--light-color);
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-  }
+/* First row is header */
+.table-grid-container > .item-container:first-child {
+  background-color: var(--dark-color);
+  /* border-right: 1px var(--dark-color) solid; */
+  border-bottom: 2px var(--secondary-color) solid;
+  color: var(--light-color);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
 
-  .item-container:hover {
-    background-color: var(--hover-color);
-  }
+.item-container:hover {
+  background-color: var(--hover-color);
+}
 
-  .pointerHover:hover {
-    cursor: pointer;
-  } 
+.pointerHover:hover {
+  cursor: pointer;
+}
 
-  /* Center header labels */
-  .table-grid-container > .item-container:first-child .attribute {
-    border: none;
-    border-bottom: 1px var(--grey-color) solid;
-  }
+/* Center header labels */
+.table-grid-container > .item-container:first-child .attribute {
+  border: none;
+  border-bottom: 1px var(--grey-color) solid;
+}
 
-  /* center items in their column with only an icon from fontawesome */
-  .table-grid-container .item-container .attribute .fa-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-right: 0.5rem;
-  }
-
-
+/* center items in their column with only an icon from fontawesome */
+.table-grid-container .item-container .attribute .fa-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 0.5rem;
+}
 
 /************************************/
 /********** Mobile Styles  **********/
 /************************************/
 
 @media screen and (max-width: 736px) {
-
-  .logo{
-    float:left!important;
+  .logo {
+    float: left !important;
   }
 
   .item-container {
@@ -1267,11 +1258,11 @@ justify-self: end;
   }
 
   .item-container-r3 {
-    grid-template-columns: 2rem 2rem 5rem 1fr 2rem ;
+    grid-template-columns: 2rem 2rem 5rem 1fr 2rem;
   }
 
   .item-container-department {
-    grid-template-columns: 2rem 2fr 1fr 2fr ;
+    grid-template-columns: 2rem 2fr 1fr 2fr;
   }
 
   .item-container-categories {
@@ -1279,20 +1270,19 @@ justify-self: end;
   }
 
   .item-container-investment {
-    grid-template-columns: 2rem 5rem  1fr 2rem;
+    grid-template-columns: 2rem 5rem 1fr 2rem;
   }
 
   .item-container-machines {
     display: grid;
-    grid-template-columns: 2rem 1fr ;
+    grid-template-columns: 2rem 1fr;
     grid-template-areas:
-    'attribute-machine-open attribute-machine-equ'
-    'attribute-machine-designationCN attribute-machine-designationCN'
-    'attribute-machine-designation attribute-machine-designation'
-    ;
+      'attribute-machine-open attribute-machine-equ'
+      'attribute-machine-designationCN attribute-machine-designationCN'
+      'attribute-machine-designation attribute-machine-designation';
     margin-bottom: 1rem;
     border-top: 1px solid var(--grey-color);
-  } 
+  }
   .attribute-machine-equ {
     grid-area: attribute-machine-equ;
   }
@@ -1309,8 +1299,8 @@ justify-self: end;
   }
   .table-grid-container > li:nth-child(2) {
     border-top: 1px solid var(--grey-color);
-  } 
- 
+  }
+
   /* Attribute name for first column, and attribute value for second column. */
   .attribute {
     border-bottom: 1px solid var(--grey-color);
@@ -1323,30 +1313,29 @@ justify-self: end;
     /* font-size: 0.9rem; */
   }
 
-/********** Profile **********/
-.profile-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr ;
+  /********** Profile **********/
+  .profile-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
-  grid-template-areas:
-    'profile-avatar profile-name'
-    'profile-avatar profile-team'
-    'profile-avatar profile-admin'
-    ;
-}
+    grid-template-areas:
+      'profile-avatar profile-name'
+      'profile-avatar profile-team'
+      'profile-avatar profile-admin';
+  }
 
-.profile-avatar  {
-  grid-area: profile-avatar;
-}
-.profile-name  {
-  grid-area: profile-name;
-}
-.profile-team  {
-  grid-area: profile-team;
-}
-.profile-admin  {
-  grid-area: profile-admin;
-}
+  .profile-avatar {
+    grid-area: profile-avatar;
+  }
+  .profile-name {
+    grid-area: profile-name;
+  }
+  .profile-team {
+    grid-area: profile-team;
+  }
+  .profile-admin {
+    grid-area: profile-admin;
+  }
 
   /* Hide on small screen */
   .hide-sm {
@@ -1377,18 +1366,18 @@ justify-self: end;
     text-align: right;
   }
 
-   .navbar ul {
+  .navbar ul {
     margin-top: 1rem;
-  } 
+  }
 
   .viewPageSplit1,
   .viewPageSplit2 {
-  grid-template-columns: 1fr ;
+    grid-template-columns: 1fr;
     grid-template-areas:
       'view-left'
       'view-right';
     grid-gap: 4rem;
-  } 
+  }
 
   .alert-wrapper {
     position: fixed;
@@ -1399,19 +1388,15 @@ justify-self: end;
 
   /* R3 Form */
 
-.compactView-1 {
-  grid-template-columns:  1fr ; 
+  .compactView-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-1fr2fr {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-1fr1fr1fr {
+    grid-template-columns: 1fr;
+  }
 }
-
-.grid-1fr2fr {
-  grid-template-columns:  1fr ; 
-}
-
-.grid-1fr1fr1fr {
-  grid-template-columns:  1fr ; 
-}
-
-
-  
-}
-

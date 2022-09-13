@@ -26,10 +26,6 @@ const TechnicalSupportSchema = new mongoose.Schema({
   engineeringOpinion: {
     type: String,
   },
-  engineer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-  },
   opinionDate: {
     type: Date,
   },

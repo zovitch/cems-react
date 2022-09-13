@@ -8,6 +8,7 @@ import category from './category';
 import code from './code'; // we cannot use only one state, because in R3 we need all 3 at once
 import manufacturer from './manufacturer';
 import machine from './machine';
+import technicalsupport from './technicalsupport';
 import investment from './investment';
 import r3 from './r3';
 // import upload from './upload';
@@ -24,5 +25,6 @@ export default combineReducers({
   machine,
   investment,
   r3,
+  technicalsupport,
   // upload,
 });

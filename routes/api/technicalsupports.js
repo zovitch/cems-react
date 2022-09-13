@@ -27,7 +27,6 @@ router.post(
       requirement,
       reason,
       engineeringOpinion,
-      engineer,
       opinionDate,
       orderTaker,
       projectedTime,
@@ -45,7 +44,6 @@ router.post(
     if (reason) technicalSupportFields.reason = reason;
     if (engineeringOpinion)
       technicalSupportFields.engineeringOpinion = engineeringOpinion;
-    if (engineer) technicalSupportFields.engineer = engineer;
     if (opinionDate) technicalSupportFields.opinionDate = opinionDate;
     if (orderTaker) technicalSupportFields.orderTaker = orderTaker;
     if (projectedTime) technicalSupportFields.projectedTime = projectedTime;
@@ -79,7 +77,7 @@ router.get('/', async (req, res) => {
     const technicalSupports = await TechnicalSupport.find()
       .sort({ date: 'desc' })
       .populate({
-        path: 'applicant engineer orderTaker',
+        path: 'applicant orderTaker',
         select: 'name',
       });
 
@@ -98,7 +96,7 @@ router.get('/:technicalsupportId', async (req, res) => {
     const technicalsupport = await TechnicalSupport.findById(
       req.params.technicalsupportId,
     ).populate({
-      path: 'applicant engineer orderTaker',
+      path: 'applicant orderTaker',
       select: 'name',
     });
     if (!technicalsupport) {
@@ -161,7 +159,6 @@ router.patch(
       requirement,
       reason,
       engineeringOpinion,
-      engineer,
       opinionDate,
       orderTaker,
       projectedTime,
@@ -180,7 +177,6 @@ router.patch(
     if (reason) technicalSupportFields.reason = reason;
     if (engineeringOpinion)
       technicalSupportFields.engineeringOpinion = engineeringOpinion;
-    if (engineer) technicalSupportFields.engineer = engineer;
     if (opinionDate) technicalSupportFields.opinionDate = opinionDate;
     if (orderTaker) technicalSupportFields.orderTaker = orderTaker;
     if (projectedTime) technicalSupportFields.projectedTime = projectedTime;
@@ -196,7 +192,7 @@ router.patch(
         { $set: technicalSupportFields },
         { new: true },
       ).populate({
-        path: 'applicant engineer orderTaker',
+        path: 'applicant orderTaker',
         select: 'name',
       });
 

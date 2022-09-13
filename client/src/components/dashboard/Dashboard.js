@@ -29,8 +29,8 @@ const Dashboard = ({ getCurrentUser, auth: { user } }) => {
     {
       name: 'Technical Support',
       nameCN: '技术协助需求',
-      route: `techSupport`,
-      key: 'techsupport',
+      route: `technicalSupports`,
+      key: 'technicalsupport',
       faLogo: 'fas fa-handshake-angle',
     },
     {

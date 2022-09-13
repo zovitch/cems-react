@@ -33,6 +33,9 @@ import Investment from './components/investment/Investment';
 import R3s from './components/r3s/R3s';
 import R3Form from './components/r3-form/R3Form';
 import R3 from './components/r3/R3';
+import TechnicalSupports from './components/technicalsupports/TechnicalSupports';
+import TechnicalSupportForm from './components/technicalsupport-form/TechnicalSupportForm';
+import TechnicalSupport from './components/technicalsupport/TechnicalSupport';
 
 import FileUpload from './components/layout/FileUpload';
 
@@ -70,33 +73,111 @@ const App = () => {
         <Navbar />
         <Alert />
         <Routes>
-          <Route exact path='/upload' element={<FileUpload />} />
-          <Route exact path='/' element={<Landing />} />
-          <Route exact path='/register' element={<Register />} />
-          <Route exact path='/create-user' element={<Register />} />
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/users' element={<Profiles />} />
-          <Route exact path='/users/:id' element={<Profile />} />
-          <Route exact path='/locations' element={<Locations />} />
-          <Route exact path='/locations/:locationId' element={<Location />} />
-          <Route exact path='/machines' element={<Machines />} />
-          <Route exact path='/machines/:machineId' element={<Machine />} />
-          <Route exact path='/r3s' element={<R3s />} />
-          <Route exact path='/r3s/:r3Id' element={<R3 />} />
-          <Route exact path='/manufacturers' element={<Manufacturers />} />
+          <Route
+            exact
+            path='/upload'
+            element={<FileUpload />}
+          />
+          <Route
+            exact
+            path='/'
+            element={<Landing />}
+          />
+          <Route
+            exact
+            path='/register'
+            element={<Register />}
+          />
+          <Route
+            exact
+            path='/create-user'
+            element={<Register />}
+          />
+          <Route
+            exact
+            path='/login'
+            element={<Login />}
+          />
+          <Route
+            exact
+            path='/users'
+            element={<Profiles />}
+          />
+          <Route
+            exact
+            path='/users/:id'
+            element={<Profile />}
+          />
+          <Route
+            exact
+            path='/locations'
+            element={<Locations />}
+          />
+          <Route
+            exact
+            path='/locations/:locationId'
+            element={<Location />}
+          />
+          <Route
+            exact
+            path='/machines'
+            element={<Machines />}
+          />
+          <Route
+            exact
+            path='/machines/:machineId'
+            element={<Machine />}
+          />
+          <Route
+            exact
+            path='/r3s'
+            element={<R3s />}
+          />
+          <Route
+            exact
+            path='/r3s/:r3Id'
+            element={<R3 />}
+          />
+          <Route
+            exact
+            path='/technicalsupports'
+            element={<TechnicalSupports />}
+          />
+          <Route
+            exact
+            path='/technicalsupports/:technicalsupportId'
+            element={<TechnicalSupport />}
+          />
+          <Route
+            exact
+            path='/manufacturers'
+            element={<Manufacturers />}
+          />
           <Route
             exact
             path='/manufacturers/:manufacturerId'
             element={<Manufacturer />}
           />
-          <Route exact path='/departments' element={<Departments />} />
+          <Route
+            exact
+            path='/departments'
+            element={<Departments />}
+          />
           <Route
             exact
             path='/departments/:departmentId'
             element={<Department />}
           />
-          <Route exact path='/categories' element={<Categories />} />
-          <Route exact path='/categories/:categoryId' element={<Category />} />
+          <Route
+            exact
+            path='/categories'
+            element={<Categories />}
+          />
+          <Route
+            exact
+            path='/categories/:categoryId'
+            element={<Category />}
+          />
           <Route
             exact
             path='/failurecodes'
@@ -127,7 +208,11 @@ const App = () => {
             path='/analysiscodes/:codeId'
             element={<Code codetype='analysis' />}
           />
-          <Route exact path='/investments' element={<Investments />} />
+          <Route
+            exact
+            path='/investments'
+            element={<Investments />}
+          />
           <Route
             exact
             path='/investments/:investmentId'
@@ -155,6 +240,11 @@ const App = () => {
           />
           <Route
             exact
+            path='/create-technicalsupport'
+            element={<PrivateRoute component={TechnicalSupportForm} />}
+          />
+          <Route
+            exact
             path='/create-location'
             element={<PrivateRoute component={LocationForm} />}
           />
@@ -176,12 +266,22 @@ const App = () => {
           <Route
             exact
             path='/create-failurecode'
-            element={<PrivateRoute component={CodeForm} codetype='failure' />}
+            element={
+              <PrivateRoute
+                component={CodeForm}
+                codetype='failure'
+              />
+            }
           />
           <Route
             exact
             path='/create-repaircode'
-            element={<PrivateRoute component={CodeForm} codetype='repair' />}
+            element={
+              <PrivateRoute
+                component={CodeForm}
+                codetype='repair'
+              />
+            }
           />
           <Route
             exact
@@ -191,7 +291,12 @@ const App = () => {
           <Route
             exact
             path='/create-analysiscode'
-            element={<PrivateRoute component={CodeForm} codetype='analysis' />}
+            element={
+              <PrivateRoute
+                component={CodeForm}
+                codetype='analysis'
+              />
+            }
           />
           <Route
             exact
@@ -212,6 +317,11 @@ const App = () => {
             exact
             path='/r3s/edit/:r3Id'
             element={<PrivateRoute component={R3Form} />}
+          />
+          <Route
+            exact
+            path='/technicalsupports/edit/:technicalsupportId'
+            element={<PrivateRoute component={TechnicalSupportForm} />}
           />
           <Route
             exact
@@ -236,17 +346,32 @@ const App = () => {
           <Route
             exact
             path='/failurecodes/edit/:codeId'
-            element={<PrivateRoute component={CodeForm} codetype='failure' />}
+            element={
+              <PrivateRoute
+                component={CodeForm}
+                codetype='failure'
+              />
+            }
           />
           <Route
             exact
             path='/repaircodes/edit/:codeId'
-            element={<PrivateRoute component={CodeForm} codetype='repair' />}
+            element={
+              <PrivateRoute
+                component={CodeForm}
+                codetype='repair'
+              />
+            }
           />
           <Route
             exact
             path='/analysiscodes/edit/:codeId'
-            element={<PrivateRoute component={CodeForm} codetype='analysis' />}
+            element={
+              <PrivateRoute
+                component={CodeForm}
+                codetype='analysis'
+              />
+            }
           />
           <Route
             exact
