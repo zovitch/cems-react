@@ -21,7 +21,7 @@ app.use(
 );
 
 // for dev only, comment out in production
-app.get('/', (req, res) => res.send('API running'));
+// app.get('/', (req, res) => res.send('API running'));
 
 // Define routes
 app.use('/api/users', require('./routes/api/users'));
