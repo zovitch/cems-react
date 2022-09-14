@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -13,9 +13,11 @@ const Technicalsupports = ({
   auth,
   technicalsupport: { technicalsupports, loading },
 }) => {
+  const query = useLocation();
+
   useEffect(() => {
-    getTechnicalSupports();
-  }, [getTechnicalSupports]);
+    getTechnicalSupports(query.search);
+  }, [getTechnicalSupports, query.search]);
 
   return (
     <section className='container'>
@@ -38,7 +40,7 @@ const Technicalsupports = ({
               <i className='btn btn-dark fas fa-filter'> 未完成</i>
             </Link>
             {auth.user && auth.user.isEngineer && (
-              <Link to={`/technicalsupports/?repairEngineer=${auth.user._id}`}>
+              <Link to={`/technicalsupports/?orderTaker=${auth.user._id}`}>
                 {/* Only My technicalsupport */}
                 <i className='btn btn-dark fas fa-user-check'>
                   {' '}

@@ -9,10 +9,10 @@ import {
 } from './types';
 
 // Get technicalsupports
-export const getTechnicalSupports = () => async (dispatch) => {
+export const getTechnicalSupports = (searchQuery) => async (dispatch) => {
   try {
-    const res = await api.get('/technicalsupports');
-
+    const res = await api.get('/technicalsupports' + searchQuery);
+    console.log(searchQuery);
     dispatch({
       type: GET_TECHNICALSUPPORTS,
       payload: res.data,

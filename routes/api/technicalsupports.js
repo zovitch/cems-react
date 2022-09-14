@@ -69,13 +69,32 @@ router.post(
   },
 );
 
-// @route   GET api/technicalsupport
+// @route   GET api/technicalsupports
 // @desc    Get the list of Technical Support Request
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const technicalSupports = await TechnicalSupport.find()
-      .sort({ date: 'desc' })
+    let year;
+    let month;
+    let day;
+
+    let query = req.query;
+
+    if ('from' in req.query) {
+      year = req.query.from.split('-')[0];
+      month = req.query.from.split('-')[1] - 1;
+      day = req.query.from.split('-')[2];
+      query = {
+        applicationDate: {
+          $gte: new Date(year, month, day),
+        },
+      };
+    }
+
+    console.log(query);
+
+    const technicalSupports = await TechnicalSupport.find(query)
+      .sort({ applicationDate: 'desc' })
       .populate({
         path: 'applicant orderTaker',
         select: 'name',
