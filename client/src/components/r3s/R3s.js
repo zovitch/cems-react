@@ -21,19 +21,22 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <PageTitleBar item='r3' faIcon='fas fa-screwdriver-wrench' />
+          <PageTitleBar
+            item='r3'
+            faIcon='fas fa-screwdriver-wrench'
+          />
 
           <div>
             {/* Show this year */}
             <Link to={`?from=${new Date().getFullYear()}-01-01`}>
               <i className='btn btn-dark fas fa-filter-circle-xmark'> 今年</i>
             </Link>
-            <Link to={`/r3s/?r3Completed=false`}>
+            <Link to={`/r3s?r3Completed=false`}>
               {/* Show only pending R3 */}
               <i className='btn btn-dark fas fa-filter'> 未完成</i>
             </Link>
             {auth.user && auth.user.isEngineer && (
-              <Link to={`/r3s/?repairEngineer=${auth.user._id}`}>
+              <Link to={`/r3s?repairEngineer=${auth.user._id}`}>
                 {/* Only My R3 */}
                 <i className='btn btn-dark fas fa-user-check'> 我的R3</i>
               </Link>
@@ -63,12 +66,18 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                   key={r3._id}
                   className='item item-container item-container-r3'
                 >
-                  <div className='attribute ' data-name='Open'>
+                  <div
+                    className='attribute '
+                    data-name='Open'
+                  >
                     <Link to={`/r3s/${r3._id}`}>
                       <i className='fas fa-eye'></i>
                     </Link>
                   </div>
-                  <div className='attribute' data-name='Edit'>
+                  <div
+                    className='attribute'
+                    data-name='Edit'
+                  >
                     {auth && auth.isAuthenticated && (
                       <Link to={`/r3s/edit/${r3._id}`}>
                         <i className='fas fa-edit'></i>
@@ -76,7 +85,10 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     )}
                   </div>
 
-                  <div className='attribute' data-name='R3 No.'>
+                  <div
+                    className='attribute'
+                    data-name='R3 No.'
+                  >
                     <small>
                       {r3.r3Number}{' '}
                       {r3.r3Completed ? (
@@ -86,19 +98,34 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                       )}
                     </small>
                   </div>
-                  <div className='attribute hide-sm' data-name='EQU No.'>
+                  <div
+                    className='attribute hide-sm'
+                    data-name='EQU No.'
+                  >
                     {r3.machine && r3.machine.machineNumber}
                   </div>
-                  <div className='attribute' data-name='设备名称'>
+                  <div
+                    className='attribute'
+                    data-name='设备名称'
+                  >
                     {r3.machine && r3.machine.designationCN}
                   </div>
-                  <div className='attribute hide-sm' data-name='EQU Name'>
+                  <div
+                    className='attribute hide-sm'
+                    data-name='EQU Name'
+                  >
                     {r3.machine && r3.machine.designation}
                   </div>
-                  <div className='attribute hide-sm' data-name='R3 Date'>
+                  <div
+                    className='attribute hide-sm'
+                    data-name='R3 Date'
+                  >
                     {r3.r3Date && formatDate(r3.r3Date)}
                   </div>
-                  <div className='attribute hide-sm' data-name='Applicant'>
+                  <div
+                    className='attribute hide-sm'
+                    data-name='Applicant'
+                  >
                     {r3.requester && (
                       <Avatar
                         name={r3.requester.name}
@@ -108,7 +135,10 @@ const R3s = ({ getR3s, auth, r3: { r3s, loading } }) => {
                     )}{' '}
                     <span className='hide-sm'>{r3.applicant}</span>
                   </div>
-                  <div className='attribute' data-name='Repair Engineer'>
+                  <div
+                    className='attribute'
+                    data-name='Repair Engineer'
+                  >
                     {r3.repairEngineer && (
                       <Avatar
                         name={r3.repairEngineer.name}

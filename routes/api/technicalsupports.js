@@ -91,8 +91,6 @@ router.get('/', async (req, res) => {
       };
     }
 
-    console.log(query);
-
     const technicalSupports = await TechnicalSupport.find(query)
       .sort({ applicationDate: 'desc' })
       .populate({

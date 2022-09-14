@@ -35,17 +35,23 @@ const Technicalsupports = ({
             <Link to={`?from=${new Date().getFullYear()}-01-01`}>
               <i className='btn btn-dark fas fa-filter-circle-xmark'> 今年</i>
             </Link>
-            <Link to={`/technicalsupports/`}>
+            <Link to={`/technicalsupports?completionDate`}>
               {/* Show only pending technicalsupport */}
               <i className='btn btn-dark fas fa-filter'> 未完成</i>
             </Link>
-            {auth.user && auth.user.isEngineer && (
-              <Link to={`/technicalsupports/?orderTaker=${auth.user._id}`}>
+            {auth.user && (
+              <Link to={`/technicalsupports?applicant=${auth.user._id}`}>
                 {/* Only My technicalsupport */}
                 <i className='btn btn-dark fas fa-user-check'>
                   {' '}
-                  我的Tech Support
+                  我的 TECH SUPPORT
                 </i>
+              </Link>
+            )}
+            {auth.user && auth.user.isEngineer && (
+              <Link to={`/technicalsupports?orderTaker=${auth.user._id}`}>
+                {/* Only My technicalsupport */}
+                <i className='btn btn-dark fas fa-user-check'> 我的</i>
               </Link>
             )}
           </div>
@@ -136,11 +142,18 @@ const Technicalsupports = ({
                     data-name='接单人'
                   >
                     {technicalsupport.orderTaker && (
-                      <Avatar
-                        name={technicalsupport.orderTaker.name}
-                        round={true}
-                        size='22px'
-                      />
+                      <>
+                        <Avatar
+                          name={technicalsupport.orderTaker.name}
+                          round={true}
+                          size='22px'
+                        />{' '}
+                        {technicalsupport.completionDate ? (
+                          <i className='fa-solid fa-xs fa-circle-check text-success'></i>
+                        ) : (
+                          <i className='fa-solid fa-xs fa-circle-xmark text-danger'></i>
+                        )}
+                      </>
                     )}
                   </div>
                   <div
