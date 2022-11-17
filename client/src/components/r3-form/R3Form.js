@@ -324,7 +324,10 @@ const R3Form = ({
         )}
       </h1>
 
-      <form className='form' onSubmit={onSubmit}>
+      <form
+        className='form'
+        onSubmit={onSubmit}
+      >
         <div className='form-group r3Form p'>
           <div className='compactView-1'>
             {loading ? (
@@ -388,7 +391,11 @@ const R3Form = ({
               {failureCodes.length > 0 && creatingR3 ? (
                 failureCodes.map((e) => (
                   <li key={e._id}>
-                    <input type='radio' value={e._id} name='failureCode' />{' '}
+                    <input
+                      type='radio'
+                      value={e._id}
+                      name='failureCode'
+                    />
                     <small htmlFor={e._id}>
                       {String(e.codeNumber).padStart(2, '0') +
                         ' ' +
@@ -634,30 +641,20 @@ const R3Form = ({
             <div className='form-group r3Engineer p'>
               <div className='grid-1fr2fr'>
                 <span>
-                  <span>
-                    <small className='form-text'>Engineering Repair Date</small>
+                  <small className='form-text'>Engineering Repair Date</small>
 
-                    <DatePicker
-                      selected={selectedEngineeringRepairDate}
-                      onChange={onChangeEngineeringRepairDate}
-                      placeholderText='ENG Repair Finish Date'
-                      dateFormat='yyyy/MM/dd HH:mm'
-                      minDate={formData.r3Date && new Date(formData.r3Date)}
-                      maxDate={new Date()}
-                      isClearable={true}
-                      showTimeSelect
-                      timeFormat='HH:mm'
-                      timeIntervals={5}
-                      todayButton='今天'
-                    />
-                  </span>
-                  <br />
-                  <small className='form-text'>R3 Completed?</small>
-                  <ToggleSwitch
-                    name='r3Completed'
-                    id='r3Completed'
-                    defaultChecked={toggleR3Completed}
-                    onClick={onChange}
+                  <DatePicker
+                    selected={selectedEngineeringRepairDate}
+                    onChange={onChangeEngineeringRepairDate}
+                    placeholderText='ENG Repair Finish Date'
+                    dateFormat='yyyy/MM/dd HH:mm'
+                    minDate={formData.r3Date && new Date(formData.r3Date)}
+                    maxDate={new Date()}
+                    isClearable={true}
+                    showTimeSelect
+                    timeFormat='HH:mm'
+                    timeIntervals={5}
+                    todayButton='今天'
                   />
                 </span>
               </div>
@@ -665,8 +662,21 @@ const R3Form = ({
           </span>
         )}
 
-        {(!creatingR3 || user.isEngineer) && (
+        {!creatingR3 && (
           <div className='form-group r3Form p'>
+            {user && !user.isEngineer && (
+              <>
+                <small className='form-text'>R3 Completed?</small>
+
+                <ToggleSwitch
+                  name='r3Completed'
+                  id='r3Completed'
+                  defaultChecked={toggleR3Completed}
+                  onClick={onChange}
+                />
+              </>
+            )}
+
             <small className='form-text'>Applicant Validation Date</small>
 
             <DatePicker
@@ -684,6 +694,7 @@ const R3Form = ({
               timeFormat='HH:mm'
               timeIntervals={5}
               todayButton='今天'
+              disabled={user && user.isEngineer}
             />
           </div>
         )}
@@ -696,7 +707,10 @@ const R3Form = ({
           } my-1`}
           disabled={r3 && r3.loading ? true : false}
         />
-        <Link className='btn btn-light my-1' to='/r3s/?r3Completed=false'>
+        <Link
+          className='btn btn-light my-1'
+          to='/r3s/?r3Completed=false'
+        >
           Go Back
         </Link>
       </form>
