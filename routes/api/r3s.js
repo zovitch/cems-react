@@ -74,9 +74,9 @@ router.post(
   // check('r3Number', 'An R3 No. is required').not().isEmpty(),
   check('machine', 'An EQU No. is required').not().isEmpty(),
   check('failureCode', 'A Failure Code is required').not().isEmpty(),
-  check('applicant', 'An Applicant for the Failure is required')
-    .not()
-    .isEmpty(),
+  // check('applicant', 'An Applicant for the Failure is required')
+  //   .not()
+  //   .isEmpty(),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -249,6 +249,11 @@ router.post(
 
       let r3 = new R3(r3Fields);
       r3.requester = req.user.id; // save the auth user info into the R3
+
+      const user = await User.findById(req.user.id).select('-password');
+
+      user ? (r3.applicant = user.name) : (r3.applicant = 'Unknown');
+
       await r3.populate({
         path: 'machine failureCode repairCode analysisCode repairEngineer',
         select: 'name nameCN codeNumber description descriptionCN',

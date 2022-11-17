@@ -19,6 +19,7 @@ const initialState = {
   machine: '',
   r3Date: new Date(),
   applicant: '',
+  requester: '',
   failureCode: '',
   failureExplanation: '',
   failureExplanationCN: '',
@@ -369,15 +370,15 @@ const R3Form = ({
               onClick={onChange}
               color='danger'
             />
-
-            <input
-              type='text'
-              placeholder='报修人员 Applicant'
-              name='applicant'
-              id='applicant'
-              value={formData.applicant}
-              onChange={onChange}
-            />
+            {!creatingR3 && (
+              <input
+                type='text'
+                placeholder='报修人员 Applicant'
+                name='applicant'
+                id='applicant'
+                value={formData.applicant}
+              />
+            )}
 
             <h2>{formData.r3Number}</h2>
           </div>
@@ -664,38 +665,43 @@ const R3Form = ({
 
         {!creatingR3 && (
           <div className='form-group r3Form p'>
-            {user && !user.isEngineer && (
+            {user && formData.requester && (
               <>
                 <small className='form-text'>R3 Completed?</small>
+                {user._id === formData.requester._id || user.isAdmin ? (
+                  <ToggleSwitch
+                    name='r3Completed'
+                    id='r3Completed'
+                    defaultChecked={toggleR3Completed}
+                    onClick={onChange}
+                  />
+                ) : formData.r3Completed ? (
+                  <i className='fa-solid fa-circle-check text-success'></i>
+                ) : (
+                  <i className='fa-solid fa-circle-xmark text-danger'></i>
+                )}
 
-                <ToggleSwitch
-                  name='r3Completed'
-                  id='r3Completed'
-                  defaultChecked={toggleR3Completed}
-                  onClick={onChange}
+                <small className='form-text'>Applicant Validation Date</small>
+
+                <DatePicker
+                  selected={selectedApplicantValidationDate}
+                  onChange={onChangeApplicantValidationDate}
+                  placeholderText='Applicant Validation Date'
+                  dateFormat='yyyy/MM/dd HH:mm'
+                  minDate={
+                    formData.engineeringRepairDate &&
+                    new Date(formData.engineeringRepairDate)
+                  }
+                  maxDate={new Date()}
+                  isClearable={true}
+                  showTimeSelect
+                  timeFormat='HH:mm'
+                  timeIntervals={5}
+                  todayButton='今天'
+                  disabled={user._id !== formData.requester._id}
                 />
               </>
             )}
-
-            <small className='form-text'>Applicant Validation Date</small>
-
-            <DatePicker
-              selected={selectedApplicantValidationDate}
-              onChange={onChangeApplicantValidationDate}
-              placeholderText='Applicant Validation Date'
-              dateFormat='yyyy/MM/dd HH:mm'
-              minDate={
-                formData.engineeringRepairDate &&
-                new Date(formData.engineeringRepairDate)
-              }
-              maxDate={new Date()}
-              isClearable={true}
-              showTimeSelect
-              timeFormat='HH:mm'
-              timeIntervals={5}
-              todayButton='今天'
-              disabled={user && user.isEngineer}
-            />
           </div>
         )}
         <input
