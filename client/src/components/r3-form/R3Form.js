@@ -343,15 +343,17 @@ const R3Form = ({
                     defaultValue={defaultMachine}
                     key={formData.machine && formData.machine._id}
                     onChange={onChangeMachine}
-                    options={machines.map((e) => ({
-                      value: e._id,
-                      label:
-                        e.machineNumber +
-                        ' - ' +
-                        e.designationCN +
-                        ' - ' +
-                        e.designation,
-                    }))}
+                    options={machines
+                      .filter((machine) => machine.retiredDate === undefined)
+                      .map((e) => ({
+                        value: e._id,
+                        label:
+                          e.machineNumber +
+                          ' - ' +
+                          e.designationCN +
+                          ' - ' +
+                          e.designation,
+                      }))}
                     menuPortalTarget={document.querySelector('body')} //to avoid dropdown cut-out
                   />
                 )}
